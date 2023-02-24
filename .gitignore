@@ -348,3 +348,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/UML/.$use-case-uml-dia.drawio.dtmp
+/UML/.$use-case-uml-dia.drawio.bkp
