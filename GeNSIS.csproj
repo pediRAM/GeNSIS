@@ -8,11 +8,47 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <None Remove="Resources\Icons\nuvola\22x22\application-exit.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\applications-internet.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\dialog-information.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\document-new.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\document-save-as.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\document-save.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\folder-orange.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\help-about.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\knotes.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\krec_fileempty.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\kuser.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\preferences-desktop-user.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\tools-wizard.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\tool_delete.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\zoom-in.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\zoom-out.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\zoom.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Icons\" />
+    <Resource Include="Resources\Icons\nuvola\22x22\application-exit.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\applications-internet.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\dialog-information.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\document-new.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\document-save-as.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\document-save.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\folder-orange.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\help-about.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\knotes.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\krec_fileempty.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\kuser.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\preferences-desktop-user.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\tools-wizard.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\tool_delete.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\zoom-in.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\zoom-out.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\zoom.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 
 </Project>

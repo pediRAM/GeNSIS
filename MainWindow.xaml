@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:GeNSIS"
         mc:Ignorable="d"
         Title="{Binding ProjectName}" Height="800" Width="1024">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -14,19 +21,19 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="File">
-                <MenuItem Header="New project" Icon="Resources/Icons/new.png"     Command=""/>
-                <MenuItem Header="Open..."     Icon="Resources/Icons/open.png"    Command=""/>
-                <MenuItem Header="Save"        Icon="Resources/Icons/save_as.png" Command=""/>
-                <MenuItem Header="Save as..."  Icon="Resources/Icons/save_as.png" Command=""/>
-                <MenuItem Header="Close"       Icon="Resources/Icons/close.png"   Command=""/>
+                <MenuItem Header="New project" Icon="{StaticResource icon_new}"     Command=""/>
+                <MenuItem Header="Open..."     Icon="{StaticResource icon_open}"    Command=""/>
+                <MenuItem Header="Save"        Icon="{StaticResource icon_save}" Command=""/>
+                <MenuItem Header="Save as..."  Icon="{StaticResource icon_save_as}" Command=""/>
+                <MenuItem Header="Close"       Icon="{StaticResource icon_exit}"   Command=""/>
             </MenuItem>
             <!--<MenuItem Header="Settings"></MenuItem>-->
             <MenuItem Header="Build">
-                <MenuItem Header="Generate script" Icon="Resources/Icons/generate.png" Command=""/>
+                <MenuItem Header="Generate script" Icon="{StaticResource icon_generate}" Command=""/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="Manuals"      Icon="Resources/Icons/manuals.png" Command=""/>
-                <MenuItem Header="About GeNSIS" Icon="Resources/Icons/about.png" Command=""/>
+                <MenuItem Header="Manuals"      Icon="{StaticResource icon_manuals}" Command=""/>
+                <MenuItem Header="About GeNSIS" Icon="{StaticResource icon_about}" Command=""/>
             </MenuItem>
         </Menu>
     </Grid>

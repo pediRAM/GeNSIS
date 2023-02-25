@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Image x:Key="icon_new" Source="Resources/Icons/nuvola/22x22/document-new.png" />
+    <Image x:Key="icon_open" Source="Resources/Icons/nuvola/22x22/folder-orange.png" />
+    <Image x:Key="icon_save" Source="Resources/Icons/nuvola/22x22/document-save.png" />
+    <Image x:Key="icon_save_as" Source="Resources/Icons/nuvola/22x22/document-save-as.png" />
+    <Image x:Key="icon_exit" Source="Resources/Icons/nuvola/22x22/application-exit.png" />
+    <Image x:Key="icon_generate" Source="Resources/Icons/nuvola/22x22/tools-wizard.png" />
+    <Image x:Key="icon_manuals" Source="Resources/Icons/nuvola/22x22/manuals.png" />
+    <Image x:Key="icon_about" Source="Resources/Icons/nuvola/22x22/help-about.png" />
+    <Image x:Key="icon_search" Source="Resources/Icons/nuvola/22x22/zoom.png" />
+    <Image x:Key="icon_add" Source="Resources/Icons/nuvola/22x22/zoom-in.png" />
+    <Image x:Key="icon_remove" Source="Resources/Icons/nuvola/22x22/zoom-out.png" />
+    <Image x:Key="icon_clear" Source="Resources/Icons/nuvola/22x22/tool_delete.png" />
+    <Image x:Key="icon_note" Source="Resources/Icons/nuvola/22x22/knotes.png" />
+    <Image x:Key="icon_users" Source="Resources/Icons/nuvola/22x22/kuser.png" />
+    <Image x:Key="icon_user" Source="Resources/Icons/nuvola/22x22/preferences-desktop-user.png" />
+    <Image x:Key="icon_browser" Source="Resources/Icons/nuvola/22x22/applications-internet.png" />
+    <Image x:Key="icon_folder" Source="Resources/Icons/nuvola/22x22/folder-orange.png" />
+    <Image x:Key="icon_file" Source="Resources/Icons/nuvola/22x22/krec_fileempty.png" />
+    <Image x:Key="icon_info" Source="Resources/Icons/nuvola/22x22/dialog-information.png" />
+
+</ResourceDictionary>
