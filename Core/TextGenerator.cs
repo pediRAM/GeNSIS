@@ -1,40 +1,22 @@
-﻿namespace GeNSIS.Core
+﻿
+namespace GeNSIS.Core
 {
-    #region Usings
-    using System.ComponentModel;
-    using System;
-    #endregion Usings
+    using GeNSIS.Core.Models;
 
-    /// <summary>
-    /// todo: implement and comment type: TextGenerator !
-    /// Provides:
-    /// <para>Events: <see cref="PropertyChanged"/>.</para>
-    /// <para>Functions: <see cref="Generate"/>.</para>
-    /// </summary>
     public class TextGenerator
     {
-        #region Events
-        /// <summary>
-        /// Notifies listeners about PropertyChanged when invoked.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        #endregion Events
-
-        #region Functions
-        /// <summary>
-        /// todo: implement and comment function Generate !
-        /// </summary>
-        /// <returns>string</returns>
-        public string Generate(AppData pAppData)
+        public virtual string Generate(AppData pAppData)
         {
             throw new System.NotImplementedException();
         }
+        public virtual string GetCommentLine(string pCommentLine) => $"; {pCommentLine}";
+        public virtual string GetCommentHorizontalRuler(int pLength = 80) => ";".PadLeft(pLength, '*');
+        public virtual string GetDefine(string pVarName, string pValue) => $"!define {pVarName} \"{pValue}\"";
+        public virtual string GetEcho(string pValue) => $"!echo \"{pValue}\"";
+        public virtual string GetInsertMacro(string pMacro, string pValue) 
+            => $"!insertmacro {pMacro} \"{pValue}\"";
+        public virtual string GetInsertMacro(string pMacro)
+            => $"!insertmacro {pMacro}";
 
-        #endregion Functions
-
-        private void NotifyPropertyChanged(string pPropertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(pPropertyName)));
-        }
     }
 }

@@ -1,4 +1,8 @@
-﻿class Directory
+﻿class xxx
+	property AppDataViewModel AppData
+
+
+class Directory
 	property string Path
 	property bool IsRecursive
 
@@ -11,6 +15,8 @@ class ValidationError
 
 class AppData
 	property string AppName
+	property bool Is64BitApplication
+	property bool DoInstallPerUser
 	property string ExeName
 	property string AssociatedExtension
 	property string AppVersion
@@ -27,9 +33,10 @@ class AppData
 	function List<ValidationError> Validate()
 
 
-class Project
+class ProjectModel
 	property string Version
 	property string Note
+	property AppDataModel AppData
 
 
 class ProjectManager

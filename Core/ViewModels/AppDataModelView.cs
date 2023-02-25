@@ -1,27 +1,25 @@
 ﻿namespace GeNSIS.Core
 {
     #region Usings
-    using System.Collections.Generic;
+    using GeNSIS.Core.Models;
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Linq;
     #endregion Usings
 
     /// <summary>
-    /// todo: implement and comment type: AppData !
-    /// Provides:
-    /// <para>Events: <see cref="PropertyChanged"/>.</para>
-    /// <para>Properties: <see cref="AppName"/>, <see cref="ExeName"/>, <see cref="AssociatedExtension"/>, <see cref="AppVersion"/>, <see cref="AppBuild"/>, <see cref="AppIcon"/>, <see cref="Company"/>, <see cref="License"/>, <see cref="Publisher"/>, <see cref="Url"/>, <see cref="Files"/>, <see cref="Directories"/>, <see cref="HasUnsavedChanges"/>.</para>
-    /// <para>Functions: <see cref="Validate"/>.</para>
+    /// Application data model: contains meta-data used in NSIS script.
     /// </summary>
-    public class AppData : INotifyPropertyChanged
+    public class AppDataViewModel : INotifyPropertyChanged
     {
         #region Events
-        /// <summary>
-        /// Notifies listeners about PropertyChanged when invoked.
-        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion Events
 
+
         #region Variables
+        private bool m_Is64BitApplication;
+        private bool m_DoInstallPerUser;
         private string m_AppName;
         private string m_ExeName;
         private string m_AssociatedExtension;
@@ -32,24 +30,47 @@
         private string m_License;
         private string m_Publisher;
         private string m_Url;
-        private List<string> m_Files;
-        private List<Directory> m_Directories;
         private bool m_HasUnsavedChanges;
         #endregion Variables
 
-        public AppData() : base() { }
-        public AppData(bool pFollowChanges) : base() 
+
+        #region Constructors
+        /// <summary>
+        /// This default ctor is defined by ProjectManager when loading project.
+        /// Use other constructor (with parameter) when creating new project in GUI!
+        /// </summary>
+        public AppDataViewModel() : base() { }
+
+
+        public AppDataViewModel(bool pFollowChanges) : base() 
         {
             if (pFollowChanges)
                 PropertyChanged += OnPropertyChanged;
         }
+        #endregion Constructors
 
-        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) => m_HasUnsavedChanges = true;
 
         #region Properties
-        /// <summary>
-        /// Gets/Sets AppName.
-        /// </summary>
+        public bool Is64BitApplication
+        {
+            get { return m_Is64BitApplication; }
+            set
+            {
+                if (value == m_Is64BitApplication) return;
+                m_Is64BitApplication = value;
+            }
+        }
+
+        public bool DoInstallPerUser
+        {
+            get { return m_DoInstallPerUser; }
+            set
+            {
+                if (value == m_DoInstallPerUser) return;
+                m_DoInstallPerUser = value;
+            }
+        }
+
         public string AppName
         {
             get { return  m_AppName; }
@@ -61,9 +82,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets/Sets ExeName.
-        /// </summary>
         public string ExeName
         {
             get { return  m_ExeName; }
@@ -76,9 +94,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets/Sets AssociatedExtension.
-        /// </summary>
         public string AssociatedExtension
         {
             get { return  m_AssociatedExtension; }
@@ -89,9 +104,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets/Sets AppVersion.
-        /// </summary>
         public string AppVersion
         {
             get { return  m_AppVersion; }
@@ -104,9 +116,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets/Sets AppBuild.
-        /// </summary>
         public string AppBuild
         {
             get { return  m_AppBuild; }
@@ -117,9 +126,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets/Sets AppIcon.
-        /// </summary>
         public string AppIcon
         {
             get { return  m_AppIcon; }
@@ -132,9 +138,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets/Sets Company.
-        /// </summary>
         public string Company
         {
             get { return  m_Company; }
@@ -147,9 +150,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets/Sets License.
-        /// </summary>
         public string License
         {
             get { return  m_License; }
@@ -162,9 +162,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets/Sets Publisher.
-        /// </summary>
         public string Publisher
         {
             get { return  m_Publisher; }
@@ -177,9 +174,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets/Sets Url.
-        /// </summary>
         public string Url
         {
             get { return  m_Url; }
@@ -192,52 +186,52 @@
             }
         }
 
-        /// <summary>
-        /// Gets/Sets Files.
-        /// </summary>
-        public List<string> Files
+        public ObservableCollection<string> Files { get; set; } = new ObservableCollection<string>();
+
+        public ObservableCollection<Directory> Directories { get; set; } = new ObservableCollection<Directory>();
+
+        public bool HasUnsavedChanges
         {
-            get { return  m_Files; }
+            get { return m_HasUnsavedChanges; }
             set
             {
-                if (value == m_Files) return;
-                m_Files = value;
-                NotifyPropertyChanged(nameof(Files));
-
+                if (value == m_HasUnsavedChanges) return;
+                m_HasUnsavedChanges = value;
+                NotifyPropertyChanged(nameof(HasUnsavedChanges));
             }
         }
-
-        /// <summary>
-        /// Gets/Sets Directories.
-        /// </summary>
-        public List<Directory> Directories
-        {
-            get { return  m_Directories; }
-            set
-            {
-                if (value == m_Directories) return;
-                m_Directories = value;
-                NotifyPropertyChanged(nameof(Directories));
-
-            }
-        }
-
-        /// <summary>
-        /// Gets/Sets HasUnsavedChanges.
-        /// </summary>
-        public bool HasUnsavedChanges => m_HasUnsavedChanges;
-
         #endregion Properties
 
+
         #region Functions
-
-
         public void ResetHasUnsavedChanges() => m_HasUnsavedChanges = false;
-        #endregion Functions
+
+        public AppData ToModel()
+        {
+            return new AppData
+            {
+                Is64BitApplication = Is64BitApplication,
+                DoInstallPerUser = DoInstallPerUser,
+                AppName = AppName,
+                ExeName = ExeName,
+                AssociatedExtension = AssociatedExtension,
+                AppVersion = AppVersion,
+                AppBuild = AppBuild,
+                AppIcon = AppIcon,
+                Company = Company,
+                License = License,
+                Publisher = Publisher,
+                Url = Url,
+                Files = Files.ToList(),
+                Directories = Directories.ToList(),
+            };
+        }
 
         private void NotifyPropertyChanged(string pPropertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(pPropertyName)));
-        }
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(pPropertyName)));
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => m_HasUnsavedChanges = true;
+
+        #endregion Functions
     }
 }

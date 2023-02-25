@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeNSIS"
         mc:Ignorable="d"
-        Title="//todo" Height="800" Width="1024">
+        Title="{Binding ProjectName}" Height="800" Width="1024">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="New project" Icon="Resources/Icons/new.png"     Command=""/>
+                <MenuItem Header="Open..."     Icon="Resources/Icons/open.png"    Command=""/>
+                <MenuItem Header="Save"        Icon="Resources/Icons/save_as.png" Command=""/>
+                <MenuItem Header="Save as..."  Icon="Resources/Icons/save_as.png" Command=""/>
+                <MenuItem Header="Close"       Icon="Resources/Icons/close.png"   Command=""/>
+            </MenuItem>
+            <!--<MenuItem Header="Settings"></MenuItem>-->
+            <MenuItem Header="Build">
+                <MenuItem Header="Generate script" Icon="Resources/Icons/generate.png" Command=""/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="Manuals"      Icon="Resources/Icons/manuals.png" Command=""/>
+                <MenuItem Header="About GeNSIS" Icon="Resources/Icons/about.png" Command=""/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>
