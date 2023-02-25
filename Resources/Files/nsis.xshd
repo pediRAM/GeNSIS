@@ -1,0 +1,126 @@
+﻿<SyntaxDefinition name="nsis"
+        xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<Color name="Variable"    foreground="#FF8040" fontWeight="bold"/>
+	<Color name="Comment"     foreground="#1C8200" fontStyle="italic" />
+	<Color name="String"      foreground="#A31515" />
+	<Color name="Sections"    foreground="#1700FF" background="Yellow" fontWeight="bold"/>
+	<Color name="KeyWord"     foreground="#1700FF" />
+	<Color name="MuiConst"    foreground="#FF8040" fontWeight="bold"/>
+
+	<!-- This is the main ruleset. -->
+	<RuleSet>
+		<Span color="Comment" begin=";" />
+		<Span color="String">
+			<Begin>"</Begin>
+			<End>"</End>
+		</Span>
+		
+		<Keywords color="Sections">
+			<Word>Function</Word>
+			<Word>FunctionEnd</Word>
+			<Word>Section</Word>
+			<Word>SectionEnd</Word>
+		</Keywords>
+
+		<Keywords color="KeyWord" >
+			<Word>!addincludedir</Word>
+			<Word>!addplugindir</Word>
+			<Word>!appendfile</Word>
+			<Word>!assert</Word>
+			<Word>!cd</Word>
+			<Word>!define</Word>
+			<Word>!delfile</Word>
+			<Word>!echo</Word>
+			<Word>!else</Word>
+			<Word>!endif</Word>
+			<Word>!error</Word>
+			<Word>!execute</Word>
+			<Word>!finalize</Word>
+			<Word>!getdllversion</Word>
+			<Word>!gettlbversion</Word>
+			<Word>!if</Word>
+			<Word>!ifdef</Word>
+			<Word>!ifmacrodef</Word>
+			<Word>!ifmacrondef</Word>
+			<Word>!ifndef</Word>
+			<Word>!include</Word>
+			<Word>!insertmacro</Word>
+			<Word>!macro</Word>
+			<Word>!macroend</Word>
+			<Word>!macroundef</Word>
+			<Word>!makensis</Word>
+			<Word>!packhdr</Word>
+			<Word>!pragma</Word>
+			<Word>!searchparse</Word>
+			<Word>!searchreplace</Word>
+			<Word>!system</Word>
+			<Word>!tempfile</Word>
+			<Word>!undef</Word>
+			<Word>!uninstfinalize</Word>
+			<Word>!verbose</Word>
+			<Word>!warning</Word>
+			<Word>/r</Word>
+			<Word>Abort</Word>
+			<Word>CreateShortCut</Word>
+			<Word>Delete</Word>
+			<Word>DeleteRegKey</Word>
+			<Word>File</Word>
+			<Word>Function</Word>
+			<Word>FunctionEnd</Word>
+			<Word>HideWindow</Word>
+			<Word>HKLM</Word>
+			<Word>InstallDir</Word>
+			<Word>MessageBox</Word>
+			<Word>Name</Word>
+			<Word>OutFile</Word>
+			<Word>RMDir</Word>
+			<Word>Section</Word>
+			<Word>SectionEnd</Word>
+			<Word>SetAutoClose</Word>
+			<Word>SetOutPath</Word>
+			<Word>SetOverwrite</Word>
+			<Word>SHCTX</Word>
+			<Word>ShowInstDetails</Word>
+			<Word>ShowUnInstDetails</Word>
+			<Word>WriteRegStr</Word>
+			<Word>WriteUninstaller</Word>
+		</Keywords>
+
+		<Keywords color="MuiConst">
+			<Word>IDYES</Word>
+			<Word>MB_DEFBUTTON2</Word>
+			<Word>MB_ICONINFORMATION</Word>
+			<Word>MB_ICONQUESTION</Word>
+			<Word>MB_OK</Word>
+			<Word>MB_YESNO</Word>
+			<Word>MUI_ABORTWARNING</Word>
+			<Word>MUI_ICON</Word>
+			<Word>MUI_LANGUAGE</Word>
+			<Word>MUI_PAGE_LICENSE</Word>
+			<Word>MUI_PAGE_WELCOME</Word>
+			<Word>MUI_UNICON</Word>
+			<Word>MUI_PAGE_DIRECTORY</Word>
+			<Word>MUI_PAGE_INSTFILES</Word>
+			<Word>MUI_PAGE_FINISH</Word>
+			<Word>MUI_UNPAGE_INSTFILES</Word>
+			<Word>show</Word>
+			<Word>true</Word>
+			<Word>false</Word>
+
+		</Keywords>
+
+
+
+
+
+		<!-- Digits -->
+		<Rule foreground="Red" background="Yellow">
+			\b0[xX][0-9a-fA-F]+  # hex number
+			|    \b
+			(    \d+(\.[0-9]+)?   #number with optional floating point
+			|    \.[0-9]+         #or just starting with floating point
+			)
+			([eE][+-]?[0-9]+)? # optional exponent
+		</Rule>
+	</RuleSet>
+</SyntaxDefinition>

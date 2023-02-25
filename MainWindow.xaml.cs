@@ -48,6 +48,7 @@ namespace GeNSIS
         {
             InitializeComponent();
             DataContext = this;
+            editor.SyntaxHighlighting = XshdLoader.LoadHighlighting("nsis.xshd");
         }
 
         public ProjectViewModel ProjectViewModel

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeNSIS"
+        xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
         mc:Ignorable="d"
         Title="{Binding ProjectName}" Height="800" Width="1024">
     <Window.Resources>
@@ -36,5 +37,28 @@
                 <MenuItem Header="About GeNSIS" Icon="{StaticResource icon_about}" Command=""/>
             </MenuItem>
         </Menu>
+        <TabControl Grid.Row="1">
+            <TabItem Header="Application properties">
+                <Grid>
+                    
+                </Grid>
+            </TabItem>
+            <TabItem Header="Publisher properties">
+                <Grid>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Installer properties">
+                <Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Generated script">
+                <Grid>
+                    <avl:TextEditor x:Name="editor" ShowLineNumbers="True" Language="nullsoft" FontFamily="Consolas" FontSize="16"  />
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

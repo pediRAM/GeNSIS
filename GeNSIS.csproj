@@ -5,9 +5,12 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Misc\GeNSIS_mini_icon_white.ico</ApplicationIcon>
+    <PackageIcon>GeNSIS_mini_icon_128px.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Files\nsis.xshd" />
     <None Remove="Resources\Icons\nuvola\22x22\application-exit.png" />
     <None Remove="Resources\Icons\nuvola\22x22\applications-internet.png" />
     <None Remove="Resources\Icons\nuvola\22x22\dialog-information.png" />
@@ -28,6 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Misc\GeNSIS_mini_icon_white.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Files\nsis.xshd" />
     <Resource Include="Resources\Icons\nuvola\22x22\application-exit.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\applications-internet.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\dialog-information.png" />
@@ -48,7 +56,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Misc\GeNSIS_mini_icon_128px.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

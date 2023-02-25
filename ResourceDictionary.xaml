@@ -7,8 +7,8 @@
     <Image x:Key="icon_save_as" Source="Resources/Icons/nuvola/22x22/document-save-as.png" />
     <Image x:Key="icon_exit" Source="Resources/Icons/nuvola/22x22/application-exit.png" />
     <Image x:Key="icon_generate" Source="Resources/Icons/nuvola/22x22/tools-wizard.png" />
-    <Image x:Key="icon_manuals" Source="Resources/Icons/nuvola/22x22/manuals.png" />
-    <Image x:Key="icon_about" Source="Resources/Icons/nuvola/22x22/help-about.png" />
+    <Image x:Key="icon_manuals" Source="Resources/Icons/nuvola/22x22/help-about.png" />
+    <Image x:Key="icon_about" Source="Resources/Icons/nuvola/22x22/dialog-information.png" />
     <Image x:Key="icon_search" Source="Resources/Icons/nuvola/22x22/zoom.png" />
     <Image x:Key="icon_add" Source="Resources/Icons/nuvola/22x22/zoom-in.png" />
     <Image x:Key="icon_remove" Source="Resources/Icons/nuvola/22x22/zoom-out.png" />
