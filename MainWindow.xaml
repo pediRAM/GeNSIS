@@ -10,7 +10,8 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ResourceDictionary.xaml"/>
+                <ResourceDictionary Source="IconsResourceDictionary.xaml"/>
+                <ResourceDictionary Source="StringsResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -40,7 +41,95 @@
         <TabControl Grid.Row="1">
             <TabItem Header="Application properties">
                 <Grid>
-                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Is64BitApplication (bool) -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{StaticResource label_is64bitapplication}" ToolTip="{StaticResource tt_is64bitapplication}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding AppData.Is64BitApplication}"      ToolTip="{StaticResource tt_is64bitapplication}" Style="{StaticResource textbox_input}" />
+
+                    <!-- AppName (string) -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{StaticResource label_appname}" ToolTip="{StaticResource tt_appname}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="1" Grid.Column="1" Text="{Binding AppData.AppName}"      ToolTip="{StaticResource tt_appname}" Style="{StaticResource textbox_input}" />
+
+                    <!-- AppVersion (string) -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_appversion}" ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding AppData.AppVersion}"      ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textbox_input}" />
+
+                    <!-- AppBuild (string) -->
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_appbuild}" ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding AppData.AppBuild}"      ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textbox_input}" />
+
+                    <!-- AppIcon (string) -->
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{StaticResource label_appicon}" ToolTip="{StaticResource tt_appicon}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding AppData.AppIcon}"      ToolTip="{StaticResource tt_appicon}" Style="{StaticResource textbox_input}" />
+
+                    <!-- Files (List<string>) -->
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{StaticResource label_files}" ToolTip="{StaticResource tt_files}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="5" Grid.Column="1" Text="{Binding AppData.Files}"      ToolTip="{StaticResource tt_files}" Style="{StaticResource textbox_input}" />
+
+                    <!-- Directories (List<Directory>) -->
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding AppData.Directories}"      ToolTip="{StaticResource tt_directories}" Style="{StaticResource textbox_input}" />
+
+                    <!-- ExeName (string) -->
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="7" Grid.Column="1" Text="{Binding AppData.ExeName}"      ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
+
+                    <!-- License (string) -->
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="8" Grid.Column="1" Text="{Binding AppData.License}"      ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
+
+                    <!-- Company (string) -->
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="{StaticResource label_company}" ToolTip="{StaticResource tt_company}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="9" Grid.Column="1" Text="{Binding AppData.Company}"      ToolTip="{StaticResource tt_company}" Style="{StaticResource textbox_input}" />
+
+                    <!-- Publisher (string) -->
+                    <TextBlock Grid.Row="10" Grid.Column="0" Text="{StaticResource label_publisher}" ToolTip="{StaticResource tt_publisher}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="10" Grid.Column="1" Text="{Binding AppData.Publisher}"      ToolTip="{StaticResource tt_publisher}" Style="{StaticResource textbox_input}" />
+
+                    <!-- Url (string) -->
+                    <TextBlock Grid.Row="11" Grid.Column="0" Text="{StaticResource label_url}" ToolTip="{StaticResource tt_url}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="11" Grid.Column="1" Text="{Binding AppData.Url}"      ToolTip="{StaticResource tt_url}" Style="{StaticResource textbox_input}" />
+
+                    <!-- AssociatedExtension (string) -->
+                    <TextBlock Grid.Row="12" Grid.Column="0" Text="{StaticResource label_associatedextension}" ToolTip="{StaticResource tt_associatedextension}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="12" Grid.Column="1" Text="{Binding AppData.AssociatedExtension}"      ToolTip="{StaticResource tt_associatedextension}" Style="{StaticResource textbox_input}" />
+
+                    <!-- DoInstallPerUser (bool) -->
+                    <TextBlock Grid.Row="13" Grid.Column="0" Text="{StaticResource label_doinstallperuser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="13" Grid.Column="1" Text="{Binding AppData.DoInstallPerUser}"      ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource textbox_input}" />
+
+
+
+
+
+
+                    <!-- xxx -->
+                    <!-- xxx -->
+                    <!-- xxx -->
                 </Grid>
             </TabItem>
             <TabItem Header="Publisher properties">

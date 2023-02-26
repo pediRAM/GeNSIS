@@ -21,4 +21,11 @@
     <Image x:Key="icon_file" Source="Resources/Icons/nuvola/22x22/krec_fileempty.png" />
     <Image x:Key="icon_info" Source="Resources/Icons/nuvola/22x22/dialog-information.png" />
 
+    <Style x:Key="textblock_label" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial" />
+    </Style>
+
+    <Style x:Key="textbox_input" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="Arial" />
+    </Style>
 </ResourceDictionary>
