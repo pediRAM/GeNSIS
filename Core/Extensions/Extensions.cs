@@ -14,11 +14,22 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GeNSIS.Core.Extensions
 {
-    public static class AsmConst
+    public static class ObservableCollectionExtensions
     {
-        public const string MODEL_VERSION = "1.0";
-        public const string VERSION = "0.0.1";
+        public static void AddRange<T>(this ObservableCollection<T> pObservableCollection, IEnumerable<T> pItems)
+        {
+            foreach(var item in pItems)
+                pObservableCollection.Add(item);
+        }
+
     }
 }

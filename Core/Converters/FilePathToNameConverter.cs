@@ -14,11 +14,27 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core
+using System;
+
+namespace GeNSIS.Core.Converters
 {
-    public static class AsmConst
+    class FilePathToNameConverter : AValueConverter
     {
-        public const string MODEL_VERSION = "1.0";
-        public const string VERSION = "0.0.1";
+        public override object Convert(object pValue)
+        {
+            if (null != pValue)
+            {
+                try
+                {
+                    return System.IO.Path.GetFileName((string)pValue);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.TraceError(ex.ToString());
+                }
+            }
+
+            return pValue;
+        }
     }
 }

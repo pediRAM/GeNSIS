@@ -14,11 +14,39 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core
+namespace GeNSIS.Core.Converters
 {
-    public static class AsmConst
+    using System;
+    using System.Globalization;
+    using System.Runtime.CompilerServices;
+    using System.Windows.Data;
+    using System.Windows.Markup;
+    public abstract class AValueConverter : MarkupExtension, IValueConverter
     {
-        public const string MODEL_VERSION = "1.0";
-        public const string VERSION = "0.0.1";
+        protected static readonly System.Windows.Shapes.Rectangle m_Dummy;
+
+        static AValueConverter() 
+            => m_Dummy ??= new System.Windows.Shapes.Rectangle();
+
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public abstract object Convert(object pValue);
+
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public virtual object Convert(object pValue, Type pTargetType, object pParameter, CultureInfo pCulture)
+            => Convert(pValue);
+
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public override object ProvideValue(IServiceProvider pServiceProvider)
+            => this;
+
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public virtual object ConvertBack(object pValue, Type pTargetType, object pParameter, CultureInfo pCulture)
+        {
+            throw new InvalidOperationException($@"This AValueConverter inheritor: ({GetType().Name}) does not support converting types backward!");
+        }
     }
 }

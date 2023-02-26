@@ -14,11 +14,24 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core
+using System.Windows.Controls;
+
+namespace GeNSIS.Core.Commands
 {
-    public static class AsmConst
+    class RemoveSelectedFileCommand : ACommand
     {
-        public const string MODEL_VERSION = "1.0";
-        public const string VERSION = "0.0.1";
+        public RemoveSelectedFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+
+        public override bool CanExecute(object parameter)
+        {
+            var listBox = (ListBox)parameter;
+            return (listBox != null && listBox.SelectedItem != null);
+        }
+
+        public override void Execute(object parameter)
+        {
+            var listBox = (ListBox)parameter;
+            AppDataViewModel.Files.Remove(listBox.SelectedItem as string);
+        }
     }
 }

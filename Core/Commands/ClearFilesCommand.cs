@@ -14,11 +14,23 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core
+using System.Windows.Controls;
+
+namespace GeNSIS.Core.Commands
 {
-    public static class AsmConst
+    class ClearFilesCommand : ACommand
     {
-        public const string MODEL_VERSION = "1.0";
-        public const string VERSION = "0.0.1";
+        public ClearFilesCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+
+        public override bool CanExecute(object parameter)
+        {
+            var listBox = (ListBox)parameter;
+            return (listBox != null && listBox.HasItems);
+        }
+
+        public override void Execute(object parameter)
+        {
+            AppDataViewModel.Files.Clear();
+        }
     }
 }

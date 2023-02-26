@@ -14,11 +14,25 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core
+using System;
+using System.Windows.Input;
+
+namespace GeNSIS.Core.Commands
 {
-    public static class AsmConst
+    public abstract class ACommand : ICommand
     {
-        public const string MODEL_VERSION = "1.0";
-        public const string VERSION = "0.0.1";
+        public ACommand(AppDataViewModel pAppDataViewModel) => AppDataViewModel = pAppDataViewModel;
+
+        protected AppDataViewModel AppDataViewModel { get; set; }
+
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public abstract bool CanExecute(object parameter);
+        public abstract void Execute(object parameter);
     }
 }

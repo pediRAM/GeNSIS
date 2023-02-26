@@ -16,8 +16,10 @@
 
 namespace GeNSIS.Core
 {
+    using GeNSIS.Core.Commands;
     using GeNSIS.Core.Models;
     using System.ComponentModel;
+    using System.Windows.Input;
 
     public class ProjectViewModel : INotifyPropertyChanged
     {

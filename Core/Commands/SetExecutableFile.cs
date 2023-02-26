@@ -14,11 +14,24 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core
+using System.IO;
+using System.Windows.Controls;
+
+namespace GeNSIS.Core.Commands
 {
-    public static class AsmConst
+    class SetExecutableFileCommand : ACommand
     {
-        public const string MODEL_VERSION = "1.0";
-        public const string VERSION = "0.0.1";
+        public SetExecutableFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+
+        public override bool CanExecute(object parameter)
+        {
+            var listBox = (ListBox)parameter;
+            return (listBox != null && listBox.SelectedItem != null && Path.GetExtension(listBox.SelectedItem as string).Equals(".exe", System.StringComparison.OrdinalIgnoreCase));
+        }
+
+        public override void Execute(object parameter)
+        {
+            AppDataViewModel.ExeName = ((ListBox)parameter).SelectedItem as string;
+        }
     }
 }

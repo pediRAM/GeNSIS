@@ -16,11 +16,13 @@
 
 namespace GeNSIS.Core
 {
+    using GeNSIS.Core.Commands;
     #region Usings
     using GeNSIS.Core.Models;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
+    using System.Windows.Input;
     #endregion Usings
 
     /// <summary>
@@ -249,5 +251,71 @@ namespace GeNSIS.Core
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => m_HasUnsavedChanges = true;
 
         #endregion Functions
+
+        #region Commands
+        private ICommand m_RemoveSelectedFileCommand;
+        public ICommand RemoveSelectedFileCommand
+        {
+            get
+            {
+                if (m_RemoveSelectedFileCommand == null)
+                    m_RemoveSelectedFileCommand = new RemoveSelectedFileCommand(this);
+
+                return m_RemoveSelectedFileCommand;
+            }
+            set
+            {
+                m_RemoveSelectedFileCommand = value;
+            }
+        }
+
+        private ICommand m_ClearFilesCommand;
+        public ICommand ClearFilesCommand
+        {
+            get
+            {
+                if (m_ClearFilesCommand == null)
+                    m_ClearFilesCommand = new ClearFilesCommand(this);
+
+                return m_ClearFilesCommand;
+            }
+            set
+            {
+                m_ClearFilesCommand = value;
+            }
+        }
+
+        private ICommand m_SetLicenseFileCommand;
+        public ICommand SetLicenseFileCommand
+        {
+            get
+            {
+                if (m_SetLicenseFileCommand == null)
+                    m_SetLicenseFileCommand = new SetLicenseFileCommand(this);
+
+                return m_SetLicenseFileCommand;
+            }
+            set
+            {
+                m_SetLicenseFileCommand = value;
+            }
+        }
+
+        private ICommand m_SetExecutableFileCommand;
+        public ICommand SetExecutableFileCommand
+        {
+            get
+            {
+                if (m_SetExecutableFileCommand == null)
+                    m_SetExecutableFileCommand = new SetExecutableFileCommand(this);
+
+                return m_SetExecutableFileCommand;
+            }
+            set
+            {
+                m_SetExecutableFileCommand = value;
+            }
+        }
+        #endregion Commands
     }
 }

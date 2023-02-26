@@ -15,22 +15,14 @@
 
 
 using GeNSIS.Core;
+using GeNSIS.Core.Commands;
+using GeNSIS.Core.Extensions;
 using GeNSIS.Core.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace GeNSIS
 {
@@ -41,26 +33,34 @@ namespace GeNSIS
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ProjectViewModel m_ProjectViewModel;
+        private AppDataViewModel m_AppDataViewModel;
         private string m_ProjectName = "Unsaved";
+        private OpenFileDialog m_OpenFileDialog = new OpenFileDialog();
+        private FolderBrowserDialog m_FolderBrowserDialog = new FolderBrowserDialog();
+
         private void NotifyPropertyChanged(string pPropertyName) 
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(pPropertyName)));
+
         public MainWindow()
         {
             InitializeComponent();
+            Title = $"GeNSIS {AsmConst.VERSION}";
             editor.SyntaxHighlighting = XshdLoader.LoadHighlighting("nsis.xshd");
-            ProjectViewModel = new Project().ToViewModel();
-            DataContext = ProjectViewModel;
+            AppData = new AppData().ToViewModel();
+            m_OpenFileDialog.Multiselect = true;
+            
+            DataContext = AppData;
         }
 
-        public ProjectViewModel ProjectViewModel
+        public AppDataViewModel AppData
         {
-            get { return m_ProjectViewModel; }
+            get { return m_AppDataViewModel; }
             set
             {
-                if (value == m_ProjectViewModel) return;
-                m_ProjectViewModel = value;
-                NotifyPropertyChanged(nameof(ProjectViewModel));
+                if (value == m_AppDataViewModel) 
+                    return;
+                m_AppDataViewModel = value;
+                NotifyPropertyChanged(nameof(AppData));
             }
         }
 
@@ -69,10 +69,19 @@ namespace GeNSIS
             get => m_ProjectName;
             set
             {
-                if (value == m_ProjectName) return;
+                if (value == m_ProjectName) 
+                    return;
                 m_ProjectName = value;
                 NotifyPropertyChanged(nameof(ProjectName));
             }
+        }
+
+        private void OnAddFilesClicked(object sender, RoutedEventArgs e)
+        {
+            if (m_OpenFileDialog.ShowDialog().Value != true) 
+                return;
+
+            AppData.Files.AddRange(m_OpenFileDialog.FileNames);
         }
 
     }

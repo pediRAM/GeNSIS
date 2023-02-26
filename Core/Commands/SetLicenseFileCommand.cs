@@ -14,11 +14,25 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core
+using System.IO;
+using System.Windows.Controls;
+
+namespace GeNSIS.Core.Commands
 {
-    public static class AsmConst
+    class SetLicenseFileCommand : ACommand
     {
-        public const string MODEL_VERSION = "1.0";
-        public const string VERSION = "0.0.1";
+        public SetLicenseFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+
+        public override bool CanExecute(object parameter)
+        {
+            var listBox = (ListBox)parameter;
+            return (listBox != null && listBox.SelectedItem != null && Path.GetExtension(listBox.SelectedItem as string).Equals(".txt", System.StringComparison.OrdinalIgnoreCase));
+        }
+
+        public override void Execute(object parameter)
+        {
+            AppDataViewModel.License = ((ListBox)parameter).SelectedItem as string;
+        }
     }
 }
+
