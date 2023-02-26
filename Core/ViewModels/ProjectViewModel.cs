@@ -24,7 +24,7 @@ namespace GeNSIS.Core
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string m_Note = string.Empty;
-        private AppDataViewModel m_AppData;
+        private AppDataViewModel m_AppData = new AppDataViewModel();
 
         public string Version { get; set; } = AsmConst.MODEL_VERSION;
 

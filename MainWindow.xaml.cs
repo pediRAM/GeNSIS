@@ -15,6 +15,7 @@
 
 
 using GeNSIS.Core;
+using GeNSIS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,8 +48,9 @@ namespace GeNSIS
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = this;
             editor.SyntaxHighlighting = XshdLoader.LoadHighlighting("nsis.xshd");
+            ProjectViewModel = new Project().ToViewModel();
+            DataContext = ProjectViewModel;
         }
 
         public ProjectViewModel ProjectViewModel

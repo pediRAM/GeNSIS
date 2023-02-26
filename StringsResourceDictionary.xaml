@@ -3,13 +3,13 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib" >
 
     <sys:String x:Key="label_is64bitapplication">Is x64 app:</sys:String>
-    <sys:String x:Key="label_appname">App name:</sys:String>
-    <sys:String x:Key="label_appversion">App version:</sys:String>
-    <sys:String x:Key="label_appbuild">App build:</sys:String>
-    <sys:String x:Key="label_appicon">App icon (*.ico):</sys:String>
+    <sys:String x:Key="label_appname">Application name:</sys:String>
+    <sys:String x:Key="label_appversion">Application version:</sys:String>
+    <sys:String x:Key="label_appbuild">Application build:</sys:String>
+    <sys:String x:Key="label_appicon">Application icon (*.ico):</sys:String>
     <sys:String x:Key="label_files">Files:</sys:String>
     <sys:String x:Key="label_directories">Directories:</sys:String>    
-    <sys:String x:Key="label_exename">Exe name:</sys:String>    
+    <sys:String x:Key="label_exename">Executable file:</sys:String>    
     <sys:String x:Key="label_license">License file (*.txt):</sys:String>    
     <sys:String x:Key="label_company">Company name:</sys:String>
     <sys:String x:Key="label_publisher">Publisher name:</sys:String>

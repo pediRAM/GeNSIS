@@ -28,7 +28,7 @@ namespace GeNSIS.Core.Models
         public string Note { get; set; }
 
         [XmlElement]
-        public AppData AppData { get; set; }
+        public AppData AppData { get; set; } = new AppData();
 
         public ProjectViewModel ToViewModel()
         {

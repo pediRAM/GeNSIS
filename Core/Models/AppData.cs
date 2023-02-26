@@ -16,6 +16,7 @@
 
 namespace GeNSIS.Core.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Xml.Serialization;
 
@@ -53,7 +54,7 @@ namespace GeNSIS.Core.Models
         public string License { get; set; }
 
         [XmlElement]
-        public string Publisher { get; set; }
+        public string Publisher { get; set; } = Environment.UserName;
 
         [XmlElement]
         public string Url { get; set; }
