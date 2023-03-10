@@ -1,4 +1,7 @@
 ﻿/***************************************************************************************
+* GeNSIS - a free and open source NSIS installer script generator tool.                *
+* Copyright (C) 2023 Pedram Ganjeh Hadidi                                              *
+*                                                                                      *
 * This file is part of GeNSIS.                                                         *
 *                                                                                      *
 * GeNSIS is free software: you can redistribute it and/or modify it under the terms    *
@@ -14,12 +17,8 @@
 ****************************************************************************************/
 
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GeNSIS.Core.Extensions
 {

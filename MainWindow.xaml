@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeNSIS"
         xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
-        xmlns:conv="clr-namespace:GeNSIS.Core.Converters" xmlns:core="clr-namespace:GeNSIS.Core" d:DataContext="{d:DesignInstance Type=core:AppDataViewModel}"
+        xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
         mc:Ignorable="d"
         Height="600" Width="900">
     <Window.Resources>
@@ -145,7 +145,7 @@
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0" Orientation="Horizontal">
                             <Button Content="Add files..." Style="{StaticResource button_command}" Click="OnAddFilesClicked" />
-                            <Button Content="Remove selected" Style="{StaticResource button_command}" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding ElementName=lsb_Files}" />
+                            <Button Content="Remove selected" Style="{StaticResource button_command}" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
                             <Button Content="Clear" Style="{StaticResource button_command}" Command="{Binding Path=ClearFilesCommand}" CommandParameter="{Binding ElementName=lsb_Files}" />
                         </StackPanel>
                         <TextBlock Grid.Row="1" Text="Set selected as:" Style="{StaticResource textblock_label}" MinWidth="100"/>
@@ -159,22 +159,32 @@
 
                     <!-- Directories (List<Directory>) -->
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource textblock_label}" />
-                    <ListBox   Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Directories}"      ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}" />
-
+                    <ListBox x:Name="lsb_Directories"  Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Directories}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={conv:FilePathToNameConverter}}" ToolTip="{Binding}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left">
+                        <Button x:Name="btn_AddDirectory" Style="{StaticResource button_command}" Click="OnAddDirectoryClicked" Content="Add..."/>
+                        <Button x:Name="btn_RemoveDirectory" Style="{StaticResource button_command}" Content="Remove selected" Command="{Binding Path=RemoveSelectedDirectoryCommand}" CommandParameter="{Binding ElementName=lsb_Directories, Path=SelectedItem}"/>
+                    </StackPanel>
+                    
                     <!-- ExeName (string) -->
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding ExeName}"      ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
+                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
 
                     <!-- License (string) -->
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding License}"      ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
+                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
 
                     <!-- AppIcon (string) -->
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="{StaticResource label_appicon}" ToolTip="{StaticResource tt_appicon}" Style="{StaticResource textblock_label}" />
                     <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource border_icon}">
-                        <Image Source="{Binding AppIcon}"    ToolTip="{StaticResource tt_appicon}" Style="{StaticResource image_icon}" />
+                        <Image Source="{Binding AppIcon, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}"    ToolTip="{StaticResource tt_appicon}" Style="{StaticResource image_icon}" />
                     </Border>
-                    <Button Grid.Row="4" Grid.Column="2" Content="Load icon..." Style="{StaticResource button_command}" HorizontalAlignment="Left" Command="" />
+                    <Button Grid.Row="4" Grid.Column="2" Content="Load icon..." Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadIconClicked" />
                 </Grid>
             </TabItem>
 
@@ -208,6 +218,13 @@
                     <avl:TextEditor x:Name="editor" Style="{StaticResource editor}"  />
                 </Grid>
             </TabItem>
+            <TabItem Header="Test">
+                <Grid>
+
+
+                </Grid>
+            </TabItem>
+                     
         </TabControl>
     </Grid>
 </Window>

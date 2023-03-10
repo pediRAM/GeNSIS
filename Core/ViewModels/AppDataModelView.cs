@@ -1,4 +1,7 @@
 ﻿/***************************************************************************************
+* GeNSIS - a free and open source NSIS installer script generator tool.                *
+* Copyright (C) 2023 Pedram Ganjeh Hadidi                                              *
+*                                                                                      *
 * This file is part of GeNSIS.                                                         *
 *                                                                                      *
 * GeNSIS is free software: you can redistribute it and/or modify it under the terms    *
@@ -19,6 +22,7 @@ namespace GeNSIS.Core
     using GeNSIS.Core.Commands;
     #region Usings
     using GeNSIS.Core.Models;
+    using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
@@ -46,7 +50,7 @@ namespace GeNSIS.Core
         private string m_AppIcon;
         private string m_Company;
         private string m_License;
-        private string m_Publisher;
+        private string m_Publisher = Environment.UserName;
         private string m_Url;
         private bool m_HasUnsavedChanges;
         #endregion Variables
@@ -57,10 +61,10 @@ namespace GeNSIS.Core
         /// This default ctor is defined by ProjectManager when loading project.
         /// Use other constructor (with parameter) when creating new project in GUI!
         /// </summary>
-        public AppDataViewModel() : base() { }
+        public AppDataViewModel() { }
 
 
-        public AppDataViewModel(bool pFollowChanges) : base() 
+        public AppDataViewModel(bool pFollowChanges) : this() 
         {
             if (pFollowChanges)
                 PropertyChanged += OnPropertyChanged;
@@ -206,7 +210,7 @@ namespace GeNSIS.Core
 
         public ObservableCollection<string> Files { get; set; } = new ObservableCollection<string>();
 
-        public ObservableCollection<Directory> Directories { get; set; } = new ObservableCollection<Directory>();
+        public ObservableCollection<string> Directories { get; set; } = new ObservableCollection<string>();
 
         public bool HasUnsavedChanges
         {
@@ -246,9 +250,13 @@ namespace GeNSIS.Core
         }
 
         private void NotifyPropertyChanged(string pPropertyName)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(pPropertyName)));
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pPropertyName));
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => m_HasUnsavedChanges = true;
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            m_HasUnsavedChanges = true;
+            System.Diagnostics.Trace.TraceInformation($">>>>>>>>>>>> Property: {e.PropertyName} changed.");
+        }
 
         #endregion Functions
 
@@ -266,6 +274,22 @@ namespace GeNSIS.Core
             set
             {
                 m_RemoveSelectedFileCommand = value;
+            }
+        }
+
+        private ICommand m_RemoveSelectedDirectoryCommand;
+        public ICommand RemoveSelectedDirectoryCommand
+        {
+            get
+            {
+                if (m_RemoveSelectedDirectoryCommand == null)
+                    m_RemoveSelectedDirectoryCommand = new RemoveSelectedDirectoryCommand(this);
+
+                return m_RemoveSelectedDirectoryCommand;
+            }
+            set
+            {
+                m_RemoveSelectedDirectoryCommand = value;
             }
         }
 

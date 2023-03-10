@@ -1,4 +1,7 @@
 ﻿/***************************************************************************************
+* GeNSIS - a free and open source NSIS installer script generator tool.                *
+* Copyright (C) 2023 Pedram Ganjeh Hadidi                                              *
+*                                                                                      *
 * This file is part of GeNSIS.                                                         *
 *                                                                                      *
 * GeNSIS is free software: you can redistribute it and/or modify it under the terms    *
@@ -19,7 +22,7 @@ using System.Windows.Controls;
 
 namespace GeNSIS.Core.Commands
 {
-    class SetLicenseFileCommand : ACommand
+    public class SetLicenseFileCommand : ACommand
     {
         public SetLicenseFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
 
@@ -31,7 +34,9 @@ namespace GeNSIS.Core.Commands
 
         public override void Execute(object parameter)
         {
-            AppDataViewModel.License = ((ListBox)parameter).SelectedItem as string;
+            var listBox = (ListBox)parameter;
+            AppDataViewModel.License = (listBox.SelectedItem as string);
+            listBox.UpdateLayout();
         }
     }
 }

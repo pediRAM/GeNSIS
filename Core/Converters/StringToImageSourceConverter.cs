@@ -1,6 +1,4 @@
-﻿extensions: designer.cs generated.cs
-extensions: .cs
-/***************************************************************************************
+﻿/***************************************************************************************
 * GeNSIS - a free and open source NSIS installer script generator tool.                *
 * Copyright (C) 2023 Pedram Ganjeh Hadidi                                              *
 *                                                                                      *
@@ -18,3 +16,26 @@ extensions: .cs
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
+
+using System;
+using System.Windows.Media.Imaging;
+
+namespace GeNSIS.Core.Converters
+{
+    public class StringToImageSourceConverter : AValueConverter
+    {
+        public override object Convert(object pValue)
+        {
+            try
+            {
+                string path = (string)pValue;
+                return new BitmapImage(new Uri(path, uriKind: UriKind.Absolute));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.TraceError(ex.ToString());
+                return null;
+            }
+        }
+    }
+}

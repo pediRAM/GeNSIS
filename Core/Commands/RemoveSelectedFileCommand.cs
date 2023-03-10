@@ -1,4 +1,7 @@
 ﻿/***************************************************************************************
+* GeNSIS - a free and open source NSIS installer script generator tool.                *
+* Copyright (C) 2023 Pedram Ganjeh Hadidi                                              *
+*                                                                                      *
 * This file is part of GeNSIS.                                                         *
 *                                                                                      *
 * GeNSIS is free software: you can redistribute it and/or modify it under the terms    *
@@ -13,25 +16,22 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-
-using System.Windows.Controls;
-
 namespace GeNSIS.Core.Commands
 {
-    class RemoveSelectedFileCommand : ACommand
+    public class RemoveSelectedFileCommand : ACommand
     {
         public RemoveSelectedFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
-        {
-            var listBox = (ListBox)parameter;
-            return (listBox != null && listBox.SelectedItem != null);
-        }
+            => parameter != null;
 
         public override void Execute(object parameter)
         {
-            var listBox = (ListBox)parameter;
-            AppDataViewModel.Files.Remove(listBox.SelectedItem as string);
+            string path = (string)parameter;
+            AppDataViewModel.Files.Remove(path);
+            if (AppDataViewModel.License == path) AppDataViewModel.License = string.Empty;
+            if (AppDataViewModel.ExeName == path) AppDataViewModel.ExeName = string.Empty;
+            if (AppDataViewModel.AppIcon == path) AppDataViewModel.AppIcon = string.Empty;
         }
     }
 }

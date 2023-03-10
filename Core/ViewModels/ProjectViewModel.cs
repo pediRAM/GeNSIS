@@ -1,4 +1,7 @@
 ﻿/***************************************************************************************
+* GeNSIS - a free and open source NSIS installer script generator tool.                *
+* Copyright (C) 2023 Pedram Ganjeh Hadidi                                              *
+*                                                                                      *
 * This file is part of GeNSIS.                                                         *
 *                                                                                      *
 * GeNSIS is free software: you can redistribute it and/or modify it under the terms    *
@@ -26,7 +29,7 @@ namespace GeNSIS.Core
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string m_Note = string.Empty;
-        private AppDataViewModel m_AppData = new AppDataViewModel();
+        private AppDataViewModel m_AppData = new AppDataViewModel(true);
 
         public string Version { get; set; } = AsmConst.MODEL_VERSION;
 

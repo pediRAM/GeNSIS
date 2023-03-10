@@ -1,4 +1,7 @@
 ﻿/***************************************************************************************
+* GeNSIS - a free and open source NSIS installer script generator tool.                *
+* Copyright (C) 2023 Pedram Ganjeh Hadidi                                              *
+*                                                                                      *
 * This file is part of GeNSIS.                                                         *
 *                                                                                      *
 * GeNSIS is free software: you can redistribute it and/or modify it under the terms    *
@@ -12,7 +15,6 @@
 * You should have received a copy of the GNU General Public License along with GeNSIS. *
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
-
 
 
 namespace GeNSIS.Core

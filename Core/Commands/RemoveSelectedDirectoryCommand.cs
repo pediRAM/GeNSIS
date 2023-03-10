@@ -1,6 +1,4 @@
-﻿extensions: designer.cs generated.cs
-extensions: .cs
-/***************************************************************************************
+﻿/***************************************************************************************
 * GeNSIS - a free and open source NSIS installer script generator tool.                *
 * Copyright (C) 2023 Pedram Ganjeh Hadidi                                              *
 *                                                                                      *
@@ -18,3 +16,19 @@ extensions: .cs
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
+
+namespace GeNSIS.Core.Commands
+{
+    public class RemoveSelectedDirectoryCommand : ACommand
+    {
+        public RemoveSelectedDirectoryCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+
+        public override bool CanExecute(object parameter)
+            => parameter != null;
+
+        public override void Execute(object parameter)
+        {
+            AppDataViewModel.Directories.Remove((string)parameter);
+        }
+    }
+}

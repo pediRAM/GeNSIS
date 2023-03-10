@@ -1,4 +1,7 @@
 ﻿/***************************************************************************************
+* GeNSIS - a free and open source NSIS installer script generator tool.                *
+* Copyright (C) 2023 Pedram Ganjeh Hadidi                                              *
+*                                                                                      *
 * This file is part of GeNSIS.                                                         *
 *                                                                                      *
 * GeNSIS is free software: you can redistribute it and/or modify it under the terms    *
@@ -19,7 +22,7 @@ using System.Windows.Controls;
 
 namespace GeNSIS.Core.Commands
 {
-    class SetExecutableFileCommand : ACommand
+    public class SetExecutableFileCommand : ACommand
     {
         public SetExecutableFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
 

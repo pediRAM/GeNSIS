@@ -9,6 +9,14 @@
     <PackageIcon>GeNSIS_mini_icon_128px.png</PackageIcon>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Resources\Files\nsis.xshd" />
     <None Remove="Resources\Icons\nuvola\22x22\application-exit.png" />
@@ -57,7 +65,7 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>

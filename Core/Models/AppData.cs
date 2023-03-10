@@ -1,4 +1,7 @@
 ﻿/***************************************************************************************
+* GeNSIS - a free and open source NSIS installer script generator tool.                *
+* Copyright (C) 2023 Pedram Ganjeh Hadidi                                              *
+*                                                                                      *
 * This file is part of GeNSIS.                                                         *
 *                                                                                      *
 * GeNSIS is free software: you can redistribute it and/or modify it under the terms    *
@@ -65,7 +68,7 @@ namespace GeNSIS.Core.Models
 
         [XmlElement]
         [XmlArray]
-        public List<Directory> Directories { get; set; } = new List<Directory>();
+        public List<string> Directories { get; set; } = new List<string>();
 
         public AppDataViewModel ToViewModel()
         {
@@ -84,7 +87,7 @@ namespace GeNSIS.Core.Models
                 Publisher = Publisher,
                 Url = Url,
                 Files = new System.Collections.ObjectModel.ObservableCollection<string>(Files),
-                Directories = new System.Collections.ObjectModel.ObservableCollection<Directory>(Directories),
+                Directories = new System.Collections.ObjectModel.ObservableCollection<string>(Directories),
             };
         }
     }

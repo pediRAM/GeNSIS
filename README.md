@@ -12,10 +12,12 @@ done: ✅
 - ✅ write type for app-meta-data
 - ✅ write GeNSIS Project type
 - ❎ write nsis text generator
-- ❎ gui: menu
+- ✅ gui: menu
 - ❎ gui: main
 - ❎ test & fix bugs
+- ❎ write user manual
 - ❎ create NSIS app installer for GeNSIS by GeNSIS 😁
-- ❎ release
+- ❎ release 1.0
+
 
 

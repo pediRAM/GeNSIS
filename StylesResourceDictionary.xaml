@@ -59,7 +59,7 @@
 
     <Style x:Key="editor" TargetType="avl:TextEditor">
         <Setter Property="ShowLineNumbers" Value="true"/>
-        <Setter Property="Language" Value="NSIS"/>
+        <Setter Property="SyntaxHighlighting" Value="XML"/>
         <Setter Property="FontFamily" Value="Consolas"/>
         <Setter Property="FontSize" Value="16"/>
     </Style>
