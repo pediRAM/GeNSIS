@@ -19,6 +19,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GeNSIS.Core.Extensions
 {
@@ -30,5 +31,14 @@ namespace GeNSIS.Core.Extensions
                 pObservableCollection.Add(item);
         }
 
+    }
+
+    public static class IEnumerableExtensions
+    {
+        public static bool IsEmpty<T>(this IEnumerable<T> pEnumerable)
+            => pEnumerable.Count() == 0;
+
+        public static bool HasElement<T>(this IEnumerable<T> pEnumerable)
+            => pEnumerable != null && pEnumerable.Count() > 0;
     }
 }

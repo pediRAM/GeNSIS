@@ -52,7 +52,7 @@ namespace GeNSIS
             InitializeComponent();
 
             Title = $"GeNSIS {AsmConst.VERSION}";
-            editor.SyntaxHighlighting = XshdLoader.LoadHighlighting("nsis.xshd");
+            editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");
             m_OpenFileDialog.Multiselect = true;
             m_OpenIconDialog.Filter = "Icon files|*.ico";
             m_OpenIconDialog.Multiselect = false;
@@ -100,7 +100,10 @@ namespace GeNSIS
                 {
                     var fi = new FileInfo(m_OpenIconDialog.FileName);
                     if (fi.Extension.Equals(".ico", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
-                        AppData.Files.Add(m_OpenIconDialog.FileName);
+                    {
+                        if (! AppData.Files.Contains(m_OpenIconDialog.FileName))
+                            AppData.Files.Add(m_OpenIconDialog.FileName);
+                    }
                     AppData.AppIcon = m_OpenIconDialog.FileName;
                 }
                 catch (Exception ex)

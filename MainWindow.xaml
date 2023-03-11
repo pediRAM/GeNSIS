@@ -22,6 +22,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="File">
@@ -146,13 +148,14 @@
                         <StackPanel Grid.Row="0" Orientation="Horizontal">
                             <Button Content="Add files..." Style="{StaticResource button_command}" Click="OnAddFilesClicked" />
                             <Button Content="Remove selected" Style="{StaticResource button_command}" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
-                            <Button Content="Clear" Style="{StaticResource button_command}" Command="{Binding Path=ClearFilesCommand}" CommandParameter="{Binding ElementName=lsb_Files}" />
+                            <Button Content="Clear" Style="{StaticResource button_command}" Command="{Binding Path=ClearFilesCommand}" CommandParameter="" />
                         </StackPanel>
                         <TextBlock Grid.Row="1" Text="Set selected as:" Style="{StaticResource textblock_label}" MinWidth="100"/>
                         <StackPanel Grid.Row="2" Orientation="Horizontal">
                             
-                            <Button Content="License"    Style="{StaticResource button_command}" Command="{Binding Path=SetLicenseFileCommand}" CommandParameter="{Binding ElementName=lsb_Files}" />
-                            <Button Content="Executable" Style="{StaticResource button_command}" Command="{Binding Path=SetExecutableFileCommand}" CommandParameter="{Binding ElementName=lsb_Files}" />
+                            <Button Content="License"    Style="{StaticResource button_command}" Command="{Binding Path=SetLicenseFileCommand}"    CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
+                            <Button Content="Executable" Style="{StaticResource button_command}" Command="{Binding Path=SetExecutableFileCommand}" CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
+                            <Button Content="Icon"       Style="{StaticResource button_command}" Command="{Binding Path=SetIconFileCommand}"       CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
                         </StackPanel>
                     </Grid>
 
@@ -226,5 +229,8 @@
             </TabItem>
                      
         </TabControl>
+        <Grid Grid.Row="3" Grid.ColumnSpan="10">
+
+        </Grid>
     </Grid>
 </Window>

@@ -17,7 +17,7 @@
 ****************************************************************************************/
 
 
-using System.Windows.Controls;
+using GeNSIS.Core.Extensions;
 
 namespace GeNSIS.Core.Commands
 {
@@ -25,15 +25,14 @@ namespace GeNSIS.Core.Commands
     {
         public ClearFilesCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
 
-        public override bool CanExecute(object parameter)
-        {
-            var listBox = (ListBox)parameter;
-            return (listBox != null && listBox.HasItems);
-        }
+        public override bool CanExecute(object parameter) => AppDataViewModel.Files.HasElement();
 
         public override void Execute(object parameter)
         {
             AppDataViewModel.Files.Clear();
+            AppDataViewModel.ExeName = null;
+            AppDataViewModel.License = null;
+            AppDataViewModel.AppIcon = null;
         }
     }
 }

@@ -17,42 +17,20 @@
 ****************************************************************************************/
 
 
-using ICSharpCode.AvalonEdit.Highlighting;
 using System;
-using System.Linq;
-using System.Reflection;
-using System.Xml;
 
-namespace GeNSIS.Core
+namespace GeNSIS.Core.Commands
 {
-    static class XshdLoader
+    public class SetIconFileCommand : ACommand
     {
-        private static XmlReader GetXmlReader(string pResourcePath)
+        public SetIconFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+
+        public override bool CanExecute(object parameter)
+            => parameter != null && ((string)parameter).EndsWith(".ico", StringComparison.InvariantCultureIgnoreCase);
+
+        public override void Execute(object parameter)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-
-            if (!pResourcePath.StartsWith(nameof(MainWindow)))
-                pResourcePath = assembly.GetManifestResourceNames().Single(str => str.EndsWith(pResourcePath));
-
-            var stream = assembly.GetManifestResourceStream(pResourcePath);
-            return XmlReader.Create(stream);
-        }
-
-        public static IHighlightingDefinition LoadHighlightingDefinitionOrNull(string pFileName)
-        {
-            try
-            {
-                XmlReader xmlReader = GetXmlReader(pFileName);
-                IHighlightingDefinition highlightingDefinition = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(xmlReader, HighlightingManager.Instance);
-                xmlReader.Close();
-                return highlightingDefinition;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Trace.TraceError(ex.ToString());
-            }
-
-            return null;            
+            AppDataViewModel.AppIcon = (string)parameter;
         }
     }
 }

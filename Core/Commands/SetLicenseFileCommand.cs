@@ -18,7 +18,6 @@
 
 
 using System.IO;
-using System.Windows.Controls;
 
 namespace GeNSIS.Core.Commands
 {
@@ -27,16 +26,11 @@ namespace GeNSIS.Core.Commands
         public SetLicenseFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
-        {
-            var listBox = (ListBox)parameter;
-            return (listBox != null && listBox.SelectedItem != null && Path.GetExtension(listBox.SelectedItem as string).Equals(".txt", System.StringComparison.OrdinalIgnoreCase));
-        }
+            => (parameter != null && Path.GetExtension((string)parameter).Equals(".txt", System.StringComparison.OrdinalIgnoreCase));
 
         public override void Execute(object parameter)
         {
-            var listBox = (ListBox)parameter;
-            AppDataViewModel.License = (listBox.SelectedItem as string);
-            listBox.UpdateLayout();
+            AppDataViewModel.License = (string)parameter;
         }
     }
 }

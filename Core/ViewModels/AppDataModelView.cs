@@ -266,9 +266,7 @@ namespace GeNSIS.Core
         {
             get
             {
-                if (m_RemoveSelectedFileCommand == null)
-                    m_RemoveSelectedFileCommand = new RemoveSelectedFileCommand(this);
-
+                m_RemoveSelectedFileCommand ??= new RemoveSelectedFileCommand(this);
                 return m_RemoveSelectedFileCommand;
             }
             set
@@ -282,9 +280,7 @@ namespace GeNSIS.Core
         {
             get
             {
-                if (m_RemoveSelectedDirectoryCommand == null)
-                    m_RemoveSelectedDirectoryCommand = new RemoveSelectedDirectoryCommand(this);
-
+                m_RemoveSelectedDirectoryCommand ??= new RemoveSelectedDirectoryCommand(this);
                 return m_RemoveSelectedDirectoryCommand;
             }
             set
@@ -298,9 +294,7 @@ namespace GeNSIS.Core
         {
             get
             {
-                if (m_ClearFilesCommand == null)
-                    m_ClearFilesCommand = new ClearFilesCommand(this);
-
+                m_ClearFilesCommand ??= new ClearFilesCommand(this);
                 return m_ClearFilesCommand;
             }
             set
@@ -314,9 +308,7 @@ namespace GeNSIS.Core
         {
             get
             {
-                if (m_SetLicenseFileCommand == null)
-                    m_SetLicenseFileCommand = new SetLicenseFileCommand(this);
-
+                m_SetLicenseFileCommand ??= new SetLicenseFileCommand(this);
                 return m_SetLicenseFileCommand;
             }
             set
@@ -330,14 +322,26 @@ namespace GeNSIS.Core
         {
             get
             {
-                if (m_SetExecutableFileCommand == null)
-                    m_SetExecutableFileCommand = new SetExecutableFileCommand(this);
-
+                m_SetExecutableFileCommand ??= new SetExecutableFileCommand(this);
                 return m_SetExecutableFileCommand;
             }
             set
             {
                 m_SetExecutableFileCommand = value;
+            }
+        }
+
+        private ICommand m_SetIconFileCommand;
+        public ICommand SetIconFileCommand
+        {
+            get
+            {
+                m_SetIconFileCommand ??= new SetIconFileCommand(this);
+                return m_SetIconFileCommand;
+            }
+            set
+            {
+                m_SetIconFileCommand = value;
             }
         }
         #endregion Commands

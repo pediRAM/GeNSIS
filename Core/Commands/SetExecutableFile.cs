@@ -18,7 +18,6 @@
 
 
 using System.IO;
-using System.Windows.Controls;
 
 namespace GeNSIS.Core.Commands
 {
@@ -27,14 +26,11 @@ namespace GeNSIS.Core.Commands
         public SetExecutableFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
-        {
-            var listBox = (ListBox)parameter;
-            return (listBox != null && listBox.SelectedItem != null && Path.GetExtension(listBox.SelectedItem as string).Equals(".exe", System.StringComparison.OrdinalIgnoreCase));
-        }
+            => (parameter != null && Path.GetExtension((string)parameter).Equals(".exe", System.StringComparison.OrdinalIgnoreCase));
 
         public override void Execute(object parameter)
         {
-            AppDataViewModel.ExeName = ((ListBox)parameter).SelectedItem as string;
+            AppDataViewModel.ExeName = (string)parameter;
         }
     }
 }
