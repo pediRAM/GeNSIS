@@ -224,9 +224,25 @@
             </TabItem>
 
             
-            <TabItem Header="Generated script">
+            <TabItem Header="Script">
                 <Grid>
-                    <avl:TextEditor x:Name="editor" Style="{StaticResource editor}"  />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Buttons -->
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                        <Button Content="Generate" Click="OnGenerate" Style="{StaticResource button_command}"/>
+
+                    </StackPanel>
+                    <!-- Editor -->
+                    <avl:TextEditor x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource editor}"  />
                 </Grid>
             </TabItem>
             <TabItem Header="Test">

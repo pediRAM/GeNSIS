@@ -16,21 +16,27 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
+
+using GeNSIS.Core.TextGenerators;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace GeNSIS.Core.Commands
 {
-    internal class AutoCreateInstallerNameCommand : ACommand
+    internal class GenerateCommand : ACommand
     {
-        public AutoCreateInstallerNameCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        private Validator m_Validator = new Validator();
+        public GenerateCommand(AppDataViewModel viewModel): base(viewModel) { }
         public override bool CanExecute(object parameter)
-            => !string.IsNullOrWhiteSpace((string)parameter);
+            => m_Validator.IsValid(AppDataViewModel, out _);
 
         public override void Execute(object parameter)
         {
-            var d = AppDataViewModel;
-            if (string.IsNullOrWhiteSpace(d.ExeName)) return;
-            string build = string.IsNullOrWhiteSpace(d.AppBuild) ? null : $"_{d.AppBuild.Trim()}";
-            string arch = d.Is64BitApplication ? "x64" : "x32";
-            d.InstallerFileName = $"Setup_{d.AppName}_{d.AppVersion}{build}_{arch}.exe";
+            var gen = new NsisGenerator();
+
         }
     }
 }

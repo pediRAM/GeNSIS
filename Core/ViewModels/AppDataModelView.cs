@@ -19,10 +19,11 @@
 
 namespace GeNSIS.Core
 {
-    using GeNSIS.Core.Commands;
     #region Usings
+    using GeNSIS.Core.Commands;
     using GeNSIS.Core.Models;
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
@@ -32,7 +33,7 @@ namespace GeNSIS.Core
     /// <summary>
     /// Application data model: contains meta-data used in NSIS script.
     /// </summary>
-    public class AppDataViewModel : INotifyPropertyChanged
+    public class AppDataViewModel : IAppData, INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -238,7 +239,9 @@ namespace GeNSIS.Core
         #endregion Properties
 
 
-        #region Functions
+        #region Methods
+        public IEnumerable<string> GetFiles() => Files;
+        public IEnumerable<string> GetDirectories() => Directories;
         public void ResetHasUnsavedChanges() => m_HasUnsavedChanges = false;
 
         public AppData ToModel()
@@ -271,7 +274,7 @@ namespace GeNSIS.Core
             System.Diagnostics.Trace.TraceInformation($">>>>>>>>>>>> Property: {e.PropertyName} changed.");
         }
 
-        #endregion Functions
+        #endregion Methods
 
         #region Commands
         private ICommand m_RemoveSelectedFileCommand;

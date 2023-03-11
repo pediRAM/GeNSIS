@@ -16,21 +16,12 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-namespace GeNSIS.Core.Commands
-{
-    internal class AutoCreateInstallerNameCommand : ACommand
-    {
-        public AutoCreateInstallerNameCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
-        public override bool CanExecute(object parameter)
-            => !string.IsNullOrWhiteSpace((string)parameter);
+using GeNSIS.Core.Models;
 
-        public override void Execute(object parameter)
-        {
-            var d = AppDataViewModel;
-            if (string.IsNullOrWhiteSpace(d.ExeName)) return;
-            string build = string.IsNullOrWhiteSpace(d.AppBuild) ? null : $"_{d.AppBuild.Trim()}";
-            string arch = d.Is64BitApplication ? "x64" : "x32";
-            d.InstallerFileName = $"Setup_{d.AppName}_{d.AppVersion}{build}_{arch}.exe";
-        }
+namespace GeNSIS.Core.TextGenerators
+{
+    internal interface ITextGenerator
+    {
+        string Generate(IAppData pAppData, TextGeneratorOptions pOptions);
     }
 }

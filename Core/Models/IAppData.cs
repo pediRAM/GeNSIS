@@ -16,21 +16,39 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-namespace GeNSIS.Core.Commands
-{
-    internal class AutoCreateInstallerNameCommand : ACommand
-    {
-        public AutoCreateInstallerNameCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
-        public override bool CanExecute(object parameter)
-            => !string.IsNullOrWhiteSpace((string)parameter);
 
-        public override void Execute(object parameter)
-        {
-            var d = AppDataViewModel;
-            if (string.IsNullOrWhiteSpace(d.ExeName)) return;
-            string build = string.IsNullOrWhiteSpace(d.AppBuild) ? null : $"_{d.AppBuild.Trim()}";
-            string arch = d.Is64BitApplication ? "x64" : "x32";
-            d.InstallerFileName = $"Setup_{d.AppName}_{d.AppVersion}{build}_{arch}.exe";
-        }
+using System.Collections.Generic;
+
+namespace GeNSIS.Core.Models
+{
+    public interface IAppData
+    {
+        string AppName { get; set; }
+
+        bool Is64BitApplication { get; set; }
+
+        bool DoInstallPerUser { get; set; }
+
+        string ExeName { get; set; }
+
+        string AssociatedExtension { get; set; }
+
+        string AppVersion { get; set; }
+
+        string AppBuild { get; set; }
+
+        string AppIcon { get; set; }
+
+        string Company { get; set; }
+
+        string License { get; set; }
+
+        string Publisher { get; set; }
+
+        string Url { get; set; }
+
+        IEnumerable<string> GetFiles();
+
+        IEnumerable<string> GetDirectories();
     }
 }

@@ -1,4 +1,8 @@
-﻿class xxx
+﻿class TextGeneraotrOptions
+p b EnableLogs
+p b EnableComments
+
+class xxx
 	property AppDataViewModel AppData
 
 

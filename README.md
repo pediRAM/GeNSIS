@@ -15,12 +15,12 @@ finish: 🏁
 - ✅ ~~draw class-uml-dia with draw.io~~ PECOPALISS Common Type Declaration Syntax
 - ✅ write type for app-meta-data
 - ✅ write GeNSIS Project type
-- ❌ write nsis ~~text~~ script generator
+- ✅ write nsis ~~text~~ script generator
 - ❌ implement project management
 - ✅ gui: menu
 - ❌ implement menu (code behind)
 - ✅ gui: main
-- ❌ implement gui main window\
+- ✅ implement gui main window\
 🚩
 - ❌ test & fix bugs\
 🚩

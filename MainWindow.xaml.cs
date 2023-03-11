@@ -19,6 +19,7 @@
 
 using GeNSIS.Core;
 using GeNSIS.Core.Extensions;
+using GeNSIS.Core.TextGenerators;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -120,6 +121,18 @@ namespace GeNSIS
             {
                 AppData.Directories.Add(m_FolderBrowserDialog.SelectedPath);
             }
+        }
+
+        private void OnGenerate(object sender, RoutedEventArgs e)
+        {
+            var validator = new Validator();
+            ValidationError error = null;
+            if (!validator.IsValid(AppData, out error)) 
+                return;
+
+            var g = new NsisGenerator();
+            editor.Text = g.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true });
+
         }
     }
 }

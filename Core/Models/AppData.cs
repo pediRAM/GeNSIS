@@ -24,7 +24,7 @@ namespace GeNSIS.Core.Models
     using System.Xml.Serialization;
 
     [XmlRoot]
-    public class AppData
+    public class AppData : IAppData
     {
         [XmlElement]
         public bool Is64BitApplication { get; set; }
@@ -69,6 +69,9 @@ namespace GeNSIS.Core.Models
         [XmlElement]
         [XmlArray]
         public List<string> Directories { get; set; } = new List<string>();
+
+        public IEnumerable<string> GetFiles() => Files;
+        public IEnumerable<string> GetDirectories() => Directories;
 
         public AppDataViewModel ToViewModel()
         {

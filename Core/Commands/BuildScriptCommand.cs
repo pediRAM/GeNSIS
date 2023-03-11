@@ -18,19 +18,16 @@
 
 namespace GeNSIS.Core.Commands
 {
-    internal class AutoCreateInstallerNameCommand : ACommand
+    public class BuildScriptCommand : ACommand
     {
-        public AutoCreateInstallerNameCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        public BuildScriptCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        private Validator Validator { get; } = new Validator();
         public override bool CanExecute(object parameter)
-            => !string.IsNullOrWhiteSpace((string)parameter);
+            => Validator.IsValid(AppDataViewModel, out _);
 
         public override void Execute(object parameter)
         {
-            var d = AppDataViewModel;
-            if (string.IsNullOrWhiteSpace(d.ExeName)) return;
-            string build = string.IsNullOrWhiteSpace(d.AppBuild) ? null : $"_{d.AppBuild.Trim()}";
-            string arch = d.Is64BitApplication ? "x64" : "x32";
-            d.InstallerFileName = $"Setup_{d.AppName}_{d.AppVersion}{build}_{arch}.exe";
+            
         }
     }
 }
