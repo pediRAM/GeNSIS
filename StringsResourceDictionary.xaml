@@ -13,7 +13,8 @@
     <sys:String x:Key="label_license">License file (*.txt):</sys:String>    
     <sys:String x:Key="label_company">Company name:</sys:String>
     <sys:String x:Key="label_publisher">Publisher name:</sys:String>
-    <sys:String x:Key="label_url">Website (url):</sys:String>    
+    <sys:String x:Key="label_url">Website (url):</sys:String>
+    <sys:String x:Key="label_installer_filename">Installer filename:</sys:String>
     <sys:String x:Key="label_associatedextension">Associated extension:</sys:String>
     <sys:String x:Key="label_doinstallperuser">Do install per user:</sys:String>
 

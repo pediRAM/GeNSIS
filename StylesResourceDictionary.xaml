@@ -21,6 +21,7 @@
         <Setter Property="Padding" Value="2" />
         <Setter Property="Width" Value="200" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="checkbox_input" TargetType="CheckBox">

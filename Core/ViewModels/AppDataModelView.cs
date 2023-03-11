@@ -52,6 +52,7 @@ namespace GeNSIS.Core
         private string m_License;
         private string m_Publisher = Environment.UserName;
         private string m_Url;
+        private string m_InstallerFileName;
         private bool m_HasUnsavedChanges;
         #endregion Variables
 
@@ -208,6 +209,18 @@ namespace GeNSIS.Core
             }
         }
 
+
+        public string InstallerFileName
+        {
+            get { return m_InstallerFileName; }
+            set
+            {
+                if (value == m_InstallerFileName) return;
+                m_InstallerFileName = value;
+                NotifyPropertyChanged(nameof(InstallerFileName));
+            }
+        }
+
         public ObservableCollection<string> Files { get; set; } = new ObservableCollection<string>();
 
         public ObservableCollection<string> Directories { get; set; } = new ObservableCollection<string>();
@@ -269,10 +282,7 @@ namespace GeNSIS.Core
                 m_RemoveSelectedFileCommand ??= new RemoveSelectedFileCommand(this);
                 return m_RemoveSelectedFileCommand;
             }
-            set
-            {
-                m_RemoveSelectedFileCommand = value;
-            }
+            set => m_RemoveSelectedFileCommand = value;
         }
 
         private ICommand m_RemoveSelectedDirectoryCommand;
@@ -283,10 +293,7 @@ namespace GeNSIS.Core
                 m_RemoveSelectedDirectoryCommand ??= new RemoveSelectedDirectoryCommand(this);
                 return m_RemoveSelectedDirectoryCommand;
             }
-            set
-            {
-                m_RemoveSelectedDirectoryCommand = value;
-            }
+            set => m_RemoveSelectedDirectoryCommand = value;
         }
 
         private ICommand m_ClearFilesCommand;
@@ -297,10 +304,7 @@ namespace GeNSIS.Core
                 m_ClearFilesCommand ??= new ClearFilesCommand(this);
                 return m_ClearFilesCommand;
             }
-            set
-            {
-                m_ClearFilesCommand = value;
-            }
+            set => m_ClearFilesCommand = value;
         }
 
         private ICommand m_SetLicenseFileCommand;
@@ -311,10 +315,7 @@ namespace GeNSIS.Core
                 m_SetLicenseFileCommand ??= new SetLicenseFileCommand(this);
                 return m_SetLicenseFileCommand;
             }
-            set
-            {
-                m_SetLicenseFileCommand = value;
-            }
+            set => m_SetLicenseFileCommand = value;
         }
 
         private ICommand m_SetExecutableFileCommand;
@@ -325,10 +326,7 @@ namespace GeNSIS.Core
                 m_SetExecutableFileCommand ??= new SetExecutableFileCommand(this);
                 return m_SetExecutableFileCommand;
             }
-            set
-            {
-                m_SetExecutableFileCommand = value;
-            }
+            set => m_SetExecutableFileCommand = value;
         }
 
         private ICommand m_SetIconFileCommand;
@@ -339,10 +337,29 @@ namespace GeNSIS.Core
                 m_SetIconFileCommand ??= new SetIconFileCommand(this);
                 return m_SetIconFileCommand;
             }
-            set
+            set => m_SetIconFileCommand = value;
+        }
+
+        private ICommand m_AutoRetrieveExeDataCommand;
+        public ICommand AutoRetrieveExeDataCommand
+        {
+            get
             {
-                m_SetIconFileCommand = value;
+                m_AutoRetrieveExeDataCommand ??= new AutoRetrieveExeDataCommand(this);
+                return m_AutoRetrieveExeDataCommand;
             }
+            set => m_AutoRetrieveExeDataCommand = value;
+        }
+
+        private ICommand m_AutoCreateInstallerNameCommand;
+        public ICommand AutoCreateInstallerNameCommand
+        {
+            get
+            {
+                m_AutoCreateInstallerNameCommand ??= new AutoCreateInstallerNameCommand(this);
+                return m_AutoCreateInstallerNameCommand;
+            }
+            set => m_AutoCreateInstallerNameCommand = value;
         }
         #endregion Commands
     }

@@ -43,75 +43,9 @@
             </MenuItem>
         </Menu>
         <TabControl Grid.Row="1">
-            <TabItem Header="Application, Company and Publisher properties" Style="{StaticResource label_tabitem}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <!-- Is64BitApplication (bool) -->
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{StaticResource label_is64bitapplication}" ToolTip="{StaticResource tt_is64bitapplication}" Style="{StaticResource textblock_label}" />
-                    <CheckBox  Grid.Row="0" Grid.Column="1" IsChecked="{Binding Is64BitApplication}" ToolTip="{StaticResource tt_is64bitapplication}" Style="{StaticResource checkbox_input}" />
-
-                    <!-- AppName (string) -->
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{StaticResource label_appname}" ToolTip="{StaticResource tt_appname}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="1" Grid.Column="1" Text="{Binding AppName}"      ToolTip="{StaticResource tt_appname}" Style="{StaticResource textbox_input}" />
-
-                    <!-- AppVersion (string) -->
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_appversion}" ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding AppVersion}"      ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textbox_input}" />
-
-                    <!-- AppBuild (string) -->
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_appbuild}" ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding AppBuild}"      ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textbox_input}" />
-
-
-
-                    <!-- Company (string) -->
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{StaticResource label_company}" ToolTip="{StaticResource tt_company}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Company}"      ToolTip="{StaticResource tt_company}" Style="{StaticResource textbox_input}" />
-
-                    <!-- Publisher (string) -->
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{StaticResource label_publisher}" ToolTip="{StaticResource tt_publisher}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="5" Grid.Column="1" Text="{Binding Publisher}"      ToolTip="{StaticResource tt_publisher}" Style="{StaticResource textbox_input}" />
-
-                    <!-- Url (string) -->
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{StaticResource label_url}" ToolTip="{StaticResource tt_url}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding Url}"      ToolTip="{StaticResource tt_url}" Style="{StaticResource textbox_input}" />
-
-
-
-
-
-
-                    <!-- xxx -->
-                    <!-- xxx -->
-                    <!-- xxx -->
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="Installation files and folders" Style="{StaticResource label_tabitem}">
+            
+            <!-- Tab: Files and Folders -->
+            <TabItem Header="Files and Folders" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -138,7 +72,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                        <!-- Files (Buttons) -->
+                    <!-- Files (Buttons) -->
                     <Grid Grid.Row="0" Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -152,7 +86,7 @@
                         </StackPanel>
                         <TextBlock Grid.Row="1" Text="Set selected as:" Style="{StaticResource textblock_label}" MinWidth="100"/>
                         <StackPanel Grid.Row="2" Orientation="Horizontal">
-                            
+
                             <Button Content="License"    Style="{StaticResource button_command}" Command="{Binding Path=SetLicenseFileCommand}"    CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
                             <Button Content="Executable" Style="{StaticResource button_command}" Command="{Binding Path=SetExecutableFileCommand}" CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
                             <Button Content="Icon"       Style="{StaticResource button_command}" Command="{Binding Path=SetIconFileCommand}"       CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
@@ -173,10 +107,10 @@
                         <Button x:Name="btn_AddDirectory" Style="{StaticResource button_command}" Click="OnAddDirectoryClicked" Content="Add..."/>
                         <Button x:Name="btn_RemoveDirectory" Style="{StaticResource button_command}" Content="Remove selected" Command="{Binding Path=RemoveSelectedDirectoryCommand}" CommandParameter="{Binding ElementName=lsb_Directories, Path=SelectedItem}"/>
                     </StackPanel>
-                    
+
                     <!-- ExeName (string) -->
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
+                    <TextBox   Grid.Row="2" Grid.Column="1" x:Name="txb_ExeName" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
 
                     <!-- License (string) -->
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource textblock_label}" />
@@ -190,10 +124,76 @@
                     <Button Grid.Row="4" Grid.Column="2" Content="Load icon..." Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadIconClicked" />
                 </Grid>
             </TabItem>
-
-            <TabItem Header="Installation properties" Style="{StaticResource label_tabitem}">
+            
+            <!-- Tab: App and Publisher -->
+            <TabItem Header="Application and Publisher" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Is64BitApplication (bool) -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{StaticResource label_is64bitapplication}" ToolTip="{StaticResource tt_is64bitapplication}" Style="{StaticResource textblock_label}" />
+                    <CheckBox  Grid.Row="0" Grid.Column="1" IsChecked="{Binding Is64BitApplication}" ToolTip="{StaticResource tt_is64bitapplication}" Style="{StaticResource checkbox_input}" />
+                    <StackPanel Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button Content="Auto retrieve" Style="{StaticResource button_command}" Command="{Binding AutoRetrieveExeDataCommand}"/>
+                    </StackPanel>
+                    <!-- AppName (string) -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{StaticResource label_appname}" ToolTip="{StaticResource tt_appname}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="1" Grid.Column="1" Text="{Binding AppName}"      ToolTip="{StaticResource tt_appname}" Style="{StaticResource textbox_input}" />
+
+                    <!-- AppVersion (string) -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_appversion}" ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding AppVersion}"      ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textbox_input}" />
+
+                    <!-- AppBuild (string) -->
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_appbuild}" ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding AppBuild}"      ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textbox_input}" />
+
+
+
+                    <!-- Company (string) -->
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{StaticResource label_company}" ToolTip="{StaticResource tt_company}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Company}"      ToolTip="{StaticResource tt_company}" Style="{StaticResource textbox_input}" />
+
+                    <!-- Publisher (string) -->
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{StaticResource label_publisher}" ToolTip="{StaticResource tt_publisher}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="5" Grid.Column="1" Text="{Binding Publisher}"      ToolTip="{StaticResource tt_publisher}" Style="{StaticResource textbox_input}" />
+
+                    <!-- Url (string) -->
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{StaticResource label_url}" ToolTip="{StaticResource tt_url}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding Url}"      ToolTip="{StaticResource tt_url}" Style="{StaticResource textbox_input}" />
+                </Grid>
+            </TabItem>
+
+            
+
+            <TabItem Header="Installer" Style="{StaticResource label_tabitem}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -212,6 +212,14 @@
                     <!-- DoInstallPerUser (bool) -->
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{StaticResource label_doinstallperuser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource textblock_label}" />
                     <CheckBox  Grid.Row="1" Grid.Column="1" IsChecked="{Binding DoInstallPerUser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource checkbox_input}" />
+
+
+                    <!-- Installer Filename (string) -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_url}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_url}" Style="{StaticResource textbox_input}" />
+                    <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button Content="Auto name" Command="{Binding AutoCreateInstallerNameCommand}" CommandParameter="{Binding ElementName=txb_ExeName, Path=Text}" Style="{StaticResource button_command}"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
 
