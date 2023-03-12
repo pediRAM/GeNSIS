@@ -16,21 +16,19 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-namespace GeNSIS.Core.Commands
-{
-    internal class AutoCreateInstallerNameCommand : ACommand
-    {
-        public AutoCreateInstallerNameCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
-        public override bool CanExecute(object parameter)
-            => !string.IsNullOrWhiteSpace((string)parameter);
 
-        public override void Execute(object parameter)
+using System.Windows;
+
+namespace GeNSIS.Core.Converters
+{
+    public class BoolToVisibilityConverter : AValueConverter
+    {
+        public Visibility FalseValue { get; set; } = Visibility.Hidden;
+        public Visibility TrueValue { get; set; } = Visibility.Visible;
+        public override object Convert(object pValue)
         {
-            var d = AppDataViewModel;
-            if (string.IsNullOrWhiteSpace(d.AppName)) return;
-            string build = string.IsNullOrWhiteSpace(d.AppBuild) ? null : $"_{d.AppBuild.Trim()}";
-            string arch = d.Is64BitApplication ? "x64" : "x32";
-            d.InstallerFileName = $"Setup_{d.AppName}_{d.AppVersion}{build}_{arch}.exe";
+            if ((bool)pValue) return TrueValue;
+            return FalseValue;
         }
     }
 }

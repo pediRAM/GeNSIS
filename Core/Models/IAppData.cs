@@ -23,29 +23,30 @@ namespace GeNSIS.Core.Models
 {
     public interface IAppData
     {
-        string AppName { get; set; }
+        string AppName { get; }
 
-        bool Is64BitApplication { get; set; }
+        bool Is64BitApplication { get; }
 
-        bool DoInstallPerUser { get; set; }
+        bool DoInstallPerUser { get; }
+        bool DoAddFWRule { get; }
+        string ExeName { get; }
+        string InstallerFileName { get; }
 
-        string ExeName { get; set; }
+        string AssociatedExtension { get; }
 
-        string AssociatedExtension { get; set; }
+        string AppVersion { get; }
 
-        string AppVersion { get; set; }
+        string AppBuild { get; }
 
-        string AppBuild { get; set; }
+        string AppIcon { get; }
 
-        string AppIcon { get; set; }
+        string Company { get; }
 
-        string Company { get; set; }
+        string License { get; }
 
-        string License { get; set; }
+        string Publisher { get; }
 
-        string Publisher { get; set; }
-
-        string Url { get; set; }
+        string Url { get; }
 
         IEnumerable<string> GetFiles();
 

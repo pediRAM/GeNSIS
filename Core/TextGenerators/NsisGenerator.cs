@@ -30,22 +30,49 @@ namespace GeNSIS.Core.TextGenerators
         private StringBuilder sb = new StringBuilder();
         private IAppData d = null;
         private TextGeneratorOptions o = null;
+
+        /* To do:
+         * SetCompressor zlib|bzip2|lzma
+         */
         public string Generate(IAppData data, TextGeneratorOptions opt)
         {
             d = data;
             o = opt;
 
+            var totalSize = data.GetFiles().Sum(x => new FileInfo(x).Length);
+            var totalDirSize = data.GetDirectories().Sum(x => new DirectoryInfo(x).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
+            bool isOver16Mb = (totalDirSize + totalDirSize) > (16 * 1024 * 1024);
             AddCommentHeader();
 
             AddComment("Variables:");
             AddComment("This is the DISPLAYNAME of your application (remove spaces!):");
             AddDefine("PRODUCT_NAME", d.AppName);
             AddComment("This is the FILENAME of the executable/binary (*.exe) of your application:");
-            AddDefine("PRODUCT_EXE_NAME", Path.GetFileName(d.AppName));
+            AddDefine("PRODUCT_EXE_NAME", Path.GetFileName(d.ExeName));
+            AddComment("Name of setup/installer file (*.exe):");
+            AddDefine("SETUP_EXE_NAME", d.InstallerFileName);
             AddDefine("PRODUCT_VERSION", d.AppVersion);
             AddDefine("PRODUCT_PUBLISHER", d.Publisher);
             AddDefine("COMPANY_NAME", d.Company);
             AddDefine("PRODUCT_WEBSITE", d.Url);
+            AddStripline();
+
+            AddComment("Available compressions: zlib, bzip2, lzma");
+            if (isOver16Mb)
+                Add("SetCompressor lzma");
+            else
+                Add("SetCompressor zlib");
+
+            Add("Unicode True");
+
+            AddComment("Displayed and registered name:");
+            Add("Name \"${PRODUCT_NAME} ${PRODUCT_VERSION}\"");
+
+            
+            AddComment("You can also use: \"Setup_${PRODUCT_NAME}_${PRODUCT_VERSION}.exe\"");
+            Add("OutFile \"${SETUP_EXE_NAME}\"");
+
+
             AddStripline();
 
             AddComment("Do not change this values!");
@@ -59,7 +86,7 @@ namespace GeNSIS.Core.TextGenerators
             AddStripline();
 
             AddComment("Application icon (*.ico):");
-            AddDefine("MUI_ICON", $"..\\{Path.GetFileName(d.AppIcon)}");
+            AddDefine("MUI_ICON", d.AppIcon);
             AddDefine("MUI_UNICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-uninstall.ico");
             AddStripline();
 
@@ -84,11 +111,11 @@ namespace GeNSIS.Core.TextGenerators
             AddInsertMacro("MUI_LANGUAGE", "English");
             AddStripline();
 
-            AddComment("Displayed and registered name:");
-            Add("Name \"${PRODUCT_NAME} ${PRODUCT_VERSION}\"");
+            //AddComment("Displayed and registered name:");
+            //Add("Name \"${PRODUCT_NAME} ${PRODUCT_VERSION}\"");
 
-            AddComment("Name of setup file (*.exe):");
-            Add("OutFile \"Setup_${PRODUCT_NAME}_${PRODUCT_VERSION}.exe\"");//todo SETUP_NAME!
+            //AddComment("Name of setup file (*.exe):");
+            //Add("OutFile \"Setup_${PRODUCT_NAME}_${PRODUCT_VERSION}.exe\"");
 
             AddComment("Installation folder (Programs\\Company\\Application):");
             Add("InstallDir \"$PROGRAMFILES\\${COMPANY_NAME}\\${PRODUCT_NAME}\"");
@@ -131,6 +158,9 @@ namespace GeNSIS.Core.TextGenerators
             Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"Publisher\" \"${PRODUCT_PUBLISHER}\"");
             Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"UninstallString\" \"$INSTDIR\\uninst.exe\"");
             Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"QuietUninstallString\" '\"$INSTDIR\\uninst.exe\" /S'");
+            AddComment("Add application to authorized list of windows firewall:");
+            Add($"liteFirewall::AddRule \"$INSTDIR\\${{PRODUCT_EXE_NAME}}\" \"${{PRODUCT_NAME}}\"");
+            Add("Pop $0");
             Add("SectionEnd");
             AddStripline();
 
@@ -155,6 +185,10 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Delete shortcuts on Desktop and Programs menu:");
             Add("Delete \"$DESKTOP\\${PRODUCT_NAME}.lnk\"");
             Add("Delete \"$SMPROGRAMS\\${PRODUCT_NAME}.lnk\"");
+
+            AddComment("Remove application from authorized list of windows firewall:");
+            Add($"liteFirewall::RemoveRule  \"$INSTDIR\\${{PRODUCT_EXE_NAME}}\" \"${{PRODUCT_NAME}}\"");
+            Add("Pop $0");
 
             if (d.GetDirectories().Any())
             {

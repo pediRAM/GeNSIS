@@ -31,12 +31,18 @@ namespace GeNSIS.Core.Models
 
         [XmlElement]
         public bool DoInstallPerUser { get; set; }
+        
+        [XmlElement]
+        public bool DoAddFWRule { get; set; }
 
         [XmlElement]
         public string AppName { get; set; }
 
         [XmlElement]
         public string ExeName { get; set; }
+
+        [XmlElement]
+        public string InstallerFileName { get; set; }
 
         [XmlElement]
         public string AssociatedExtension { get; set; }
@@ -79,8 +85,10 @@ namespace GeNSIS.Core.Models
             {
                 Is64BitApplication = Is64BitApplication,
                 DoInstallPerUser = DoInstallPerUser,
+                DoAddFWRule = DoAddFWRule,
                 AppName = AppName,
                 ExeName = ExeName,
+                InstallerFileName = InstallerFileName,
                 AssociatedExtension = AssociatedExtension,
                 AppVersion = AppVersion,
                 AppBuild = AppBuild,

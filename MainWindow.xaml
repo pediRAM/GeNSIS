@@ -45,7 +45,7 @@
         <TabControl Grid.Row="1">
             
             <!-- Tab: Files and Folders -->
-            <TabItem Header="Files and Folders" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❶ Files and Folders" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -126,7 +126,7 @@
             </TabItem>
             
             <!-- Tab: App and Publisher -->
-            <TabItem Header="Application and Publisher" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❷ Application and Publisher" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -188,9 +188,9 @@
                 </Grid>
             </TabItem>
 
-            
 
-            <TabItem Header="Installer" Style="{StaticResource label_tabitem}">
+
+            <TabItem Header="❸ Installer" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -200,6 +200,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -213,18 +214,22 @@
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{StaticResource label_doinstallperuser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource textblock_label}" />
                     <CheckBox  Grid.Row="1" Grid.Column="1" IsChecked="{Binding DoInstallPerUser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource checkbox_input}" />
 
+                    <!-- DoAddFirewallRule (bool) -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_doaddfirewallrule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource textblock_label}" />
+                    <CheckBox  Grid.Row="2" Grid.Column="1" x:Name="chb_DoAddFWRule" IsChecked="{Binding DoAddFWRule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource checkbox_input}" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Text="NSIS plugin ''LiteFirewall'' has to be installed!" Style="{StaticResource textblock_label}" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:BoolToVisibilityConverter FalseValue=Collapsed, TrueValue=Visible}}"/>
 
                     <!-- Installer Filename (string) -->
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_url}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_url}" Style="{StaticResource textbox_input}" />
-                    <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_url}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_url}" Style="{StaticResource textbox_input}" />
+                    <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button Content="Auto name" Command="{Binding AutoCreateInstallerNameCommand}" CommandParameter="{Binding ElementName=txb_ExeName, Path=Text}" Style="{StaticResource button_command}"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
 
-            
-            <TabItem Header="Script">
+
+            <TabItem Header="❹ Script">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

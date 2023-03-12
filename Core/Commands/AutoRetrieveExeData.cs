@@ -52,7 +52,7 @@ namespace GeNSIS.Core.Commands
                 var fvi = FileVersionInfo.GetVersionInfo(d.ExeName);
                 if (!string.IsNullOrWhiteSpace(fvi.CompanyName))
                 {
-                    d.Company = fvi.CompanyName;
+                    d.Company = string.Join("_", fvi.CompanyName.Replace(" ", "_").Split(Path.GetInvalidFileNameChars()));
                     d.Publisher = fvi.CompanyName;
                 }
             }

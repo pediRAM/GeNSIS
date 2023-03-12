@@ -43,6 +43,7 @@ namespace GeNSIS.Core
         #region Variables
         private bool m_Is64BitApplication;
         private bool m_DoInstallPerUser;
+        private bool m_DoAddFWRule;
         private string m_AppName;
         private string m_ExeName;
         private string m_AssociatedExtension;
@@ -92,6 +93,16 @@ namespace GeNSIS.Core
             {
                 if (value == m_DoInstallPerUser) return;
                 m_DoInstallPerUser = value;
+            }
+        }
+
+        public bool DoAddFWRule
+        {
+            get { return m_DoAddFWRule; }
+            set
+            {
+                if (value == m_DoAddFWRule) return;
+                m_DoAddFWRule = value;
             }
         }
 
@@ -250,8 +261,10 @@ namespace GeNSIS.Core
             {
                 Is64BitApplication = Is64BitApplication,
                 DoInstallPerUser = DoInstallPerUser,
+                DoAddFWRule = DoAddFWRule,
                 AppName = AppName,
                 ExeName = ExeName,
+                InstallerFileName = InstallerFileName,
                 AssociatedExtension = AssociatedExtension,
                 AppVersion = AppVersion,
                 AppBuild = AppBuild,

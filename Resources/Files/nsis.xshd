@@ -23,6 +23,7 @@
 		</Keywords>
 
 		<Keywords color="KeyWord" >
+			<Word>SetCompressor</Word>
 			<Word>!addincludedir</Word>
 			<Word>!addplugindir</Word>
 			<Word>!appendfile</Word>
@@ -106,7 +107,9 @@
 			<Word>show</Word>
 			<Word>true</Word>
 			<Word>false</Word>
-
+			<Word>zlib</Word>
+			<Word>bzip2</Word>
+			<Word>lzma</Word>
 		</Keywords>
 
 

@@ -17,6 +17,7 @@
     <sys:String x:Key="label_installer_filename">Installer filename:</sys:String>
     <sys:String x:Key="label_associatedextension">Associated extension:</sys:String>
     <sys:String x:Key="label_doinstallperuser">Do install per user:</sys:String>
+    <sys:String x:Key="label_doaddfirewallrule">Add firewall rule:</sys:String>
 
     <sys:String x:Key="tt_is64bitapplication">Whether the application is a 64 bit application or not (x86)</sys:String>
     <sys:String x:Key="tt_appname">Displayed name of application</sys:String>
@@ -32,5 +33,6 @@
     <sys:String x:Key="tt_url">URL of the application/company website</sys:String>
     <sys:String x:Key="tt_associatedextension">Associated file-extension, like: txt, xml, bin, dat,... or leave blank for none</sys:String>
     <sys:String x:Key="tt_doinstallperuser">Installation per user: if activated, each user must install the application for himself, else the application will be installed for all users</sys:String>
+    <sys:String x:Key="tt_doaddfirewallrule">Adds named rule for your app to windows firewall.</sys:String>
 
 </ResourceDictionary>
