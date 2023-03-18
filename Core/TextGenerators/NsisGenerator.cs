@@ -170,9 +170,6 @@ namespace GeNSIS.Core.TextGenerators
             Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"Publisher\" \"${PRODUCT_PUBLISHER}\"");
             Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"UninstallString\" \"$INSTDIR\\uninst.exe\"");
             Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"QuietUninstallString\" '\"$INSTDIR\\uninst.exe\" /S'");
-            AddComment("Add application to authorized list of windows firewall:");
-            Add($"liteFirewall::AddRule \"$INSTDIR\\${{PRODUCT_EXE_NAME}}\" \"${{PRODUCT_NAME}}\"");
-            Add("Pop $0");
             Add("SectionEnd");
             AddStripline();
 
@@ -198,9 +195,6 @@ namespace GeNSIS.Core.TextGenerators
             Add("Delete \"$DESKTOP\\${PRODUCT_NAME}.lnk\"");
             Add("Delete \"$SMPROGRAMS\\${PRODUCT_NAME}.lnk\"");
 
-            AddComment("Remove application from authorized list of windows firewall:");
-            Add($"liteFirewall::RemoveRule  \"$INSTDIR\\${{PRODUCT_EXE_NAME}}\" \"${{PRODUCT_NAME}}\"");
-            Add("Pop $0");
 
             if (d.GetDirectories().Any())
             {
@@ -218,7 +212,7 @@ namespace GeNSIS.Core.TextGenerators
             Add("DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${COMPANY_NAME}\\${PRODUCT_NAME}\"");
             Add("SetAutoClose true");
             Add("SectionEnd");
-            Add(string.Empty);
+            Add();
 
             return sb.ToString();
         }
@@ -232,6 +226,8 @@ namespace GeNSIS.Core.TextGenerators
             AddComment($"This script creates installer for: {d.AppName} {d.AppVersion}");
             AddStripline();
         }
+
+        private void Add() => sb.AppendLine();
 
         private void Add(string s) => sb.AppendLine(s);
 

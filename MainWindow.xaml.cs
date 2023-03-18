@@ -22,10 +22,13 @@ using GeNSIS.Core.Extensions;
 using GeNSIS.Core.TextGenerators;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+
 
 namespace GeNSIS
 {
@@ -40,6 +43,7 @@ namespace GeNSIS
         private string m_ProjectName = "Unsaved";
         private OpenFileDialog m_OpenFileDialog = new OpenFileDialog();
         private OpenFileDialog m_OpenIconDialog = new OpenFileDialog();
+        private SaveFileDialog m_SaveFileDialog = new SaveFileDialog();
         private FolderBrowserDialog m_FolderBrowserDialog = new FolderBrowserDialog();
 
         private void NotifyPropertyChanged(string pPropertyName) 
@@ -57,7 +61,7 @@ namespace GeNSIS
             m_OpenFileDialog.Multiselect = true;
             m_OpenIconDialog.Filter = "Icon files|*.ico";
             m_OpenIconDialog.Multiselect = false;
-
+            m_SaveFileDialog.Filter = "NSIS files|*.nsi";
             DataContext = AppData;
         }
 
@@ -122,7 +126,7 @@ namespace GeNSIS
                 AppData.Directories.Add(m_FolderBrowserDialog.SelectedPath);
             }
         }
-
+        private string m_GeneratedNsisPath;
         private void OnGenerate(object sender, RoutedEventArgs e)
         {
             var validator = new Validator();
@@ -131,8 +135,36 @@ namespace GeNSIS
                 return;
 
             var g = new NsisGenerator();
-            editor.Text = g.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true });
+            var nsisCode = g.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true });
+            if (m_SaveFileDialog.ShowDialog() != true)
+                return;
 
+            m_GeneratedNsisPath = m_SaveFileDialog.FileName;
+            File.WriteAllText(m_SaveFileDialog.FileName, editor.Text, encoding: System.Text.Encoding.UTF8);
+            editor.Text = nsisCode;
+
+        }
+
+        private void OnCompileScript(object sender, RoutedEventArgs e)
+        {
+            if(string.IsNullOrEmpty(m_GeneratedNsisPath))
+            {
+                MessageBox.Show("Path to currently generated NSIS script is empty!\nPlease generate the file in the previous tab first!", "No *.nsi file to compile!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if(!File.Exists(m_GeneratedNsisPath))
+            {
+                MessageBox.Show("Generated NSIS script not found!", "File not found!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var makeNsisExePath = @"C:\Program Files (x86)\NSIS\makensisw.exe";
+            var pi = new ProcessStartInfo($"\"{makeNsisExePath}\"", $"\"{m_GeneratedNsisPath}\"");
+            pi.UseShellExecute = false;
+            
+            var proc = new Process();
+            proc.StartInfo = pi;
+            _ = proc.Start();
         }
     }
 }

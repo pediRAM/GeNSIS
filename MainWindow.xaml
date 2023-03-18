@@ -236,9 +236,9 @@
                     <CheckBox  Grid.Row="1" Grid.Column="1" IsChecked="{Binding DoInstallPerUser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource checkbox_input}" />
 
                     <!-- DoAddFirewallRule (bool) -->
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_doaddfirewallrule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource textblock_label}" />
+                    <!--<TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_doaddfirewallrule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource textblock_label}" />
                     <CheckBox  Grid.Row="2" Grid.Column="1" x:Name="chb_DoAddFWRule" IsChecked="{Binding DoAddFWRule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource checkbox_input}" />
-                    <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Text="NSIS plugin ''LiteFirewall'' has to be installed!" Style="{StaticResource textblock_label}" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenFalse=Collapsed, VisibilityWhenTrue=Visible}}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Text="NSIS plugin ''LiteFirewall'' has to be installed!" Style="{StaticResource textblock_label}" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenFalse=Collapsed, VisibilityWhenTrue=Visible}}"/>-->
 
                     <!-- Installer Filename (string) -->
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_url}" Style="{StaticResource textblock_label}" />
@@ -259,22 +259,28 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <!-- Buttons -->
-                    <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal">
-                        <Button Content="Generate" Click="OnGenerate" Style="{StaticResource button_command}"/>
 
-                    </StackPanel>
                     <!-- Editor -->
                     <avl:TextEditor x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource editor}"  />
+
+                    <!-- Buttons -->
+                    <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                        <Button Content="Generate script&#x2026;" Click="OnGenerate" Style="{StaticResource button_command}"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Test" Style="{StaticResource label_tabitem}">
                 <Grid>
 
+                    <!-- Buttons -->
+                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="left" VerticalAlignment="Top" Margin="5">
+                        <Button Content="Compile&#x2026;" Click="OnCompileScript" Style="{StaticResource button_command}" />
+                        <!--<Button Content="Save project..." Click="OnSaveProjectAs" Style="{StaticResource button_command}"/>-->
 
+                    </StackPanel>
                 </Grid>
             </TabItem>
                      
