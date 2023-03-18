@@ -19,9 +19,13 @@ finish: 🏁
 - ❌ implement project management
 - ✅ gui: menu
 - ❌ implement menu (code behind)
+- ❌ implement contex menues (code behind)
+- ❌ implement settings (nsis path, projects folder etc.)
 - ✅ gui: main
 - ✅ implement gui main window\
 🚩
+- ❌ test & fix bugs\
+- ❌ separate genertors into methods
 - ❌ test & fix bugs\
 🚩
 - ❌ write user manual\

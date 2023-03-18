@@ -21,8 +21,13 @@ using System.Windows;
 
 namespace GeNSIS.Core.Converters
 {
-    public class BoolToVisibilityConverter : AValueConverter
+    public class NullableBoolToVisibilityConverter : AValueConverter
     {
+        /// <summary>
+        /// The visibility when the parameter value is null. Default: Hidden.
+        /// </summary>
+        public Visibility VisibilityWhenNull { get; set; } = Visibility.Hidden;
+
         /// <summary>
         /// The visibility when the parameter value is false. Default: Hidden.
         /// </summary>
@@ -34,6 +39,11 @@ namespace GeNSIS.Core.Converters
         public Visibility VisibilityWhenTrue { get; set; } = Visibility.Visible;
 
         public override object Convert(object pValue)
-            => ((bool)pValue)? VisibilityWhenTrue: VisibilityWhenFalse;
+        {
+            if (pValue == null) 
+                return VisibilityWhenNull;
+
+            return ((bool)pValue) ? VisibilityWhenTrue : VisibilityWhenFalse;
+        }
     }
 }

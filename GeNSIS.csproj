@@ -22,6 +22,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\application-exit.png" />
     <None Remove="Resources\Icons\nuvola\22x22\applications-internet.png" />
     <None Remove="Resources\Icons\nuvola\22x22\dialog-information.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\document-multiple.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-new.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-save-as.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-save.png" />
@@ -47,6 +48,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\application-exit.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\applications-internet.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\dialog-information.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\document-multiple.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-new.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-save-as.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-save.png" />

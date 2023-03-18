@@ -27,13 +27,25 @@ namespace GeNSIS.Core.TextGenerators
 
     public class NsisGenerator : ITextGenerator
     {
+        #region Constants
+        /// <summary>
+        /// Filesize limitation for zlib usage (when greater lzma will be used).
+        /// </summary>
+        public const int ZLIB_SIZE_LIMIT = 16 * 1024 * 1024;
+
+        /// <summary>
+        /// Number of * characters in the stripline.
+        /// </summary>
+        public const int STRIPLINE_LENGTH = 80;
+        #endregion Constants
+
+        #region Variables
         private StringBuilder sb = new StringBuilder();
         private IAppData d = null;
         private TextGeneratorOptions o = null;
+        #endregion Variables
 
-        /* To do:
-         * SetCompressor zlib|bzip2|lzma
-         */
+        #region Methods
         public string Generate(IAppData data, TextGeneratorOptions opt)
         {
             d = data;
@@ -41,7 +53,7 @@ namespace GeNSIS.Core.TextGenerators
 
             var totalSize = data.GetFiles().Sum(x => new FileInfo(x).Length);
             var totalDirSize = data.GetDirectories().Sum(x => new DirectoryInfo(x).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
-            bool isOver16Mb = (totalDirSize + totalDirSize) > (16 * 1024 * 1024);
+            bool isOver16Mb = (totalDirSize + totalDirSize) > (ZLIB_SIZE_LIMIT);
             AddCommentHeader();
 
             AddComment("Variables:");
@@ -208,7 +220,6 @@ namespace GeNSIS.Core.TextGenerators
             Add("SectionEnd");
             Add(string.Empty);
 
-
             return sb.ToString();
         }
 
@@ -221,7 +232,9 @@ namespace GeNSIS.Core.TextGenerators
             AddComment($"This script creates installer for: {d.AppName} {d.AppVersion}");
             AddStripline();
         }
+
         private void Add(string s) => sb.AppendLine(s);
+
         private void AddComment(string pCommentLine) 
             => sb.AppendLine($"; {pCommentLine}");
 
@@ -232,7 +245,8 @@ namespace GeNSIS.Core.TextGenerators
         }
 
         private void AddEmptyLine() => sb.AppendLine(";");
-        private void AddStripline(int pPadRight = 80) 
+
+        private void AddStripline(int pPadRight = STRIPLINE_LENGTH) 
             => sb.AppendLine(";".PadRight(pPadRight, '*'));
 
         private void AddDefine(string pVarName, string pValue) 
@@ -243,8 +257,9 @@ namespace GeNSIS.Core.TextGenerators
 
         private void AddInsertMacro(string pMacro, string pValue)
             => sb.AppendLine($"!insertmacro {pMacro} \"{pValue}\"");
+
         private void AddInsertMacro(string pMacro)
             => sb.AppendLine($"!insertmacro {pMacro}");
-
+        #endregion Methods
     }
 }
