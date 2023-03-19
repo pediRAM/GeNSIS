@@ -16,6 +16,8 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
+using GeNSIS.Core.Helpers;
+
 namespace GeNSIS.Core.Commands
 {
     internal class AutoCreateInstallerNameCommand : ACommand
@@ -25,12 +27,6 @@ namespace GeNSIS.Core.Commands
             => !string.IsNullOrWhiteSpace((string)parameter);
 
         public override void Execute(object parameter)
-        {
-            var d = AppDataViewModel;
-            if (string.IsNullOrWhiteSpace(d.AppName)) return;
-            string build = string.IsNullOrWhiteSpace(d.AppBuild) ? null : $"_{d.AppBuild.Trim()}";
-            string arch = d.Is64BitApplication ? "x64" : "x32";
-            d.InstallerFileName = $"Setup_{d.AppName}_{d.AppVersion}{build}_{arch}.exe";
-        }
+            => ExeInfoHelper.AutoNameInstallerExe(AppDataViewModel);
     }
 }

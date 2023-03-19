@@ -17,33 +17,18 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GeNSIS.Core.Models
 {
-    public class ValidationError
+    public class AppConfig
     {
-
-        #region Constructors
-        public ValidationError(string pName, string pError, string pHint)
-        {
-            Name = pName;
-            Error = pError;
-            Hint = pHint;
-        }
-        #endregion Constructors
-
-
-        #region Properties
-        public string Name { get; }
-        public string Error { get; }
-        public string Hint { get; }
-        #endregion Properties
-
-        public override string ToString()
-        {
-            if(string.IsNullOrWhiteSpace(Hint))
-                return $"Name:  {Name}\nError: {Error}";
-            else
-                return $"Name:  {Name}\nError: {Error}\nHint:  {Hint}";
-        }
+        public string NsisInstallationDirectory { get; set; }
+        public string GeNSISProjectsDirectory { get; set; }
+        public string OutputDirectory { get; set; }
     }
 }

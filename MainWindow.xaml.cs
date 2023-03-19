@@ -19,6 +19,7 @@
 
 using GeNSIS.Core;
 using GeNSIS.Core.Extensions;
+using GeNSIS.Core.Helpers;
 using GeNSIS.Core.TextGenerators;
 using System;
 using System.ComponentModel;
@@ -131,18 +132,25 @@ namespace GeNSIS
         {
             var validator = new Validator();
             ValidationError error = null;
-            if (!validator.IsValid(AppData, out error)) 
+            if (!validator.IsValid(AppData, out error))
+            {
+                _= MessageBox.Show(error.ToString(), "Data invalid or incomplete!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
+            if (m_SaveFileDialog.ShowDialog() != true)
                 return;
 
             var g = new NsisGenerator();
             var nsisCode = g.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true });
-            if (m_SaveFileDialog.ShowDialog() != true)
-                return;
+            SaveScript(m_SaveFileDialog.FileName, nsisCode);
+        }
 
-            m_GeneratedNsisPath = m_SaveFileDialog.FileName;
+        private void SaveScript(string fileName, string code)
+        {
+            m_GeneratedNsisPath = fileName;
             File.WriteAllText(m_SaveFileDialog.FileName, editor.Text, encoding: System.Text.Encoding.UTF8);
-            editor.Text = nsisCode;
-
+            editor.Text = code;
         }
 
         private void OnCompileScript(object sender, RoutedEventArgs e)
@@ -165,6 +173,91 @@ namespace GeNSIS
             var proc = new Process();
             proc.StartInfo = pi;
             _ = proc.Start();
+        }
+
+        private void OnNewProjectClicked(object sender, RoutedEventArgs e)
+        {
+            if (AppData.HasUnsavedChanges)
+            {
+                var userChoice = MessageBox.Show("There are unsaved changed!\nDo you want to save changes?", "Unsaved changes!", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (userChoice == MessageBoxResult.Yes)
+                {
+
+                }
+            }
+        }
+
+        private void OnAddFilesFromFolderClicked(object sender, RoutedEventArgs e)
+        {
+            if (m_FolderBrowserDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            foreach(var dir in Directory.GetDirectories(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly)) 
+                AppData.Directories.Add(dir);
+
+            foreach (var file in Directory.GetFiles(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly))
+            {
+                if(true) // todo: filter by ignore list!
+                AppData.Files.Add(file);
+                var ext = Path.GetExtension(file);
+                if (!string.IsNullOrWhiteSpace(ext))
+                {
+                    switch (ext.ToLower())
+                    {
+                        case ".exe":
+                            {
+                                AppData.ExeName = file;
+                                try
+                                {
+                                    ExeInfoHelper.AutoSetProperties(AppData);
+                                }
+                                catch { }
+                            }
+                            break;
+                        case ".ico": AppData.AppIcon = file; break;
+
+                        case ".rtf":
+                        case ".txt":
+                            {
+                                var name = Path.GetFileName(file);
+                                if (name.Contains("license", StringComparison.OrdinalIgnoreCase) ||
+                                    name.Contains("eula", StringComparison.OrdinalIgnoreCase) ||
+                                    name.Contains("agreement", StringComparison.OrdinalIgnoreCase))
+                                    AppData.License = file;
+                            }
+                            break;
+                    }
+                }
+            }
+
+            ExeInfoHelper.AutoNameInstallerExe(AppData);
+        }
+
+        private void OnCloseClicked(object sender, RoutedEventArgs e)
+        {
+            if (AppData.HasUnsavedChanges)
+            {
+                if (MessageBox.Show("Unsaved changes will be lost if you close the application!\nAre you sure you want to close the application?", 
+                    "Closing GeNSIS", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+                    return;
+            }
+
+            Close();
+        }
+
+        private void OnSaveProjectAsClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnSaveProjectClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnOpenProjectClicked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

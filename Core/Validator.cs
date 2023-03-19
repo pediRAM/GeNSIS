@@ -68,7 +68,7 @@ namespace GeNSIS.Core
             // We need an icon to register for app while installation.
             if (string.IsNullOrWhiteSpace(p.AppIcon)) { pError = new ValidationError(nameof(AppData.AppIcon), ERR_EMPTY_APPICON, HINT_APPICON); return false; }
 
-            // We need a publisher (also for company if null) for creating a direcotry in program files.
+            // We need a publisher (also for company if null) for creating a direcotry in program folder.
             if (string.IsNullOrWhiteSpace(p.Publisher)) { pError = new ValidationError(nameof(AppData.Publisher), ERR_EMPTY_PUBLISHER, HINT_PUBLISHER); return false; }
 
             // Optional (for now).

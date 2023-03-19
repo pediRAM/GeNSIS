@@ -37,24 +37,7 @@ namespace GeNSIS.Core.Commands
         {
             try
             {
-                var d = AppDataViewModel;                
-                var info = ExeInfoHelper.GetExeData(d.ExeName);
-                d.Is64BitApplication = info.IsX64;
-                d.AppName = Path.GetFileNameWithoutExtension(d.ExeName);
-
-                if (info.Version.EndsWith(".0.0"))
-                    d.AppVersion = info.Version.Substring(0, info.Version.Length - 4);
-                else if (info.Version.EndsWith(".0"))
-                    d.AppVersion = info.Version.Substring(0, info.Version.Length - 2);
-                else
-                    d.AppVersion = info.Version;
-
-                var fvi = FileVersionInfo.GetVersionInfo(d.ExeName);
-                if (!string.IsNullOrWhiteSpace(fvi.CompanyName))
-                {
-                    d.Company = string.Join("_", fvi.CompanyName.Replace(" ", "_").Split(Path.GetInvalidFileNameChars()));
-                    d.Publisher = fvi.CompanyName;
-                }
+                ExeInfoHelper.AutoSetProperties(AppDataViewModel);
             }
             catch(Exception ex)
             {

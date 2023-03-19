@@ -158,6 +158,7 @@ namespace GeNSIS.Core
             {
                 if (value == m_AppBuild) return;
                 m_AppBuild = value;
+                NotifyPropertyChanged(nameof(AppBuild));
             }
         }
 

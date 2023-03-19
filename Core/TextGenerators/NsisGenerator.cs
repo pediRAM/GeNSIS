@@ -200,7 +200,7 @@ namespace GeNSIS.Core.TextGenerators
             {
                 AddComment("Deleteing Subfolders:");
                 foreach (var s in d.GetDirectories())
-                    Add($"RMDir \"$INSTDIR\\{Path.GetDirectoryName(s)}");
+                    Add($"RMDir /r \"$INSTDIR\\{Path.GetFileName(s)}\"");
                 AddStripline();
             }
 

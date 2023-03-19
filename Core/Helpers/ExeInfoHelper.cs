@@ -18,8 +18,11 @@
 
 
 using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -27,6 +30,42 @@ namespace GeNSIS.Core.Helpers
 {
     internal static class ExeInfoHelper
     {
+        internal static void AutoNameInstallerExe(AppDataViewModel pAppData)
+        {
+            if (string.IsNullOrWhiteSpace(pAppData.AppName)) return;
+
+            string build = string.IsNullOrWhiteSpace(pAppData.AppBuild) ? null : $"_{pAppData.AppBuild.Trim()}";
+            string arch = pAppData.Is64BitApplication ? "x64" : "x32";
+            pAppData.InstallerFileName = $"Setup_{pAppData.AppName}_{pAppData.AppVersion}{build}_{arch}.exe";
+        }
+        internal static void AutoSetProperties(AppDataViewModel pAppData)
+        {
+            var info = GetExeData(pAppData.ExeName);
+            pAppData.Is64BitApplication = info.IsX64;
+            pAppData.AppName = Path.GetFileNameWithoutExtension(pAppData.ExeName);
+
+            pAppData.AppBuild = GetMachineTypeShortString(GetMachineTypeOfExe(pAppData.ExeName));
+
+            if (info.Version.EndsWith(".0.0"))
+                pAppData.AppVersion = info.Version.Substring(0, info.Version.Length - 4);
+            else if (info.Version.EndsWith(".0"))
+                pAppData.AppVersion = info.Version.Substring(0, info.Version.Length - 2);
+            else
+                pAppData.AppVersion = info.Version;
+
+            var fvi = FileVersionInfo.GetVersionInfo(pAppData.ExeName);
+            if (!string.IsNullOrWhiteSpace(fvi.CompanyName))
+            {
+                var fullCompany = string.Join("-", fvi.CompanyName.Replace(" ", "-").Split(Path.GetInvalidFileNameChars()));
+                if (fullCompany.Length >= 20 && fullCompany.Count(x => x == '-') > 1)
+                    pAppData.Company = new string(fullCompany.Split('-', StringSplitOptions.RemoveEmptyEntries).Where(s => !string.IsNullOrEmpty(s)).Select(s => s[0]).ToArray());
+                else
+                    pAppData.Company = fullCompany;
+
+                pAppData.Publisher = fvi.CompanyName;
+            }
+        }
+
         /// <summary>
         /// From: http://zuga.net/articles/cs-how-to-determine-if-a-program-process-or-file-is-32-bit-or-64-bit/#getpekind
         /// </summary>
@@ -119,7 +158,35 @@ namespace GeNSIS.Core.Helpers
             }
         }
 
-        private enum MachineType : ushort
+        internal static string GetMachineTypeShortString(MachineType pMachineType)
+        {
+            switch(pMachineType)
+            {
+                case MachineType.IMAGE_FILE_MACHINE_AM33: return "AM33";
+                case MachineType.IMAGE_FILE_MACHINE_AMD64: return "AMD64";
+                case MachineType.IMAGE_FILE_MACHINE_ARM: return "ARM";
+                case MachineType.IMAGE_FILE_MACHINE_EBC: return "EBC";
+                case MachineType.IMAGE_FILE_MACHINE_I386: return "I386";
+                case MachineType.IMAGE_FILE_MACHINE_IA64: return "IA64";
+                case MachineType.IMAGE_FILE_MACHINE_M32R: return "M32R";
+                case MachineType.IMAGE_FILE_MACHINE_MIPS16: return "MIPS16";
+                case MachineType.IMAGE_FILE_MACHINE_MIPSFPU: return "MIPSFPU";
+                case MachineType.IMAGE_FILE_MACHINE_MIPSFPU16: return "MIPSFPU16";
+                case MachineType.IMAGE_FILE_MACHINE_POWERPC: return "POWERPC";
+                case MachineType.IMAGE_FILE_MACHINE_POWERPCFP: return "POWERPCFP";
+                case MachineType.IMAGE_FILE_MACHINE_R4000: return "R4000";
+                case MachineType.IMAGE_FILE_MACHINE_SH3: return "SH3";
+                case MachineType.IMAGE_FILE_MACHINE_SH3DSP: return "SH3DSP";
+                case MachineType.IMAGE_FILE_MACHINE_SH4: return "SH4";
+                case MachineType.IMAGE_FILE_MACHINE_SH5: return "SH5";
+                case MachineType.IMAGE_FILE_MACHINE_THUMB: return "THUMB";
+                case MachineType.IMAGE_FILE_MACHINE_WCEMIPSV2: return "WCEMIPSV2";
+                case MachineType.IMAGE_FILE_MACHINE_ARM64: return "ARM64";
+            }
+            return string.Empty;
+        }
+
+        internal enum MachineType : ushort
         {
             IMAGE_FILE_MACHINE_UNKNOWN = 0x0,
             IMAGE_FILE_MACHINE_AM33 = 0x1d3,
@@ -155,10 +222,10 @@ namespace GeNSIS.Core.Helpers
             using (var br = new BinaryReader(fs))
             {
                 fs.Seek(0x3c, SeekOrigin.Begin);
-                Int32 peOffset = br.ReadInt32();
+                int peOffset = br.ReadInt32();
 
                 fs.Seek(peOffset, SeekOrigin.Begin);
-                UInt32 peHead = br.ReadUInt32();
+                uint peHead = br.ReadUInt32();
 
                 if (peHead != 0x00004550) // "PE\0\0", little-endian
                     throw new Exception("Can't find PE header");
