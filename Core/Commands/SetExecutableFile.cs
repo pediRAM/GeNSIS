@@ -23,7 +23,7 @@ namespace GeNSIS.Core.Commands
 {
     public class SetExecutableFileCommand : ACommand
     {
-        public SetExecutableFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        public SetExecutableFileCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
             => (parameter != null && Path.GetExtension((string)parameter).Equals(".exe", System.StringComparison.OrdinalIgnoreCase));

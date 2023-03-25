@@ -24,9 +24,9 @@ namespace GeNSIS.Core.Commands
 {
     public abstract class ACommand : ICommand
     {
-        public ACommand(AppDataViewModel pAppDataViewModel) => AppDataViewModel = pAppDataViewModel;
+        public ACommand(AppDataVM pAppDataViewModel) => AppDataViewModel = pAppDataViewModel;
 
-        protected AppDataViewModel AppDataViewModel { get; set; }
+        protected AppDataVM AppDataViewModel { get; set; }
 
 
         public event EventHandler CanExecuteChanged

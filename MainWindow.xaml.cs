@@ -20,6 +20,7 @@
 using GeNSIS.Core;
 using GeNSIS.Core.Extensions;
 using GeNSIS.Core.Helpers;
+using GeNSIS.Core.Models;
 using GeNSIS.Core.TextGenerators;
 using System;
 using System.ComponentModel;
@@ -40,33 +41,62 @@ namespace GeNSIS
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private AppDataViewModel m_AppDataViewModel;
+        private AppDataVM m_AppDataViewModel;
         private string m_ProjectName = "Unsaved";
         private OpenFileDialog m_OpenFileDialog = new OpenFileDialog();
         private OpenFileDialog m_OpenIconDialog = new OpenFileDialog();
         private SaveFileDialog m_SaveFileDialog = new SaveFileDialog();
         private FolderBrowserDialog m_FolderBrowserDialog = new FolderBrowserDialog();
+        private ProjectManager m_ProjectManager = new ProjectManager();
+        private MessageBoxManager m_MsgMgr = new MessageBoxManager();
+        private AppConfig m_Config;
+        
 
         private void NotifyPropertyChanged(string pPropertyName) 
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(pPropertyName)));
 
         public MainWindow()
-        {
-            AppData = new AppDataViewModel(true);
-            
+        {            
+            AppData = new AppDataVM(true);            
 
             InitializeComponent();
-
+            Loaded += OnMainWindowLoaded;
             Title = $"GeNSIS {AsmConst.VERSION}";
             editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");
             m_OpenFileDialog.Multiselect = true;
-            m_OpenIconDialog.Filter = "Icon files|*.ico";
-            m_OpenIconDialog.Multiselect = false;
-            m_SaveFileDialog.Filter = "NSIS files|*.nsi";
+            m_OpenIconDialog.Filter = FileFilterHelper.GetIconFilter();
+            m_SaveFileDialog.Filter = FileFilterHelper.GetNsisFilter() ;
             DataContext = AppData;
         }
 
-        public AppDataViewModel AppData
+        private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            ProcessAppConfig();
+        }
+
+        private void ProcessAppConfig()
+        {
+            if (AppConfigHelper.AppConfigFileExists())
+            {
+                try
+                {
+                    m_Config = AppConfigHelper.ReadConfigFile();
+                }
+                catch(Exception ex)
+                {
+                    _ = m_MsgMgr.ShowLoadConfigError(ex);
+                    Close();
+                    return;
+                }
+            }
+            else
+            {
+                m_Config = AppConfigHelper.CreateConfig();
+                AppConfigHelper.WriteConfigFile(m_Config);
+            }
+        }
+
+        public AppDataVM AppData
         {
             get { return m_AppDataViewModel; }
             set
@@ -134,39 +164,47 @@ namespace GeNSIS
             ValidationError error = null;
             if (!validator.IsValid(AppData, out error))
             {
-                _= MessageBox.Show(error.ToString(), "Data invalid or incomplete!", MessageBoxButton.OK, MessageBoxImage.Error);
+                _ = m_MsgMgr.ShowInvalidDataError(error.ToString());
                 return;
             }
-            
+
+            m_SaveFileDialog.Filter = FileFilterHelper.GetNsisFilter();
+            m_SaveFileDialog.InitialDirectory = m_Config.ScriptsDirectory;
             if (m_SaveFileDialog.ShowDialog() != true)
                 return;
 
             var g = new NsisGenerator();
             var nsisCode = g.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true });
             SaveScript(m_SaveFileDialog.FileName, nsisCode);
+            editor.Text = nsisCode;
         }
 
-        private void SaveScript(string fileName, string code)
+        private void SaveScript(string pFileName, string pNsiString)
         {
-            m_GeneratedNsisPath = fileName;
-            File.WriteAllText(m_SaveFileDialog.FileName, editor.Text, encoding: System.Text.Encoding.UTF8);
-            editor.Text = code;
+            m_GeneratedNsisPath = pFileName;
+            File.WriteAllText(pFileName, pNsiString, encoding: System.Text.Encoding.UTF8);            
         }
 
         private void OnCompileScript(object sender, RoutedEventArgs e)
         {
             if(string.IsNullOrEmpty(m_GeneratedNsisPath))
             {
-                MessageBox.Show("Path to currently generated NSIS script is empty!\nPlease generate the file in the previous tab first!", "No *.nsi file to compile!", MessageBoxButton.OK, MessageBoxImage.Error);
+                _ = m_MsgMgr.ShowNoGeneratedScriptFileError();
                 return;
             }
 
             if(!File.Exists(m_GeneratedNsisPath))
             {
-                MessageBox.Show("Generated NSIS script not found!", "File not found!", MessageBoxButton.OK, MessageBoxImage.Error);
+                _ = m_MsgMgr.ShowGeneratedScriptFileNotFoundError();
                 return;
             }
-            var makeNsisExePath = @"C:\Program Files (x86)\NSIS\makensisw.exe";
+
+            if (string.IsNullOrEmpty(m_Config.NsisInstallationDirectory))
+            {
+                _ = m_MsgMgr.ShowSettingsHasNoNsisPathDefError();
+                return;
+            }
+            var makeNsisExePath = $@"{m_Config.NsisInstallationDirectory}\makensisw.exe";
             var pi = new ProcessStartInfo($"\"{makeNsisExePath}\"", $"\"{m_GeneratedNsisPath}\"");
             pi.UseShellExecute = false;
             
@@ -179,12 +217,11 @@ namespace GeNSIS
         {
             if (AppData.HasUnsavedChanges)
             {
-                var userChoice = MessageBox.Show("There are unsaved changed!\nDo you want to save changes?", "Unsaved changes!", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-                if (userChoice == MessageBoxResult.Yes)
-                {
-
-                }
+                if (m_MsgMgr.ShowUnsavedChangesByNewProjectWarning() != MessageBoxResult.Yes)
+                    return;
             }
+
+            AppData.UpdateValues(new AppData());
         }
 
         private void OnAddFilesFromFolderClicked(object sender, RoutedEventArgs e)
@@ -237,8 +274,7 @@ namespace GeNSIS
         {
             if (AppData.HasUnsavedChanges)
             {
-                if (MessageBox.Show("Unsaved changes will be lost if you close the application!\nAre you sure you want to close the application?", 
-                    "Closing GeNSIS", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+                if (m_MsgMgr.ShowUnsavedChangesByClosingAppWarning() != MessageBoxResult.Yes)
                     return;
             }
 
@@ -247,17 +283,63 @@ namespace GeNSIS
 
         private void OnSaveProjectAsClicked(object sender, RoutedEventArgs e)
         {
+            m_SaveFileDialog.Filter = FileFilterHelper.GetProjectFilter();
+            m_SaveFileDialog.InitialDirectory = m_Config.GeNSISProjectsDirectory;
+            if (m_SaveFileDialog.ShowDialog() != true)
+                return;
 
+            var project = new Project { AppData = AppData.ToModel() };
+            m_ProjectManager.Save(m_SaveFileDialog.FileName, project);
+            AppData.HasUnsavedChanges = false;
         }
 
         private void OnSaveProjectClicked(object sender, RoutedEventArgs e)
         {
+            // Is project already saved (by "Save as...")?
+            string pathOfSavedProject = m_ProjectManager.GetProjectFilePath();
+            if (pathOfSavedProject == null)
+            {
+                // No! Project has not been saved yet.
+                OnSaveProjectAsClicked(sender, e);
+                return;
+            }
 
+            var project = new Project() { AppData = AppData.ToModel() };
+            m_ProjectManager.Save(pathOfSavedProject, project);
+            AppData.HasUnsavedChanges = false;
         }
 
         private void OnOpenProjectClicked(object sender, RoutedEventArgs e)
         {
+            if(AppData.HasUnsavedChanges)
+            {
+                if (m_MsgMgr.ShowUnsavedChangesByOpenProjectWarning() != MessageBoxResult.Yes)
+                    return;
+            }
 
+            m_OpenFileDialog.Filter = FileFilterHelper.GetProjectFilter();
+            m_OpenFileDialog.InitialDirectory = m_Config.GeNSISProjectsDirectory;
+            if (m_OpenFileDialog.ShowDialog() != true)
+                return;
+
+            var appData = m_ProjectManager.Load(m_OpenFileDialog.FileName).AppData;
+            AppData.UpdateValues(appData);
+        }
+
+        private void OnOpenSettingsWindowClicked(object sender, RoutedEventArgs e)
+        {
+            var sw = new SettingsWindow(m_Config);
+            if (sw.ShowDialog() != true && sw.Config.HasUnsavedChanges)
+            {
+                if (m_MsgMgr.ShowSaveSettingChangesQuestion() != MessageBoxResult.Yes)
+                    return;
+            }
+
+            if (sw.Config.HasUnsavedChanges)
+            {
+                m_Config.UpdateValues(sw.Config);
+                AppConfigHelper.WriteConfigFile(m_Config);
+            }
         }
     }
 }

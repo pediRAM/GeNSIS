@@ -109,7 +109,7 @@ namespace GeNSIS.Core.TextGenerators
             if (d.License != null)
             {
                 AddComment("License file (*.txt):");
-                AddInsertMacro("MUI_PAGE_LICENSE", Path.GetFileName(d.License));
+                AddInsertMacro("MUI_PAGE_LICENSE", d.License);
                 AddStripline();
             }
 

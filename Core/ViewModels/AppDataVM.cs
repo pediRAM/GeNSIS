@@ -33,7 +33,7 @@ namespace GeNSIS.Core
     /// <summary>
     /// Application data model: contains meta-data used in NSIS script.
     /// </summary>
-    public class AppDataViewModel : IAppData, INotifyPropertyChanged
+    public class AppDataVM : IAppData, INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -64,10 +64,10 @@ namespace GeNSIS.Core
         /// This default ctor is defined by ProjectManager when loading project.
         /// Use other constructor (with parameter) when creating new project in GUI!
         /// </summary>
-        public AppDataViewModel() { }
+        public AppDataVM() { }
 
 
-        public AppDataViewModel(bool pFollowChanges) : this() 
+        public AppDataVM(bool pFollowChanges) : this() 
         {
             if (pFollowChanges)
                 PropertyChanged += OnPropertyChanged;
@@ -277,6 +277,31 @@ namespace GeNSIS.Core
                 Files = Files.ToList(),
                 Directories = Directories.ToList(),
             };
+        }
+
+        public void UpdateValues(IAppData p)
+        {
+            AppName = p.AppName;
+            Is64BitApplication = p.Is64BitApplication;
+            DoInstallPerUser = p.DoInstallPerUser;
+            ExeName = p.ExeName;
+            InstallerFileName = p.InstallerFileName;
+            AssociatedExtension = p.AssociatedExtension;
+            AppVersion = p.AppVersion;
+            AppBuild = p.AppBuild;
+            AppIcon = p.AppIcon;
+            Company = p.Company;
+            License = p.License;
+            Publisher = p.Publisher;
+            Url = p.Url;
+
+            Files.Clear();
+            foreach (var f in p.GetFiles()) 
+                Files.Add(f);
+
+            Directories.Clear();
+            foreach (var d in p.GetDirectories()) 
+                Directories.Add(d);
         }
 
         private void NotifyPropertyChanged(string pPropertyName)

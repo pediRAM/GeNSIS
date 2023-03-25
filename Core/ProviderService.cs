@@ -17,31 +17,15 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core.Models
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GeNSIS.Core
 {
-    using System.Xml.Serialization;
-
-    [XmlRoot]
-    public class Project
+    internal class ProviderService
     {
-        [XmlElement]
-        public string Version { get; set; } = AsmConst.MODEL_VERSION;
-
-        //[XmlElement]
-        //public string Note { get; set; }
-
-        [XmlElement]
-        public AppData AppData { get; set; } = new AppData();
-
-        public ProjectVM ToViewModel()
-        {
-            return new ProjectVM
-            {
-                Version = Version,
-                //Note = Note,
-                AppData = AppData.ToViewModel()
-            };
-        }
-
     }
 }

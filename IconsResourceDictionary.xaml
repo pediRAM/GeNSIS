@@ -21,5 +21,6 @@
     <Image x:Key="icon_file" Source="Resources/Icons/nuvola/22x22/krec_fileempty.png" />
     <Image x:Key="icon_files" Source="Resources/Icons/nuvola/22x22/document-multiple.png" />
     <Image x:Key="icon_info" Source="Resources/Icons/nuvola/22x22/dialog-information.png" />
+    <Image x:Key="icon_settings" Source="Resources/Icons/nuvola/22x22/kcontrol.png" />
 
 </ResourceDictionary>

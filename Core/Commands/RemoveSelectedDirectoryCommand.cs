@@ -21,7 +21,7 @@ namespace GeNSIS.Core.Commands
 {
     public class RemoveSelectedDirectoryCommand : ACommand
     {
-        public RemoveSelectedDirectoryCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        public RemoveSelectedDirectoryCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
             => parameter != null;

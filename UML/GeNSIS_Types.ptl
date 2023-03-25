@@ -1,6 +1,15 @@
-﻿class TextGeneraotrOptions
-p b EnableLogs
-p b EnableComments
+﻿class AppConfig
+	property string NsisInstallationDirectory
+	property string GeNSISProjectsDirectory
+	property string ScriptsDirectory
+	property string CompanyName
+	property string Publisher
+
+
+class TextGeneraotrOptions
+	property bool EnableLogs
+	property bool EnableComments
+
 
 class xxx
 	property AppDataViewModel AppData
@@ -40,7 +49,7 @@ class AppData
 class ProjectModel
 	property string Version
 	property string Note
-	property AppDataModel AppData
+	property AppData AppData
 
 
 class ProjectManager

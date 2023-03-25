@@ -20,7 +20,7 @@ namespace GeNSIS.Core.Commands
 {
     public class RemoveSelectedFileCommand : ACommand
     {
-        public RemoveSelectedFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        public RemoveSelectedFileCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
             => parameter != null;

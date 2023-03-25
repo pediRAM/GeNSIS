@@ -17,6 +17,11 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
+    <Style x:Key="label_input" TargetType="Label">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
     <Style x:Key="textbox_input" TargetType="TextBox">
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="2" />
@@ -28,6 +33,10 @@
                 <Setter Property="CornerRadius" Value="2"/>
             </Style>
         </Style.Resources>
+    </Style>
+
+    <Style x:Key="textbox_input_readonly" TargetType="TextBox" BasedOn="{StaticResource ResourceKey=textbox_input}">
+        <Setter Property="IsReadOnly" Value="True" />
     </Style>
 
     <Style x:Key="checkbox_input" TargetType="CheckBox">

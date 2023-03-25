@@ -21,6 +21,7 @@ namespace GeNSIS.Core.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Xml.Serialization;
 
     [XmlRoot]
@@ -68,20 +69,18 @@ namespace GeNSIS.Core.Models
         [XmlElement]
         public string Url { get; set; }
 
-        [XmlElement]
         [XmlArray]
         public List<string> Files { get; set; } = new List<string>();
 
-        [XmlElement]
         [XmlArray]
         public List<string> Directories { get; set; } = new List<string>();
 
         public IEnumerable<string> GetFiles() => Files;
         public IEnumerable<string> GetDirectories() => Directories;
 
-        public AppDataViewModel ToViewModel()
+        public AppDataVM ToViewModel()
         {
-            return new AppDataViewModel
+            return new AppDataVM
             {
                 Is64BitApplication = Is64BitApplication,
                 DoInstallPerUser = DoInstallPerUser,
@@ -100,6 +99,24 @@ namespace GeNSIS.Core.Models
                 Files = new System.Collections.ObjectModel.ObservableCollection<string>(Files),
                 Directories = new System.Collections.ObjectModel.ObservableCollection<string>(Directories),
             };
+        }
+
+        public void UpdateValues(IAppData p)
+        {
+            AppName = p.AppName;
+            Is64BitApplication = p.Is64BitApplication;
+            DoInstallPerUser = p.DoInstallPerUser;
+            ExeName = p.ExeName;
+            AssociatedExtension = p.AssociatedExtension;
+            AppVersion = p.AppVersion;
+            AppBuild = p.AppBuild;
+            AppIcon = p.AppIcon;
+            Company = p.Company;
+            License = p.License;
+            Publisher = p.Publisher;
+            Url = p.Url;
+            Files = p.GetFiles().ToList();
+            Directories = p.GetDirectories().ToList();
         }
     }
 }

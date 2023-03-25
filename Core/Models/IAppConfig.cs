@@ -16,32 +16,16 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-
 namespace GeNSIS.Core.Models
 {
-    using System.Xml.Serialization;
-
-    [XmlRoot]
-    public class Project
+    public interface IAppConfig
     {
-        [XmlElement]
-        public string Version { get; set; } = AsmConst.MODEL_VERSION;
+        string CompanyName { get; set; }
+        string Publisher { get; set; }
+        string GeNSISProjectsDirectory { get; set; }
+        string ScriptsDirectory { get; set; }
+        string NsisInstallationDirectory { get; set; }
 
-        //[XmlElement]
-        //public string Note { get; set; }
-
-        [XmlElement]
-        public AppData AppData { get; set; } = new AppData();
-
-        public ProjectVM ToViewModel()
-        {
-            return new ProjectVM
-            {
-                Version = Version,
-                //Note = Note,
-                AppData = AppData.ToViewModel()
-            };
-        }
-
+        void UpdateValues(IAppConfig pIAppConfig);
     }
 }

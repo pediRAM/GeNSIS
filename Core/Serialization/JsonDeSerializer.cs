@@ -20,7 +20,7 @@
 namespace GeNSIS.Core.Serialization
 {
     using GeNSIS.Core.Models;
-    using Newtonsoft.Json;
+    using System.Text.Json;
 
     public class JsonDeSerializer : IDeSerializer
     {
@@ -29,9 +29,9 @@ namespace GeNSIS.Core.Serialization
         public string Extension => ".json";
 
         public Project ToProject(string pModelString)
-            => JsonConvert.DeserializeObject<Project>(pModelString);
+            => JsonSerializer.Deserialize<Project>(pModelString);
 
         public string ToString(Project project)
-            => JsonConvert.SerializeObject(project, Formatting.Indented);
+            => JsonSerializer.Serialize(project, new JsonSerializerOptions { WriteIndented = true });
     }
 }

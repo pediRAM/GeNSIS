@@ -51,5 +51,7 @@ namespace GeNSIS.Core.Models
         IEnumerable<string> GetFiles();
 
         IEnumerable<string> GetDirectories();
+
+        void UpdateValues(IAppData pAppData);
     }
 }

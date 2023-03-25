@@ -29,7 +29,7 @@ namespace GeNSIS.Core.Commands
     internal class GenerateCommand : ACommand
     {
         private Validator m_Validator = new Validator();
-        public GenerateCommand(AppDataViewModel viewModel): base(viewModel) { }
+        public GenerateCommand(AppDataVM viewModel): base(viewModel) { }
         public override bool CanExecute(object parameter)
             => m_Validator.IsValid(AppDataViewModel, out _);
 

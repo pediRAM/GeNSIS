@@ -20,7 +20,7 @@ namespace GeNSIS.Core.Commands
 {
     public class BuildScriptCommand : ACommand
     {
-        public BuildScriptCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        public BuildScriptCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
         private Validator Validator { get; } = new Validator();
         public override bool CanExecute(object parameter)
             => Validator.IsValid(AppDataViewModel, out _);

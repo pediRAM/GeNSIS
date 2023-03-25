@@ -53,7 +53,7 @@ namespace GeNSIS.Core
         public const string HINT_URL = "";
         #endregion Constants
 
-        public bool IsValid(AppDataViewModel p, out ValidationError pError)
+        public bool IsValid(AppDataVM p, out ValidationError pError)
         {
             pError = null;
             // At least 1 file for installing needed.

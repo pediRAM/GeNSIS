@@ -16,54 +16,12 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-
-namespace GeNSIS.Core
+namespace GeNSIS.Core.Helpers
 {
-    using GeNSIS.Core.Models;
-    using System.ComponentModel;
-
-    public class ProjectViewModel : INotifyPropertyChanged
+    internal static class FileFilterHelper
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private string m_Note = string.Empty;
-        private AppDataViewModel m_AppData = new AppDataViewModel(true);
-
-        public string Version { get; set; } = AsmConst.MODEL_VERSION;
-
-        public string Note
-        {
-            get { return m_Note; }
-            set
-            {
-                if (value == m_Note) return;
-                m_Note = value;
-                NotifyPropertyChanged(nameof(Note));
-            }
-        }
-
-        public AppDataViewModel AppData
-        {
-            get { return m_AppData; }
-            set
-            {
-                if (value == m_AppData) return;
-                m_AppData = value;
-                NotifyPropertyChanged(nameof(AppData));
-            }
-        }
-
-        public Project ToModel()
-        {
-            return new Project
-            {
-                Version = Version,
-                Note = Note,
-                AppData = AppData.ToModel(),
-            };
-        }
-
-        private void NotifyPropertyChanged(string pPropertyName)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(pPropertyName)));
+        public static string GetIconFilter() => "Icon files|*.ico";
+        public static string GetNsisFilter() => "NSIS files|*.nsi";
+        public static string GetProjectFilter() => "XML files|*.xml";
     }
 }

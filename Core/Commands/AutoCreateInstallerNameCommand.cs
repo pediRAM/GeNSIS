@@ -22,7 +22,7 @@ namespace GeNSIS.Core.Commands
 {
     internal class AutoCreateInstallerNameCommand : ACommand
     {
-        public AutoCreateInstallerNameCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        public AutoCreateInstallerNameCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
         public override bool CanExecute(object parameter)
             => !string.IsNullOrWhiteSpace((string)parameter);
 

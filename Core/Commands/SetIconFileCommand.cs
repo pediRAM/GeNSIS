@@ -23,7 +23,7 @@ namespace GeNSIS.Core.Commands
 {
     public class SetIconFileCommand : ACommand
     {
-        public SetIconFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        public SetIconFileCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
             => parameter != null && ((string)parameter).EndsWith(".ico", StringComparison.InvariantCultureIgnoreCase);

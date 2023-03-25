@@ -7,8 +7,7 @@
         xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
         mc:Ignorable="d"
-        Height="700" Width="900" 
-        FocusManager.FocusedElement="{Binding RelativeSource={x:Static RelativeSource.Self}, Mode=OneTime}">
+        Height="700" Width="900">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,11 +28,12 @@
         
         <Menu Grid.Row="0">
             <MenuItem Header="File">
-                <MenuItem Header="New project" Icon="{StaticResource icon_new}"  Click="OnNewProjectClicked"/>
-                <MenuItem Header="Open..."     Icon="{StaticResource icon_open}" Click="OnOpenProjectClicked"/>
-                <MenuItem Header="Save"        Icon="{StaticResource icon_save}" Click="OnSaveProjectClicked"/>
-                <MenuItem Header="Save as..."  Icon="{StaticResource icon_save_as}" Click="OnSaveProjectAsClicked"/>
-                <MenuItem Header="Close"       Icon="{StaticResource icon_exit}"   Click="OnCloseClicked"/>
+                <MenuItem Header="New project" Icon="{StaticResource icon_new}"      Click="OnNewProjectClicked"/>
+                <MenuItem Header="Open..."     Icon="{StaticResource icon_open}"     Click="OnOpenProjectClicked"/>
+                <MenuItem Header="Save"        Icon="{StaticResource icon_save}"     Click="OnSaveProjectClicked"/>
+                <MenuItem Header="Save as..."  Icon="{StaticResource icon_save_as}"  Click="OnSaveProjectAsClicked"/>
+                <MenuItem Header="Settings..." Icon="{StaticResource icon_settings}" Click="OnOpenSettingsWindowClicked"/>
+                <MenuItem Header="Close"       Icon="{StaticResource icon_exit}"     Click="OnCloseClicked"/>
             </MenuItem>
             <!--<MenuItem Header="Settings"></MenuItem>-->
             <MenuItem Header="Build">
@@ -70,7 +70,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- Files (List<string>) -->
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{StaticResource label_files}"    ToolTip="{StaticResource tt_files}" Style="{StaticResource textblock_label}" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="{StaticResource label_files}"    ToolTip="{StaticResource tt_files}" Style="{StaticResource label_input}" />
                     <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files}" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -111,7 +111,7 @@
                     <Rectangle Grid.Row="1" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
                     
                     <!-- Directories (List<Directory>) -->
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource textblock_label}" />
+                    <Label Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
                     <ListBox x:Name="lsb_Directories"  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Directories}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -127,19 +127,19 @@
                     <Rectangle Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
                     
                     <!-- ExeName (string) -->
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textblock_label}" />
+                    <Label Grid.Row="4" Grid.Column="0" Content="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource label_input}" />
                     <TextBox   Grid.Row="4" Grid.Column="1" x:Name="txb_ExeName" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
 
                     <Rectangle Grid.Row="5" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
                     
                     <!-- License (string) -->
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource textblock_label}" />
+                    <Label Grid.Row="6" Grid.Column="0" Content="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource label_input}" />
                     <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
 
                     <Rectangle Grid.Row="7" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
                     
                     <!-- AppIcon (string) -->
-                    <TextBlock Grid.Row="8" Grid.Column="0" Text="{StaticResource label_appicon}" ToolTip="{StaticResource tt_appicon}" Style="{StaticResource textblock_label}" />
+                    <Label Grid.Row="8" Grid.Column="0" Content="{StaticResource label_appicon}" ToolTip="{StaticResource tt_appicon}" Style="{StaticResource label_input}" />
                     <Border Grid.Row="8" Grid.Column="1" Style="{StaticResource border_icon}">
                         <Image Source="{Binding AppIcon, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}"    ToolTip="{StaticResource tt_appicon}" Style="{StaticResource image_icon}" />
                     </Border>
@@ -244,8 +244,8 @@
                     <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Text="NSIS plugin ''LiteFirewall'' has to be installed!" Style="{StaticResource textblock_label}" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenFalse=Collapsed, VisibilityWhenTrue=Visible}}"/>-->
 
                     <!-- Installer Filename (string) -->
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_url}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_url}" Style="{StaticResource textbox_input}" Width="300" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" Width="300" />
                     <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button Content="Auto name" Command="{Binding AutoCreateInstallerNameCommand}" CommandParameter="{Binding ElementName=txb_ExeName, Path=Text}" Style="{StaticResource button_command}"/>
                     </StackPanel>

@@ -25,14 +25,39 @@ namespace GeNSIS.Core
 {
     public class ProjectManager
     {
+        private string m_ProjectFilePath;
+
+        /// <summary>
+        /// Returns the path of current project file if already saved, else NULL.
+        /// </summary>
+        /// <returns></returns>
+        public string GetProjectFilePath() => m_ProjectFilePath;
+
+        /// <summary>
+        /// Resets the path of current project file to NULL.
+        /// Call this whenever user creates a new project.
+        /// </summary>
+        public void ResetProjectFilePath() => m_ProjectFilePath = null;
+
+        /// <summary>
+        /// Loads the GeNSIS project from given path.
+        /// </summary>
+        /// <param name="pPath"></param>
+        /// <returns></returns>
         public Project Load(string pPath)
         {
             var provider = new DeSerializationProvider();
             var fileInfo = new FileInfo(pPath);
             var deserializer = provider.GetDeSerializerByExtension(fileInfo.Extension);
+            m_ProjectFilePath = pPath;
             return deserializer.ToProject(File.ReadAllText(pPath, encoding: System.Text.Encoding.UTF8));
         }
 
+        /// <summary>
+        /// Saves given GeNSIS project to given path.
+        /// </summary>
+        /// <param name="pPath"></param>
+        /// <param name="pProject"></param>
         public void Save(string pPath, Project pProject)
         {
             var provider = new DeSerializationProvider();

@@ -17,31 +17,53 @@
 ****************************************************************************************/
 
 
-namespace GeNSIS.Core.Models
+namespace GeNSIS.Core
 {
-    using System.Xml.Serialization;
+    using GeNSIS.Core.Models;
+    using System.ComponentModel;
 
-    [XmlRoot]
-    public class Project
+    public class ProjectVM : INotifyPropertyChanged
     {
-        [XmlElement]
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string m_Note = string.Empty;
+        private AppDataVM m_AppData = new AppDataVM(true);
+
         public string Version { get; set; } = AsmConst.MODEL_VERSION;
 
-        //[XmlElement]
-        //public string Note { get; set; }
-
-        [XmlElement]
-        public AppData AppData { get; set; } = new AppData();
-
-        public ProjectVM ToViewModel()
+        public string Note
         {
-            return new ProjectVM
+            get { return m_Note; }
+            set
+            {
+                if (value == m_Note) return;
+                m_Note = value;
+                NotifyPropertyChanged(nameof(Note));
+            }
+        }
+
+        public AppDataVM AppData
+        {
+            get { return m_AppData; }
+            set
+            {
+                if (value == m_AppData) return;
+                m_AppData = value;
+                NotifyPropertyChanged(nameof(AppData));
+            }
+        }
+
+        public Project ToModel()
+        {
+            return new Project
             {
                 Version = Version,
                 //Note = Note,
-                AppData = AppData.ToViewModel()
+                AppData = AppData.ToModel(),
             };
         }
 
+        private void NotifyPropertyChanged(string pPropertyName)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(pPropertyName)));
     }
 }

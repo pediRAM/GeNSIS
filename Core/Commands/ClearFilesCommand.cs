@@ -23,7 +23,7 @@ namespace GeNSIS.Core.Commands
 {
     public class ClearFilesCommand : ACommand
     {
-        public ClearFilesCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        public ClearFilesCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter) => AppDataViewModel.Files.HasElement();
 

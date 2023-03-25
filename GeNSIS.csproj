@@ -28,6 +28,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\document-save.png" />
     <None Remove="Resources\Icons\nuvola\22x22\folder-orange.png" />
     <None Remove="Resources\Icons\nuvola\22x22\help-about.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\kcontrol.png" />
     <None Remove="Resources\Icons\nuvola\22x22\knotes.png" />
     <None Remove="Resources\Icons\nuvola\22x22\krec_fileempty.png" />
     <None Remove="Resources\Icons\nuvola\22x22\kuser.png" />
@@ -54,6 +55,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\document-save.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\folder-orange.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\help-about.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\kcontrol.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\knotes.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\krec_fileempty.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\kuser.png" />
@@ -66,8 +68,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
   </ItemGroup>
 
   <ItemGroup>

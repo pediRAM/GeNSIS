@@ -23,7 +23,7 @@ namespace GeNSIS.Core.Commands
 {
     public class SetLicenseFileCommand : ACommand
     {
-        public SetLicenseFileCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        public SetLicenseFileCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
             => (parameter != null && 

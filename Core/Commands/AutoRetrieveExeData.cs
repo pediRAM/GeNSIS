@@ -28,7 +28,7 @@ namespace GeNSIS.Core.Commands
 {
     public class AutoRetrieveExeDataCommand : ACommand
     {
-        public AutoRetrieveExeDataCommand(AppDataViewModel pAppDataViewModel) : base(pAppDataViewModel) { }
+        public AutoRetrieveExeDataCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
             => !string.IsNullOrEmpty(AppDataViewModel.ExeName);

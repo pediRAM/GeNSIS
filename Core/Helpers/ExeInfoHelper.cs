@@ -30,7 +30,7 @@ namespace GeNSIS.Core.Helpers
 {
     internal static class ExeInfoHelper
     {
-        internal static void AutoNameInstallerExe(AppDataViewModel pAppData)
+        internal static void AutoNameInstallerExe(AppDataVM pAppData)
         {
             if (string.IsNullOrWhiteSpace(pAppData.AppName)) return;
 
@@ -38,7 +38,7 @@ namespace GeNSIS.Core.Helpers
             string arch = pAppData.Is64BitApplication ? "x64" : "x32";
             pAppData.InstallerFileName = $"Setup_{pAppData.AppName}_{pAppData.AppVersion}{build}_{arch}.exe";
         }
-        internal static void AutoSetProperties(AppDataViewModel pAppData)
+        internal static void AutoSetProperties(AppDataVM pAppData)
         {
             var info = GetExeData(pAppData.ExeName);
             pAppData.Is64BitApplication = info.IsX64;
