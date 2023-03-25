@@ -222,6 +222,13 @@ namespace GeNSIS
             }
 
             AppData.UpdateValues(new AppData());
+            ResetScriptAndPath();
+        }
+
+        private void ResetScriptAndPath()
+        {
+            editor.Clear();
+            m_GeneratedNsisPath = null;
         }
 
         private void OnAddFilesFromFolderClicked(object sender, RoutedEventArgs e)
