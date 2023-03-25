@@ -37,11 +37,11 @@
             </MenuItem>
             <!--<MenuItem Header="Settings"></MenuItem>-->
             <MenuItem Header="Build">
-                <MenuItem Header="Generate script" Icon="{StaticResource icon_generate}" Command=""/>
+                <MenuItem Header="Generate script" Icon="{StaticResource icon_generate}" Click="OnGenerate"/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="Manuals"      Icon="{StaticResource icon_manuals}" Command=""/>
-                <MenuItem Header="About GeNSIS" Icon="{StaticResource icon_about}" Command=""/>
+                <MenuItem Header="Manuals"      Icon="{StaticResource icon_manuals}" Click="OnManualClicked"/>
+                <MenuItem Header="About GeNSIS" Icon="{StaticResource icon_about}" Click="OnAboutClicked"/>
             </MenuItem>
         </Menu>
         

@@ -26,6 +26,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Policy;
 using System.Windows;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -349,5 +350,15 @@ namespace GeNSIS
                 AppConfigHelper.WriteConfigFile(m_Config);
             }
         }
+
+        private void OnAboutClicked(object sender, RoutedEventArgs e)
+            => OpenWebsiteInDefaultBrowser(@"https://github.com/pediRAM/GeNSIS/");
+
+        private void OnManualClicked(object sender, RoutedEventArgs e)
+            => OpenWebsiteInDefaultBrowser(@"https://github.com/pediRAM/GeNSIS/blob/main/README.md");
+
+        private void OpenWebsiteInDefaultBrowser(string pUrl)
+            => _ = Process.Start(new ProcessStartInfo(pUrl) { UseShellExecute = true });
+
     }
 }
