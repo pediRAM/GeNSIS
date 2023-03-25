@@ -26,7 +26,6 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Policy;
 using System.Windows;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -178,6 +177,7 @@ namespace GeNSIS
             var nsisCode = g.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true });
             SaveScript(m_SaveFileDialog.FileName, nsisCode);
             editor.Text = nsisCode;
+            tabItem_Editor.IsSelected = true;
         }
 
         private void SaveScript(string pFileName, string pNsiString)

@@ -253,7 +253,7 @@
             </TabItem>
 
 
-            <TabItem Header="❹ Script" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❹ Script" x:Name="tabItem_Editor" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -275,6 +275,7 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+            
             <TabItem Header="Test" Style="{StaticResource label_tabitem}">
                 <Grid>
 
