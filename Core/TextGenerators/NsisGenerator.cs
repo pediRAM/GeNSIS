@@ -99,7 +99,10 @@ namespace GeNSIS.Core.TextGenerators
             AddStripline();
 
             AddComment("Application icon (*.ico):");
-            AddDefine("MUI_ICON", d.AppIcon);
+            if (string.IsNullOrWhiteSpace(d.AppIcon))
+                AddDefine("MUI_ICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-install.ico");
+            else
+                AddDefine("MUI_ICON", d.AppIcon);
             AddDefine("MUI_UNICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-uninstall.ico");
             AddStripline();
 
