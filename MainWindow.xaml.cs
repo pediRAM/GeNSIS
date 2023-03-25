@@ -331,6 +331,7 @@ namespace GeNSIS
 
             var appData = m_ProjectManager.Load(m_OpenFileDialog.FileName).AppData;
             AppData.UpdateValues(appData);
+            ResetScriptAndPath();
         }
 
         private void OnOpenSettingsWindowClicked(object sender, RoutedEventArgs e)
