@@ -17,7 +17,6 @@
 ****************************************************************************************/
 
 
-
 namespace GeNSIS.Core.Converters
 {
     class StringToBoolConverter : AValueConverter

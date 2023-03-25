@@ -16,6 +16,7 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
+
 namespace GeNSIS.Core.Commands
 {
     public class BuildScriptCommand : ACommand

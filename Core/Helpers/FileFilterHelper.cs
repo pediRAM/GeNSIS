@@ -16,6 +16,7 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
+
 namespace GeNSIS.Core.Helpers
 {
     internal static class FileFilterHelper

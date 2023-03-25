@@ -16,6 +16,7 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
+
 using GeNSIS.Core.Helpers;
 
 namespace GeNSIS.Core.Commands

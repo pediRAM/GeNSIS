@@ -16,11 +16,11 @@ finish: 🏁
 - ✅ write type for app-meta-data
 - ✅ write GeNSIS Project type
 - ✅ write nsis ~~text~~ script generator
-- ❌ implement project management
+- ✅ implement project management
 - ✅ gui: menu
 - ❌ implement menu (code behind)
-- ❌ implement contex menues (code behind)
-- ❌ implement settings (nsis path, projects folder etc.)
+- ❌ implement context menues (code behind)
+- ✅ implement settings (nsis path, projects folder etc.)
 - ✅ gui: main
 - ✅ implement gui main window\
 🚩
