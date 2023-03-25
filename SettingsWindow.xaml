@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeNSIS"
         mc:Ignorable="d"
-        Title="SettingsWindow" Height="280" Width="500">
+        Title="SettingsWindow" Height="300" Width="550">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
