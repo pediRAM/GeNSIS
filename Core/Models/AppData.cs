@@ -42,8 +42,7 @@ namespace GeNSIS.Core.Models
         [XmlElement]
         public string ExeName { get; set; }
 
-        [XmlElement]
-        public string InstallerFileName { get; set; }
+
 
         [XmlElement]
         public string AssociatedExtension { get; set; }
@@ -53,9 +52,6 @@ namespace GeNSIS.Core.Models
 
         [XmlElement]
         public string AppBuild { get; set; }
-
-        [XmlElement]
-        public string AppIcon { get; set; }
 
         [XmlElement]
         public string Company { get; set; }
@@ -75,6 +71,17 @@ namespace GeNSIS.Core.Models
         [XmlArray]
         public List<string> Directories { get; set; } = new List<string>();
 
+        [XmlElement]
+        public string InstallerFileName { get; set; }
+
+        [XmlElement]
+        public string InstallerIcon { get; set; }
+        [XmlElement]
+        public string InstallerBannerImage { get; set; }
+
+        [XmlElement]
+        public string InstallerWizardImage { get; set; }
+
         public IEnumerable<string> GetFiles() => Files;
         public IEnumerable<string> GetDirectories() => Directories;
 
@@ -82,41 +89,46 @@ namespace GeNSIS.Core.Models
         {
             return new AppDataVM
             {
-                Is64BitApplication = Is64BitApplication,
-                DoInstallPerUser = DoInstallPerUser,
-                DoAddFWRule = DoAddFWRule,
-                AppName = AppName,
-                ExeName = ExeName,
-                InstallerFileName = InstallerFileName,
-                AssociatedExtension = AssociatedExtension,
-                AppVersion = AppVersion,
                 AppBuild = AppBuild,
-                AppIcon = AppIcon,
+                AppName = AppName,
+                AppVersion = AppVersion,
+                AssociatedExtension = AssociatedExtension,
                 Company = Company,
+                Directories = new System.Collections.ObjectModel.ObservableCollection<string>(Directories),
+                DoAddFWRule = DoAddFWRule,
+                DoInstallPerUser = DoInstallPerUser,
+                ExeName = ExeName,
+                Files = new System.Collections.ObjectModel.ObservableCollection<string>(Files),
+                InstallerBannerImage = InstallerBannerImage,
+                InstallerFileName = InstallerFileName,
+                InstallerIcon = InstallerIcon,
+                InstallerWizardImage = InstallerWizardImage,
+                Is64BitApplication = Is64BitApplication,
                 License = License,
                 Publisher = Publisher,
                 Url = Url,
-                Files = new System.Collections.ObjectModel.ObservableCollection<string>(Files),
-                Directories = new System.Collections.ObjectModel.ObservableCollection<string>(Directories),
             };
         }
 
         public void UpdateValues(IAppData p)
         {
+            AppBuild = p.AppBuild;
             AppName = p.AppName;
-            Is64BitApplication = p.Is64BitApplication;
+            AppVersion = p.AppVersion;
+            AssociatedExtension = p.AssociatedExtension;
+            Company = p.Company;
+            Directories = p.GetDirectories().ToList();
             DoInstallPerUser = p.DoInstallPerUser;
             ExeName = p.ExeName;
-            AssociatedExtension = p.AssociatedExtension;
-            AppVersion = p.AppVersion;
-            AppBuild = p.AppBuild;
-            AppIcon = p.AppIcon;
-            Company = p.Company;
+            Files = p.GetFiles().ToList();
+            InstallerBannerImage = p.InstallerBannerImage;
+            InstallerFileName = p.InstallerFileName;
+            InstallerIcon = p.InstallerIcon;
+            InstallerWizardImage = p.InstallerWizardImage;
+            Is64BitApplication = p.Is64BitApplication;
             License = p.License;
             Publisher = p.Publisher;
             Url = p.Url;
-            Files = p.GetFiles().ToList();
-            Directories = p.GetDirectories().ToList();
         }
     }
 }

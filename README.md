@@ -18,11 +18,12 @@ finish: 🏁
 - ✅ write nsis ~~text~~ script generator
 - ✅ implement project management
 - ✅ gui: menu
-- ❌ implement menu (code behind)
+- ✅ implement menu (code behind)
 - ❌ implement context menues (code behind)
 - ✅ implement settings (nsis path, projects folder etc.)
 - ✅ gui: main
 - ✅ implement gui main window\
+- ✅ installer gui design (icon, header, wizard)\
 🚩
 - ❌ test & fix bugs\
 - ❌ separate genertors into methods

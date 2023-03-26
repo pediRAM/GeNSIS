@@ -30,7 +30,7 @@ namespace GeNSIS.Core.Commands
 
         public override void Execute(object parameter)
         {
-            AppDataViewModel.AppIcon = (string)parameter;
+            AppDataViewModel.InstallerIcon = (string)parameter;
         }
     }
 }

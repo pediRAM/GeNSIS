@@ -21,6 +21,7 @@ namespace GeNSIS.Core.Helpers
 {
     internal static class FileFilterHelper
     {
+        public static string GetBitmapFilter() => "Bitmap files|*.bmp";
         public static string GetIconFilter() => "Icon files|*.ico";
         public static string GetNsisFilter() => "NSIS files|*.nsi";
         public static string GetProjectFilter() => "XML files|*.xml";

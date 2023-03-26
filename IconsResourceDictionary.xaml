@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- Icons -->
     <Image x:Key="icon_new" Source="Resources/Icons/nuvola/22x22/document-new.png" />
     <Image x:Key="icon_open" Source="Resources/Icons/nuvola/22x22/folder-orange.png" />
     <Image x:Key="icon_save" Source="Resources/Icons/nuvola/22x22/document-save.png" />
@@ -22,5 +23,10 @@
     <Image x:Key="icon_files" Source="Resources/Icons/nuvola/22x22/document-multiple.png" />
     <Image x:Key="icon_info" Source="Resources/Icons/nuvola/22x22/dialog-information.png" />
     <Image x:Key="icon_settings" Source="Resources/Icons/nuvola/22x22/kcontrol.png" />
+    
+    <Image x:Key="icon_nsis" Source="Resources/Icons/Installer/modern-install.ico" />
+    
+    <!-- Images -->
+    <Image x:Key="image_installer_welcome_page" Source="Resources/Images/Installer/welcome_page.png" />
 
 </ResourceDictionary>

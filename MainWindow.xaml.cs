@@ -18,13 +18,16 @@
 
 
 using GeNSIS.Core;
+using GeNSIS.Core.Converters;
 using GeNSIS.Core.Extensions;
 using GeNSIS.Core.Helpers;
 using GeNSIS.Core.Models;
 using GeNSIS.Core.TextGenerators;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Windows;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
@@ -72,6 +75,11 @@ namespace GeNSIS
         private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
             ProcessAppConfig();
+            if (Directory.Exists(m_Config.NsisInstallationDirectory))
+            {
+                AppData.InstallerIcon = m_Config.NsisInstallationDirectory + @"\Contrib\Graphics\Icons\modern-install.ico";
+                AppData.InstallerWizardImage = m_Config.NsisInstallationDirectory + @"\Contrib\Graphics\Wizard\win.bmp";
+            }
         }
 
         private void ProcessAppConfig()
@@ -130,6 +138,7 @@ namespace GeNSIS
 
         private void OnLoadIconClicked(object sender, RoutedEventArgs e)
         {
+            m_OpenIconDialog.Filter = FileFilterHelper.GetIconFilter();
             if (m_OpenIconDialog.ShowDialog() == true)
             {
                 try
@@ -140,14 +149,13 @@ namespace GeNSIS
                         if (! AppData.Files.Contains(m_OpenIconDialog.FileName))
                             AppData.Files.Add(m_OpenIconDialog.FileName);
                     }
-                    AppData.AppIcon = m_OpenIconDialog.FileName;
+                    AppData.InstallerIcon = m_OpenIconDialog.FileName;
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Trace.TraceError(ex.ToString());
                 }
             }
-
         }
 
         private void OnAddDirectoryClicked(object sender, RoutedEventArgs e)
@@ -160,7 +168,7 @@ namespace GeNSIS
         private string m_GeneratedNsisPath;
         private void OnGenerate(object sender, RoutedEventArgs e)
         {
-            var validator = new Validator();
+            var validator = new Core.Validator();
             ValidationError error = null;
             if (!validator.IsValid(AppData, out error))
             {
@@ -261,7 +269,7 @@ namespace GeNSIS
                                 catch { }
                             }
                             break;
-                        case ".ico": AppData.AppIcon = file; break;
+                        case ".ico": AppData.InstallerIcon = file; break;
 
                         case ".rtf":
                         case ".txt":
@@ -362,5 +370,58 @@ namespace GeNSIS
         private void OpenWebsiteInDefaultBrowser(string pUrl)
             => _ = Process.Start(new ProcessStartInfo(pUrl) { UseShellExecute = true });
 
+        private void OnLoadWizardClicked(object sender, RoutedEventArgs e)
+        {
+            m_OpenIconDialog.Filter = FileFilterHelper.GetBitmapFilter();
+            if (m_OpenIconDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var fi = new FileInfo(m_OpenIconDialog.FileName);
+                    if (fi.Extension.Equals(".bmp", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
+                    {
+                        Image image = Image.FromFile(m_OpenIconDialog.FileName);
+                        if (image.Width != 164 || image.Height != 314)
+                        {
+                            _ = m_MsgMgr.ShowWizardImageBadSizeWarn();
+                            return;
+                        }
+                    }
+                    AppData.InstallerWizardImage = m_OpenIconDialog.FileName;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.TraceError(ex.ToString());
+                }
+            }
+        }
+
+        private void OnLoadBannerClicked(object sender, RoutedEventArgs e)
+        {
+            m_OpenIconDialog.Filter = FileFilterHelper.GetBitmapFilter();
+            if (m_OpenIconDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var fi = new FileInfo(m_OpenIconDialog.FileName);
+                    if (fi.Extension.Equals(".bmp", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
+                    {
+                        Image image = Image.FromFile(m_OpenIconDialog.FileName);
+                        if (image.Width != 150 || image.Height != 57)
+                        {
+                            _ = m_MsgMgr.ShowBannerImageBadSizeWarn();
+                            return;
+                        }
+                    }
+                    AppData.InstallerBannerImage = m_OpenIconDialog.FileName;
+                    var conv = new StringToImageSourceConverter();
+                    img_License.Source = (System.Windows.Media.ImageSource)conv.Convert(@"Resources\Images\Installer\Custom\license.png");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.TraceError(ex.ToString());
+                }
+            }
+        }
     }
 }

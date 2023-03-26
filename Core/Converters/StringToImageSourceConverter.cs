@@ -26,10 +26,22 @@ namespace GeNSIS.Core.Converters
     {
         public override object Convert(object pValue)
         {
+            string path = (string)pValue;
             try
             {
-                string path = (string)pValue;
                 return new BitmapImage(new Uri(path, uriKind: UriKind.Absolute));
+            }
+            catch(UriFormatException)
+            {
+                try
+                {
+                    return new BitmapImage(new Uri(path, uriKind: UriKind.Relative));
+                }
+                catch(Exception ex)
+                {
+                    System.Diagnostics.Trace.TraceError(ex.ToString());
+                    return null;
+                }
             }
             catch (Exception ex)
             {

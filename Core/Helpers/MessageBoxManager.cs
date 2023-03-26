@@ -60,5 +60,11 @@ namespace GeNSIS.Core.Helpers
 
         public MessageBoxResult ShowSettingsHasNoNsisPathDefError()
             => ShowError("Path of NSIS installation folder is empty or does not exist!\nPlease goto settings and set the NSIS installation folder first!", "Path not defined");
+
+        public MessageBoxResult ShowWizardImageBadSizeWarn()
+            => ShowWarn("Image size does not match!", "The selected wizard image size is not 164 x 314 pixel!\nThis will cause errors during installer compilation by NSIS!\nPlease try to select the image after resizing it.", MessageBoxButton.OK);
+
+        public MessageBoxResult ShowBannerImageBadSizeWarn()
+            => ShowWarn("Image size does not match!", "The selected wizard image size is not 150 x 57 pixel!\nThis will cause errors during installer compilation by NSIS!\nPlease try to select the image after resizing it.", MessageBoxButton.OK);
     }
 }

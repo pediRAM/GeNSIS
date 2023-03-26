@@ -32,7 +32,7 @@ namespace GeNSIS.Core.Commands
             AppDataViewModel.Files.Remove(path);
             if (AppDataViewModel.License == path) AppDataViewModel.License = string.Empty;
             if (AppDataViewModel.ExeName == path) AppDataViewModel.ExeName = string.Empty;
-            if (AppDataViewModel.AppIcon == path) AppDataViewModel.AppIcon = string.Empty;
+            if (AppDataViewModel.InstallerIcon == path) AppDataViewModel.InstallerIcon = string.Empty;
         }
     }
 }

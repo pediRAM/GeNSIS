@@ -29,16 +29,13 @@ namespace GeNSIS.Core.Models
 
         bool DoInstallPerUser { get; }
         bool DoAddFWRule { get; }
-        string ExeName { get; }
-        string InstallerFileName { get; }
+        string ExeName { get; }       
 
         string AssociatedExtension { get; }
 
         string AppVersion { get; }
 
         string AppBuild { get; }
-
-        string AppIcon { get; }
 
         string Company { get; }
 
@@ -47,6 +44,11 @@ namespace GeNSIS.Core.Models
         string Publisher { get; }
 
         string Url { get; }
+
+        string InstallerFileName { get; }
+        string InstallerIcon { get; }
+        string InstallerBannerImage { get; }
+        string InstallerWizardImage { get; }
 
         IEnumerable<string> GetFiles();
 

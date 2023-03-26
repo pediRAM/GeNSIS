@@ -32,7 +32,7 @@ namespace GeNSIS.Core.Commands
             AppDataViewModel.Files.Clear();
             AppDataViewModel.ExeName = null;
             AppDataViewModel.License = null;
-            AppDataViewModel.AppIcon = null;
+            AppDataViewModel.InstallerIcon = null;
         }
     }
 }

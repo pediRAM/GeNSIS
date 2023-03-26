@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <None Remove="Resources\Files\nsis.xshd" />
+    <None Remove="Resources\Icons\Installer\modern-install.ico" />
     <None Remove="Resources\Icons\nuvola\22x22\application-exit.png" />
     <None Remove="Resources\Icons\nuvola\22x22\applications-internet.png" />
     <None Remove="Resources\Icons\nuvola\22x22\dialog-information.png" />
@@ -38,6 +39,10 @@
     <None Remove="Resources\Icons\nuvola\22x22\zoom-in.png" />
     <None Remove="Resources\Icons\nuvola\22x22\zoom-out.png" />
     <None Remove="Resources\Icons\nuvola\22x22\zoom.png" />
+    <None Remove="Resources\Images\Installer\Custom\license.png" />
+    <None Remove="Resources\Images\Installer\finish.png" />
+    <None Remove="Resources\Images\Installer\license.png" />
+    <None Remove="Resources\Images\Installer\welcome.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +51,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Files\nsis.xshd" />
+    <Resource Include="Resources\Icons\Installer\modern-install.ico" />
     <Resource Include="Resources\Icons\nuvola\22x22\application-exit.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\applications-internet.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\dialog-information.png" />
@@ -65,6 +71,10 @@
     <Resource Include="Resources\Icons\nuvola\22x22\zoom-in.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\zoom-out.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\zoom.png" />
+    <Resource Include="Resources\Images\Installer\Custom\license.png" />
+    <Resource Include="Resources\Images\Installer\Original\finish.png" />
+    <Resource Include="Resources\Images\Installer\Original\license.png" />
+    <Resource Include="Resources\Images\Installer\Original\welcome.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +86,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Core\UserInterfaces\" />
   </ItemGroup>
 
 </Project>

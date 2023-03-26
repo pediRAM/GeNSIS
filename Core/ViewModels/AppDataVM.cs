@@ -49,12 +49,14 @@ namespace GeNSIS.Core
         private string m_AssociatedExtension;
         private string m_AppVersion;
         private string m_AppBuild;
-        private string m_AppIcon;
         private string m_Company;
         private string m_License;
         private string m_Publisher = Environment.UserName;
         private string m_Url;
         private string m_InstallerFileName;
+        private string m_InstallerIcon;
+        private string m_InstallerBannerImage;
+        private string m_InstallerWelcomeLeftImage;
         private bool m_HasUnsavedChanges;
         #endregion Variables
 
@@ -162,18 +164,6 @@ namespace GeNSIS.Core
             }
         }
 
-        public string AppIcon
-        {
-            get { return  m_AppIcon; }
-            set
-            {
-                if (value == m_AppIcon) return;
-                m_AppIcon = value;
-                NotifyPropertyChanged(nameof(AppIcon));
-
-            }
-        }
-
         public string Company
         {
             get { return  m_Company; }
@@ -234,6 +224,40 @@ namespace GeNSIS.Core
             }
         }
 
+        public string InstallerIcon
+        {
+            get { return m_InstallerIcon; }
+            set
+            {
+                if (value == m_InstallerIcon) return;
+                m_InstallerIcon = value;
+                NotifyPropertyChanged(nameof(InstallerIcon));
+
+            }
+        }
+
+        public string InstallerBannerImage
+        {
+            get { return m_InstallerBannerImage; }
+            set
+            {
+                if (value == m_InstallerBannerImage) return;
+                m_InstallerBannerImage = value;
+                NotifyPropertyChanged(nameof(InstallerBannerImage));
+            }
+        }
+
+        public string InstallerWizardImage
+        {
+            get { return m_InstallerWelcomeLeftImage; }
+            set
+            {
+                if (value == m_InstallerWelcomeLeftImage) return;
+                m_InstallerWelcomeLeftImage = value;
+                NotifyPropertyChanged(nameof(InstallerWizardImage));
+            }
+        }
+
         public ObservableCollection<string> Files { get; set; } = new ObservableCollection<string>();
 
         public ObservableCollection<string> Directories { get; set; } = new ObservableCollection<string>();
@@ -260,37 +284,41 @@ namespace GeNSIS.Core
         {
             return new AppData
             {
-                Is64BitApplication = Is64BitApplication,
-                DoInstallPerUser = DoInstallPerUser,
-                DoAddFWRule = DoAddFWRule,
-                AppName = AppName,
-                ExeName = ExeName,
-                InstallerFileName = InstallerFileName,
-                AssociatedExtension = AssociatedExtension,
-                AppVersion = AppVersion,
                 AppBuild = AppBuild,
-                AppIcon = AppIcon,
+                AppName = AppName,
+                AppVersion = AppVersion,
+                AssociatedExtension = AssociatedExtension,
                 Company = Company,
+                Directories = Directories.ToList(),
+                DoAddFWRule = DoAddFWRule,
+                DoInstallPerUser = DoInstallPerUser,
+                ExeName = ExeName,
+                Files = Files.ToList(),
+                InstallerBannerImage = InstallerBannerImage,
+                InstallerFileName = InstallerFileName,
+                InstallerIcon = InstallerIcon,
+                InstallerWizardImage = InstallerWizardImage,
+                Is64BitApplication = Is64BitApplication,
                 License = License,
                 Publisher = Publisher,
                 Url = Url,
-                Files = Files.ToList(),
-                Directories = Directories.ToList(),
             };
         }
 
         public void UpdateValues(IAppData p)
         {
+            AppBuild = p.AppBuild;
             AppName = p.AppName;
-            Is64BitApplication = p.Is64BitApplication;
+            AppVersion = p.AppVersion;
+            AssociatedExtension = p.AssociatedExtension;
+            Company = p.Company;
             DoInstallPerUser = p.DoInstallPerUser;
             ExeName = p.ExeName;
+            InstallerBannerImage = p.InstallerBannerImage;
             InstallerFileName = p.InstallerFileName;
-            AssociatedExtension = p.AssociatedExtension;
-            AppVersion = p.AppVersion;
-            AppBuild = p.AppBuild;
-            AppIcon = p.AppIcon;
-            Company = p.Company;
+            InstallerIcon = p.InstallerIcon;
+            InstallerWizardImage = p.InstallerWizardImage;
+            Is64BitApplication = p.Is64BitApplication;
             License = p.License;
             Publisher = p.Publisher;
             Url = p.Url;

@@ -96,22 +96,36 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Using modern user interface for installer:");
             Add("!include \"MUI.nsh\"");
 
-            /* todo: implement when ready
-            Add("!define MUI_HEADERIMAGE");
-            // Will be automatically streched if image size lower than 150x57 pixels!
-            Add("!define MUI_HEADERIMAGE_BITMAP \"banner_image_150x57px.bmp\"");
-            // Will avoid streching when image size is lower than 150x57 pixels!
-            Add("!define MUI_HEADERIMAGE_BITMAP_NOSTRETCH");
-            */
-            Add("!define MUI_ABORTWARNING");
-            AddStripline();
+            if (!string.IsNullOrWhiteSpace(d.InstallerBannerImage))
+            {
+                AddDefine("MUI_HEADERIMAGE");
+                AddDefine("MUI_HEADERIMAGE_BITMAP", d.InstallerBannerImage);
+                AddDefine("MUI_HEADERIMAGE_BITMAP_NOSTRETCH");
+                AddDefine("MUI_HEADERIMAGE_UNBITMAP", d.InstallerBannerImage);
+                AddDefine("MUI_HEADERIMAGE_UNBITMAP_NOSTRETCH");
+            }
 
-            AddComment("Application icon (*.ico):");
-            if (string.IsNullOrWhiteSpace(d.AppIcon))
+            if (!string.IsNullOrWhiteSpace(d.InstallerWizardImage))
+            {
+                AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP", d.InstallerWizardImage);
+                AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP_NOSTRETCH");
+                AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP", d.InstallerWizardImage);
+                AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP_NOSTRETCH");
+            }
+
+            AddComment("Installer icons (*.ico):");
+            if (string.IsNullOrWhiteSpace(d.InstallerIcon))
+            {
                 AddDefine("MUI_ICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-install.ico");
+                AddDefine("MUI_UNICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-uninstall.ico");
+            }
             else
-                AddDefine("MUI_ICON", d.AppIcon);
-            AddDefine("MUI_UNICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-uninstall.ico");
+            {
+                AddDefine("MUI_ICON", d.InstallerIcon);
+                AddDefine("MUI_UNICON", d.InstallerIcon);
+            }
+            AddStripline();
+            Add("!define MUI_ABORTWARNING");
             AddStripline();
 
             AddComment("Show welcome page:");
@@ -259,6 +273,9 @@ namespace GeNSIS.Core.TextGenerators
 
         private void AddDefine(string pVarName, string pValue) 
             => sb.AppendLine($"!define {pVarName} \"{pValue}\"");
+
+        private void AddDefine(string pVarName)
+            => sb.AppendLine($"!define {pVarName}");
 
         private void AddLog(string pValue)
             => sb.AppendLine($"!echo \"{pValue}\"");

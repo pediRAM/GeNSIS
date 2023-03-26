@@ -23,7 +23,8 @@
     <sys:String x:Key="tt_appname">Displayed name of application</sys:String>
     <sys:String x:Key="tt_appversion">Version of application, like: 1.2 or 1.2.3 or 1.2.3.4</sys:String>
     <sys:String x:Key="tt_appbuild">Application Build, like: alpha, Beta, RC, ReleaseCandidate, RELEASE, DEMO etc.</sys:String>
-    <sys:String x:Key="tt_appicon">Application Icon file (*.ico)</sys:String>
+    <sys:String x:Key="tt_appicon">Installer icon (*.ico)</sys:String>
+    <sys:String x:Key="tt_leftimageonwelcomepage">Left image (Bitmap: *.bmp) on installer welcome page</sys:String>
     <sys:String x:Key="tt_files">Files of your application, which should be copied to the installation directory</sys:String>
     <sys:String x:Key="tt_directories">Directories of your application, which should be copied (optional recursively) to the installation dirctory</sys:String>
     <sys:String x:Key="tt_exename">Executable filename: name of the *.exe file of your application</sys:String>

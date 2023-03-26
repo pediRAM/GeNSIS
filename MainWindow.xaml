@@ -136,14 +136,7 @@
                     <Label Grid.Row="6" Grid.Column="0" Content="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource label_input}" />
                     <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
 
-                    <Rectangle Grid.Row="7" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
-                    
-                    <!-- AppIcon (string) -->
-                    <Label Grid.Row="8" Grid.Column="0" Content="{StaticResource label_appicon}" ToolTip="{StaticResource tt_appicon}" Style="{StaticResource label_input}" />
-                    <Border Grid.Row="8" Grid.Column="1" Style="{StaticResource border_icon}">
-                        <Image Source="{Binding AppIcon, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}"    ToolTip="{StaticResource tt_appicon}" Style="{StaticResource image_icon}" />
-                    </Border>
-                    <Button Grid.Row="8" Grid.Column="2" Content="Load icon..." Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadIconClicked" />
+
                 </Grid>
             </TabItem>
             
@@ -228,6 +221,9 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <!-- AssociatedExtension (string) -->
@@ -249,6 +245,58 @@
                     <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button Content="Auto name" Command="{Binding AutoCreateInstallerNameCommand}" CommandParameter="{Binding ElementName=txb_ExeName, Path=Text}" Style="{StaticResource button_command}"/>
                     </StackPanel>
+
+                    <Rectangle Grid.Row="4" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
+                    <ScrollViewer Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Padding="5" Width="420">
+                        <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <!-- Welcome Page -->
+                                <Grid Grid.Row="0" Margin="5,5,5,10">
+                                    <!-- NSIS Installer Welcome Page -->
+                                    <Image Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/welcome.png" />
+                                    
+                                    <!-- Installer Wizard Image -->
+                                    <Image Width="245"  Height="470"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1.5,40,0,0" Stretch="UniformToFill" Source="{Binding InstallerWizardImage, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
+                                    <!--<Rectangle Width="245"  Height="470"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1.5,40,0,0" Fill="Red" />-->
+
+                                    <!-- Installer Icon -->
+                                    <Image Width="24"  Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="6,7,0,0" Stretch="UniformToFill" Source="{Binding InstallerIcon, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
+                                    <!--<Rectangle Width="24"  Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="6,7,0,0" Fill="Yellow" />-->
+                                </Grid>
+
+                                <!-- License Page -->
+                                <Grid Grid.Row="1" Margin="5,10,5,5">
+                                    <!-- NSIS Installer License Page -->
+                                    <Image x:Name="img_License" Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/license.png" />
+                                    
+                                    <!-- Image -->
+                                    <Image Width="225"  Height="86"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1,39,0,0" Stretch="UniformToFill" Source="{Binding InstallerBannerImage, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
+                                    <!--<Rectangle Width="225"  Height="86"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1,39,0,0" Fill="Red" />-->
+
+                                    <!-- Icon -->
+                                    <Image Width="24"  Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="6,7,0,0" Stretch="UniformToFill" Source="{Binding InstallerIcon, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
+                                    <!--<Rectangle Width="24"  Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="6,7,0,0" Fill="Yellow" />-->
+
+                                    <!-- Icon License right double size -->
+                                    <Image Width="48"  Height="48"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="676,58,0,0" Stretch="UniformToFill" Source="{Binding InstallerIcon, Mode=OneWay, Converter={conv:StringToImageSourceConverter}, FallbackValue={StaticResource icon_nsis}}" />
+                                    <!--<Rectangle Width="48"  Height="48"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="676,58,0,0" Fill="Yellow" />-->
+                                </Grid>
+                            </Grid>
+                        </Viewbox>
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Row="5" Grid.Column="3" Orientation="Vertical">
+                        <Button Grid.Row="5" Grid.Column="2" Content="Icon..." Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadIconClicked" />
+                        <Button Grid.Row="5" Grid.Column="2" Content="Wizard image..." Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadWizardClicked" />
+                        <Button Grid.Row="5" Grid.Column="2" Content="Banner image..." Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadBannerClicked" />
+                    </StackPanel>
+                   
+                    
                 </Grid>
             </TabItem>
 
