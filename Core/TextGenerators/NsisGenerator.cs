@@ -95,6 +95,14 @@ namespace GeNSIS.Core.TextGenerators
 
             AddComment("Using modern user interface for installer:");
             Add("!include \"MUI.nsh\"");
+
+            /* todo: implement when ready
+            Add("!define MUI_HEADERIMAGE");
+            // Will be automatically streched if image size lower than 150x57 pixels!
+            Add("!define MUI_HEADERIMAGE_BITMAP \"banner_image_150x57px.bmp\"");
+            // Will avoid streching when image size is lower than 150x57 pixels!
+            Add("!define MUI_HEADERIMAGE_BITMAP_NOSTRETCH");
+            */
             Add("!define MUI_ABORTWARNING");
             AddStripline();
 
@@ -110,7 +118,7 @@ namespace GeNSIS.Core.TextGenerators
             AddInsertMacro("MUI_PAGE_WELCOME");
             AddStripline();
 
-            if (d.License != null)
+            if (!string.IsNullOrWhiteSpace(d.License))
             {
                 AddComment("License file (*.txt):");
                 AddInsertMacro("MUI_PAGE_LICENSE", d.License);

@@ -242,7 +242,9 @@ namespace GeNSIS
 
             foreach (var file in Directory.GetFiles(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly))
             {
-                if(true) // todo: filter by ignore list!
+                if (Path.GetExtension(file).Equals(".pdb", StringComparison.OrdinalIgnoreCase)) // todo: filter by ignore list!
+                    continue;
+
                 AppData.Files.Add(file);
                 var ext = Path.GetExtension(file);
                 if (!string.IsNullOrWhiteSpace(ext))

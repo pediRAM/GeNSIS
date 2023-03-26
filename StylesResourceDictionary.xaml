@@ -51,7 +51,7 @@
     </Style>
 
     <Style x:Key="listbox_files" TargetType="ListBox">
-        <Setter Property="Height" Value="275"/>
+        <Setter Property="Height" Value="300"/>
         <Setter Property="Margin" Value="5" />
         <Style.Resources>
             <Style TargetType="Border">
