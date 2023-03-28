@@ -177,29 +177,33 @@
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{StaticResource label_appname}" ToolTip="{StaticResource tt_appname}" Style="{StaticResource textblock_label}" />
                     <TextBox   Grid.Row="1" Grid.Column="1" Text="{Binding AppName}"      ToolTip="{StaticResource tt_appname}" Style="{StaticResource textbox_input}" />
 
+                    <!-- AssociatedExtension (string) -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_associatedextension}" ToolTip="{StaticResource tt_associatedextension}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding AssociatedExtension}"      ToolTip="{StaticResource tt_associatedextension}" Style="{StaticResource textbox_input}" />
+
                     <!-- AppVersion (string) -->
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_appversion}" ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding AppVersion}"      ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textbox_input}" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_appversion}" ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding AppVersion}"      ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textbox_input}" />
 
                     <!-- AppBuild (string) -->
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_appbuild}" ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding AppBuild}"      ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textbox_input}" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{StaticResource label_appbuild}" ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding AppBuild}"      ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textbox_input}" />
 
 
 
                     <!-- Company (string) -->
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{StaticResource label_company}" ToolTip="{StaticResource tt_company}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding Company}"      ToolTip="{StaticResource tt_company}" Style="{StaticResource textbox_input}" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{StaticResource label_company}" ToolTip="{StaticResource tt_company}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="5" Grid.Column="1" Text="{Binding Company}"      ToolTip="{StaticResource tt_company}" Style="{StaticResource textbox_input}" />
 
                     <!-- Publisher (string) -->
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{StaticResource label_publisher}" ToolTip="{StaticResource tt_publisher}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="5" Grid.Column="1" Text="{Binding Publisher}"      ToolTip="{StaticResource tt_publisher}" Style="{StaticResource textbox_input}" />
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{StaticResource label_publisher}" ToolTip="{StaticResource tt_publisher}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding Publisher}"      ToolTip="{StaticResource tt_publisher}" Style="{StaticResource textbox_input}" />
 
                     <!-- Url (string) -->
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{StaticResource label_url}" ToolTip="{StaticResource tt_url}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding Url}"      ToolTip="{StaticResource tt_url}" Style="{StaticResource textbox_input}" />
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="{StaticResource label_url}" ToolTip="{StaticResource tt_url}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="7" Grid.Column="1" Text="{Binding Url}"      ToolTip="{StaticResource tt_url}" Style="{StaticResource textbox_input}" />
 
-                    <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                         <Button Content="Auto fill" Style="{StaticResource button_command}" Command="{Binding AutoRetrieveExeDataCommand}"/>
                     </StackPanel>
                 </Grid>
@@ -226,10 +230,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <!-- AssociatedExtension (string) -->
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{StaticResource label_associatedextension}" ToolTip="{StaticResource tt_associatedextension}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding AssociatedExtension}"      ToolTip="{StaticResource tt_associatedextension}" Style="{StaticResource textbox_input}" Width="300" />
-
+                    
                     <!-- DoInstallPerUser (bool) -->
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{StaticResource label_doinstallperuser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource textblock_label}" />
                     <CheckBox  Grid.Row="1" Grid.Column="1" IsChecked="{Binding DoInstallPerUser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource checkbox_input}" />
@@ -291,9 +292,10 @@
                     </ScrollViewer>
 
                     <StackPanel Grid.Row="5" Grid.Column="3" Orientation="Vertical">
-                        <Button Grid.Row="5" Grid.Column="2" Content="Icon..." Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadIconClicked" />
-                        <Button Grid.Row="5" Grid.Column="2" Content="Wizard image..." Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadWizardClicked" />
-                        <Button Grid.Row="5" Grid.Column="2" Content="Banner image..." Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadBannerClicked" />
+                        <Label Content="{StaticResource label_design}" Style="{StaticResource label_input}"/>
+                        <Button Content="{StaticResource btn_installer_icon}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadIconClicked" />
+                        <Button Grid.Column="2" Content="{StaticResource btn_installer_wizard}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadWizardClicked" />
+                        <Button Grid.Column="2" Content="{StaticResource btn_installer_header}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadBannerClicked" />
                     </StackPanel>
                    
                     

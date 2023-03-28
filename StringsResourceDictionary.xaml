@@ -2,13 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib" >
 
+
+    <sys:String x:Key="btn_installer_icon">Icon...</sys:String>
+    <sys:String x:Key="btn_installer_wizard">Wizard image...</sys:String>
+    <sys:String x:Key="btn_installer_header">Header image...</sys:String>
     <sys:String x:Key="label_is64bitapplication">Is x64 app:</sys:String>
     <sys:String x:Key="label_appname">Application name:</sys:String>
     <sys:String x:Key="label_appversion">Application version:</sys:String>
     <sys:String x:Key="label_appbuild">Application build:</sys:String>
     <sys:String x:Key="label_appicon">Application icon (*.ico):</sys:String>
     <sys:String x:Key="label_files">Files:</sys:String>
-    <sys:String x:Key="label_directories">Directories:</sys:String>    
+    <sys:String x:Key="label_directories">Directories:</sys:String>
+    <sys:String x:Key="label_design">Installer Design</sys:String>
     <sys:String x:Key="label_exename">Executable file:</sys:String>    
     <sys:String x:Key="label_license">License file (*.txt):</sys:String>    
     <sys:String x:Key="label_company">Company name:</sys:String>
