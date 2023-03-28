@@ -79,6 +79,7 @@ namespace GeNSIS
             {
                 AppData.InstallerIcon = m_Config.NsisInstallationDirectory + @"\Contrib\Graphics\Icons\modern-install.ico";
                 AppData.InstallerWizardImage = m_Config.NsisInstallationDirectory + @"\Contrib\Graphics\Wizard\win.bmp";
+                AppData.ResetHasUnsavedChanges(); 
             }
         }
 
@@ -308,7 +309,7 @@ namespace GeNSIS
 
             var project = new Project { AppData = AppData.ToModel() };
             m_ProjectManager.Save(m_SaveFileDialog.FileName, project);
-            AppData.HasUnsavedChanges = false;
+            AppData.ResetHasUnsavedChanges();
         }
 
         private void OnSaveProjectClicked(object sender, RoutedEventArgs e)
@@ -324,7 +325,7 @@ namespace GeNSIS
 
             var project = new Project() { AppData = AppData.ToModel() };
             m_ProjectManager.Save(pathOfSavedProject, project);
-            AppData.HasUnsavedChanges = false;
+            AppData.ResetHasUnsavedChanges();
         }
 
         private void OnOpenProjectClicked(object sender, RoutedEventArgs e)

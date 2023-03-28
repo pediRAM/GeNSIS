@@ -265,7 +265,7 @@ namespace GeNSIS.Core
         public bool HasUnsavedChanges
         {
             get { return m_HasUnsavedChanges; }
-            set
+            private set
             {
                 if (value == m_HasUnsavedChanges) return;
                 m_HasUnsavedChanges = value;
