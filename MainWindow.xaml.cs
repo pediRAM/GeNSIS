@@ -55,6 +55,7 @@ namespace GeNSIS
         private string m_PathToGeneratedNsisScript;
 
         private OpenFileDialog m_OpenFilesDialog = new OpenFileDialog() { Multiselect = true };
+        private OpenFileDialog m_OpenScriptDialog = new OpenFileDialog();
         private OpenFileDialog m_OpenImageDialog = new OpenFileDialog();
 
         // BUG: .NET 6 seems to have some issues with setting value of
@@ -536,5 +537,17 @@ namespace GeNSIS
             _ = m_MsgBoxMgr.ShowSavingScriptSucceededInfo();
         }
         #endregion Methods
+
+        private void OnOpenScriptClicked(object sender, RoutedEventArgs e)
+        {
+            m_OpenScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
+            FileDialogHelper.InitDir(m_OpenScriptDialog, PathHelper.GetGeNSISScriptsDir());
+            if (m_OpenScriptDialog.ShowDialog() != true)
+                return;
+
+            editor.Text = File.ReadAllText(m_OpenScriptDialog.FileName, System.Text.Encoding.UTF8);
+            tabItem_Editor.IsSelected = true;
+            PathToGeneratedNsisScript = m_OpenScriptDialog.FileName;
+        }
     }
 }

@@ -23,6 +23,7 @@
     <Image x:Key="icon_files" Source="Resources/Icons/nuvola/22x22/document-multiple.png" />
     <Image x:Key="icon_info" Source="Resources/Icons/nuvola/22x22/dialog-information.png" />
     <Image x:Key="icon_settings" Source="Resources/Icons/nuvola/22x22/kcontrol.png" />
+    <Image x:Key="icon_script" Source="Resources/Icons/nuvola/22x22/source.png" />
     
     <Image x:Key="icon_nsis" Source="Resources/Icons/Installer/modern-install.ico" />
     

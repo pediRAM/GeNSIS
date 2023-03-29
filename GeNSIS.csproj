@@ -35,6 +35,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\krec_fileempty.png" />
     <None Remove="Resources\Icons\nuvola\22x22\kuser.png" />
     <None Remove="Resources\Icons\nuvola\22x22\preferences-desktop-user.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\source.png" />
     <None Remove="Resources\Icons\nuvola\22x22\tools-wizard.png" />
     <None Remove="Resources\Icons\nuvola\22x22\tool_delete.png" />
     <None Remove="Resources\Icons\nuvola\22x22\zoom-in.png" />
@@ -70,6 +71,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\krec_fileempty.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\kuser.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\preferences-desktop-user.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\source.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\tools-wizard.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\tool_delete.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\zoom-in.png" />

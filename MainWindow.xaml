@@ -28,7 +28,7 @@
         
         <Menu Grid.Row="0">
             <MenuItem Header="File">
-                
+                <MenuItem Header="Open script..." Icon="{StaticResource icon_script}" Click="OnOpenScriptClicked"/>
                 <MenuItem Header="Settings..." Icon="{StaticResource icon_settings}" Click="OnOpenSettingsWindowClicked"/>
                 <MenuItem Header="Close"       Icon="{StaticResource icon_exit}"     Click="OnCloseClicked"/>
             </MenuItem>
