@@ -18,6 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="nlog.config" />
     <None Remove="Resources\Files\nsis.xshd" />
     <None Remove="Resources\Icons\Installer\modern-install.ico" />
     <None Remove="Resources\Icons\nuvola\22x22\application-exit.png" />
@@ -47,6 +48,9 @@
 
   <ItemGroup>
     <Content Include="Misc\GeNSIS_mini_icon_white.ico" />
+    <Content Include="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -79,6 +83,7 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+    <PackageReference Include="NLog" Version="5.1.2" />
   </ItemGroup>
 
   <ItemGroup>

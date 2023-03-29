@@ -7,7 +7,7 @@
         xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
         mc:Ignorable="d"
-        Height="700" Width="900">
+        Height="650" Width="900">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -28,24 +28,30 @@
         
         <Menu Grid.Row="0">
             <MenuItem Header="File">
+                
+                <MenuItem Header="Settings..." Icon="{StaticResource icon_settings}" Click="OnOpenSettingsWindowClicked"/>
+                <MenuItem Header="Close"       Icon="{StaticResource icon_exit}"     Click="OnCloseClicked"/>
+            </MenuItem>
+            
+            <MenuItem Header="Project">
                 <MenuItem Header="New project" Icon="{StaticResource icon_new}"      Click="OnNewProjectClicked"/>
                 <MenuItem Header="Open..."     Icon="{StaticResource icon_open}"     Click="OnOpenProjectClicked"/>
                 <MenuItem Header="Save"        Icon="{StaticResource icon_save}"     Click="OnSaveProjectClicked"/>
                 <MenuItem Header="Save as..."  Icon="{StaticResource icon_save_as}"  Click="OnSaveProjectAsClicked"/>
-                <MenuItem Header="Settings..." Icon="{StaticResource icon_settings}" Click="OnOpenSettingsWindowClicked"/>
-                <MenuItem Header="Close"       Icon="{StaticResource icon_exit}"     Click="OnCloseClicked"/>
             </MenuItem>
-            <!--<MenuItem Header="Settings"></MenuItem>-->
+            
             <MenuItem Header="Build">
                 <MenuItem Header="Generate script" Icon="{StaticResource icon_generate}" Click="OnGenerate"/>
             </MenuItem>
+            
             <MenuItem Header="Help">
                 <MenuItem Header="Manuals"      Icon="{StaticResource icon_manuals}" Click="OnManualClicked"/>
                 <MenuItem Header="About GeNSIS" Icon="{StaticResource icon_about}" Click="OnAboutClicked"/>
             </MenuItem>
         </Menu>
-        
-        <TabControl Grid.Row="1">
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <TabControl >
             
             <!-- Tab: Files and Folders -->
             <TabItem Header="❶ Files and Folders" Style="{StaticResource label_tabitem}">
@@ -177,19 +183,17 @@
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{StaticResource label_appname}" ToolTip="{StaticResource tt_appname}" Style="{StaticResource textblock_label}" />
                     <TextBox   Grid.Row="1" Grid.Column="1" Text="{Binding AppName}"      ToolTip="{StaticResource tt_appname}" Style="{StaticResource textbox_input}" />
 
-                    <!-- AssociatedExtension (string) -->
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_associatedextension}" ToolTip="{StaticResource tt_associatedextension}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding AssociatedExtension}"      ToolTip="{StaticResource tt_associatedextension}" Style="{StaticResource textbox_input}" />
-
                     <!-- AppVersion (string) -->
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_appversion}" ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding AppVersion}"      ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textbox_input}" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_appversion}" ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding AppVersion}"      ToolTip="{StaticResource tt_appversion}" Style="{StaticResource textbox_input}" />
 
                     <!-- AppBuild (string) -->
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{StaticResource label_appbuild}" ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textblock_label}" />
-                    <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding AppBuild}"      ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textbox_input}" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{StaticResource label_appbuild}" ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding AppBuild}"      ToolTip="{StaticResource tt_appbuild}" Style="{StaticResource textbox_input}" />
 
-
+                    <!-- AssociatedExtension (string) -->
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{StaticResource label_associatedextension}" ToolTip="{StaticResource tt_associatedextension}" Style="{StaticResource textblock_label}" />
+                    <TextBox   Grid.Row="4" Grid.Column="1" Text="{Binding AssociatedExtension}"      ToolTip="{StaticResource tt_associatedextension}" Style="{StaticResource textbox_input}" />
 
                     <!-- Company (string) -->
                     <TextBlock Grid.Row="5" Grid.Column="0" Text="{StaticResource label_company}" ToolTip="{StaticResource tt_company}" Style="{StaticResource textblock_label}" />
@@ -295,7 +299,7 @@
                         <Label Content="{StaticResource label_design}" Style="{StaticResource label_input}"/>
                         <Button Content="{StaticResource btn_installer_icon}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadIconClicked" />
                         <Button Grid.Column="2" Content="{StaticResource btn_installer_wizard}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadWizardClicked" />
-                        <Button Grid.Column="2" Content="{StaticResource btn_installer_header}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadBannerClicked" />
+                        <Button Grid.Column="2" Content="{StaticResource btn_installer_header}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadHeaderClicked" />
                     </StackPanel>
                    
                     
@@ -321,25 +325,16 @@
 
                     <!-- Buttons -->
                     <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                        <Button Content="Generate script&#x2026;" Click="OnGenerate" Style="{StaticResource button_command}"/>
+                        <Button Content="{StaticResource btn_generate_script}" Click="OnGenerate" Style="{StaticResource button_command}" IsEnabled="{Binding ExeName, Converter={conv:NullEmptyOrWhitespaceToBoolConverter}}"/>
+                        <Button Content="{StaticResource btn_save_script}" Click="OnSaveScriptClicked" Style="{StaticResource button_command}" IsEnabled="{Binding Files.Count, Converter={conv:ZeroToBooleanConverter}}"/>
+                        <Button Content="{StaticResource btn_compile}" Click="OnCompileScript" Style="{StaticResource button_command}" />
                     </StackPanel>
                 </Grid>
             </TabItem>
-            
-            <TabItem Header="Test" Style="{StaticResource label_tabitem}">
-                <Grid>
 
-                    <!-- Buttons -->
-                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="left" VerticalAlignment="Top" Margin="5">
-                        <Button Content="Compile&#x2026;" Click="OnCompileScript" Style="{StaticResource button_command}" />
-                        <!--<Button Content="Save project..." Click="OnSaveProjectAs" Style="{StaticResource button_command}"/>-->
-
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-                     
         </TabControl>
-            
+        </ScrollViewer>
+    
         <Grid Grid.Row="3" Grid.ColumnSpan="10">
 
         </Grid>

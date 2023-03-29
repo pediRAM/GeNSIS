@@ -17,30 +17,39 @@
 ****************************************************************************************/
 
 
-using GeNSIS.Core.Helpers;
 using System;
-using System.Windows;
-using System.Windows.Threading;
 
-namespace GeNSIS.Core.Commands
+namespace GeNSIS.Core.Converters
 {
-    public class AutoRetrieveExeDataCommand : ACommand
+    public class ZeroToBooleanConverter : AValueConverter
     {
-        public AutoRetrieveExeDataCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        /// <summary>
+        /// Gets/Sets the value when the given parameter is zero. Default: false.
+        /// </summary>
+        public bool ValueWhenZero { get; set; } = false;
 
-        public override bool CanExecute(object parameter)
-            => !string.IsNullOrEmpty(AppDataViewModel.ExeName);
+        /// <summary>
+        /// Gets/Sets the value when the given parameter is not zero. Default: true.
+        /// </summary>
+        public bool ValueWhenNotZero { get; set; } = true;
 
-        public override void Execute(object parameter)
+        public override object Convert(object pValue)
         {
-            try
+            switch(pValue)
             {
-                ExeInfoHelper.AutoSetProperties(AppDataViewModel);
+                case byte item: return ((byte)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case sbyte item: return ((sbyte)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case short item: return ((short)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case ushort item: return ((ushort)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case long item: return ((long)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case ulong item: return ((ulong)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case int item: return ((int)pValue == 0) ? ValueWhenZero: ValueWhenNotZero;
+                case uint item: return ((uint)pValue == 0) ? ValueWhenZero: ValueWhenNotZero;
+                case double item: return ((double)pValue == 0.0d) ? ValueWhenZero: ValueWhenNotZero;
             }
-            catch(Exception ex)
-            {
-                _ = Dispatcher.CurrentDispatcher.InvokeAsync(new Action(() => { MessageBox.Show(ex.ToString(), "Error!"); }));
-            }
+
+            throw new TypeAccessException("Unknown number type!");
         }
+        
     }
 }

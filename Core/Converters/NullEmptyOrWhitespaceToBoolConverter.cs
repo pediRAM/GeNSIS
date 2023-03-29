@@ -17,22 +17,21 @@
 ****************************************************************************************/
 
 
-using System.Collections.Generic;
 
-namespace GeNSIS.Core.Models
+namespace GeNSIS.Core.Converters
 {
-    public interface IAppConfig
+    internal class NullEmptyOrWhitespaceToBoolConverter : AValueConverter
     {
-        string CompanyName { get; set; }
-        string Publisher { get; set; }
-        string Website { get; set; }
-        string GeNSISProjectsDirectory { get; set; }
-        string ScriptsDirectory { get; set; }
-        string InstallersDirectory { get; set; }
-        string NsisInstallationDirectory { get; set; }
+        /// <summary>
+        /// Sets/Gets the value when the given string is null, empty or consists only of whitespace(s). Default: false.
+        /// </summary>
+        public bool ValueWhenNullEmptyOrWhitespace { get; set; } = false;
 
-        List<string> GetLastProjects();
-        List<string> GetLastScripts();
-        void UpdateValues(IAppConfig pIAppConfig);
+        /// <summary>
+        /// Sets/Gets the value when the given string IS NOT null and IS NOT empty and DOES NOT CONSIST ONLY of whitespace(s). Default: true.
+        /// </summary>
+        public bool ValueElse { get; set; } = true;
+        public override object Convert(object pValue)
+            => (string.IsNullOrWhiteSpace((string)pValue)) ? ValueWhenNullEmptyOrWhitespace : ValueElse;
     }
 }

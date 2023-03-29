@@ -23,12 +23,13 @@ using GeNSIS.Core.Extensions;
 using GeNSIS.Core.Helpers;
 using GeNSIS.Core.Models;
 using GeNSIS.Core.TextGenerators;
+using NLog;
 using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -44,16 +45,27 @@ namespace GeNSIS
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+
+        private readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
+
         private AppDataVM m_AppDataViewModel;
         private string m_ProjectName = "Unsaved";
-        private OpenFileDialog m_OpenFileDialog = new OpenFileDialog();
-        private OpenFileDialog m_OpenIconDialog = new OpenFileDialog();
-        private SaveFileDialog m_SaveFileDialog = new SaveFileDialog();
+        private string m_PathToGeneratedNsisScript;
+
+        private OpenFileDialog m_OpenFilesDialog = new OpenFileDialog() { Multiselect = true };
+        private OpenFileDialog m_OpenImageDialog = new OpenFileDialog();
+
+        // BUG: .NET 6 seems to have some issues with setting value of
+        // the property "InitialDirectory" -> so we try to create two
+        // instances of SaveFileDialogs.
+        private SaveFileDialog m_SaveScriptDialog = new SaveFileDialog();
+        private SaveFileDialog m_SaveProjectDialog = new SaveFileDialog();
+
         private FolderBrowserDialog m_FolderBrowserDialog = new FolderBrowserDialog();
         private ProjectManager m_ProjectManager = new ProjectManager();
         private MessageBoxManager m_MsgMgr = new MessageBoxManager();
         private AppConfig m_Config;
-        
+        private NsisGenerator m_NsisCodeGenerator = new NsisGenerator();
 
         private void NotifyPropertyChanged(string pPropertyName) 
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(pPropertyName)));
@@ -63,24 +75,76 @@ namespace GeNSIS
             AppData = new AppDataVM(true);            
 
             InitializeComponent();
-            Loaded += OnMainWindowLoaded;
             Title = $"GeNSIS {AsmConst.VERSION}";
             editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");
-            m_OpenFileDialog.Multiselect = true;
-            m_OpenIconDialog.Filter = FileFilterHelper.GetIconFilter();
-            m_SaveFileDialog.Filter = FileFilterHelper.GetNsisFilter() ;
+
+            Loaded += OnMainWindowLoaded;            
+
+            FileDialogHelper.InitDir(m_OpenFilesDialog, PathHelper.GetMyDocuments());
+            m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
+            m_SaveScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
+            m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
+
             DataContext = AppData;
         }
 
         private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
             ProcessAppConfig();
-            if (Directory.Exists(m_Config.NsisInstallationDirectory))
+            if (!NsisInstallationDirectoryExists())
             {
-                AppData.InstallerIcon = m_Config.NsisInstallationDirectory + @"\Contrib\Graphics\Icons\modern-install.ico";
-                AppData.InstallerWizardImage = m_Config.NsisInstallationDirectory + @"\Contrib\Graphics\Wizard\win.bmp";
-                AppData.ResetHasUnsavedChanges(); 
+                if (m_MsgMgr.ShowContinueWithoutNsisWarning() != MessageBoxResult.Yes)
+                {
+                    Log?.Debug("User decided to quit due to missing NSIS installation.");
+                    Close();
+                    return;
+                }
             }
+        }    
+        
+
+        //private void SetInstallerImagesOfViewModel()
+        //{
+        //    AppData.InstallerIcon = m_Config.NsisInstallationDirectory + PATH_INSTALLER_ICON;
+        //    AppData.UninstallerIcon = m_Config.NsisInstallationDirectory + PATH_UNINSTALLER_ICON;
+        //    AppData.InstallerWizardImage = m_Config.NsisInstallationDirectory + PATH_INSTALLER_WIZARD_IMG;
+        //    AppData.UninstallerWizardImage = m_Config.NsisInstallationDirectory + PATH_UNINSTALLER_WIZARD_IMG;
+        //    AppData.ResetHasUnsavedChanges();
+        //}
+
+        private bool NsisInstallationDirectoryExists()
+        {
+            if (string.IsNullOrEmpty(m_Config.NsisInstallationDirectory))
+            {
+                if (m_MsgMgr.ShowDoYouWantToSelectNsisInstallDirManuallyQuestion() != MessageBoxResult.Yes)
+                {
+                    Log?.Debug("User denied manual nsis install dir selection!");
+                    return false;
+                }
+
+                FileDialogHelper.InitDir(m_FolderBrowserDialog, PathHelper.GetProgramFilesX86NsisDir());
+                if (m_FolderBrowserDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                {
+                    Log?.Debug("User canceled searching for nsis install dir!");
+                    return false;
+                }
+
+                if (Directory.GetFiles(m_FolderBrowserDialog.SelectedPath, "*.exe").Any(f => f.EndsWith(" \\nsis.exe", StringComparison.OrdinalIgnoreCase)))
+                {
+                    Log?.Debug("NSIS install dir chosen by user seems to be ok.");
+                    m_Config.NsisInstallationDirectory = m_FolderBrowserDialog.SelectedPath;
+
+                    Log?.Debug("Saving changes to config file...");
+                    AppConfigHelper.WriteConfigFile(m_Config);
+                }
+                else
+                {
+                    Log?.Warn("NSIS install dir chosen by user was not ok!");
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void ProcessAppConfig()
@@ -89,10 +153,17 @@ namespace GeNSIS
             {
                 try
                 {
+                    Log.Debug("Reading config file...");
                     m_Config = AppConfigHelper.ReadConfigFile();
+                    Log.Debug("Reading config file suceeded.");
+
+                    Log.Debug("Creating GeNSIS directories if not exist...");
+                    AppConfigHelper.CreateGeNSISDirectoriesIfNotExist();
+                    Log.Debug("Creating GeNSIS directories succeeded.");
                 }
                 catch(Exception ex)
                 {
+                    Log.Error(ex);
                     _ = m_MsgMgr.ShowLoadConfigError(ex);
                     Close();
                     return;
@@ -100,8 +171,12 @@ namespace GeNSIS
             }
             else
             {
+                Log.Warn("Config file not found!");
+                Log.Debug("Creating default configuration...");
                 m_Config = AppConfigHelper.CreateConfig();
+                Log.Info("Writing default config file...");
                 AppConfigHelper.WriteConfigFile(m_Config);
+                Log.Info("Writing default config file succeeded.");
             }
         }
 
@@ -131,26 +206,28 @@ namespace GeNSIS
 
         private void OnAddFilesClicked(object sender, RoutedEventArgs e)
         {
-            if (m_OpenFileDialog.ShowDialog().Value != true) 
+            FileDialogHelper.InitDir(m_OpenFilesDialog, PathHelper.GetMyDocuments());
+            if (m_OpenFilesDialog.ShowDialog().Value != true) 
                 return;
 
-            AppData.Files.AddRange(m_OpenFileDialog.FileNames);
+            AppData.Files.AddRange(m_OpenFilesDialog.FileNames);
         }
 
         private void OnLoadIconClicked(object sender, RoutedEventArgs e)
         {
-            m_OpenIconDialog.Filter = FileFilterHelper.GetIconFilter();
-            if (m_OpenIconDialog.ShowDialog() == true)
+            m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
+            FileDialogHelper.InitDir(m_OpenImageDialog, AppConfigHelper.GetNsisIconsFolder());
+            if (m_OpenImageDialog.ShowDialog() == true)
             {
                 try
                 {
-                    var fi = new FileInfo(m_OpenIconDialog.FileName);
+                    var fi = new FileInfo(m_OpenImageDialog.FileName);
                     if (fi.Extension.Equals(".ico", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
                     {
-                        if (! AppData.Files.Contains(m_OpenIconDialog.FileName))
-                            AppData.Files.Add(m_OpenIconDialog.FileName);
+                        if (! AppData.Files.Contains(m_OpenImageDialog.FileName))
+                            AppData.Files.Add(m_OpenImageDialog.FileName);
                     }
-                    AppData.InstallerIcon = m_OpenIconDialog.FileName;
+                    AppData.InstallerIcon = m_OpenImageDialog.FileName;
                 }
                 catch (Exception ex)
                 {
@@ -166,7 +243,16 @@ namespace GeNSIS
                 AppData.Directories.Add(m_FolderBrowserDialog.SelectedPath);
             }
         }
-        private string m_GeneratedNsisPath;
+        internal string PathToGeneratedNsisScript
+        {
+            get => m_PathToGeneratedNsisScript;
+            set
+            {
+                if (value == m_PathToGeneratedNsisScript) return;
+                m_PathToGeneratedNsisScript = value;
+                NotifyPropertyChanged(nameof(PathToGeneratedNsisScript));
+            }
+        }
         private void OnGenerate(object sender, RoutedEventArgs e)
         {
             var validator = new Core.Validator();
@@ -177,33 +263,35 @@ namespace GeNSIS
                 return;
             }
 
-            m_SaveFileDialog.Filter = FileFilterHelper.GetNsisFilter();
-            m_SaveFileDialog.InitialDirectory = m_Config.ScriptsDirectory;
-            if (m_SaveFileDialog.ShowDialog() != true)
+            FileDialogHelper.InitDir(m_SaveScriptDialog, m_Config.ScriptsDirectory);
+            m_SaveScriptDialog.FileName = PathHelper.GetNewScriptName(AppData);
+            m_SaveScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
+
+            if (m_SaveScriptDialog.ShowDialog() != true)
                 return;
 
-            var g = new NsisGenerator();
-            var nsisCode = g.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true });
-            SaveScript(m_SaveFileDialog.FileName, nsisCode);
+            var nsisCode = m_NsisCodeGenerator.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true });
+            FileDialogHelper.InitDir(m_SaveScriptDialog, PathHelper.GetGeNSISScriptsDir());
+            SaveScript(m_SaveScriptDialog.FileName, nsisCode);
             editor.Text = nsisCode;
             tabItem_Editor.IsSelected = true;
         }
 
         private void SaveScript(string pFileName, string pNsiString)
         {
-            m_GeneratedNsisPath = pFileName;
+            PathToGeneratedNsisScript = pFileName;
             File.WriteAllText(pFileName, pNsiString, encoding: System.Text.Encoding.UTF8);            
         }
 
         private void OnCompileScript(object sender, RoutedEventArgs e)
         {
-            if(string.IsNullOrEmpty(m_GeneratedNsisPath))
+            if(string.IsNullOrEmpty(PathToGeneratedNsisScript))
             {
                 _ = m_MsgMgr.ShowNoGeneratedScriptFileError();
                 return;
             }
 
-            if(!File.Exists(m_GeneratedNsisPath))
+            if(!File.Exists(PathToGeneratedNsisScript))
             {
                 _ = m_MsgMgr.ShowGeneratedScriptFileNotFoundError();
                 return;
@@ -215,7 +303,7 @@ namespace GeNSIS
                 return;
             }
             var makeNsisExePath = $@"{m_Config.NsisInstallationDirectory}\makensisw.exe";
-            var pi = new ProcessStartInfo($"\"{makeNsisExePath}\"", $"\"{m_GeneratedNsisPath}\"");
+            var pi = new ProcessStartInfo($"\"{makeNsisExePath}\"", $"/V4 /NOCD \"{PathToGeneratedNsisScript}\"");
             pi.UseShellExecute = false;
             
             var proc = new Process();
@@ -238,11 +326,12 @@ namespace GeNSIS
         private void ResetScriptAndPath()
         {
             editor.Clear();
-            m_GeneratedNsisPath = null;
+            PathToGeneratedNsisScript = null;
         }
 
         private void OnAddFilesFromFolderClicked(object sender, RoutedEventArgs e)
         {
+            FileDialogHelper.InitDir(m_FolderBrowserDialog, PathHelper.GetMyDocuments());
             if (m_FolderBrowserDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
 
@@ -302,13 +391,14 @@ namespace GeNSIS
 
         private void OnSaveProjectAsClicked(object sender, RoutedEventArgs e)
         {
-            m_SaveFileDialog.Filter = FileFilterHelper.GetProjectFilter();
-            m_SaveFileDialog.InitialDirectory = m_Config.GeNSISProjectsDirectory;
-            if (m_SaveFileDialog.ShowDialog() != true)
+            m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
+            FileDialogHelper.InitDir(m_SaveProjectDialog, m_Config.GeNSISProjectsDirectory);
+            m_SaveProjectDialog.FileName = PathHelper.GetNewProjectName(AppData);
+            if (m_SaveProjectDialog.ShowDialog() != true)
                 return;
 
             var project = new Project { AppData = AppData.ToModel() };
-            m_ProjectManager.Save(m_SaveFileDialog.FileName, project);
+            m_ProjectManager.Save(m_SaveProjectDialog.FileName, project);
             AppData.ResetHasUnsavedChanges();
         }
 
@@ -336,12 +426,12 @@ namespace GeNSIS
                     return;
             }
 
-            m_OpenFileDialog.Filter = FileFilterHelper.GetProjectFilter();
-            m_OpenFileDialog.InitialDirectory = m_Config.GeNSISProjectsDirectory;
-            if (m_OpenFileDialog.ShowDialog() != true)
+            m_OpenFilesDialog.Filter = FileDialogHelper.Filter.PROJECT;
+            m_OpenFilesDialog.InitialDirectory = m_Config.GeNSISProjectsDirectory;
+            if (m_OpenFilesDialog.ShowDialog() != true)
                 return;
 
-            var appData = m_ProjectManager.Load(m_OpenFileDialog.FileName).AppData;
+            var appData = m_ProjectManager.Load(m_OpenFilesDialog.FileName).AppData;
             AppData.UpdateValues(appData);
             ResetScriptAndPath();
         }
@@ -373,22 +463,23 @@ namespace GeNSIS
 
         private void OnLoadWizardClicked(object sender, RoutedEventArgs e)
         {
-            m_OpenIconDialog.Filter = FileFilterHelper.GetBitmapFilter();
-            if (m_OpenIconDialog.ShowDialog() == true)
+            m_OpenImageDialog.Filter = FileDialogHelper.Filter.BITMAP;
+            m_OpenImageDialog.InitialDirectory = AppConfigHelper.GetNsisWizardImagesFolder();
+            if (m_OpenImageDialog.ShowDialog() == true)
             {
                 try
                 {
-                    var fi = new FileInfo(m_OpenIconDialog.FileName);
+                    var fi = new FileInfo(m_OpenImageDialog.FileName);
                     if (fi.Extension.Equals(".bmp", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
                     {
-                        Image image = Image.FromFile(m_OpenIconDialog.FileName);
+                        Image image = Image.FromFile(m_OpenImageDialog.FileName);
                         if (image.Width != 164 || image.Height != 314)
                         {
                             _ = m_MsgMgr.ShowWizardImageBadSizeWarn();
                             return;
                         }
                     }
-                    AppData.InstallerWizardImage = m_OpenIconDialog.FileName;
+                    AppData.InstallerWizardImage = m_OpenImageDialog.FileName;
                 }
                 catch (Exception ex)
                 {
@@ -397,24 +488,25 @@ namespace GeNSIS
             }
         }
 
-        private void OnLoadBannerClicked(object sender, RoutedEventArgs e)
+        private void OnLoadHeaderClicked(object sender, RoutedEventArgs e)
         {
-            m_OpenIconDialog.Filter = FileFilterHelper.GetBitmapFilter();
-            if (m_OpenIconDialog.ShowDialog() == true)
+            m_OpenImageDialog.Filter = FileDialogHelper.Filter.BITMAP;
+            m_OpenImageDialog.InitialDirectory = AppConfigHelper.GetNsisHeaderImagesFolder();
+            if (m_OpenImageDialog.ShowDialog() == true)
             {
                 try
                 {
-                    var fi = new FileInfo(m_OpenIconDialog.FileName);
+                    var fi = new FileInfo(m_OpenImageDialog.FileName);
                     if (fi.Extension.Equals(".bmp", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
                     {
-                        Image image = Image.FromFile(m_OpenIconDialog.FileName);
+                        Image image = Image.FromFile(m_OpenImageDialog.FileName);
                         if (image.Width != 150 || image.Height != 57)
                         {
                             _ = m_MsgMgr.ShowBannerImageBadSizeWarn();
                             return;
                         }
                     }
-                    AppData.InstallerBannerImage = m_OpenIconDialog.FileName;
+                    AppData.InstallerHeaderImage = m_OpenImageDialog.FileName;
                     var conv = new StringToImageSourceConverter();
                     img_License.Source = (System.Windows.Media.ImageSource)conv.Convert(@"Resources\Images\Installer\Custom\license.png");
                 }
@@ -423,6 +515,18 @@ namespace GeNSIS
                     System.Diagnostics.Trace.TraceError(ex.ToString());
                 }
             }
+        }
+
+        private void OnSaveScriptClicked(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(PathToGeneratedNsisScript))
+            {
+                _ = m_MsgMgr.ShowNoGeneratedScriptFileError();
+                return; 
+            }
+
+            File.WriteAllText(PathToGeneratedNsisScript, editor.Text, System.Text.Encoding.UTF8);
+            _ = m_MsgMgr.ShowSavingScriptSucceededInfo();
         }
     }
 }

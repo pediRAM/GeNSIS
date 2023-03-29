@@ -16,23 +16,37 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-
-using System.Collections.Generic;
-
-namespace GeNSIS.Core.Models
+namespace GeNSIS.Core
 {
-    public interface IAppConfig
+    internal static class GConst
     {
-        string CompanyName { get; set; }
-        string Publisher { get; set; }
-        string Website { get; set; }
-        string GeNSISProjectsDirectory { get; set; }
-        string ScriptsDirectory { get; set; }
-        string InstallersDirectory { get; set; }
-        string NsisInstallationDirectory { get; set; }
+        public static class Nsis
+        {
+            public const string INSTALLER_ICON = @"\Contrib\Graphics\Icons\nsis3-install.ico";
+            public const string UNINSTALLER_ICON = @"\Contrib\Graphics\Icons\nsis3-uninstall.ico";
+            public const string INSTALLER_WIZARD_IMG = @"\Contrib\Graphics\Wizard\win.bmp";
+            public const string UNINSTALLER_WIZARD_IMG = @"\Contrib\Graphics\Wizard\win.bmp";
+            
+            public const string SUBDIR = "\\NSIS";
+            public const string SUBDIR_NSIS_ICONS = "\\Contrib\\Graphics\\Icons";
+            public const string SUBDIR_NSIS_HEADER_IMAGES = "\\Contrib\\Graphics\\Header";
+            public const string SUBDIR_NSIS_WIZARD_IMAGES = "\\Contrib\\Graphics\\Wizard";
+        }
 
-        List<string> GetLastProjects();
-        List<string> GetLastScripts();
-        void UpdateValues(IAppConfig pIAppConfig);
+        public static class GeNSIS
+        {
+            public const string SUBDIR = "\\GeNSIS";
+            public const string SUBDIR_PROJECTS   = $"{SUBDIR}\\Projects";
+            public const string SUBDIR_SCRIPTS    = $"{SUBDIR}\\Scripts";
+            public const string SUBDIR_INSTALLERS = $"{SUBDIR}\\Installers";
+
+            public const string FILENAME_CONFIG = "config.json";
+        }
+
+        public static class Default
+        {
+            public const string COMPANY_NAME = "ACME";
+            public const string WEBSITE_URL = "https://example.com/";
+        }
     }
 }

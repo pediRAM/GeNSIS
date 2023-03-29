@@ -49,6 +49,7 @@ namespace GeNSIS.Core.TextGenerators
         #region Methods
         public string Generate(IAppData data, TextGeneratorOptions opt)
         {
+            sb.Clear();
             d = data;
             o = opt;
 
@@ -96,12 +97,12 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Using modern user interface for installer:");
             Add("!include \"MUI.nsh\"");
 
-            if (!string.IsNullOrWhiteSpace(d.InstallerBannerImage))
+            if (!string.IsNullOrWhiteSpace(d.InstallerHeaderImage))
             {
                 AddDefine("MUI_HEADERIMAGE");
-                AddDefine("MUI_HEADERIMAGE_BITMAP", d.InstallerBannerImage);
+                AddDefine("MUI_HEADERIMAGE_BITMAP", d.InstallerHeaderImage);
                 AddDefine("MUI_HEADERIMAGE_BITMAP_NOSTRETCH");
-                AddDefine("MUI_HEADERIMAGE_UNBITMAP", d.InstallerBannerImage);
+                AddDefine("MUI_HEADERIMAGE_UNBITMAP", d.InstallerHeaderImage);
                 AddDefine("MUI_HEADERIMAGE_UNBITMAP_NOSTRETCH");
             }
 

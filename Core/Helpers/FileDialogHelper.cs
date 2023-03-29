@@ -17,13 +17,39 @@
 ****************************************************************************************/
 
 
+using System.IO;
+using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+
 namespace GeNSIS.Core.Helpers
 {
-    internal static class FileFilterHelper
+    internal static class FileDialogHelper
     {
-        public static string GetBitmapFilter() => "Bitmap files|*.bmp";
-        public static string GetIconFilter() => "Icon files|*.ico";
-        public static string GetNsisFilter() => "NSIS files|*.nsi";
-        public static string GetProjectFilter() => "XML files|*.xml";
+        public static class Filter
+        {
+            public const string BITMAP  = "Bitmap files|*.bmp";
+            public const string ICON    = "Icon files|*.ico";
+            public const string SCRIPT    = "NSIS files|*.nsi";
+            public const string PROJECT = "XML files|*.xml";
+        }
+
+        public static void InitDir(SaveFileDialog pSfd, string pPath)
+        {
+            if (Directory.Exists(pPath))
+                pSfd.InitialDirectory = pPath;
+        }
+
+        public static void InitDir(OpenFileDialog pOfd, string pPath)
+        {
+            if (Directory.Exists(pPath))
+                pOfd.InitialDirectory = pPath;
+        }
+
+        public static void InitDir(FolderBrowserDialog pFbd, string pPath)
+        {
+            if (Directory.Exists(pPath))
+                pFbd.InitialDirectory = pPath;
+        }
     }
 }

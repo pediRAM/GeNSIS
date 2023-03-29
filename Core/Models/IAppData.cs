@@ -47,8 +47,12 @@ namespace GeNSIS.Core.Models
 
         string InstallerFileName { get; }
         string InstallerIcon { get; }
-        string InstallerBannerImage { get; }
+        string InstallerHeaderImage { get; }
         string InstallerWizardImage { get; }
+
+        string UninstallerIcon { get; }
+        string UninstallerHeaderImage { get; }
+        string UninstallerWizardImage { get; }
 
         IEnumerable<string> GetFiles();
 

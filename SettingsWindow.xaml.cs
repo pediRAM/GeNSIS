@@ -52,10 +52,16 @@ namespace GeNSIS
                 Config.GeNSISProjectsDirectory = m_FBD.SelectedPath;
         }
 
-        private void OnSelectScriptFolderClicked(object sender, RoutedEventArgs e)
+        private void OnSelectScriptsFolderClicked(object sender, RoutedEventArgs e)
         {
             if (m_FBD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 Config.ScriptsDirectory = m_FBD.SelectedPath;
+        }
+
+        private void OnSelectInstallersFolderClicked(object sender, RoutedEventArgs e)
+        {
+            if (m_FBD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                Config.InstallersDirectory = m_FBD.SelectedPath;
         }
 
         private void OnSelectNsisFolderClicked(object sender, RoutedEventArgs e)

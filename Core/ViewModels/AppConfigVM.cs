@@ -19,14 +19,24 @@
 
 namespace GeNSIS.Core.Models
 {
+    using GeNSIS.Core.Extensions;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Linq;
+
     public class AppConfigVM : IAppConfig
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private string m_CompanyName;
         private string m_Publisher;
+        private string m_Website;
+
         private string m_GeNSISProjectsDirectory;
         private string m_ScriptsDirectory;
+        private string m_InstallersDirectory;
+
         private string m_NsisInstallationDirectory;
 
         public AppConfigVM() { }
@@ -65,6 +75,17 @@ namespace GeNSIS.Core.Models
             }
         }
 
+        public string Website
+        {
+            get { return m_Website; }
+            set
+            {
+                if (value == m_Website) return;
+                m_Website = value;
+                NotifyPropertyChanged(nameof(Website));
+            }
+        }
+
         public string GeNSISProjectsDirectory
         {
             get { return m_GeNSISProjectsDirectory; }
@@ -87,6 +108,17 @@ namespace GeNSIS.Core.Models
             }
         }
 
+        public string InstallersDirectory
+        {
+            get { return m_InstallersDirectory; }
+            set
+            {
+                if (value == m_InstallersDirectory) return;
+                m_InstallersDirectory = value;
+                NotifyPropertyChanged(nameof(InstallersDirectory));
+            }
+        }
+
         public string NsisInstallationDirectory
         {
             get { return m_NsisInstallationDirectory; }
@@ -98,15 +130,25 @@ namespace GeNSIS.Core.Models
             }
         }
 
+        public ObservableCollection<string> LastProjects { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> LastScripts { get; set; } = new ObservableCollection<string>();
+
+        public List<string> GetLastProjects() => LastProjects.ToList();
+        public List<string> GetLastScripts() => LastScripts.ToList();
         public AppConfig ToModel()
         {
             return new AppConfig
             {
                 CompanyName = CompanyName,
                 Publisher = Publisher,
+                Website = Website,
                 GeNSISProjectsDirectory = GeNSISProjectsDirectory,
                 ScriptsDirectory = ScriptsDirectory,
+                InstallersDirectory = InstallersDirectory,
                 NsisInstallationDirectory = NsisInstallationDirectory,
+
+                LastProjects = LastProjects.ToList(),
+                LastScripts = LastScripts.ToList(),
             };
         }
 
@@ -114,9 +156,19 @@ namespace GeNSIS.Core.Models
         {
             CompanyName = pIAppConfig.CompanyName;
             Publisher = pIAppConfig.Publisher;
+            Website = pIAppConfig.Website;
+
             GeNSISProjectsDirectory = pIAppConfig.GeNSISProjectsDirectory;
             ScriptsDirectory = pIAppConfig.ScriptsDirectory;
+            InstallersDirectory = pIAppConfig.InstallersDirectory;
+
             NsisInstallationDirectory = pIAppConfig.NsisInstallationDirectory;
+
+            LastProjects.Clear();
+            LastProjects.AddRange(pIAppConfig.GetLastProjects());
+
+            LastScripts.Clear();
+            LastScripts.AddRange(pIAppConfig.GetLastScripts());
         }
 
         private void NotifyPropertyChanged(string pPropertyName)

@@ -16,7 +16,7 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-
+using NLog;
 using GeNSIS.Core.Models;
 using System;
 using System.IO;
@@ -26,60 +26,94 @@ namespace GeNSIS.Core.Helpers
 {
     internal static class AppConfigHelper
     {
-        #region Constants
-        public const string FILENAME_CONFIG = "config.json";
-        public const string DIR_NSIS = "\\NSIS";
-        public const string DIR_GENSIS_PROJECTS = "\\GeNSIS\\Projects";
-        public const string DIR_GENSIS_SCRIPTS  = "\\GeNSIS\\NSIS-Scripts";
-        public const string DEF_COMPANY_NAME = "ACME";
-        public const string DEF_WEBSITE_URL = "https://example.com/";
-        #endregion Constants
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public static bool AppConfigFileExists()
-            => File.Exists(FILENAME_CONFIG);
+        private static AppConfig s_AppConfig;
+
+        public static AppConfig GetAppConfig() => s_AppConfig;
+        public static string GetNsisInstallationFoler() => s_AppConfig?.NsisInstallationDirectory;
+        public static string GetNsisIconsFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_ICONS;
+        public static string GetNsisWizardImagesFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_WIZARD_IMAGES;
+        public static string GetNsisHeaderImagesFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_HEADER_IMAGES;
+        public static bool AppConfigFileExists() => File.Exists(GConst.GeNSIS.FILENAME_CONFIG);
 
         public static AppConfig ReadConfigFile()
         {
-            var jsonString = File.ReadAllText(FILENAME_CONFIG, System.Text.Encoding.UTF8);
-            return JsonSerializer.Deserialize<AppConfig>(jsonString);
+            var jsonString = File.ReadAllText(GConst.GeNSIS.FILENAME_CONFIG, System.Text.Encoding.UTF8);
+            s_AppConfig = JsonSerializer.Deserialize<AppConfig>(jsonString);
+            return s_AppConfig;
         }
 
         public static void WriteConfigFile(AppConfig pAppConfig)
         {
             string jsonString = JsonSerializer.Serialize<AppConfig>(pAppConfig, new JsonSerializerOptions { WriteIndented = true});
-            File.WriteAllText(FILENAME_CONFIG, jsonString, System.Text.Encoding.UTF8);
+            File.WriteAllText(GConst.GeNSIS.FILENAME_CONFIG, jsonString, System.Text.Encoding.UTF8);
         }
 
         public static AppConfig CreateConfig()
         {
             var config = new AppConfig();
-            var x64Dir = Environment.GetFolderPath( Environment.SpecialFolder.ProgramFiles)    + DIR_NSIS;
-            var x86Dir = Environment.GetFolderPath( Environment.SpecialFolder.ProgramFilesX86) + DIR_NSIS;
-            var usrDir = Environment.GetFolderPath(Environment.SpecialFolder.Programs)         + DIR_NSIS;
-            var prjDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)      + DIR_GENSIS_PROJECTS;
-            var scrDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)      + DIR_GENSIS_SCRIPTS;
+            config.NsisInstallationDirectory = GetNsisInstallationDirectoryOrNull();
 
-            // Find and set NSIS directory.
-            if (Directory.Exists(x64Dir))
-                config.NsisInstallationDirectory = x64Dir;
-            else if (Directory.Exists(x86Dir))
-                config.NsisInstallationDirectory = x86Dir;
-            else if (Directory.Exists(usrDir))
-                config.NsisInstallationDirectory = usrDir;
+            CreateGeNSISDirectoriesIfNotExist();
 
-            // Create GeNSIS projects directory, if not exists!
-            if (!Directory.Exists(prjDir))
-                Directory.CreateDirectory(prjDir);
-            config.GeNSISProjectsDirectory = prjDir;
+            config.GeNSISProjectsDirectory = PathHelper.GetGeNSISProjectsDir();
+            config.ScriptsDirectory = PathHelper.GetGeNSISScriptsDir();
+            config.InstallersDirectory = PathHelper.GetGeNSISInstallerssDir();
 
-            // Create GeNSIS nsis-script-output directory, if not exists!
-            if (!Directory.Exists(scrDir))
-                Directory.CreateDirectory(scrDir);
-            config.ScriptsDirectory = scrDir;
-
-            config.CompanyName = "ACME";
+            config.CompanyName = GConst.Default.COMPANY_NAME;
             config.Publisher = Environment.UserName;
+            config.Website = GConst.Default.WEBSITE_URL;
+
+            s_AppConfig = config;
             return config;
+        }
+
+        /// <summary>
+        /// Returns the installation directory of NSIS if found, else NULL.
+        /// </summary>
+        /// <returns>Path to NSIS install dir, or NULL.</returns>
+        public static string GetNsisInstallationDirectoryOrNull()
+        {
+            if (Directory.Exists(PathHelper.GetProgramFilesX64NsisDir()))
+            {
+                Log?.Debug("Found NSIS directory in 64 bit Program Files.");
+                return PathHelper.GetProgramFilesX64NsisDir();
+            }
+            else if (Directory.Exists(PathHelper.GetProgramFilesX86NsisDir()))
+            {
+                Log?.Debug("Found NSIS directory in 32 bit Program Files (x86).");
+                return PathHelper.GetProgramFilesX86NsisDir();
+            }
+            else if (Directory.Exists(PathHelper.GetUserProgramFilesNsisDir()))
+            {
+                Log?.Debug("Found NSIS in users application directory.");
+                return PathHelper.GetUserProgramFilesNsisDir();
+            }
+            else
+            {
+                Log?.Warn("NSIS installation directory not found!");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Creates GeNSIS directories (Projects, Scripts, Installers) if they do not exist.
+        /// </summary>
+        public static void CreateGeNSISDirectoriesIfNotExist()
+        {
+            CreateGeNsisDirectory(PathHelper.GetGeNSISInstallerssDir());
+            CreateGeNsisDirectory(PathHelper.GetGeNSISProjectsDir());
+            CreateGeNsisDirectory(PathHelper.GetGeNSISScriptsDir());
+        }
+
+        private static void CreateGeNsisDirectory(string pPath)
+        {
+            if (!Directory.Exists(pPath))
+            {
+                Log?.Debug($"Creating dir: {pPath}...");
+                Directory.CreateDirectory(pPath);
+            }
         }
     }
 }

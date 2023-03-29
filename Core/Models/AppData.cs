@@ -77,10 +77,18 @@ namespace GeNSIS.Core.Models
         [XmlElement]
         public string InstallerIcon { get; set; }
         [XmlElement]
-        public string InstallerBannerImage { get; set; }
+        public string InstallerHeaderImage { get; set; }
 
         [XmlElement]
         public string InstallerWizardImage { get; set; }
+
+        [XmlElement]
+        public string UninstallerIcon { get; set; }
+        [XmlElement]
+        public string UninstallerHeaderImage { get; set; }
+
+        [XmlElement]
+        public string UninstallerWizardImage { get; set; }
 
         public IEnumerable<string> GetFiles() => Files;
         public IEnumerable<string> GetDirectories() => Directories;
@@ -99,10 +107,13 @@ namespace GeNSIS.Core.Models
                 DoInstallPerUser = DoInstallPerUser,
                 ExeName = ExeName,
                 Files = new System.Collections.ObjectModel.ObservableCollection<string>(Files),
-                InstallerBannerImage = InstallerBannerImage,
+                InstallerHeaderImage = InstallerHeaderImage,
+                UninstallerHeaderImage = UninstallerHeaderImage,
                 InstallerFileName = InstallerFileName,
                 InstallerIcon = InstallerIcon,
+                UninstallerIcon = UninstallerIcon,
                 InstallerWizardImage = InstallerWizardImage,
+                UninstallerWizardImage = UninstallerWizardImage,
                 Is64BitApplication = Is64BitApplication,
                 License = License,
                 Publisher = Publisher,
@@ -110,25 +121,28 @@ namespace GeNSIS.Core.Models
             };
         }
 
-        public void UpdateValues(IAppData p)
+        public void UpdateValues(IAppData pAppData)
         {
-            AppBuild = p.AppBuild;
-            AppName = p.AppName;
-            AppVersion = p.AppVersion;
-            AssociatedExtension = p.AssociatedExtension;
-            Company = p.Company;
-            Directories = p.GetDirectories().ToList();
-            DoInstallPerUser = p.DoInstallPerUser;
-            ExeName = p.ExeName;
-            Files = p.GetFiles().ToList();
-            InstallerBannerImage = p.InstallerBannerImage;
-            InstallerFileName = p.InstallerFileName;
-            InstallerIcon = p.InstallerIcon;
-            InstallerWizardImage = p.InstallerWizardImage;
-            Is64BitApplication = p.Is64BitApplication;
-            License = p.License;
-            Publisher = p.Publisher;
-            Url = p.Url;
+            AppBuild = pAppData.AppBuild;
+            AppName = pAppData.AppName;
+            AppVersion = pAppData.AppVersion;
+            AssociatedExtension = pAppData.AssociatedExtension;
+            Company = pAppData.Company;
+            Directories = pAppData.GetDirectories().ToList();
+            DoInstallPerUser = pAppData.DoInstallPerUser;
+            ExeName = pAppData.ExeName;
+            Files = pAppData.GetFiles().ToList();
+            InstallerFileName = pAppData.InstallerFileName;
+            InstallerHeaderImage = pAppData.InstallerHeaderImage;
+            InstallerIcon = pAppData.InstallerIcon;
+            InstallerWizardImage = pAppData.InstallerWizardImage;
+            Is64BitApplication = pAppData.Is64BitApplication;
+            License = pAppData.License;
+            Publisher = pAppData.Publisher;
+            UninstallerHeaderImage = pAppData.UninstallerHeaderImage;
+            UninstallerIcon = pAppData.UninstallerIcon;
+            UninstallerWizardImage = pAppData.UninstallerWizardImage;
+            Url = pAppData.Url;
         }
     }
 }

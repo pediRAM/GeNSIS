@@ -17,30 +17,41 @@
 ****************************************************************************************/
 
 
-using GeNSIS.Core.Helpers;
+using GeNSIS.Core.Models;
 using System;
-using System.Windows;
-using System.Windows.Threading;
 
-namespace GeNSIS.Core.Commands
+namespace GeNSIS.Core.Helpers
 {
-    public class AutoRetrieveExeDataCommand : ACommand
+    internal class PathHelper
     {
-        public AutoRetrieveExeDataCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        //private static IAppConfig s_AppConfig;
+        //public static void SetAppConfig(IAppConfig pIAppConfig)
+        //    => s_AppConfig = pIAppConfig;
 
-        public override bool CanExecute(object parameter)
-            => !string.IsNullOrEmpty(AppDataViewModel.ExeName);
+        public static string GetProgramFilesX64NsisDir()
+            => Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + GConst.Nsis.SUBDIR;
 
-        public override void Execute(object parameter)
-        {
-            try
-            {
-                ExeInfoHelper.AutoSetProperties(AppDataViewModel);
-            }
-            catch(Exception ex)
-            {
-                _ = Dispatcher.CurrentDispatcher.InvokeAsync(new Action(() => { MessageBox.Show(ex.ToString(), "Error!"); }));
-            }
-        }
+        public static string GetProgramFilesX86NsisDir()
+            => Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + GConst.Nsis.SUBDIR;
+
+        public static string GetUserProgramFilesNsisDir()
+            => Environment.GetFolderPath(Environment.SpecialFolder.Programs) + GConst.Nsis.SUBDIR;
+        public static string GetMyDocuments()
+            => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        public static string GetGeNSISDir()
+            => GetMyDocuments() + GConst.GeNSIS.SUBDIR;
+
+        public static string GetGeNSISProjectsDir() => $"{GetGeNSISDir()}\\Projects";
+
+        public static string GetGeNSISScriptsDir() => $"{GetGeNSISDir()}\\Scripts";
+
+        public static string GetGeNSISInstallerssDir() => $"{GetGeNSISDir()}\\Installers";
+
+        internal static string GetNewScriptName(IAppData pAppData)
+            => $"{pAppData.AppName}_{pAppData.AppVersion}_{pAppData.AppBuild}.nsi";
+
+        internal static string GetNewProjectName(IAppData pAppData)
+            => $"{pAppData.AppName}_{pAppData.AppVersion}_{pAppData.AppBuild}.xml";
     }
 }

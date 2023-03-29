@@ -45,6 +45,8 @@ namespace GeNSIS.Core.Helpers
             pAppData.AppName = Path.GetFileNameWithoutExtension(pAppData.ExeName);
 
             pAppData.AppBuild = GetMachineTypeShortString(GetMachineTypeOfExe(pAppData.ExeName));
+            if (string.IsNullOrWhiteSpace(pAppData.Url))
+                pAppData.Url = AppConfigHelper.GetAppConfig().Website;
 
             if (info.Version.EndsWith(".0.0"))
                 pAppData.AppVersion = info.Version.Substring(0, info.Version.Length - 4);

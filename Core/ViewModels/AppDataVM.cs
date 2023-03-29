@@ -21,6 +21,7 @@ namespace GeNSIS.Core
 {
     #region Usings
     using GeNSIS.Core.Commands;
+    using GeNSIS.Core.Extensions;
     using GeNSIS.Core.Models;
     using System;
     using System.Collections.Generic;
@@ -55,8 +56,12 @@ namespace GeNSIS.Core
         private string m_Url;
         private string m_InstallerFileName;
         private string m_InstallerIcon;
-        private string m_InstallerBannerImage;
-        private string m_InstallerWelcomeLeftImage;
+        private string m_InstallerHeaderImage;
+        private string m_InstallerWizardImage;
+
+        private string m_UninstallerIcon;
+        private string m_UninstallerHeaderImage;
+        private string m_UninstallerWizardImage;
         private bool m_HasUnsavedChanges;
         #endregion Variables
 
@@ -236,25 +241,59 @@ namespace GeNSIS.Core
             }
         }
 
-        public string InstallerBannerImage
+        public string InstallerHeaderImage
         {
-            get { return m_InstallerBannerImage; }
+            get { return m_InstallerHeaderImage; }
             set
             {
-                if (value == m_InstallerBannerImage) return;
-                m_InstallerBannerImage = value;
-                NotifyPropertyChanged(nameof(InstallerBannerImage));
+                if (value == m_InstallerHeaderImage) return;
+                m_InstallerHeaderImage = value;
+                NotifyPropertyChanged(nameof(InstallerHeaderImage));
             }
         }
 
         public string InstallerWizardImage
         {
-            get { return m_InstallerWelcomeLeftImage; }
+            get { return m_InstallerWizardImage; }
             set
             {
-                if (value == m_InstallerWelcomeLeftImage) return;
-                m_InstallerWelcomeLeftImage = value;
+                if (value == m_InstallerWizardImage) return;
+                m_InstallerWizardImage = value;
                 NotifyPropertyChanged(nameof(InstallerWizardImage));
+            }
+        }
+
+        public string UninstallerIcon
+        {
+            get { return m_UninstallerIcon; }
+            set
+            {
+                if (value == m_UninstallerIcon) return;
+                m_UninstallerIcon = value;
+                NotifyPropertyChanged(nameof(UninstallerIcon));
+
+            }
+        }
+
+        public string UninstallerHeaderImage
+        {
+            get { return m_UninstallerHeaderImage; }
+            set
+            {
+                if (value == m_UninstallerHeaderImage) return;
+                m_UninstallerHeaderImage = value;
+                NotifyPropertyChanged(nameof(UninstallerHeaderImage));
+            }
+        }
+
+        public string UninstallerWizardImage
+        {
+            get { return m_UninstallerWizardImage; }
+            set
+            {
+                if (value == m_UninstallerWizardImage) return;
+                m_UninstallerWizardImage = value;
+                NotifyPropertyChanged(nameof(UninstallerWizardImage));
             }
         }
 
@@ -294,10 +333,13 @@ namespace GeNSIS.Core
                 DoInstallPerUser = DoInstallPerUser,
                 ExeName = ExeName,
                 Files = Files.ToList(),
-                InstallerBannerImage = InstallerBannerImage,
+                InstallerHeaderImage = InstallerHeaderImage,
+                UninstallerHeaderImage = UninstallerHeaderImage,
                 InstallerFileName = InstallerFileName,
                 InstallerIcon = InstallerIcon,
+                UninstallerIcon = UninstallerIcon,
                 InstallerWizardImage = InstallerWizardImage,
+                UninstallerWizardImage = UninstallerWizardImage,
                 Is64BitApplication = Is64BitApplication,
                 License = License,
                 Publisher = Publisher,
@@ -305,41 +347,39 @@ namespace GeNSIS.Core
             };
         }
 
-        public void UpdateValues(IAppData p)
+        public void UpdateValues(IAppData pAppData)
         {
-            AppBuild = p.AppBuild;
-            AppName = p.AppName;
-            AppVersion = p.AppVersion;
-            AssociatedExtension = p.AssociatedExtension;
-            Company = p.Company;
-            DoInstallPerUser = p.DoInstallPerUser;
-            ExeName = p.ExeName;
-            InstallerBannerImage = p.InstallerBannerImage;
-            InstallerFileName = p.InstallerFileName;
-            InstallerIcon = p.InstallerIcon;
-            InstallerWizardImage = p.InstallerWizardImage;
-            Is64BitApplication = p.Is64BitApplication;
-            License = p.License;
-            Publisher = p.Publisher;
-            Url = p.Url;
+            AppBuild = pAppData.AppBuild;
+            AppName = pAppData.AppName;
+            AppVersion = pAppData.AppVersion;
+            AssociatedExtension = pAppData.AssociatedExtension;
+            Company = pAppData.Company;
+            DoInstallPerUser = pAppData.DoInstallPerUser;
+            ExeName = pAppData.ExeName;
+            InstallerHeaderImage = pAppData.InstallerHeaderImage;
+            UninstallerHeaderImage = pAppData.UninstallerHeaderImage;
+            InstallerFileName = pAppData.InstallerFileName;
+            InstallerIcon = pAppData.InstallerIcon;
+            UninstallerIcon = pAppData.UninstallerIcon;
+            InstallerWizardImage = pAppData.InstallerWizardImage;
+            UninstallerWizardImage = pAppData.UninstallerWizardImage;
+            Is64BitApplication = pAppData.Is64BitApplication;
+            License = pAppData.License;
+            Publisher = pAppData.Publisher;
+            Url = pAppData.Url;
 
             Files.Clear();
-            foreach (var f in p.GetFiles()) 
-                Files.Add(f);
+            Files.AddRange(pAppData.GetFiles());
 
             Directories.Clear();
-            foreach (var d in p.GetDirectories()) 
-                Directories.Add(d);
+            Directories.AddRange(pAppData.GetDirectories());
         }
 
         private void NotifyPropertyChanged(string pPropertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pPropertyName));
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            m_HasUnsavedChanges = true;
-            System.Diagnostics.Trace.TraceInformation($">>>>>>>>>>>> Property: {e.PropertyName} changed.");
-        }
+            => m_HasUnsavedChanges = true;
 
         #endregion Methods
 

@@ -19,18 +19,29 @@
 
 namespace GeNSIS.Core.Models
 {
-    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class AppConfig : IAppConfig
     {
         public string CompanyName { get; set; }
 
         public string Publisher { get; set; }
+        public string Website { get; set; }
 
         public string GeNSISProjectsDirectory { get; set; }
 
         public string ScriptsDirectory { get; set; }
+        public string InstallersDirectory { get; set; }
 
         public string NsisInstallationDirectory { get; set; }
+
+  
+        public List<string> LastProjects { get; set; } = new List<string>();
+        public List<string> LastScripts { get; set; } = new List<string>();
+
+        public List<string> GetLastProjects() => LastProjects;
+        public List<string> GetLastScripts() => LastScripts;
 
         public AppConfigVM Clone()
         {
@@ -38,9 +49,14 @@ namespace GeNSIS.Core.Models
             {
                 CompanyName = CompanyName,
                 Publisher = Publisher,
+                Website = Website,
                 GeNSISProjectsDirectory = GeNSISProjectsDirectory,
                 ScriptsDirectory = ScriptsDirectory,
+                InstallersDirectory = InstallersDirectory,
                 NsisInstallationDirectory = NsisInstallationDirectory,
+
+                LastScripts = new System.Collections.ObjectModel.ObservableCollection<string>(LastScripts),
+                LastProjects = new System.Collections.ObjectModel.ObservableCollection<string>(LastProjects),
             };
         }
 
@@ -48,9 +64,16 @@ namespace GeNSIS.Core.Models
         {
             CompanyName = pIAppConfig.CompanyName;
             Publisher = pIAppConfig.Publisher;
+            Website = pIAppConfig.Website;
+
             GeNSISProjectsDirectory = pIAppConfig.GeNSISProjectsDirectory;
             ScriptsDirectory = pIAppConfig.ScriptsDirectory;
+            InstallersDirectory = pIAppConfig.InstallersDirectory;
+
             NsisInstallationDirectory = pIAppConfig.NsisInstallationDirectory;
+
+            LastProjects = pIAppConfig.GetLastProjects();
+            LastScripts = pIAppConfig.GetLastScripts();
         }
     }
 }
