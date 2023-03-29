@@ -24,6 +24,7 @@ namespace GeNSIS.Core.Converters
     using System.Runtime.CompilerServices;
     using System.Windows.Data;
     using System.Windows.Markup;
+
     public abstract class AValueConverter : MarkupExtension, IValueConverter
     {
         protected static readonly System.Windows.Shapes.Rectangle m_Dummy;

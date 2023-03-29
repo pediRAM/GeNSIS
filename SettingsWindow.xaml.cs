@@ -36,15 +36,15 @@ namespace GeNSIS
             Title = "Settings";
         }
 
-        public SettingsWindow(IAppConfig pAppConfig) : this()
+        public SettingsWindow(IConfig pAppConfig) : this()
         {
-            Config = new AppConfigVM(true);
+            Config = new ConfigVM(true);
             Config.UpdateValues(pAppConfig);
             Config.HasUnsavedChanges = false;
             DataContext = Config;
         }
 
-        public AppConfigVM Config { get; set; }
+        public ConfigVM Config { get; set; }
 
         private void OnSelectGeNsisProjectFolderClicked(object sender, RoutedEventArgs e)
         {

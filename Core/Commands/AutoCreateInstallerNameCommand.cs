@@ -28,6 +28,6 @@ namespace GeNSIS.Core.Commands
             => !string.IsNullOrWhiteSpace((string)parameter);
 
         public override void Execute(object parameter)
-            => ExeInfoHelper.AutoNameInstallerExe(AppDataViewModel);
+            => ExeInfoHelper.AutoGenerateInstallerName(AppDataViewModel);
     }
 }

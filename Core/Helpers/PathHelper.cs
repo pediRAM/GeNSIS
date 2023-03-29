@@ -24,10 +24,6 @@ namespace GeNSIS.Core.Helpers
 {
     internal class PathHelper
     {
-        //private static IAppConfig s_AppConfig;
-        //public static void SetAppConfig(IAppConfig pIAppConfig)
-        //    => s_AppConfig = pIAppConfig;
-
         public static string GetProgramFilesX64NsisDir()
             => Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + GConst.Nsis.SUBDIR;
 

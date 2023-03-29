@@ -17,18 +17,30 @@
 ****************************************************************************************/
 
 
+using GeNSIS.Core.Helpers;
+using System;
+using System.Windows;
+using System.Windows.Threading;
+
 namespace GeNSIS.Core.Commands
 {
-    public class BuildScriptCommand : ACommand
+    public class AutoFillAppDataCommand : ACommand
     {
-        public BuildScriptCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
-        private Validator Validator { get; } = new Validator();
+        public AutoFillAppDataCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+
         public override bool CanExecute(object parameter)
-            => Validator.IsValid(AppDataViewModel, out _);
+            => !string.IsNullOrEmpty(AppDataViewModel.ExeName);
 
         public override void Execute(object parameter)
         {
-            
+            try
+            {
+                ExeInfoHelper.AutoSetProperties(AppDataViewModel);
+            }
+            catch(Exception ex)
+            {
+                _ = Dispatcher.CurrentDispatcher.InvokeAsync(new Action(() => { MessageBox.Show(ex.ToString(), "Error!"); }));
+            }
         }
     }
 }

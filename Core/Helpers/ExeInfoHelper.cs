@@ -18,8 +18,6 @@
 
 
 using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -30,7 +28,7 @@ namespace GeNSIS.Core.Helpers
 {
     internal static class ExeInfoHelper
     {
-        internal static void AutoNameInstallerExe(AppDataVM pAppData)
+        internal static void AutoGenerateInstallerName(AppDataVM pAppData)
         {
             if (string.IsNullOrWhiteSpace(pAppData.AppName)) return;
 
@@ -38,16 +36,19 @@ namespace GeNSIS.Core.Helpers
             string arch = pAppData.Is64BitApplication ? "x64" : "x32";
             pAppData.InstallerFileName = $"Setup_{pAppData.AppName}_{pAppData.AppVersion}{build}_{arch}.exe";
         }
+
         internal static void AutoSetProperties(AppDataVM pAppData)
         {
+            // Find out if exe is managed (.NET), 64bit and which version it has, then set them:
             var info = GetExeData(pAppData.ExeName);
             pAppData.Is64BitApplication = info.IsX64;
             pAppData.AppName = Path.GetFileNameWithoutExtension(pAppData.ExeName);
-
             pAppData.AppBuild = GetMachineTypeShortString(GetMachineTypeOfExe(pAppData.ExeName));
-            if (string.IsNullOrWhiteSpace(pAppData.Url))
-                pAppData.Url = AppConfigHelper.GetAppConfig().Website;
 
+            if (string.IsNullOrWhiteSpace(pAppData.Url))
+                pAppData.Url = ConfigHelper.GetAppConfig().Website;
+
+            // Simplify and set AppDataVM.AppVersion:
             if (info.Version.EndsWith(".0.0"))
                 pAppData.AppVersion = info.Version.Substring(0, info.Version.Length - 4);
             else if (info.Version.EndsWith(".0"))
@@ -55,6 +56,7 @@ namespace GeNSIS.Core.Helpers
             else
                 pAppData.AppVersion = info.Version;
 
+            // Simplify and set AppDataVM.Company and Publisher:
             var fvi = FileVersionInfo.GetVersionInfo(pAppData.ExeName);
             if (!string.IsNullOrWhiteSpace(fvi.CompanyName))
             {

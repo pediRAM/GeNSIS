@@ -24,35 +24,35 @@ using System.Text.Json;
 
 namespace GeNSIS.Core.Helpers
 {
-    internal static class AppConfigHelper
+    internal static class ConfigHelper
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        private static AppConfig s_AppConfig;
+        private static Config s_AppConfig;
 
-        public static AppConfig GetAppConfig() => s_AppConfig;
+        public static Config GetAppConfig() => s_AppConfig;
         public static string GetNsisInstallationFoler() => s_AppConfig?.NsisInstallationDirectory;
         public static string GetNsisIconsFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_ICONS;
         public static string GetNsisWizardImagesFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_WIZARD_IMAGES;
         public static string GetNsisHeaderImagesFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_HEADER_IMAGES;
         public static bool AppConfigFileExists() => File.Exists(GConst.GeNSIS.FILENAME_CONFIG);
 
-        public static AppConfig ReadConfigFile()
+        public static Config ReadConfigFile()
         {
             var jsonString = File.ReadAllText(GConst.GeNSIS.FILENAME_CONFIG, System.Text.Encoding.UTF8);
-            s_AppConfig = JsonSerializer.Deserialize<AppConfig>(jsonString);
+            s_AppConfig = JsonSerializer.Deserialize<Config>(jsonString);
             return s_AppConfig;
         }
 
-        public static void WriteConfigFile(AppConfig pAppConfig)
+        public static void WriteConfigFile(Config pAppConfig)
         {
-            string jsonString = JsonSerializer.Serialize<AppConfig>(pAppConfig, new JsonSerializerOptions { WriteIndented = true});
+            string jsonString = JsonSerializer.Serialize<Config>(pAppConfig, new JsonSerializerOptions { WriteIndented = true});
             File.WriteAllText(GConst.GeNSIS.FILENAME_CONFIG, jsonString, System.Text.Encoding.UTF8);
         }
 
-        public static AppConfig CreateConfig()
+        public static Config CreateConfig()
         {
-            var config = new AppConfig();
+            var config = new Config();
             config.NsisInstallationDirectory = GetNsisInstallationDirectoryOrNull();
 
             CreateGeNSISDirectoriesIfNotExist();

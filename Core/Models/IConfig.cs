@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 namespace GeNSIS.Core.Models
 {
-    public interface IAppConfig
+    public interface IConfig
     {
         string CompanyName { get; set; }
         string Publisher { get; set; }
@@ -33,6 +33,6 @@ namespace GeNSIS.Core.Models
 
         List<string> GetLastProjects();
         List<string> GetLastScripts();
-        void UpdateValues(IAppConfig pIAppConfig);
+        void UpdateValues(IConfig pIAppConfig);
     }
 }

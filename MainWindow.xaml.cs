@@ -48,7 +48,7 @@ namespace GeNSIS
         #region Variables
         private readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        private AppConfig m_Config;
+        private Config m_Config;
         private AppDataVM m_AppDataViewModel;
 
         private string m_ProjectName = "Unsaved";
@@ -75,13 +75,12 @@ namespace GeNSIS
         #region Ctor
         public MainWindow()
         {            
-            AppData = new AppDataVM(true);            
-
+            AppData = new AppDataVM(true);
             InitializeComponent();
-            Title = $"GeNSIS {AsmConst.VERSION}";
-            editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");
+            Loaded += OnMainWindowLoaded;
 
-            Loaded += OnMainWindowLoaded;            
+            Title = $"GeNSIS {AsmConst.VERSION}";
+            editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");                        
 
             FileDialogHelper.InitDir(m_OpenFilesDialog, PathHelper.GetMyDocuments());
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
@@ -172,7 +171,7 @@ namespace GeNSIS
                     m_Config.NsisInstallationDirectory = m_FolderBrowserDialog.SelectedPath;
 
                     Log?.Debug("Saving changes to config file...");
-                    AppConfigHelper.WriteConfigFile(m_Config);
+                    ConfigHelper.WriteConfigFile(m_Config);
                 }
                 else
                 {
@@ -186,16 +185,16 @@ namespace GeNSIS
 
         private void ProcessAppConfig()
         {
-            if (AppConfigHelper.AppConfigFileExists())
+            if (ConfigHelper.AppConfigFileExists())
             {
                 try
                 {
                     Log.Debug("Reading config file...");
-                    m_Config = AppConfigHelper.ReadConfigFile();
+                    m_Config = ConfigHelper.ReadConfigFile();
                     Log.Debug("Reading config file suceeded.");
 
                     Log.Debug("Creating GeNSIS directories if not exist...");
-                    AppConfigHelper.CreateGeNSISDirectoriesIfNotExist();
+                    ConfigHelper.CreateGeNSISDirectoriesIfNotExist();
                     Log.Debug("Creating GeNSIS directories succeeded.");
                 }
                 catch(Exception ex)
@@ -210,9 +209,9 @@ namespace GeNSIS
             {
                 Log.Warn("Config file not found!");
                 Log.Debug("Creating default configuration...");
-                m_Config = AppConfigHelper.CreateConfig();
+                m_Config = ConfigHelper.CreateConfig();
                 Log.Info("Writing default config file...");
-                AppConfigHelper.WriteConfigFile(m_Config);
+                ConfigHelper.WriteConfigFile(m_Config);
                 Log.Info("Writing default config file succeeded.");
             }
         }
@@ -229,7 +228,7 @@ namespace GeNSIS
         private void OnLoadIconClicked(object sender, RoutedEventArgs e)
         {
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
-            FileDialogHelper.InitDir(m_OpenImageDialog, AppConfigHelper.GetNsisIconsFolder());
+            FileDialogHelper.InitDir(m_OpenImageDialog, ConfigHelper.GetNsisIconsFolder());
             if (m_OpenImageDialog.ShowDialog() == true)
             {
                 try
@@ -379,7 +378,7 @@ namespace GeNSIS
                 }
             }
 
-            ExeInfoHelper.AutoNameInstallerExe(AppData);
+            ExeInfoHelper.AutoGenerateInstallerName(AppData);
         }
 
         private void OnCloseClicked(object sender, RoutedEventArgs e)
@@ -452,7 +451,7 @@ namespace GeNSIS
             if (sw.Config.HasUnsavedChanges)
             {
                 m_Config.UpdateValues(sw.Config);
-                AppConfigHelper.WriteConfigFile(m_Config);
+                ConfigHelper.WriteConfigFile(m_Config);
             }
         }
 
@@ -468,7 +467,7 @@ namespace GeNSIS
         private void OnLoadWizardClicked(object sender, RoutedEventArgs e)
         {
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.BITMAP;
-            m_OpenImageDialog.InitialDirectory = AppConfigHelper.GetNsisWizardImagesFolder();
+            m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisWizardImagesFolder();
             if (m_OpenImageDialog.ShowDialog() == true)
             {
                 try
@@ -495,7 +494,7 @@ namespace GeNSIS
         private void OnLoadHeaderClicked(object sender, RoutedEventArgs e)
         {
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.BITMAP;
-            m_OpenImageDialog.InitialDirectory = AppConfigHelper.GetNsisHeaderImagesFolder();
+            m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisHeaderImagesFolder();
             if (m_OpenImageDialog.ShowDialog() == true)
             {
                 try

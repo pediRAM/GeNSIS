@@ -22,7 +22,7 @@ namespace GeNSIS.Core.Models
     using System.Collections.Generic;
     using System.Linq;
 
-    public class AppConfig : IAppConfig
+    public class Config : IConfig
     {
         public string CompanyName { get; set; }
 
@@ -43,9 +43,9 @@ namespace GeNSIS.Core.Models
         public List<string> GetLastProjects() => LastProjects;
         public List<string> GetLastScripts() => LastScripts;
 
-        public AppConfigVM Clone()
+        public ConfigVM Clone()
         {
-            return new AppConfigVM
+            return new ConfigVM
             {
                 CompanyName = CompanyName,
                 Publisher = Publisher,
@@ -60,7 +60,7 @@ namespace GeNSIS.Core.Models
             };
         }
 
-        public void UpdateValues(IAppConfig pIAppConfig)
+        public void UpdateValues(IConfig pIAppConfig)
         {
             CompanyName = pIAppConfig.CompanyName;
             Publisher = pIAppConfig.Publisher;

@@ -20,13 +20,12 @@
 namespace GeNSIS.Core.Models
 {
     using GeNSIS.Core.Extensions;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
 
-    public class AppConfigVM : IAppConfig
+    public class ConfigVM : IConfig
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private string m_CompanyName;
@@ -39,8 +38,8 @@ namespace GeNSIS.Core.Models
 
         private string m_NsisInstallationDirectory;
 
-        public AppConfigVM() { }
-        public AppConfigVM(bool pRegisterForChanges) : this() 
+        public ConfigVM() { }
+        public ConfigVM(bool pRegisterForChanges) : this() 
         {
             if (pRegisterForChanges)
                 PropertyChanged += OnPropertyChanged;
@@ -135,9 +134,9 @@ namespace GeNSIS.Core.Models
 
         public List<string> GetLastProjects() => LastProjects.ToList();
         public List<string> GetLastScripts() => LastScripts.ToList();
-        public AppConfig ToModel()
+        public Config ToModel()
         {
-            return new AppConfig
+            return new Config
             {
                 CompanyName = CompanyName,
                 Publisher = Publisher,
@@ -152,7 +151,7 @@ namespace GeNSIS.Core.Models
             };
         }
 
-        public void UpdateValues(IAppConfig pIAppConfig)
+        public void UpdateValues(IConfig pIAppConfig)
         {
             CompanyName = pIAppConfig.CompanyName;
             Publisher = pIAppConfig.Publisher;

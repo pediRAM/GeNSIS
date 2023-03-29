@@ -24,6 +24,10 @@ using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace GeNSIS.Core.Helpers
 {
+    /// <summary>
+    /// Provides filters for Open-/SaveFileDialogs and provides a
+    /// workaround method for .NET SaveFileDialog.InitialDirectory issue.
+    /// </summary>
     internal static class FileDialogHelper
     {
         public static class Filter

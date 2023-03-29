@@ -37,19 +37,18 @@ namespace GeNSIS.Core.Converters
         {
             switch(pValue)
             {
-                case byte item: return ((byte)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
-                case sbyte item: return ((sbyte)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
-                case short item: return ((short)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
-                case ushort item: return ((ushort)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
-                case long item: return ((long)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
-                case ulong item: return ((ulong)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
-                case int item: return ((int)pValue == 0) ? ValueWhenZero: ValueWhenNotZero;
-                case uint item: return ((uint)pValue == 0) ? ValueWhenZero: ValueWhenNotZero;
-                case double item: return ((double)pValue == 0.0d) ? ValueWhenZero: ValueWhenNotZero;
+                case byte   : return ((byte)pValue   == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case sbyte  : return ((sbyte)pValue  == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case short  : return ((short)pValue  == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case ushort : return ((ushort)pValue == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case long   : return ((long)pValue   == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case ulong  : return ((ulong)pValue  == 0) ? ValueWhenZero: ValueWhenNotZero; 
+                case int    : return ((int)pValue    == 0) ? ValueWhenZero: ValueWhenNotZero;
+                case uint   : return ((uint)pValue   == 0) ? ValueWhenZero: ValueWhenNotZero;
+                case double : return ((double)pValue == 0.0d) ? ValueWhenZero: ValueWhenNotZero;
             }
 
             throw new TypeAccessException("Unknown number type!");
         }
-        
     }
 }

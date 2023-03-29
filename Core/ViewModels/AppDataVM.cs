@@ -455,7 +455,7 @@ namespace GeNSIS.Core
         {
             get
             {
-                m_AutoRetrieveExeDataCommand ??= new AutoRetrieveExeDataCommand(this);
+                m_AutoRetrieveExeDataCommand ??= new AutoFillAppDataCommand(this);
                 return m_AutoRetrieveExeDataCommand;
             }
             set => m_AutoRetrieveExeDataCommand = value;
