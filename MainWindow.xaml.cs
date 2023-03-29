@@ -148,6 +148,19 @@ namespace GeNSIS
             }
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (AppData.HasUnsavedChanges)
+            {
+                if (m_MsgBoxMgr.ShowUnsavedChangesByClosingAppWarning() != MessageBoxResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+            base.OnClosing(e);
+        }
+
         private bool NsisInstallationDirectoryExists()
         {
             if (string.IsNullOrEmpty(m_Config.NsisInstallationDirectory))
@@ -381,16 +394,7 @@ namespace GeNSIS
             ExeInfoHelper.AutoGenerateInstallerName(AppData);
         }
 
-        private void OnCloseClicked(object sender, RoutedEventArgs e)
-        {
-            if (AppData.HasUnsavedChanges)
-            {
-                if (m_MsgBoxMgr.ShowUnsavedChangesByClosingAppWarning() != MessageBoxResult.Yes)
-                    return;
-            }
-
-            Close();
-        }
+        private void OnCloseClicked(object sender, RoutedEventArgs e) => Close();
 
         private void OnSaveProjectAsClicked(object sender, RoutedEventArgs e)
         {
