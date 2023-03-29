@@ -352,3 +352,4 @@ MigrationBackup/
 .ionide/
 /UML/.$use-case-uml-dia.drawio.dtmp
 /UML/.$use-case-uml-dia.drawio.bkp
+/nlog.config
