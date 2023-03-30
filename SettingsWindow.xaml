@@ -9,9 +9,9 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="IconsResourceDictionary.xaml"/>
-                <ResourceDictionary Source="StringsResourceDictionary.xaml"/>
-                <ResourceDictionary Source="StylesResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/IconsResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/StringsResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/StylesResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

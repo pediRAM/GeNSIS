@@ -17,26 +17,23 @@
 ****************************************************************************************/
 
 
+using System;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Markup;
+
 namespace GeNSIS.Core.Converters
 {
-    using System;
-    using System.Globalization;
-    using System.Windows.Data;
-    using System.Windows.Markup;
-
-    public abstract class AValueConverter : MarkupExtension, IValueConverter
+    internal abstract class AMultiValueConverter : MarkupExtension, IMultiValueConverter
     {
-        public abstract object Convert(object pValue);
+        public abstract object Convert(object[] values, Type targetType, object parameter, CultureInfo culture);
 
-        public virtual object Convert(object pValue, Type pTargetType, object pParameter, CultureInfo pCulture)
-            => Convert(pValue);
-
-        public override object ProvideValue(IServiceProvider pServiceProvider)
+        public override object ProvideValue(IServiceProvider serviceProvider)
             => this;
 
-        public virtual object ConvertBack(object pValue, Type pTargetType, object pParameter, CultureInfo pCulture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            throw new InvalidOperationException($@"This AValueConverter inheritor: ({GetType().Name}) does not support converting types backward!");
+            throw new InvalidOperationException($@"This AMultiValueConverter inheritor: ({GetType().Name}) does not support converting types backward!");
         }
     }
 }

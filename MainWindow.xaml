@@ -7,13 +7,13 @@
         xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
         mc:Ignorable="d"
-        Height="650" Width="900">
+        Height="680" Width="900">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="IconsResourceDictionary.xaml"/>
-                <ResourceDictionary Source="StringsResourceDictionary.xaml"/>
-                <ResourceDictionary Source="StylesResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/IconsResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/StringsResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/StylesResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -28,17 +28,18 @@
         
         <Menu Grid.Row="0">
             <MenuItem Header="File">
+                <MenuItem Header="Project" Icon="{StaticResource icon_project}">
+                    <MenuItem Header="New project" Icon="{StaticResource icon_new}"      Click="OnNewProjectClicked"/>
+                    <MenuItem Header="Open..."     Icon="{StaticResource icon_open}"     Click="OnOpenProjectClicked"/>
+                    <MenuItem Header="Save"        Icon="{StaticResource icon_save}"     Click="OnSaveProjectClicked"/>
+                    <MenuItem Header="Save as..."  Icon="{StaticResource icon_save_as}"  Click="OnSaveProjectAsClicked"/>
+                </MenuItem>
                 <MenuItem Header="Open script..." Icon="{StaticResource icon_script}" Click="OnOpenScriptClicked"/>
                 <MenuItem Header="Settings..." Icon="{StaticResource icon_settings}" Click="OnOpenSettingsWindowClicked"/>
                 <MenuItem Header="Close"       Icon="{StaticResource icon_exit}"     Click="OnCloseClicked"/>
             </MenuItem>
             
-            <MenuItem Header="Project">
-                <MenuItem Header="New project" Icon="{StaticResource icon_new}"      Click="OnNewProjectClicked"/>
-                <MenuItem Header="Open..."     Icon="{StaticResource icon_open}"     Click="OnOpenProjectClicked"/>
-                <MenuItem Header="Save"        Icon="{StaticResource icon_save}"     Click="OnSaveProjectClicked"/>
-                <MenuItem Header="Save as..."  Icon="{StaticResource icon_save_as}"  Click="OnSaveProjectAsClicked"/>
-            </MenuItem>
+
             
             <MenuItem Header="Build">
                 <MenuItem Header="Generate script" Icon="{StaticResource icon_generate}" Click="OnGenerate"/>
@@ -334,9 +335,33 @@
 
         </TabControl>
         </ScrollViewer>
-    
-        <Grid Grid.Row="3" Grid.ColumnSpan="10">
 
-        </Grid>
+        <Border Grid.Row="3" Grid.ColumnSpan="10" BorderBrush="DarkGray" BorderThickness="1" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+                <Label     Content="App.:" Style="{StaticResource label_statusbar}" />
+                <TextBlock Text="{Binding AppName}" Style="{StaticResource textblock_statusbar}" />
+                <Rectangle Style="{StaticResource vert_line_statusbar}" />
+
+                <Label     Content="Files:" Style="{StaticResource label_statusbar}" />
+                <TextBlock Text="{Binding ElementName=lsb_Files, Path=Items.Count}" Style="{StaticResource textblock_statusbar}" />
+                <Rectangle Style="{StaticResource vert_line_statusbar}" />
+            
+                <Label     Content="Folders:" Style="{StaticResource label_statusbar}" />
+                <TextBlock Text="{Binding ElementName=lsb_Directories, Path=Items.Count}" Style="{StaticResource textblock_statusbar}" />
+                <Rectangle Style="{StaticResource vert_line_statusbar}" />
+
+                <!--<Label     Content="Size:" Style="{StaticResource label_statusbar}" />
+                <TextBlock Style="{StaticResource textblock_statusbar}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{conv:FilesToSizeConverter}">
+                            <Binding Path="Files"/>
+                            <Binding Path="Directories"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <Rectangle Style="{StaticResource vert_line_statusbar}" />-->
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

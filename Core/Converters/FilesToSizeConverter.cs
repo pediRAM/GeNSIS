@@ -17,26 +17,32 @@
 ****************************************************************************************/
 
 
+using System.Globalization;
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+
 namespace GeNSIS.Core.Converters
 {
-    using System;
-    using System.Globalization;
-    using System.Windows.Data;
-    using System.Windows.Markup;
-
-    public abstract class AValueConverter : MarkupExtension, IValueConverter
+    internal class FilesToSizeConverter : AMultiValueConverter
     {
-        public abstract object Convert(object pValue);
-
-        public virtual object Convert(object pValue, Type pTargetType, object pParameter, CultureInfo pCulture)
-            => Convert(pValue);
-
-        public override object ProvideValue(IServiceProvider pServiceProvider)
-            => this;
-
-        public virtual object ConvertBack(object pValue, Type pTargetType, object pParameter, CultureInfo pCulture)
+        public override object Convert(object[] pValues, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new InvalidOperationException($@"This AValueConverter inheritor: ({GetType().Name}) does not support converting types backward!");
+            try
+            {
+                var files = (IEnumerable<string>)pValues[0];
+                var dirs  = (IEnumerable<string>)pValues[1];
+                var totalSize = files.Sum(x => new FileInfo(x).Length);
+                var totalDirSize = dirs.Sum(x => new DirectoryInfo(x).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
+                var total = (totalSize + totalDirSize) / 1024;
+
+                return (total / 1024) >= 1024 ? total / 1024 + " MB" : total + " KB";
+            }
+            catch(Exception ex)
+            {
+                return 0;
+            }
         }
     }
 }
