@@ -32,10 +32,11 @@ namespace GeNSIS.Core.Helpers
     {
         public static class Filter
         {
-            public const string BITMAP  = "Bitmap files|*.bmp";
-            public const string ICON    = "Icon files|*.ico";
-            public const string SCRIPT    = "NSIS files|*.nsi";
-            public const string PROJECT = "XML files|*.xml";
+            public const string ALL_FILES  = "All files|*.*";
+            public const string BITMAP     = "Bitmap files|*.bmp";
+            public const string ICON       = "Icon files|*.ico";
+            public const string SCRIPT     = "NSIS files|*.nsi";
+            public const string PROJECT    = "XML files|*.xml";
         }
 
         public static void InitDir(SaveFileDialog pSfd, string pPath)

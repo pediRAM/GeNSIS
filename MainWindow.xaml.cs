@@ -232,6 +232,7 @@ namespace GeNSIS
 
         private void OnAddFilesClicked(object sender, RoutedEventArgs e)
         {
+            m_OpenFilesDialog.Filter = FileDialogHelper.Filter.ALL_FILES;
             FileDialogHelper.InitDir(m_OpenFilesDialog, PathHelper.GetMyDocuments());
             if (m_OpenFilesDialog.ShowDialog().Value != true) 
                 return;
