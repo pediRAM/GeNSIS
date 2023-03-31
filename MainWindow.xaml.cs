@@ -240,28 +240,6 @@ namespace GeNSIS
             AppData.Files.AddRange(m_OpenFilesDialog.FileNames);
         }
 
-        private void OnLoadIconClicked(object sender, RoutedEventArgs e)
-        {
-            m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
-            FileDialogHelper.InitDir(m_OpenImageDialog, ConfigHelper.GetNsisIconsFolder());
-            if (m_OpenImageDialog.ShowDialog() == true)
-            {
-                try
-                {
-                    var fi = new FileInfo(m_OpenImageDialog.FileName);
-                    if (fi.Extension.Equals(".ico", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
-                    {
-                        if (! AppData.Files.Contains(m_OpenImageDialog.FileName))
-                            AppData.Files.Add(m_OpenImageDialog.FileName);
-                    }
-                    AppData.InstallerIcon = m_OpenImageDialog.FileName;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Trace.TraceError(ex.ToString());
-                }
-            }
-        }
 
         private void OnAddDirectoryClicked(object sender, RoutedEventArgs e)
         {
@@ -470,68 +448,13 @@ namespace GeNSIS
         private void OpenWebsiteInDefaultBrowser(string pUrl)
             => _ = Process.Start(new ProcessStartInfo(pUrl) { UseShellExecute = true });
 
-        private void OnLoadWizardClicked(object sender, RoutedEventArgs e)
-        {
-            m_OpenImageDialog.Filter = FileDialogHelper.Filter.BITMAP;
-            m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisWizardImagesFolder();
-            if (m_OpenImageDialog.ShowDialog() == true)
-            {
-                try
-                {
-                    var fi = new FileInfo(m_OpenImageDialog.FileName);
-                    if (fi.Extension.Equals(".bmp", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
-                    {
-                        Image image = Image.FromFile(m_OpenImageDialog.FileName);
-                        if (image.Width != 164 || image.Height != 314)
-                        {
-                            _ = m_MsgBoxMgr.ShowWizardImageBadSizeWarn();
-                            return;
-                        }
-                    }
-                    AppData.InstallerWizardImage = m_OpenImageDialog.FileName;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Trace.TraceError(ex.ToString());
-                }
-            }
-        }
-
-        private void OnLoadHeaderClicked(object sender, RoutedEventArgs e)
-        {
-            m_OpenImageDialog.Filter = FileDialogHelper.Filter.BITMAP;
-            m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisHeaderImagesFolder();
-            if (m_OpenImageDialog.ShowDialog() == true)
-            {
-                try
-                {
-                    var fi = new FileInfo(m_OpenImageDialog.FileName);
-                    if (fi.Extension.Equals(".bmp", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
-                    {
-                        Image image = Image.FromFile(m_OpenImageDialog.FileName);
-                        if (image.Width != 150 || image.Height != 57)
-                        {
-                            _ = m_MsgBoxMgr.ShowBannerImageBadSizeWarn();
-                            return;
-                        }
-                    }
-                    AppData.InstallerHeaderImage = m_OpenImageDialog.FileName;
-                    var conv = new StringToImageSourceConverter();
-                    img_License.Source = (System.Windows.Media.ImageSource)conv.Convert(@"Resources\Images\Installer\Custom\license.png");
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Trace.TraceError(ex.ToString());
-                }
-            }
-        }
-
+        #region Open/Save Script
         private void OnSaveScriptClicked(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(PathToGeneratedNsisScript))
             {
                 _ = m_MsgBoxMgr.ShowNoGeneratedScriptFileError();
-                return; 
+                return;
             }
 
             File.WriteAllText(PathToGeneratedNsisScript, editor.Text, System.Text.Encoding.UTF8);
@@ -550,5 +473,133 @@ namespace GeNSIS
             tabItem_Editor.IsSelected = true;
             PathToGeneratedNsisScript = m_OpenScriptDialog.FileName;
         }
+        #endregion Open/Save Script
+
+        #region Desing (Icons & Images)
+        private void OnLoadIconClicked(object sender, RoutedEventArgs e)
+        {
+            if (TryLoadIcon(out string fileName))
+                AppData.InstallerIcon = fileName;
+        }
+
+        private void OnLoadUninstallerIconClicked(object sender, RoutedEventArgs e)
+        {
+            if (TryLoadIcon(out string fileName))
+                AppData.UninstallerIcon = fileName;
+        }
+
+        private bool TryLoadIcon(out string pFileName)
+        {
+            pFileName = null;
+            m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
+            FileDialogHelper.InitDir(m_OpenImageDialog, ConfigHelper.GetNsisIconsFolder());
+            if (m_OpenImageDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var fi = new FileInfo(m_OpenImageDialog.FileName);
+                    if (fi.Extension.Equals(".ico", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
+                    {
+                        if (!AppData.Files.Contains(m_OpenImageDialog.FileName))
+                            AppData.Files.Add(m_OpenImageDialog.FileName);
+                    }
+                    pFileName = m_OpenImageDialog.FileName;
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.TraceError(ex.ToString());
+                }
+            }
+            return false;
+        }
+
+        private void OnLoadWizardClicked(object sender, RoutedEventArgs e)
+        {
+            if (TryLoadWizardImage(out string fileName))
+                AppData.InstallerWizardImage = fileName;
+        }
+
+        private void OnLoadUninstallerWizardClicked(object sender, RoutedEventArgs e)
+        {
+            if (TryLoadWizardImage(out string fileName))
+                AppData.UninstallerWizardImage = fileName;
+        }
+
+        private bool TryLoadWizardImage(out string pFileName)
+        {
+            pFileName = null;
+            m_OpenImageDialog.Filter = FileDialogHelper.Filter.BITMAP;
+            m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisWizardImagesFolder();
+            if (m_OpenImageDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var fi = new FileInfo(m_OpenImageDialog.FileName);
+                    if (fi.Extension.Equals(".bmp", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
+                    {
+                        Image image = Image.FromFile(m_OpenImageDialog.FileName);
+                        if (image.Width != 164 || image.Height != 314)
+                        {
+                            _ = m_MsgBoxMgr.ShowWizardImageBadSizeWarn();
+                            return false;
+                        }
+                    }
+                    pFileName = m_OpenImageDialog.FileName;
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.TraceError(ex.ToString());
+                }
+            }
+            return false;
+        }
+
+        private void OnLoadHeaderClicked(object sender, RoutedEventArgs e)
+        {
+            if (TryLoadHeaderImage(out string fileName))
+                AppData.InstallerHeaderImage = fileName;
+        }
+
+        private void OnLoadUninstallerHeaderClicked(object sender, RoutedEventArgs e)
+        {
+            if (TryLoadHeaderImage(out string fileName))
+                AppData.UninstallerHeaderImage = fileName;
+        }
+
+        private bool TryLoadHeaderImage(out string pFileName)
+        {
+            pFileName = null;
+            m_OpenImageDialog.Filter = FileDialogHelper.Filter.BITMAP;
+            m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisHeaderImagesFolder();
+            if (m_OpenImageDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var fi = new FileInfo(m_OpenImageDialog.FileName);
+                    if (fi.Extension.Equals(".bmp", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
+                    {
+                        Image image = Image.FromFile(m_OpenImageDialog.FileName);
+                        if (image.Width != 150 || image.Height != 57)
+                        {
+                            _ = m_MsgBoxMgr.ShowBannerImageBadSizeWarn();
+                            return false;
+                        }
+                    }
+                    pFileName = m_OpenImageDialog.FileName;
+                    var conv = new StringToImageSourceConverter();
+                    img_License.Source = (System.Windows.Media.ImageSource)conv.Convert(@"Resources\Images\Installer\Custom\license.png");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.TraceError(ex.ToString());
+                }
+            }
+            return false;
+        }
+        #endregion Desing (Icons & Images)
+
+
     }
 }

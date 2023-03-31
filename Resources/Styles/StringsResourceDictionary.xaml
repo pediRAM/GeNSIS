@@ -16,9 +16,10 @@
     <sys:String x:Key="label_appicon">Application icon (*.ico):</sys:String>
     <sys:String x:Key="label_files">Files:</sys:String>
     <sys:String x:Key="label_directories">Directories:</sys:String>
-    <sys:String x:Key="label_design">Installer Design</sys:String>
+    <sys:String x:Key="label_design_installer">Installer Design</sys:String>
+    <sys:String x:Key="label_design_uninstaller">Uninstaller Design</sys:String>
     <sys:String x:Key="label_exename">Executable file:</sys:String>    
-    <sys:String x:Key="label_license">License file (*.txt):</sys:String>    
+    <sys:String x:Key="label_license">License file:</sys:String>    
     <sys:String x:Key="label_company">Company name:</sys:String>
     <sys:String x:Key="label_publisher">Publisher name:</sys:String>
     <sys:String x:Key="label_url">Website (url):</sys:String>
@@ -36,7 +37,7 @@
     <sys:String x:Key="tt_files">Files of your application, which should be copied to the installation directory</sys:String>
     <sys:String x:Key="tt_directories">Directories of your application, which should be copied (optional recursively) to the installation dirctory</sys:String>
     <sys:String x:Key="tt_exename">Executable filename: name of the *.exe file of your application</sys:String>
-    <sys:String x:Key="tt_license">License text file: name of the *.txt license file, like: License.txt</sys:String>
+    <sys:String x:Key="tt_license">License file: name of the license file (*.rtf, *.txt), like: License.txt or License.rtf</sys:String>
     <sys:String x:Key="tt_company">Company name: name or initials of the company, organisation or individual which/who is distributing the application</sys:String>
     <sys:String x:Key="tt_publisher">Publisher: name of the company, organisation or individual which/who is publishing the application</sys:String>
     <sys:String x:Key="tt_url">URL of the application/company website</sys:String>

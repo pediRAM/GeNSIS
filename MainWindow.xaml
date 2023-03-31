@@ -25,7 +25,7 @@
             <RowDefinition Height="Auto"/>
 
         </Grid.RowDefinitions>
-        
+
         <Menu Grid.Row="0">
             <MenuItem Header="File">
                 <MenuItem Header="Project" Icon="{StaticResource icon_project}">
@@ -38,22 +38,22 @@
                 <MenuItem Header="Settings..." Icon="{StaticResource icon_settings}" Click="OnOpenSettingsWindowClicked"/>
                 <MenuItem Header="Close"       Icon="{StaticResource icon_exit}"     Click="OnCloseClicked"/>
             </MenuItem>
-            
 
-            
+
+
             <MenuItem Header="Build">
                 <MenuItem Header="Generate script" Icon="{StaticResource icon_generate}" Click="OnGenerate"/>
             </MenuItem>
-            
+
             <MenuItem Header="Help">
                 <MenuItem Header="Manuals"      Icon="{StaticResource icon_manuals}" Click="OnManualClicked"/>
                 <MenuItem Header="About GeNSIS" Icon="{StaticResource icon_about}" Click="OnAboutClicked"/>
             </MenuItem>
         </Menu>
 
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-        <TabControl >
-            
+
+        <TabControl Grid.Row="1">
+
             <!-- Tab: Files and Folders -->
             <TabItem Header="❶ Files and Folders" Style="{StaticResource label_tabitem}">
                 <Grid>
@@ -67,13 +67,13 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10*"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="17*"/>
                     </Grid.RowDefinitions>
 
                     <!-- Files (List<string>) -->
@@ -116,7 +116,7 @@
                     </Grid>
 
                     <Rectangle Grid.Row="1" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
-                    
+
                     <!-- Directories (List<Directory>) -->
                     <Label Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
                     <ListBox x:Name="lsb_Directories"  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Directories}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
@@ -132,13 +132,13 @@
                     </StackPanel>
 
                     <Rectangle Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
-                    
+
                     <!-- ExeName (string) -->
                     <Label Grid.Row="4" Grid.Column="0" Content="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource label_input}" />
                     <TextBox   Grid.Row="4" Grid.Column="1" x:Name="txb_ExeName" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
 
                     <Rectangle Grid.Row="5" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
-                    
+
                     <!-- License (string) -->
                     <Label Grid.Row="6" Grid.Column="0" Content="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource label_input}" />
                     <TextBox   Grid.Row="6" Grid.Column="1" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
@@ -146,7 +146,7 @@
 
                 </Grid>
             </TabItem>
-            
+
             <!-- Tab: App and Publisher -->
             <TabItem Header="❷ Application and Publisher" Style="{StaticResource label_tabitem}">
                 <Grid>
@@ -235,7 +235,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <!-- DoInstallPerUser (bool) -->
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{StaticResource label_doinstallperuser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource textblock_label}" />
                     <CheckBox  Grid.Row="1" Grid.Column="1" IsChecked="{Binding DoInstallPerUser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource checkbox_input}" />
@@ -251,6 +251,28 @@
                     <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button Content="Auto name" Command="{Binding AutoCreateInstallerNameCommand}" CommandParameter="{Binding ElementName=txb_ExeName, Path=Text}" Style="{StaticResource button_command}"/>
                     </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="❹ Design" x:Name="tabItem_Design" Style="{StaticResource label_tabitem}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
                     <Rectangle Grid.Row="4" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
                     <ScrollViewer Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Padding="5" Width="420">
@@ -265,7 +287,7 @@
                                 <Grid Grid.Row="0" Margin="5,5,5,10">
                                     <!-- NSIS Installer Welcome Page -->
                                     <Image Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/welcome.png" />
-                                    
+
                                     <!-- Installer Wizard Image -->
                                     <Image Width="245"  Height="470"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1.5,40,0,0" Stretch="UniformToFill" Source="{Binding InstallerWizardImage, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
                                     <!--<Rectangle Width="245"  Height="470"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1.5,40,0,0" Fill="Red" />-->
@@ -279,7 +301,7 @@
                                 <Grid Grid.Row="1" Margin="5,10,5,5">
                                     <!-- NSIS Installer License Page -->
                                     <Image x:Name="img_License" Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/license.png" />
-                                    
+
                                     <!-- Image -->
                                     <Image Width="225"  Height="86"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1,39,0,0" Stretch="UniformToFill" Source="{Binding InstallerBannerImage, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
                                     <!--<Rectangle Width="225"  Height="86"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1,39,0,0" Fill="Red" />-->
@@ -297,18 +319,24 @@
                     </ScrollViewer>
 
                     <StackPanel Grid.Row="5" Grid.Column="3" Orientation="Vertical">
-                        <Label Content="{StaticResource label_design}" Style="{StaticResource label_input}"/>
+                        <Label Content="{StaticResource label_design_installer}" Style="{StaticResource label_input}"/>
                         <Button Content="{StaticResource btn_installer_icon}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadIconClicked" />
                         <Button Grid.Column="2" Content="{StaticResource btn_installer_wizard}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadWizardClicked" />
                         <Button Grid.Column="2" Content="{StaticResource btn_installer_header}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadHeaderClicked" />
                     </StackPanel>
-                   
-                    
+
+                    <StackPanel Grid.Row="6" Grid.Column="3" Orientation="Vertical">
+                        <Label Content="{StaticResource label_design_uninstaller}" Style="{StaticResource label_input}"/>
+                        <Button Content="{StaticResource btn_installer_icon}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerIconClicked" />
+                        <Button Grid.Column="2" Content="{StaticResource btn_installer_wizard}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerWizardClicked" />
+                        <Button Grid.Column="2" Content="{StaticResource btn_installer_header}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerHeaderClicked" />
+                    </StackPanel>
+
                 </Grid>
             </TabItem>
 
 
-            <TabItem Header="❹ Script" x:Name="tabItem_Editor" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❺ Script" x:Name="tabItem_Editor" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -334,10 +362,9 @@
             </TabItem>
 
         </TabControl>
-        </ScrollViewer>
 
-        <Border Grid.Row="3" Grid.ColumnSpan="10" BorderBrush="DarkGray" BorderThickness="1" >
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <Border Grid.Row="3" Grid.ColumnSpan="10" BorderBrush="DarkGray" BorderThickness="1" Background="#f0f0f0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
 
                 <Label     Content="App.:" Style="{StaticResource label_statusbar}" />
                 <TextBlock Text="{Binding AppName}" Style="{StaticResource textblock_statusbar}" />
@@ -346,7 +373,7 @@
                 <Label     Content="Files:" Style="{StaticResource label_statusbar}" />
                 <TextBlock Text="{Binding ElementName=lsb_Files, Path=Items.Count}" Style="{StaticResource textblock_statusbar}" />
                 <Rectangle Style="{StaticResource vert_line_statusbar}" />
-            
+
                 <Label     Content="Folders:" Style="{StaticResource label_statusbar}" />
                 <TextBlock Text="{Binding ElementName=lsb_Directories, Path=Items.Count}" Style="{StaticResource textblock_statusbar}" />
                 <Rectangle Style="{StaticResource vert_line_statusbar}" />

@@ -44,6 +44,7 @@ namespace GeNSIS.Core.TextGenerators
         private StringBuilder sb = new StringBuilder();
         private IAppData d = null;
         private TextGeneratorOptions o = null;
+        private readonly string[] m_Languages = new string[] { "English", "French", "German", "Spanish", "SpanishInternational", "SimpChinese", "TradChinese", "Japanese", "Korean", "Italian", "Dutch", "Danish", "Swedish", "Norwegian", "NorwegianNynorsk", "Finnish", "Greek", "Russian", "Portuguese", "PortugueseBR", "Polish", "Ukrainian", "Czech", "Slovak", "Croatian", "Bulgarian", "Hungarian", "Thai", "Romanian", "Latvian", "Macedonian", "Estonian", "Turkish", "Lithuanian", "Slovenian", "Serbian", "SerbianLatin", "Arabic", "Farsi", "Hebrew", "Indonesian", "Mongolian", "Luxembourgish", "Albanian", "Breton", "Belarusian", "Icelandic", "Malay", "Bosnian", "Kurdish", "Irish", "Uzbek", "Galician", "Afrikaans", "Catalan", "Esperanto", "Asturian", "Basque", "Pashto", "ScotsGaelic", "Georgian", "Vietnamese", "Welsh", "Armenian", "Corsican", "Tatar", "Hindi", };
         #endregion Variables
 
         #region Methods
@@ -146,8 +147,15 @@ namespace GeNSIS.Core.TextGenerators
             AddInsertMacro("MUI_UNPAGE_INSTFILES");
             AddStripline();
 
-            AddComment("In installer used language:");
-            AddInsertMacro("MUI_LANGUAGE", "English");
+            AddComment("Available languages (first one is the default):");
+            foreach (var lang in m_Languages)
+            {
+                AddInsertMacro("MUI_LANGUAGE", lang);
+            }
+            AddComment("Function to show the language selection page:");
+            Add("Function .onInit");
+            AddInsertMacro("MUI_LANGDLL_DISPLAY");
+            Add("FunctionEnd");
             AddStripline();
 
             //AddComment("Displayed and registered name:");
