@@ -17,11 +17,15 @@
 ****************************************************************************************/
 
 
+using GeNSIS.Core.Models;
+using System.Collections.Generic;
+
 namespace GeNSIS.Core.TextGenerators
 {
     public class TextGeneratorOptions
     {
         public bool EnableLogs { get; set; }
         public bool EnableComments { get; set; }
+        public List<Language> Languages { get; set; }
     }
 }

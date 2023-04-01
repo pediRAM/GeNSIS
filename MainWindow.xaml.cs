@@ -25,6 +25,8 @@ using GeNSIS.Core.Models;
 using GeNSIS.Core.TextGenerators;
 using NLog;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -87,13 +89,26 @@ namespace GeNSIS
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
             m_SaveScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
             m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
-
+            InitLanguages();
             DataContext = AppData;
+        }
+
+        private void InitLanguages()
+        {
+            var languages = LanguageHelper.GetLanguages();
+            var eng = languages[0];
+            languages.Remove(eng);
+            LangSrc.AddRange(languages);
+            LangDst.Add(eng);
+            lsb_LangSrc.ItemsSource = LangSrc;
+            lsb_LangDst.ItemsSource = LangDst;
         }
         #endregion Ctor
 
 
         #region Properties
+        public ObservableCollection<Language> LangSrc { get; set; } = new ObservableCollection<Language>();
+        public ObservableCollection<Language> LangDst { get; set; } = new ObservableCollection<Language>();
         public AppDataVM AppData
         {
             get { return m_AppDataViewModel; }
@@ -598,8 +613,142 @@ namespace GeNSIS
             }
             return false;
         }
+
         #endregion Desing (Icons & Images)
+
+        #region Sorting Languages
+        private bool m_SortByName;
+        private void OnSortByNameClicked(object sender, RoutedEventArgs e)
+        {
+            if(!m_SortByName)
+            {
+                var l = LangSrc.ToList();
+                LangSrc.Clear();
+                l = l.OrderBy(x => x.Name).ToList();
+                LangSrc.AddRange(l);
+                (sender as System.Windows.Controls.Button).Content = "Z→A";
+            }
+            else
+            {
+                var l = LangSrc.ToList();
+                LangSrc.Clear();
+                l = l.OrderByDescending(x => x.Name).ToList();
+                LangSrc.AddRange(l);
+                (sender as System.Windows.Controls.Button).Content = "A→Z";
+            }
+
+            m_SortByName = !m_SortByName;
+        }
+
+        private bool m_SortByOrder;
+        private void OnSortByOrderClicked(object sender, RoutedEventArgs e)
+        {
+            if (!m_SortByOrder)
+            {
+                var l = LangSrc.ToList();
+                LangSrc.Clear();
+                l = l.OrderBy(x => x.Order).ToList();
+                LangSrc.AddRange(l);
+                (sender as System.Windows.Controls.Button).Content = "N→1";
+            }
+            else
+            {
+                var l = LangSrc.ToList();
+                LangSrc.Clear();
+                l = l.OrderByDescending(x => x.Order).ToList();
+                LangSrc.AddRange(l);
+                (sender as System.Windows.Controls.Button).Content = "1→N";
+            }
+
+            m_SortByOrder = !m_SortByOrder;
+        }
+        #endregion Sorting Languages
+
+        #region Sorting Languages
+        private bool m_SortDstByName;
+        private void OnSortDstByNameClicked(object sender, RoutedEventArgs e)
+        {
+            if (!m_SortDstByName)
+            {
+                var l = LangDst.ToList();
+                LangDst.Clear();
+                l = l.OrderBy(x => x.Name).ToList();
+                LangDst.AddRange(l);
+                (sender as System.Windows.Controls.Button).Content = "Z→A";
+            }
+            else
+            {
+                var l = LangDst.ToList();
+                LangDst.Clear();
+                l = l.OrderByDescending(x => x.Name).ToList();
+                LangDst.AddRange(l);
+                (sender as System.Windows.Controls.Button).Content = "A→Z";
+            }
+
+            m_SortDstByName = !m_SortByName;
+        }
+
+        private bool m_SortDstByOrder;
+        private void OnSortDstByOrderClicked(object sender, RoutedEventArgs e)
+        {
+            if (!m_SortDstByOrder)
+            {
+                var l = LangDst.ToList();
+                LangDst.Clear();
+                l = l.OrderBy(x => x.Order).ToList();
+                LangDst.AddRange(l);
+                (sender as System.Windows.Controls.Button).Content = "N→1";
+            }
+            else
+            {
+                var l = LangDst.ToList();
+                LangDst.Clear();
+                l = l.OrderByDescending(x => x.Order).ToList();
+                LangDst.AddRange(l);
+                (sender as System.Windows.Controls.Button).Content = "1→N";
+            }
+
+            m_SortDstByOrder = !m_SortDstByOrder;
+        }
+        #endregion Sorting Languages
+        private void OnListBoxKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            var c = e.Key.ToString();
+            var elem = LangSrc.FirstOrDefault(x => x.Name.StartsWith(c, StringComparison.OrdinalIgnoreCase));
+            if (elem != null)
+                lsb_LangSrc.ScrollIntoView(elem);
+        }
+
+        private void OnAddSelectedLanguagesClicked(object sender, RoutedEventArgs e)
+        {
+            var selectedLanguages = lsb_LangSrc.GetSelectedItems<Language>();
+            LangSrc.RemoveRange(selectedLanguages);
+            LangDst.AddRange(selectedLanguages);
+        }
+
+        private void OnAddAllLanguagesClicked(object sender, RoutedEventArgs e)
+        {
+            LangDst.AddRange(LangSrc);
+            LangSrc.Clear();
+        }
+
+        private void OnRemoveSelectedLanguagesClicked(object sender, RoutedEventArgs e)
+        {
+            var selectedLanguages = lsb_LangDst.GetSelectedItems<Language>();
+            LangDst.RemoveRange(selectedLanguages);
+            LangSrc.AddRange(selectedLanguages);
+        }
+
+        private void OnResetLanguagesClicked(object sender, RoutedEventArgs e)
+        {
+            LangSrc.AddRange(LangDst);
+            LangDst.Clear();
+            var eng = LangSrc.Single(x => x.Name == "English");
+            LangSrc.Remove(eng);
+            LangDst.Add(eng);
+        }
 
 
     }
+
 }

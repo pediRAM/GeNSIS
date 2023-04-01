@@ -20,6 +20,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace GeNSIS.Core.Extensions
 {
@@ -31,6 +32,11 @@ namespace GeNSIS.Core.Extensions
                 pObservableCollection.Add(item);
         }
 
+        public static void RemoveRange<T>(this ObservableCollection<T> pObservableCollection, IEnumerable<T> pItems)
+        {
+            foreach (var item in pItems)
+                pObservableCollection.Remove(item);
+        }
     }
 
     public static class IEnumerableExtensions
@@ -40,5 +46,16 @@ namespace GeNSIS.Core.Extensions
 
         public static bool HasElement<T>(this IEnumerable<T> pEnumerable)
             => pEnumerable != null && pEnumerable.Count() > 0;
+    }
+
+    public static class ListBoxExtensions
+    {
+        public static List<T> GetSelectedItems<T>(this ListBox pListBox)
+        {
+            var l = new List<T>();
+            foreach (var item in pListBox.SelectedItems)
+                l.Add((T)item);
+            return l;
+        }
     }
 }

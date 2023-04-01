@@ -44,8 +44,6 @@ namespace GeNSIS.Core.TextGenerators
         private StringBuilder sb = new StringBuilder();
         private IAppData d = null;
         private TextGeneratorOptions o = null;
-        private readonly string[] m_Languages = new string[] { "English", "French", "German", "Spanish", "SpanishInternational", "SimpChinese", "TradChinese", "Japanese", "Korean", "Italian", "Dutch", "Danish", "Swedish", "Norwegian", "NorwegianNynorsk", "Finnish", "Greek", "Russian", "Portuguese", "PortugueseBR", "Polish", "Ukrainian", "Czech", "Slovak", "Croatian", "Bulgarian", "Hungarian", "Thai", "Romanian", "Latvian", "Macedonian", "Estonian", "Turkish", "Lithuanian", "Slovenian", "Serbian", "SerbianLatin", "Arabic", "Farsi", "Hebrew", "Indonesian", "Mongolian", "Luxembourgish", "Albanian", "Breton", "Belarusian", "Icelandic", "Malay", "Bosnian", "Kurdish", "Irish", "Uzbek", "Galician", "Afrikaans", "Catalan", "Esperanto", "Asturian", "Basque", "Pashto", "ScotsGaelic", "Georgian", "Vietnamese", "Welsh", "Armenian", "Corsican", "Tatar", "Hindi", };
-        private readonly string[] m_LanguagesOrdered = new string[] { "Afrikaans", "Albanian", "Arabic", "Armenian", "Asturian", "Basque", "Belarusian", "Bosnian", "Breton", "Bulgarian", "Catalan", "Corsican", "Croatian", "Czech", "Danish", "Dutch", "English", "Esperanto", "Estonian", "Farsi", "Finnish", "French", "Galician", "Georgian", "German", "Greek", "Hebrew", "Hindi", "Hungarian", "Icelandic", "Indonesian", "Irish", "Italian", "Japanese", "Korean", "Kurdish", "Latvian", "Lithuanian", "Luxembourgish", "Macedonian", "Malay", "Mongolian", "Norwegian", "NorwegianNynorsk", "Pashto", "Polish", "Portuguese", "PortugueseBR", "Romanian", "Russian", "ScotsGaelic", "Serbian", "SerbianLatin", "SimpChinese", "Slovak", "Slovenian", "Spanish", "SpanishInternational", "Swedish", "Tatar", "Thai", "TradChinese", "Turkish", "Ukrainian", "Uzbek", "Vietnamese", "Welsh", };
         #endregion Variables
 
         #region Methods
@@ -62,15 +60,15 @@ namespace GeNSIS.Core.TextGenerators
 
             AddComment("Variables:");
             AddComment("This is the DISPLAYNAME of your application (remove spaces!):");
-            AddDefine("PRODUCT_NAME", d.AppName);
+            AddDefine("PRODUCT_NAME", this.d.AppName);
             AddComment("This is the FILENAME of the executable/binary (*.exe) of your application:");
-            AddDefine("PRODUCT_EXE_NAME", Path.GetFileName(d.ExeName));
+            AddDefine("PRODUCT_EXE_NAME", Path.GetFileName(this.d.ExeName));
             AddComment("Name of setup/installer file (*.exe):");
-            AddDefine("SETUP_EXE_NAME", d.InstallerFileName);
-            AddDefine("PRODUCT_VERSION", d.AppVersion);
-            AddDefine("PRODUCT_PUBLISHER", d.Publisher);
-            AddDefine("COMPANY_NAME", d.Company);
-            AddDefine("PRODUCT_WEBSITE", d.Url);
+            AddDefine("SETUP_EXE_NAME", this.d.InstallerFileName);
+            AddDefine("PRODUCT_VERSION", this.d.AppVersion);
+            AddDefine("PRODUCT_PUBLISHER", this.d.Publisher);
+            AddDefine("COMPANY_NAME", this.d.Company);
+            AddDefine("PRODUCT_WEBSITE", this.d.Url);
             AddStripline();
 
             AddComment("Available compressions: zlib, bzip2, lzma");
@@ -99,33 +97,33 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Using modern user interface for installer:");
             Add("!include \"MUI.nsh\"");
 
-            if (!string.IsNullOrWhiteSpace(d.InstallerHeaderImage))
+            if (!string.IsNullOrWhiteSpace(this.d.InstallerHeaderImage))
             {
                 AddDefine("MUI_HEADERIMAGE");
-                AddDefine("MUI_HEADERIMAGE_BITMAP", d.InstallerHeaderImage);
+                AddDefine("MUI_HEADERIMAGE_BITMAP", this.d.InstallerHeaderImage);
                 AddDefine("MUI_HEADERIMAGE_BITMAP_NOSTRETCH");
-                AddDefine("MUI_HEADERIMAGE_UNBITMAP", d.InstallerHeaderImage);
+                AddDefine("MUI_HEADERIMAGE_UNBITMAP", this.d.InstallerHeaderImage);
                 AddDefine("MUI_HEADERIMAGE_UNBITMAP_NOSTRETCH");
             }
 
-            if (!string.IsNullOrWhiteSpace(d.InstallerWizardImage))
+            if (!string.IsNullOrWhiteSpace(this.d.InstallerWizardImage))
             {
-                AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP", d.InstallerWizardImage);
+                AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP", this.d.InstallerWizardImage);
                 AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP_NOSTRETCH");
-                AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP", d.InstallerWizardImage);
+                AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP", this.d.InstallerWizardImage);
                 AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP_NOSTRETCH");
             }
 
             AddComment("Installer icons (*.ico):");
-            if (string.IsNullOrWhiteSpace(d.InstallerIcon))
+            if (string.IsNullOrWhiteSpace(this.d.InstallerIcon))
             {
                 AddDefine("MUI_ICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-install.ico");
                 AddDefine("MUI_UNICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-uninstall.ico");
             }
             else
             {
-                AddDefine("MUI_ICON", d.InstallerIcon);
-                AddDefine("MUI_UNICON", d.InstallerIcon);
+                AddDefine("MUI_ICON", this.d.InstallerIcon);
+                AddDefine("MUI_UNICON", this.d.InstallerIcon);
             }
             AddStripline();
             Add("!define MUI_ABORTWARNING");
@@ -135,10 +133,10 @@ namespace GeNSIS.Core.TextGenerators
             AddInsertMacro("MUI_PAGE_WELCOME");
             AddStripline();
 
-            if (!string.IsNullOrWhiteSpace(d.License))
+            if (!string.IsNullOrWhiteSpace(this.d.License))
             {
                 AddComment("License file (*.txt):");
-                AddInsertMacro("MUI_PAGE_LICENSE", d.License);
+                AddInsertMacro("MUI_PAGE_LICENSE", this.d.License);
                 AddStripline();
             }
 
@@ -149,9 +147,9 @@ namespace GeNSIS.Core.TextGenerators
             AddStripline();
 
             AddComment("Available languages (first one is the default):");
-            foreach (var lang in m_Languages)
+            foreach (var lang in o.Languages.OrderBy(x => x.Name))
             {
-                AddInsertMacro("MUI_LANGUAGE", lang);
+                AddInsertMacro("MUI_LANGUAGE", lang.Name);
             }
             AddComment("Function to show the language selection page:");
             Add("Function .onInit");
@@ -177,16 +175,16 @@ namespace GeNSIS.Core.TextGenerators
             Add("SetOutPath \"$INSTDIR\"");
             Add("SetOverwrite ifnewer");
 
-            if (d.GetDirectories().Any())
+            if (data.GetDirectories().Any())
             {
                 AddComment("Add directories recursively (remove /r for non-recursively):");
-                foreach (var s in d.GetDirectories())
+                foreach (var s in data.GetDirectories())
                     Add($"File /r \"{s}\"");
                 AddStripline();
             }
 
             AddComment("Add files:");
-            foreach (var s in d.GetFiles())
+            foreach (var s in this.d.GetFiles())
                 Add($"File \"{s}\"");
             AddStripline();
 
@@ -232,10 +230,10 @@ namespace GeNSIS.Core.TextGenerators
             Add("Delete \"$SMPROGRAMS\\${PRODUCT_NAME}.lnk\"");
 
 
-            if (d.GetDirectories().Any())
+            if (data.GetDirectories().Any())
             {
                 AddComment("Deleteing Subfolders:");
-                foreach (var s in d.GetDirectories())
+                foreach (var s in data.GetDirectories())
                     Add($"RMDir /r \"$INSTDIR\\{Path.GetFileName(s)}\"");
                 AddStripline();
             }

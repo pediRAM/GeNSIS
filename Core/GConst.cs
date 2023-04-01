@@ -16,10 +16,13 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
+using System.CodeDom;
+
 namespace GeNSIS.Core
 {
     internal static class GConst
     {
+        public const string FLAG_PATH = "Resources/Icons/Flags";
         public static class Nsis
         {
             public const string INSTALLER_ICON = @"\Contrib\Graphics\Icons\nsis3-install.ico";
