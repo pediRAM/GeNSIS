@@ -154,7 +154,7 @@ namespace GeNSIS.Core.TextGenerators
             }
             else
             {
-                foreach (var lang in o.Languages.OrderBy(x => x.Name))
+                foreach (var lang in o.Languages)
                 {
                     AddInsertMacro("MUI_LANGUAGE", lang.Name);
                 }
