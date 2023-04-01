@@ -366,7 +366,7 @@
                                     <Image x:Name="img_License" Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/license.png" />
 
                                     <!-- Image -->
-                                    <Image Width="225"  Height="86"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1,39,0,0" Stretch="UniformToFill" Source="{Binding InstallerBannerImage, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
+                                    <Image Width="225"  Height="86"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1,39,0,0" Stretch="UniformToFill" Source="{Binding InstallerHeaderImage, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
                                     <!--<Rectangle Width="225"  Height="86"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1,39,0,0" Fill="Red" />-->
 
                                     <!-- Icon -->

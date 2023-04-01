@@ -605,6 +605,7 @@ namespace GeNSIS
                     pFileName = m_OpenImageDialog.FileName;
                     var conv = new StringToImageSourceConverter();
                     img_License.Source = (System.Windows.Media.ImageSource)conv.Convert(@"Resources\Images\Installer\Custom\license.png");
+                    return true;
                 }
                 catch (Exception ex)
                 {
