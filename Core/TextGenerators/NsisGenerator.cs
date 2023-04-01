@@ -19,6 +19,7 @@
 
 namespace GeNSIS.Core.TextGenerators
 {
+    using GeNSIS.Core.Extensions;
     using GeNSIS.Core.Models;
     using System;
     using System.Collections.Generic;
@@ -147,9 +148,16 @@ namespace GeNSIS.Core.TextGenerators
             AddStripline();
 
             AddComment("Available languages (first one is the default):");
-            foreach (var lang in o.Languages.OrderBy(x => x.Name))
+            if (o.Languages == null || o.Languages.IsEmpty())
             {
-                AddInsertMacro("MUI_LANGUAGE", lang.Name);
+                AddInsertMacro("MUI_LANGUAGE", "English");
+            }
+            else
+            {
+                foreach (var lang in o.Languages.OrderBy(x => x.Name))
+                {
+                    AddInsertMacro("MUI_LANGUAGE", lang.Name);
+                }
             }
             AddComment("Function to show the language selection page:");
             Add("Function .onInit");

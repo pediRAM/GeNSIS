@@ -281,7 +281,7 @@ namespace GeNSIS
             if (m_SaveScriptDialog.ShowDialog() != true)
                 return;
 
-            var nsisCode = m_NsisCodeGenerator.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true });
+            var nsisCode = m_NsisCodeGenerator.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true, Languages = LangDst.ToList() });
             FileDialogHelper.InitDir(m_SaveScriptDialog, PathHelper.GetGeNSISScriptsDir());
             SaveScript(m_SaveScriptDialog.FileName, nsisCode);
             editor.Text = nsisCode;
