@@ -49,7 +49,7 @@ namespace GeNSIS
 
         #region Variables
         private readonly Logger Log = LogManager.GetCurrentClassLogger();
-
+        private SingletonStorage m_Storage = new SingletonStorage();
         private Config m_Config;
         private AppDataVM m_AppDataViewModel;
 
@@ -79,6 +79,8 @@ namespace GeNSIS
         public MainWindow()
         {            
             AppData = new AppDataVM(true);
+            m_Storage.Put<IAppData>(AppData);
+
             InitializeComponent();
             Loaded += OnMainWindowLoaded;
 
@@ -90,6 +92,7 @@ namespace GeNSIS
             m_SaveScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
             m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
             InitLanguages();
+            m_Storage.Put<ObservableCollection<Language>>(LangDst);
             DataContext = AppData;
         }
 

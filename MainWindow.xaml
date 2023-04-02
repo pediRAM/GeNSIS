@@ -255,6 +255,7 @@
                     
                     <Rectangle Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
                     
+                    <!-- Languages -->
                     <Label Grid.Row="5" Grid.Column="0" Content="Languages:" Margin="5"/>
                     <Grid Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="5" Width="600">
                         <Grid.RowDefinitions>
@@ -265,6 +266,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -313,6 +315,12 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
+                        <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Button Content="⤒" Style="{StaticResource button_up_down_sel_elem}" />
+                            <Button Content="↑" Style="{StaticResource button_up_down_sel_elem}" />
+                            <Button Content="↓" Style="{StaticResource button_up_down_sel_elem}" />
+                            <Button Content="⤓" Style="{StaticResource button_up_down_sel_elem}" />
+                        </StackPanel>
                     </Grid>
                 </Grid>
             </TabItem>
