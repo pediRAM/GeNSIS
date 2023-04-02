@@ -753,35 +753,23 @@ namespace GeNSIS
         }
 
         private void OnMoveSelectedLanguagesToBeginClicked(object sender, RoutedEventArgs e)
-        {
-            if (lsb_LangDst.SelectedItems == null || lsb_LangDst.SelectedItems.Count == 0)
-                return;
-            var items = lsb_LangDst.GetSelectedItems<Language>();
-            LangDst.MoveFirst(items);
-        }
+            => ReorderSelectedLanguages(LangDst.MoveFirst);
 
         private void OnMoveSelectedLanguagesToEndClicked(object sender, RoutedEventArgs e)
-        {
-            if (lsb_LangDst.SelectedItems == null || lsb_LangDst.SelectedItems.Count == 0)
-                return;
-            var items = lsb_LangDst.GetSelectedItems<Language>();
-            LangDst.MoveLast(items);
-        }
+            => ReorderSelectedLanguages(LangDst.MoveLast);
 
         private void OnMoveSelectedLanguagesToPrevClicked(object sender, RoutedEventArgs e)
-        {
-            if (lsb_LangDst.SelectedItems == null || lsb_LangDst.SelectedItems.Count == 0)
-                return;
-            var items = lsb_LangDst.GetSelectedItems<Language>();
-            LangDst.MovePrev(items);
-        }
+            => ReorderSelectedLanguages(LangDst.MovePrev);
 
         private void OnMoveSelectedLanguagesToNextClicked(object sender, RoutedEventArgs e)
+            => ReorderSelectedLanguages(LangDst.MoveNext);        
+
+        private void ReorderSelectedLanguages(Action<List<Language>> pAction)
         {
             if (lsb_LangDst.SelectedItems == null || lsb_LangDst.SelectedItems.Count == 0)
                 return;
             var items = lsb_LangDst.GetSelectedItems<Language>();
-            LangDst.MoveNext(items);
+            pAction(items);
         }
     }
 
