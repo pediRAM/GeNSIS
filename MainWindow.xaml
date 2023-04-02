@@ -232,8 +232,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
@@ -256,9 +254,13 @@
                     <Rectangle Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
                     
                     <!-- Languages -->
-                    <Label Grid.Row="5" Grid.Column="0" Content="Languages:" Margin="5"/>
-                    <Grid Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="5" Width="600">
+                    <!--<Label Grid.Row="5" Grid.ColumnSpan="2" Content="Languages:" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0" />-->
+                    
+                    <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Width="480">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
@@ -269,38 +271,42 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label Grid.Row="0" Grid.Column="0" Content="Available languages:" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5" />
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Content="A→Z" Click="OnSortByNameClicked" Style="{StaticResource button_sort}"/>
                             <Button Content="N→1" Click="OnSortByOrderClicked" Style="{StaticResource button_sort}"/>
                         </StackPanel>
-                        <ListBox Grid.Row="1" Grid.Column="0" x:Name="lsb_LangSrc" Style="{StaticResource listbox_files}" KeyDown="OnListBoxKeyDown">
-                                <ListBox.ItemTemplate>
+                        <ListBox Grid.Row="2" Grid.Column="0" x:Name="lsb_LangSrc" Style="{StaticResource listbox_languages}" KeyDown="OnListBoxKeyDown">
+                            <ListBox.ItemTemplate>
                                     <DataTemplate DataType="local:GeNSIS.Core.Models.Language">
-                                        <Grid>
+                                        <Grid Margin="0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <Image Grid.Column="0" Source="{Binding Path=Flag}" Height="18" Width="64" Stretch="Uniform"/>
+                                            <Image Grid.Column="0" Source="{Binding Path=Flag}" Height="16" Width="24" Stretch="Uniform"/>
                                             <Label Grid.Column="1" Content="{Binding Path=DisplayName}"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
 
-                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
                             <Button Content="Add ▶"      Style="{StaticResource button_sort}" Click="OnAddSelectedLanguagesClicked" />
                             <Button Content="Add all ▶"  Style="{StaticResource button_sort}" Click="OnAddAllLanguagesClicked" />
                             <Button Content="◀ Remove"   Style="{StaticResource button_sort}" Click="OnRemoveSelectedLanguagesClicked" />
                             <Button Content="◀ Reset"    Style="{StaticResource button_sort}" Click="OnResetLanguagesClicked" />
                         </StackPanel>
 
-                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label Grid.Row="0" Grid.Column="2" Content="Added to Installer:" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5"/>
+
+                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Content="A→Z" Click="OnSortDstByNameClicked" Style="{StaticResource button_sort}"/>
                             <Button Content="N→1" Click="OnSortDstByOrderClicked" Style="{StaticResource button_sort}"/>
                         </StackPanel>
-                        <ListBox Grid.Row="1" Grid.Column="2" x:Name="lsb_LangDst" Style="{StaticResource listbox_files}" >
+                        <ListBox Grid.Row="2" Grid.Column="2" x:Name="lsb_LangDst" Style="{StaticResource listbox_languages}" >
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="local:GeNSIS.Core.Models.Language">
                                     <Grid>
@@ -309,17 +315,17 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Source="{Binding Path=Flag}" Height="18" Width="64" Stretch="Uniform"/>
+                                        <Image Grid.Column="0" Source="{Binding Path=Flag}" Height="16" Width="24" Stretch="Uniform"/>
                                         <Label Grid.Column="1" Content="{Binding Path=DisplayName}"/>
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
-                            <Button Content="⤒" Style="{StaticResource button_up_down_sel_elem}" />
-                            <Button Content="↑" Style="{StaticResource button_up_down_sel_elem}" />
-                            <Button Content="↓" Style="{StaticResource button_up_down_sel_elem}" />
-                            <Button Content="⤓" Style="{StaticResource button_up_down_sel_elem}" />
+                        <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Button Content="⤒" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToBeginClicked" />
+                            <Button Content="↑" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToPrevClicked" />
+                            <Button Content="↓" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToNextClicked" />
+                            <Button Content="⤓" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToEndClicked"  />
                         </StackPanel>
                     </Grid>
                 </Grid>

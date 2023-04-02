@@ -79,6 +79,11 @@
         </Style.Resources>
     </Style>
 
+    <Style x:Key="listbox_languages" TargetType="ListBox" BasedOn="{StaticResource listbox_files}">
+        <Setter Property="Background" Value="#fcfcfc"/>
+        <Setter Property="Width" Value="160"/>
+    </Style>
+
     <Style x:Key="listbox_directories" TargetType="ListBox">
         <Setter Property="Height" Value="100"/>
         <Setter Property="Margin" Value="5" />
@@ -130,7 +135,7 @@
 
     <Style x:Key="button_sort" TargetType="Button" BasedOn="{StaticResource button_command}">
         <Setter Property="MinWidth" Value="10"/>
-        <Setter Property="Width" Value="75"/>
+        <Setter Property="Width" Value="75/>
     </Style>
 
     <Style x:Key="button_up_down_sel_elem" TargetType="Button" BasedOn="{StaticResource button_command}">
@@ -153,4 +158,5 @@
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="Fill" Value="DarkGray"/>
     </Style>
+
 </ResourceDictionary>

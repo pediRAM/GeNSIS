@@ -752,7 +752,37 @@ namespace GeNSIS
             LangDst.Add(eng);
         }
 
+        private void OnMoveSelectedLanguagesToBeginClicked(object sender, RoutedEventArgs e)
+        {
+            if (lsb_LangDst.SelectedItems == null || lsb_LangDst.SelectedItems.Count == 0)
+                return;
+            var items = lsb_LangDst.GetSelectedItems<Language>();
+            LangDst.MoveFirst(items);
+        }
 
+        private void OnMoveSelectedLanguagesToEndClicked(object sender, RoutedEventArgs e)
+        {
+            if (lsb_LangDst.SelectedItems == null || lsb_LangDst.SelectedItems.Count == 0)
+                return;
+            var items = lsb_LangDst.GetSelectedItems<Language>();
+            LangDst.MoveLast(items);
+        }
+
+        private void OnMoveSelectedLanguagesToPrevClicked(object sender, RoutedEventArgs e)
+        {
+            if (lsb_LangDst.SelectedItems == null || lsb_LangDst.SelectedItems.Count == 0)
+                return;
+            var items = lsb_LangDst.GetSelectedItems<Language>();
+            LangDst.MovePrev(items);
+        }
+
+        private void OnMoveSelectedLanguagesToNextClicked(object sender, RoutedEventArgs e)
+        {
+            if (lsb_LangDst.SelectedItems == null || lsb_LangDst.SelectedItems.Count == 0)
+                return;
+            var items = lsb_LangDst.GetSelectedItems<Language>();
+            LangDst.MoveNext(items);
+        }
     }
 
 }

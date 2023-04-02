@@ -37,6 +37,46 @@ namespace GeNSIS.Core.Extensions
             foreach (var item in pItems)
                 pObservableCollection.Remove(item);
         }
+
+        public static void MoveFirst<T>(this ObservableCollection<T> pObservableCollection, IEnumerable<T> pItems)
+        {
+            foreach (var item in pItems.Reverse())
+            {
+                int oldIndex = pObservableCollection.IndexOf(item);
+                pObservableCollection.Move(oldIndex, 0);
+            }
+        }
+
+        public static void MovePrev<T>(this ObservableCollection<T> pObservableCollection, IEnumerable<T> pItems)
+        {
+            foreach (var item in pItems.Reverse())
+            {
+                int oldIndex = pObservableCollection.IndexOf(item);
+                if (oldIndex < 1) 
+                    continue;
+                pObservableCollection.Move(oldIndex, oldIndex - 1);
+            }
+        }
+
+        public static void MoveLast<T>(this ObservableCollection<T> pObservableCollection, IEnumerable<T> pItems)
+        {
+            foreach (var item in pItems)
+            {
+                int oldIndex = pObservableCollection.IndexOf(item);
+                pObservableCollection.Move(oldIndex, pObservableCollection.Count - 1);
+            }
+        }
+
+        public static void MoveNext<T>(this ObservableCollection<T> pObservableCollection, IEnumerable<T> pItems)
+        {
+            foreach (var item in pItems.Reverse())
+            {
+                int oldIndex = pObservableCollection.IndexOf(item);
+                if (oldIndex >= pObservableCollection.Count - 1) 
+                    continue;
+                pObservableCollection.Move(oldIndex, oldIndex + 1);
+            }
+        }
     }
 
     public static class IEnumerableExtensions
