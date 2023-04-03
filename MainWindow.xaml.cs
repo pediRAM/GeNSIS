@@ -32,6 +32,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -770,6 +771,18 @@ namespace GeNSIS
                 return;
             var items = lsb_LangDst.GetSelectedItems<Language>();
             pAction(items);
+        }
+
+        private void OnRemoveEmptyLinesAndCommentsClicked(object sender, RoutedEventArgs e)
+        {
+            var sb = new StringBuilder();
+            foreach (string line in editor.Text.Split("\r\n", StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+                if (line.StartsWith(";")) continue;
+                sb.AppendLine(line);
+            }
+            Dispatcher.Invoke(() => editor.Text = sb.ToString());
         }
     }
 

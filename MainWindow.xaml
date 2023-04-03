@@ -425,9 +425,20 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-
+                    <!-- Menu -->
+                    <!--<Menu Grid.Row="0" Grid.ColumnSpan="3">
+                        <MenuItem Header="Edit" Icon="{StaticResource icon_script}">
+                            <MenuItem Header="Remove empty line/comments" Click="OnRemoveEmptyLinesAndCommentsClicked"/>
+                        </MenuItem>
+                    </Menu>-->
                     <!-- Editor -->
-                    <avl:TextEditor x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource editor}"  />
+                    <avl:TextEditor x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource editor}" >
+                        <avl:TextEditor.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Remove empty or comment lines" Click="OnRemoveEmptyLinesAndCommentsClicked" />
+                            </ContextMenu>
+                        </avl:TextEditor.ContextMenu>
+                    </avl:TextEditor>
 
                     <!-- Buttons -->
                     <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">

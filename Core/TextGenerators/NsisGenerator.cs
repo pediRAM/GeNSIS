@@ -60,17 +60,36 @@ namespace GeNSIS.Core.TextGenerators
             AddCommentHeader();
 
             AddComment("Variables:");
-            AddComment("This is the DISPLAYNAME of your application (remove spaces!):");
-            AddDefine("PRODUCT_NAME", this.d.AppName);
-            AddComment("This is the FILENAME of the executable/binary (*.exe) of your application:");
-            AddDefine("PRODUCT_EXE_NAME", Path.GetFileName(this.d.ExeName));
-            AddComment("Name of setup/installer file (*.exe):");
-            AddDefine("SETUP_EXE_NAME", this.d.InstallerFileName);
-            AddDefine("PRODUCT_VERSION", this.d.AppVersion);
-            AddDefine("PRODUCT_PUBLISHER", this.d.Publisher);
-            AddDefine("COMPANY_NAME", this.d.Company);
-            AddDefine("PRODUCT_WEBSITE", this.d.Url);
+            AddComment("Name of Application:");
+            AddDefine("APP_NAME", d.AppName);
+            Add();
+
+            AddComment("Filename of Application EXE file (*.exe):");
+            AddDefine("APP_EXE_NAME", Path.GetFileName(d.ExeName));
+            Add();
+
+            AddComment("Version of Application:");
+            AddDefine("APP_VERSION", d.AppVersion);
+            Add();
+
+            AddComment("Application Publisher (company, organisation, author):");
+            AddDefine("APP_PUBLISHER", d.Publisher);
+            Add();
+
+            AddComment("Name or initials of the company, organisation or author:");
+            AddDefine("COMPANY_NAME", d.Company);
+            Add();
+
+            AddComment("URL of the Application Website starting with 'https://' :");
+            AddDefine("APP_URL", d.Url);
+            Add();
+
+            AddComment("Name of setup/installer EXE file (*.exe):");
+            AddDefine("SETUP_EXE_NAME", d.InstallerFileName);
+            AddComment("Instead of hardcoded name above, you can use the reusable one below (comment above and uncomment below line):");
+            AddComment($"!define SETUP_EXE_NAME \"Setup_${{APP_NAME}}_${{APP_VERSION}}.exe\"");
             AddStripline();
+            Add();
 
             AddComment("Available compressions: zlib, bzip2, lzma");
             if (isOver16Mb)
@@ -78,67 +97,111 @@ namespace GeNSIS.Core.TextGenerators
             else
                 Add("SetCompressor zlib");
 
-            Add("Unicode True");
+            Add("Unicode true");
+
+            if (!d.DoInstallPerUser)
+                Add("RequestExecutionLevel admin");
 
             AddComment("Displayed and registered name:");
-            Add("Name \"${PRODUCT_NAME} ${PRODUCT_VERSION}\"");
-
+            Add("Name \"${APP_NAME} ${APP_VERSION}\"");
             
-            AddComment("You can also use: \"Setup_${PRODUCT_NAME}_${PRODUCT_VERSION}.exe\"");
+            AddComment("You can also use: \"Setup_${APP_NAME}_${APP_VERSION}.exe\"");
             Add("OutFile \"${SETUP_EXE_NAME}\"");
-
-
             AddStripline();
+            Add();
 
             AddComment("Do not change this values!");
-            AddDefine("PRODUCT_UNINST_KEY", "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${PRODUCT_NAME}");
-            AddDefine("PRODUCT_UNINST_ROOT_KEY", "HKLM");
-            AddStripline();
+            AddDefine("UNINST_KEY", "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${APP_NAME}");
 
+            // Installation mode:
+            //  - Per User
+            //  - Shared (for all users)
+            if(d.DoInstallPerUser)
+                AddDefine("UNINST_ROOT_KEY", "HKCU");
+            else
+                AddDefine("UNINST_ROOT_KEY", "HKLM");
+            AddStripline();
+            Add();
+
+            // Modern GUI
             AddComment("Using modern user interface for installer:");
             Add("!include \"MUI.nsh\"");
+            Add();
 
-            if (!string.IsNullOrWhiteSpace(this.d.InstallerHeaderImage))
+            // Installer Icon
+            AddComment("Installer icons (*.ico):");
+            if (string.IsNullOrWhiteSpace(d.InstallerIcon))
+                AddDefine("MUI_ICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-install.ico");
+            else
+                AddDefine("MUI_ICON", d.InstallerIcon);
+            Add();
+
+            // Uninstaller Icon
+            AddComment("Uninstaller icon (*.ico):");
+            if (string.IsNullOrWhiteSpace(d.InstallerIcon))
+                AddDefine("MUI_UNICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-uninstall.ico");
+            else
+                AddDefine("MUI_UNICON", d.InstallerIcon);
+
+            Add();
+
+            // Installer/Uninstaller Header Images?
+            if (!string.IsNullOrWhiteSpace(d.InstallerHeaderImage) || !string.IsNullOrWhiteSpace(d.UninstallerHeaderImage))
             {
                 AddDefine("MUI_HEADERIMAGE");
-                AddDefine("MUI_HEADERIMAGE_BITMAP", this.d.InstallerHeaderImage);
+                Add();
+            }
+
+            // Installer Header Image
+            if (!string.IsNullOrWhiteSpace(d.InstallerHeaderImage))
+            {
+                AddComment("Installer Header Image:");
+                AddDefine("MUI_HEADERIMAGE_BITMAP", d.InstallerHeaderImage);
                 AddDefine("MUI_HEADERIMAGE_BITMAP_NOSTRETCH");
-                AddDefine("MUI_HEADERIMAGE_UNBITMAP", this.d.InstallerHeaderImage);
+                Add();
+            }
+
+            // Uninstaller Header Image
+            if (!string.IsNullOrWhiteSpace(d.UninstallerHeaderImage))
+            {
+                AddComment("Uninstaller Header Image:");
+                AddDefine("MUI_HEADERIMAGE_UNBITMAP", d.UninstallerHeaderImage);
                 AddDefine("MUI_HEADERIMAGE_UNBITMAP_NOSTRETCH");
+                Add();
             }
 
-            if (!string.IsNullOrWhiteSpace(this.d.InstallerWizardImage))
+            // Installer Wizard Image (left side)
+            if (!string.IsNullOrWhiteSpace(d.InstallerWizardImage))
             {
-                AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP", this.d.InstallerWizardImage);
+                AddComment("Installer Wizard Image:");
+                AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP", d.InstallerWizardImage);
                 AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP_NOSTRETCH");
-                AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP", this.d.InstallerWizardImage);
-                AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP_NOSTRETCH");
+                Add();
             }
 
-            AddComment("Installer icons (*.ico):");
-            if (string.IsNullOrWhiteSpace(this.d.InstallerIcon))
+            // Uninstaller Wizard Image (left side)
+            if (!string.IsNullOrWhiteSpace(d.UninstallerWizardImage))
             {
-                AddDefine("MUI_ICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-install.ico");
-                AddDefine("MUI_UNICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-uninstall.ico");
-            }
-            else
-            {
-                AddDefine("MUI_ICON", this.d.InstallerIcon);
-                AddDefine("MUI_UNICON", this.d.InstallerIcon);
+                AddComment("Uninstaller Wizard Image:");
+                AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP", d.InstallerWizardImage);
+                AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP_NOSTRETCH");
+                Add();
             }
             AddStripline();
+            Add();
+
             Add("!define MUI_ABORTWARNING");
-            AddStripline();
+            Add();
 
             AddComment("Show welcome page:");
             AddInsertMacro("MUI_PAGE_WELCOME");
-            AddStripline();
+            Add();
 
-            if (!string.IsNullOrWhiteSpace(this.d.License))
+            if (!string.IsNullOrWhiteSpace(d.License))
             {
-                AddComment("License file (*.txt):");
-                AddInsertMacro("MUI_PAGE_LICENSE", this.d.License);
-                AddStripline();
+                AddComment("License file (*.txt|*.rtf):");
+                AddInsertMacro("MUI_PAGE_LICENSE", d.License);
+                Add();
             }
 
             AddInsertMacro("MUI_PAGE_DIRECTORY");
@@ -146,7 +209,9 @@ namespace GeNSIS.Core.TextGenerators
             AddInsertMacro("MUI_PAGE_FINISH");
             AddInsertMacro("MUI_UNPAGE_INSTFILES");
             AddStripline();
+            Add();
 
+            // Packed Translations for installer:
             AddComment("Available languages (first one is the default):");
             if (o.Languages == null || o.Languages.IsEmpty())
             {
@@ -159,24 +224,24 @@ namespace GeNSIS.Core.TextGenerators
                     AddInsertMacro("MUI_LANGUAGE", lang.Name);
                 }
             }
+            Add();
             AddComment("Function to show the language selection page:");
             Add("Function .onInit");
             AddInsertMacro("MUI_LANGDLL_DISPLAY");
             Add("FunctionEnd");
             AddStripline();
-
-            //AddComment("Displayed and registered name:");
-            //Add("Name \"${PRODUCT_NAME} ${PRODUCT_VERSION}\"");
-
-            //AddComment("Name of setup file (*.exe):");
-            //Add("OutFile \"Setup_${PRODUCT_NAME}_${PRODUCT_VERSION}.exe\"");
+            Add();
 
             AddComment("Installation folder (Programs\\Company\\Application):");
-            Add("InstallDir \"$PROGRAMFILES\\${COMPANY_NAME}\\${PRODUCT_NAME}\"");
+            if (d.DoInstallPerUser)
+                Add("InstallDir \"$LocalAppData\\Programs\\${COMPANY_NAME}\\${APP_NAME}\"");
+            else
+                Add("InstallDir \"$ProgramFiles\\${COMPANY_NAME}\\${APP_NAME}\"");
+
 
             AddComment("Showing details while (un)installation:");
             Add("ShowInstDetails show");
-            Add("ShowUnInstDetails show");
+            Add("ShowUninstDetails show");
             AddStripline();
 
             Add("Section \"MainSection\" SEC01");
@@ -192,26 +257,26 @@ namespace GeNSIS.Core.TextGenerators
             }
 
             AddComment("Add files:");
-            foreach (var s in this.d.GetFiles())
+            foreach (var s in d.GetFiles())
                 Add($"File \"{s}\"");
             AddStripline();
 
             AddComment("Create shortcuts on Desktop and Programs menu.");
-            Add($"CreateShortCut \"$DESKTOP\\${{PRODUCT_NAME}}.lnk\" \"$INSTDIR\\${{PRODUCT_EXE_NAME}}\" \"\"");
-            Add($"CreateShortCut \"$SMPROGRAMS\\${{PRODUCT_NAME}}.lnk\" \"$INSTDIR\\${{PRODUCT_EXE_NAME}}\" \"\"");
+            Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
+            Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add("SectionEnd");
             AddStripline();
 
 
             Add("Section -Post");
             Add("WriteUninstaller \"$INSTDIR\\uninst.exe\"");
-            Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"DisplayName\" \"$(^Name)\"");
-            Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"DisplayIcon\" \"$INSTDIR\\${PRODUCT_EXE_NAME}\"");
-            Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"DisplayVersion\" \"${PRODUCT_VERSION}\"");
-            Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"URLInfoAbout\" \"${PRODUCT_WEBSITE}\"");
-            Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"Publisher\" \"${PRODUCT_PUBLISHER}\"");
-            Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"UninstallString\" \"$INSTDIR\\uninst.exe\"");
-            Add("WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\" \"QuietUninstallString\" '\"$INSTDIR\\uninst.exe\" /S'");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayName\" \"$(^Name)\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayIcon\" \"$INSTDIR\\${APP_EXE_NAME}\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayVersion\" \"${APP_VERSION}\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"URLInfoAbout\" \"${APP_URL}\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"Publisher\" \"${APP_PUBLISHER}\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"UninstallString\" \"$INSTDIR\\uninst.exe\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"QuietUninstallString\" '\"$INSTDIR\\uninst.exe\" /S'");
             Add("SectionEnd");
             AddStripline();
 
@@ -226,7 +291,7 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Before starting to uninstall:");
             Add("Function un.onInit");
             AddComment("You can change the message to suite your needs:");
-            Add("MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 \"Are you sure you want to remove ${PRODUCT_NAME}?\" IDYES +2");
+            Add("MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 \"Are you sure you want to remove ${APP_NAME}?\" IDYES +2");
             Add("Abort");
             Add("FunctionEnd");
             AddStripline();
@@ -234,8 +299,8 @@ namespace GeNSIS.Core.TextGenerators
 
             Add("Section Uninstall");
             AddComment("Delete shortcuts on Desktop and Programs menu:");
-            Add("Delete \"$DESKTOP\\${PRODUCT_NAME}.lnk\"");
-            Add("Delete \"$SMPROGRAMS\\${PRODUCT_NAME}.lnk\"");
+            Add("Delete \"$DESKTOP\\${APP_NAME}.lnk\"");
+            Add("Delete \"$SMPROGRAMS\\${APP_NAME}.lnk\"");
 
 
             if (data.GetDirectories().Any())
@@ -250,8 +315,8 @@ namespace GeNSIS.Core.TextGenerators
             Add("Delete \"$INSTDIR\\*\"");
             Add("RMDir \"$INSTDIR\"");
             Add("RMDir \"$INSTDIR\\..\"");
-            Add("DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} \"${PRODUCT_UNINST_KEY}\"");
-            Add("DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${COMPANY_NAME}\\${PRODUCT_NAME}\"");
+            Add("DeleteRegKey ${UNINST_ROOT_KEY} \"${UNINST_KEY}\"");
+            Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${COMPANY_NAME}\\${APP_NAME}\"");
             Add("SetAutoClose true");
             Add("SectionEnd");
             Add();
@@ -285,7 +350,7 @@ namespace GeNSIS.Core.TextGenerators
         private void AddEmptyLine() => sb.AppendLine(";");
 
         private void AddStripline(int pPadRight = STRIPLINE_LENGTH) 
-            => sb.AppendLine(";".PadRight(pPadRight, '*'));
+            => sb.AppendLine(";".PadRight(pPadRight, '-'));
 
         private void AddDefine(string pVarName, string pValue) 
             => sb.AppendLine($"!define {pVarName} \"{pValue}\"");
