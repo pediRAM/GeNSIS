@@ -85,7 +85,7 @@ namespace GeNSIS
             InitializeComponent();
             Loaded += OnMainWindowLoaded;
 
-            Title = $"GeNSIS {AsmConst.VERSION}";
+            Title = $"GeNSIS {AsmConst.FULL_VERSION}";
             editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");                        
 
             FileDialogHelper.InitDir(m_OpenFilesDialog, PathHelper.GetMyDocuments());
