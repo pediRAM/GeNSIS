@@ -1,9 +1,9 @@
 ﻿
 # todo:
 1.  COMPANY_NAME darf leer sein --> dann: 1. Kein Verzeichnis PGH (inst. + uninst.!)
-2.  COMPANY_NAME ist nicht leer aber User möchte kein Verzeichnis extra erstellen
+2.  COMPANY_NAME ist nicht leer aber User möchte kein Verzeichnis extra erstellen 
 3.  ~~ARCH und Bit32/64 und BUILD als properties ins IAppData und NSI-Script (als Variable) hinzufügen~~
-4.  Wenn 3. erledigt --> Outfile erweitern (ist derzeit kommentiert)
+4.  ~~Wenn 3. erledigt --> Outfile erweitern (ist derzeit kommentiert)~~
 5.  Die Bilder von Installer unter Design TabItem erweitern
 6.  Doku in English + PDF + auf Github
 7.  strong name: https://learn.microsoft.com/en-us/dotnet/standard/assembly/sign-strong-name

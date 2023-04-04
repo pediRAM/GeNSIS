@@ -24,6 +24,9 @@ namespace GeNSIS.Core.Helpers
 {
     internal static class LanguageHelper
     {
+        private static readonly string[] s_MostSpokenLangNames = new string[] { "English", "French", "German", "Hindi", "Italian", "SimpChinese", "TradChinese", "Spanish", "Arabic", };
+
+        public static string[] GetNamesOfMostSpockenLanguages() => s_MostSpokenLangNames;
 
         public static List<Language> GetLanguages()
         {

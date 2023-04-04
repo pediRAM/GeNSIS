@@ -100,10 +100,15 @@ namespace GeNSIS
         private void InitLanguages()
         {
             var languages = LanguageHelper.GetLanguages();
-            var eng = languages[0];
-            languages.Remove(eng);
+            
+            foreach(var name in LanguageHelper.GetNamesOfMostSpockenLanguages())
+            {
+                var lang = languages.Single(l => l.Name == name);
+                languages.Remove(lang);
+                LangDst.Add(lang);
+            }
+
             LangSrc.AddRange(languages);
-            LangDst.Add(eng);
             lsb_LangSrc.ItemsSource = LangSrc;
             lsb_LangDst.ItemsSource = LangDst;
         }
