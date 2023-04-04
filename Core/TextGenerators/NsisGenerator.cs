@@ -101,9 +101,11 @@ namespace GeNSIS.Core.TextGenerators
             Add();
 
             AddComment("Name of setup/installer EXE file (*.exe):");
-            AddDefine("SETUP_EXE_NAME", d.InstallerFileName);
-            AddComment("Instead of hardcoded name above, you can use the reusable one below (comment above and uncomment below line):");
-            AddComment($"!define SETUP_EXE_NAME \"Setup_${{APP_NAME}}_${{APP_VERSION}}_${{APP_BUILD}}_${{APP_MACHINE_TYPE}}_${{APP_ARCH}}.exe\"");
+            if (string.IsNullOrWhiteSpace(d.InstallerFileName))
+                AddDefine("SETUP_EXE_NAME", $"Setup_${{APP_NAME}}_${{APP_VERSION}}_${{APP_BUILD}}_${{APP_MACHINE_TYPE}}_${{APP_ARCH}}.exe");
+            else
+                AddDefine("SETUP_EXE_NAME", d.InstallerFileName);
+
             AddStripline();
             Add();
 
@@ -112,21 +114,27 @@ namespace GeNSIS.Core.TextGenerators
                 Add("SetCompressor lzma");
             else
                 Add("SetCompressor zlib");
+            Add();
 
             Add("Unicode true");
+            Add();
 
             if (!d.DoInstallPerUser)
+            {
                 Add("RequestExecutionLevel admin");
+                Add();
+            }
 
             AddComment("Displayed and registered name:");
             Add("Name \"${APP_NAME} ${APP_VERSION}\"");
-            
+            Add();
+
             AddComment("You can also use: \"Setup_${APP_NAME}_${APP_VERSION}.exe\"");
             Add("OutFile \"${SETUP_EXE_NAME}\"");
             AddStripline();
             Add();
 
-            AddComment("Do not change this values!");
+            AddComment("Path of uninstallation keys in registry:");
             AddDefine("UNINST_KEY", "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${APP_NAME}");
 
             // Installation mode:
@@ -263,6 +271,7 @@ namespace GeNSIS.Core.TextGenerators
                 else
                     Add("InstallDir \"$ProgramFiles\\${APP_NAME}\"");
             }
+            Add();
 
             AddComment("Showing details while (un)installation:");
             Add("ShowInstDetails show");
@@ -272,6 +281,7 @@ namespace GeNSIS.Core.TextGenerators
             Add("Section \"MainSection\" SEC01");
             Add("SetOutPath \"$INSTDIR\"");
             Add("SetOverwrite ifnewer");
+            Add();
 
             if (data.GetDirectories().Any())
             {
@@ -279,19 +289,21 @@ namespace GeNSIS.Core.TextGenerators
                 foreach (var s in data.GetDirectories())
                     Add($"File /r \"{s}\"");
                 AddStripline();
+                Add();
             }
 
             AddComment("Add files:");
             foreach (var s in d.GetFiles())
                 Add($"File \"{s}\"");
             AddStripline();
+            Add();
 
             AddComment("Create shortcuts on Desktop and Programs menu.");
             Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add("SectionEnd");
             AddStripline();
-
+            Add();
 
             Add("Section -Post");
             Add("WriteUninstaller \"$INSTDIR\\uninst.exe\"");
@@ -304,6 +316,7 @@ namespace GeNSIS.Core.TextGenerators
             Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"QuietUninstallString\" '\"$INSTDIR\\uninst.exe\" /S'");
             Add("SectionEnd");
             AddStripline();
+            Add();
 
             AddComment("After application is sucessfully uninstalled:");
             Add("Function un.onUninstSuccess");
@@ -312,6 +325,7 @@ namespace GeNSIS.Core.TextGenerators
             Add("MessageBox MB_ICONINFORMATION|MB_OK \"Application successfully removed.\"");
             Add("FunctionEnd");
             AddStripline();
+            Add();
 
             AddComment("Before starting to uninstall:");
             Add("Function un.onInit");
@@ -320,7 +334,7 @@ namespace GeNSIS.Core.TextGenerators
             Add("Abort");
             Add("FunctionEnd");
             AddStripline();
-
+            Add();
 
             Add("Section Uninstall");
             AddComment("Delete shortcuts on Desktop and Programs menu:");
@@ -340,12 +354,16 @@ namespace GeNSIS.Core.TextGenerators
             Add("Delete \"$INSTDIR\\*\"");
             Add("RMDir \"$INSTDIR\"");
             Add("RMDir \"$INSTDIR\\..\"");
+            Add();
+            AddComment("Deleting registration keys:");
             Add("DeleteRegKey ${UNINST_ROOT_KEY} \"${UNINST_KEY}\"");
 
             if(d.DoCreateCompanyDir)
                 Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${COMPANY_NAME}\\${APP_NAME}\"");
             else
                 Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${APP_NAME}\"");
+
+            Add();
             Add("SetAutoClose true");
             Add("SectionEnd");
             Add();
