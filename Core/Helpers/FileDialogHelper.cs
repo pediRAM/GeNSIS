@@ -36,7 +36,7 @@ namespace GeNSIS.Core.Helpers
             public const string BITMAP     = "Bitmap files|*.bmp";
             public const string ICON       = "Icon files|*.ico";
             public const string SCRIPT     = "NSIS files|*.nsi";
-            public const string PROJECT    = "XML files|*.xml";
+            public const string PROJECT    = "GeNSIS files|*.gensis";
         }
 
         public static void InitDir(SaveFileDialog pSfd, string pPath)

@@ -42,7 +42,14 @@ namespace GeNSIS.Core.Models
         [XmlElement]
         public string ExeName { get; set; }
 
+        [XmlElement]
+        public bool DoCreateCompanyDir { get; set; }
 
+        [XmlElement]
+        public string Arch { get; set; }
+
+        [XmlElement]
+        public string MachineType { get; set; }
 
         [XmlElement]
         public string AssociatedExtension { get; set; }
@@ -115,6 +122,9 @@ namespace GeNSIS.Core.Models
                 InstallerWizardImage = InstallerWizardImage,
                 UninstallerWizardImage = UninstallerWizardImage,
                 Is64BitApplication = Is64BitApplication,
+                DoCreateCompanyDir = DoCreateCompanyDir,
+                Arch = Arch,
+                MachineType = MachineType,
                 License = License,
                 Publisher = Publisher,
                 Url = Url,
@@ -137,6 +147,9 @@ namespace GeNSIS.Core.Models
             InstallerIcon = pAppData.InstallerIcon;
             InstallerWizardImage = pAppData.InstallerWizardImage;
             Is64BitApplication = pAppData.Is64BitApplication;
+            DoCreateCompanyDir = pAppData.DoCreateCompanyDir;
+            Arch = pAppData.Arch;
+            MachineType = pAppData.MachineType;
             License = pAppData.License;
             Publisher = pAppData.Publisher;
             UninstallerHeaderImage = pAppData.UninstallerHeaderImage;

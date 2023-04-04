@@ -43,6 +43,9 @@ namespace GeNSIS.Core
 
         #region Variables
         private bool m_Is64BitApplication;
+        private bool m_CreateCompanyFolder;
+        private string m_Arch;
+        private string m_MachineType;
         private bool m_DoInstallPerUser;
         private bool m_DoAddFWRule;
         private string m_AppName;
@@ -90,6 +93,39 @@ namespace GeNSIS.Core
             {
                 if (value == m_Is64BitApplication) return;
                 m_Is64BitApplication = value;
+            }
+        }
+
+        public bool DoCreateCompanyDir
+        {
+            get { return m_CreateCompanyFolder; }
+            set
+            {
+                if (value == m_CreateCompanyFolder) return;
+                m_CreateCompanyFolder = value;
+                NotifyPropertyChanged(nameof(DoCreateCompanyDir));
+            }
+        }
+
+        public string Arch
+        {
+            get { return m_Arch; }
+            set
+            {
+                if (value == m_Arch) return;
+                m_Arch = value;
+                NotifyPropertyChanged(nameof(Arch));
+            }
+        }
+
+        public string MachineType
+        {
+            get { return m_MachineType; }
+            set
+            {
+                if (value == m_MachineType) return;
+                m_MachineType = value;
+                NotifyPropertyChanged(nameof(MachineType));
             }
         }
 
@@ -341,6 +377,9 @@ namespace GeNSIS.Core
                 InstallerWizardImage = InstallerWizardImage,
                 UninstallerWizardImage = UninstallerWizardImage,
                 Is64BitApplication = Is64BitApplication,
+                DoCreateCompanyDir = DoCreateCompanyDir,
+                Arch = Arch,
+                MachineType = MachineType,
                 License = License,
                 Publisher = Publisher,
                 Url = Url,
@@ -364,6 +403,9 @@ namespace GeNSIS.Core
             InstallerWizardImage = pAppData.InstallerWizardImage;
             UninstallerWizardImage = pAppData.UninstallerWizardImage;
             Is64BitApplication = pAppData.Is64BitApplication;
+            DoCreateCompanyDir = pAppData.DoCreateCompanyDir;
+            Arch = pAppData.Arch;
+            MachineType = pAppData.MachineType;
             License = pAppData.License;
             Publisher = pAppData.Publisher;
             Url = pAppData.Url;

@@ -36,6 +36,9 @@ namespace GeNSIS.Core.Models
         string AppVersion { get; }
 
         string AppBuild { get; }
+        bool DoCreateCompanyDir { get; }
+        string Arch { get; }
+        string MachineType { get; }
 
         string Company { get; }
 
