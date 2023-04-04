@@ -104,7 +104,11 @@ namespace GeNSIS.Core.TextGenerators
             if (string.IsNullOrWhiteSpace(d.InstallerFileName))
                 AddDefine("SETUP_EXE_NAME", $"Setup_${{APP_NAME}}_${{APP_VERSION}}_${{APP_BUILD}}_${{APP_MACHINE_TYPE}}_${{APP_ARCH}}.exe");
             else
+            {
                 AddDefine("SETUP_EXE_NAME", d.InstallerFileName);
+                AddComment("Just in case you want to use the dynamic setup-naming:");
+                AddComment($"!define SETUP_EXE_NAME \"Setup_${{APP_NAME}}_${{APP_VERSION}}_${{APP_BUILD}}_${{APP_MACHINE_TYPE}}_${{APP_ARCH}}.exe\"");
+            }
 
             AddStripline();
             Add();

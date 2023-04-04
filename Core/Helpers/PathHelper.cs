@@ -48,6 +48,6 @@ namespace GeNSIS.Core.Helpers
             => $"{pAppData.AppName}_{pAppData.AppVersion}_{pAppData.AppBuild}_{pAppData.MachineType}_{pAppData.Arch}_{DateTime.Now:yyyy-MM-dd}.nsi";
 
         internal static string GetNewProjectName(IAppData pAppData)
-            => $"{pAppData.AppName}_{pAppData.AppVersion}_{pAppData.AppBuild}_{DateTime.Now:yyyy-MM-dd}.gensis";
+            => $"{pAppData.AppName}_{pAppData.AppVersion}_{pAppData.AppBuild}.gensis";
     }
 }
