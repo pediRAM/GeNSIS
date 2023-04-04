@@ -317,6 +317,7 @@ namespace GeNSIS
                 _ = m_MsgBoxMgr.ShowSettingsHasNoNsisPathDefError();
                 return;
             }
+            Directory.SetCurrentDirectory(m_Config.InstallersDirectory);
             var makeNsisExePath = $@"{m_Config.NsisInstallationDirectory}\makensisw.exe";
             var pi = new ProcessStartInfo($"\"{makeNsisExePath}\"", $"/V4 /NOCD \"{PathToGeneratedNsisScript}\"");
             pi.UseShellExecute = false;
