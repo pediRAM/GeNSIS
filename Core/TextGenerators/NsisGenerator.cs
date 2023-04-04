@@ -73,6 +73,21 @@ namespace GeNSIS.Core.TextGenerators
             AddDefine("APP_VERSION", d.AppVersion);
             Add();
 
+            AddComment("Build of Application:");
+            if (string.IsNullOrWhiteSpace(d.AppBuild))
+                AddDefine("APP_BUILD", "build");
+            else
+                AddDefine("APP_BUILD", d.AppBuild);
+            Add();
+
+            AddComment("Architecture of Application:");
+            AddDefine("APP_ARCH", d.Arch);
+            Add();
+
+            AddComment("Machine type of Application:");
+            AddDefine("APP_MACHINE_TYPE", d.MachineType);
+            Add();
+
             AddComment("Application Publisher (company, organisation, author):");
             AddDefine("APP_PUBLISHER", d.Publisher);
             Add();
@@ -88,7 +103,7 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Name of setup/installer EXE file (*.exe):");
             AddDefine("SETUP_EXE_NAME", d.InstallerFileName);
             AddComment("Instead of hardcoded name above, you can use the reusable one below (comment above and uncomment below line):");
-            AddComment($"!define SETUP_EXE_NAME \"Setup_${{APP_NAME}}_${{APP_VERSION}}.exe\"");
+            AddComment($"!define SETUP_EXE_NAME \"Setup_${{APP_NAME}}_${{APP_VERSION}}_${{APP_BUILD}}_${{APP_MACHINE_TYPE}}_${{APP_ARCH}}.exe\"");
             AddStripline();
             Add();
 
@@ -235,9 +250,13 @@ namespace GeNSIS.Core.TextGenerators
 
             AddComment("Installation folder (Programs\\Company\\Application):");
             if (d.DoInstallPerUser)
+            {
                 Add("InstallDir \"$LocalAppData\\Programs\\${COMPANY_NAME}\\${APP_NAME}\"");
+            }
             else
+            {
                 Add("InstallDir \"$ProgramFiles\\${COMPANY_NAME}\\${APP_NAME}\"");
+            }
 
 
             AddComment("Showing details while (un)installation:");
