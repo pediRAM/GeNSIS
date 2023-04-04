@@ -251,13 +251,18 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Installation folder (Programs\\Company\\Application):");
             if (d.DoInstallPerUser)
             {
-                Add("InstallDir \"$LocalAppData\\Programs\\${COMPANY_NAME}\\${APP_NAME}\"");
+                if(d.DoCreateCompanyDir)
+                    Add("InstallDir \"$LocalAppData\\Programs\\${COMPANY_NAME}\\${APP_NAME}\"");
+                else
+                    Add("InstallDir \"$LocalAppData\\Programs\\${APP_NAME}\"");
             }
             else
             {
-                Add("InstallDir \"$ProgramFiles\\${COMPANY_NAME}\\${APP_NAME}\"");
+                if (d.DoCreateCompanyDir)
+                    Add("InstallDir \"$ProgramFiles\\${COMPANY_NAME}\\${APP_NAME}\"");
+                else
+                    Add("InstallDir \"$ProgramFiles\\${APP_NAME}\"");
             }
-
 
             AddComment("Showing details while (un)installation:");
             Add("ShowInstDetails show");
@@ -336,7 +341,11 @@ namespace GeNSIS.Core.TextGenerators
             Add("RMDir \"$INSTDIR\"");
             Add("RMDir \"$INSTDIR\\..\"");
             Add("DeleteRegKey ${UNINST_ROOT_KEY} \"${UNINST_KEY}\"");
-            Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${COMPANY_NAME}\\${APP_NAME}\"");
+
+            if(d.DoCreateCompanyDir)
+                Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${COMPANY_NAME}\\${APP_NAME}\"");
+            else
+                Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${APP_NAME}\"");
             Add("SetAutoClose true");
             Add("SectionEnd");
             Add();
