@@ -33,8 +33,8 @@ namespace GeNSIS.Core.Helpers
             if (string.IsNullOrWhiteSpace(pAppData.AppName)) return;
 
             string build = string.IsNullOrWhiteSpace(pAppData.AppBuild) ? null : $"_{pAppData.AppBuild.Trim()}";
-            string arch = pAppData.Is64BitApplication ? "x64" : "x32";
-            pAppData.InstallerFileName = $"Setup_{pAppData.AppName}_{pAppData.AppVersion}{build}_{arch}.exe";
+            pAppData.Arch = pAppData.Is64BitApplication ? "x64" : "x32";
+            pAppData.InstallerFileName = $"Setup_{pAppData.AppName}_{pAppData.AppVersion}{build}_{pAppData.Arch}.exe";
         }
 
         internal static void AutoSetProperties(AppDataVM pAppData)
@@ -43,7 +43,7 @@ namespace GeNSIS.Core.Helpers
             var info = GetExeData(pAppData.ExeName);
             pAppData.Is64BitApplication = info.IsX64;
             pAppData.AppName = Path.GetFileNameWithoutExtension(pAppData.ExeName);
-            pAppData.AppBuild = GetMachineTypeShortString(GetMachineTypeOfExe(pAppData.ExeName));
+            pAppData.MachineType = GetMachineTypeShortString(GetMachineTypeOfExe(pAppData.ExeName));
 
             if (string.IsNullOrWhiteSpace(pAppData.Url))
                 pAppData.Url = ConfigHelper.GetAppConfig().Website;

@@ -26,7 +26,7 @@ namespace GeNSIS.Core.Serialization
         [Display(Name ="json")]
         JSON,
 
-        [Display(Name = "xml")]
-        XML,
+        [Display(Name = "gensis")]
+        GeNSIS,
     }
 }

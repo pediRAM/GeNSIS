@@ -123,7 +123,7 @@
 
     <Style x:Key="button_command" TargetType="Button">
         <Setter Property="Padding" Value="5"/>
-        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="MinWidth" Value="150"/>
         <Setter Property="Height" Value="28"/>
         <Setter Property="Margin" Value="5"/>
         <Style.Resources>

@@ -380,8 +380,8 @@ namespace GeNSIS
                         case ".txt":
                             {
                                 var name = Path.GetFileName(file);
-                                if (name.Contains("license", StringComparison.OrdinalIgnoreCase) ||
-                                    name.Contains("eula", StringComparison.OrdinalIgnoreCase) ||
+                                if (name.Contains("license",   StringComparison.OrdinalIgnoreCase) ||
+                                    name.Contains("eula",      StringComparison.OrdinalIgnoreCase) ||
                                     name.Contains("agreement", StringComparison.OrdinalIgnoreCase))
                                     AppData.License = file;
                             }
@@ -445,6 +445,7 @@ namespace GeNSIS
         private void OnOpenSettingsWindowClicked(object sender, RoutedEventArgs e)
         {
             var sw = new SettingsWindow(m_Config);
+            sw.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             if (sw.ShowDialog() != true && sw.Config.HasUnsavedChanges)
             {
                 if (m_MsgBoxMgr.ShowSaveSettingChangesQuestion() != MessageBoxResult.Yes)
@@ -784,6 +785,18 @@ namespace GeNSIS
             }
             Dispatcher.Invoke(() => editor.Text = sb.ToString());
         }
+
+        private void OnRemoveSelectedFilesClicked(object sender, RoutedEventArgs e)
+        {
+            if (lsb_Files.SelectedItems == null || lsb_Files.SelectedItems.Count == 0)
+                return;
+
+            var items = lsb_Files.GetSelectedItems<string>();
+            AppData.Files.RemoveRange(items);
+        }
+
+        private void OnClearFilesClicked(object sender, RoutedEventArgs e)
+            => AppData.Files.Clear();
     }
 
 }

@@ -28,7 +28,7 @@ namespace GeNSIS.Core.Serialization
             switch(pExtension.ToLower())
             {
                 case ".json": return new JsonDeSerializer();
-                case ".xml": return new XmlDeSerializer();
+                case ".gensis": return new XmlDeSerializer();
             }
 
             throw new ArgumentException($"Extension '{pExtension}' is unknown, illegal or no {nameof(IDeSerializer)} has been implemented for it yet!", nameof(pExtension));
@@ -39,7 +39,7 @@ namespace GeNSIS.Core.Serialization
             switch (pDeSerializerEnum)
             {
                 case EDeSerializers.JSON: return new JsonDeSerializer();
-                case EDeSerializers.XML: return new XmlDeSerializer();
+                case EDeSerializers.GeNSIS: return new XmlDeSerializer();
             }
 
             throw new NotImplementedException($"{nameof(IDeSerializer)} for {nameof(EDeSerializers)}.{pDeSerializerEnum} is not implemented!");
