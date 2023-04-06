@@ -93,7 +93,10 @@ namespace GeNSIS.Core.TextGenerators
             Add();
 
             AddComment("Name or initials of the company, organisation or author:");
-            AddDefine("COMPANY_NAME", d.Company);
+            if (string.IsNullOrWhiteSpace(d.Company))
+                AddComment("!define COMPANY_NAME \"UNKNOWN\"");
+            else
+                AddDefine("COMPANY_NAME", d.Company);
             Add();
 
             AddComment("URL of the Application Website starting with 'https://' :");
@@ -263,14 +266,14 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Installation folder (Programs\\Company\\Application):");
             if (d.DoInstallPerUser)
             {
-                if(d.DoCreateCompanyDir)
+                if(d.DoCreateCompanyDir && !string.IsNullOrWhiteSpace(d.Company))
                     Add("InstallDir \"$LocalAppData\\Programs\\${COMPANY_NAME}\\${APP_NAME}\"");
                 else
                     Add("InstallDir \"$LocalAppData\\Programs\\${APP_NAME}\"");
             }
             else
             {
-                if (d.DoCreateCompanyDir)
+                if (d.DoCreateCompanyDir && !string.IsNullOrWhiteSpace(d.Company))
                     Add("InstallDir \"$ProgramFiles\\${COMPANY_NAME}\\${APP_NAME}\"");
                 else
                     Add("InstallDir \"$ProgramFiles\\${APP_NAME}\"");
@@ -362,7 +365,7 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Deleting registration keys:");
             Add("DeleteRegKey ${UNINST_ROOT_KEY} \"${UNINST_KEY}\"");
 
-            if(d.DoCreateCompanyDir)
+            if(d.DoCreateCompanyDir && !string.IsNullOrWhiteSpace(d.Company))
                 Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${COMPANY_NAME}\\${APP_NAME}\"");
             else
                 Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${APP_NAME}\"");
