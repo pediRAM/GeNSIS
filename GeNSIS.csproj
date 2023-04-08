@@ -305,6 +305,7 @@
     <None Remove="Resources\Images\Installer\Custom\license.png" />
     <None Remove="Resources\Images\Installer\finish.png" />
     <None Remove="Resources\Images\Installer\license.png" />
+    <None Remove="Resources\Images\Installer\Original\installation.png" />
     <None Remove="Resources\Images\Installer\welcome.png" />
   </ItemGroup>
 
@@ -599,6 +600,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\zoom.png" />
     <Resource Include="Resources\Images\Installer\Custom\license.png" />
     <Resource Include="Resources\Images\Installer\Original\finish.png" />
+    <Resource Include="Resources\Images\Installer\Original\installation.png" />
     <Resource Include="Resources\Images\Installer\Original\license.png" />
     <Resource Include="Resources\Images\Installer\Original\welcome.png" />
   </ItemGroup>

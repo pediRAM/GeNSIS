@@ -30,11 +30,11 @@ namespace GeNSIS.Core.Helpers
     {
         internal static void AutoGenerateInstallerName(AppDataVM pAppData)
         {
-            if (string.IsNullOrWhiteSpace(pAppData.AppName)) return;
+            if (string.IsNullOrWhiteSpace(pAppData.AppName)) 
+                return;
 
-            string build = string.IsNullOrWhiteSpace(pAppData.AppBuild) ? null : $"_{pAppData.AppBuild.Trim()}";
-            pAppData.Arch = pAppData.Is64BitApplication ? "x64" : "x32";
-            pAppData.InstallerFileName = $"Setup_{pAppData.AppName}_{pAppData.AppVersion}{build}_{pAppData.Arch}.exe";
+            string build = string.IsNullOrWhiteSpace(pAppData.AppBuild) ? "TEST" : $"_{pAppData.AppBuild.Trim()}";            
+            pAppData.InstallerFileName = $"Setup_{pAppData.AppName}_{pAppData.AppVersion}_{build}_{pAppData.MachineType}_{pAppData.Arch}.exe";
         }
 
         internal static void AutoSetProperties(AppDataVM pAppData)
@@ -42,6 +42,7 @@ namespace GeNSIS.Core.Helpers
             // Find out if exe is managed (.NET), 64bit and which version it has, then set them:
             var info = GetExeData(pAppData.ExeName);
             pAppData.Is64BitApplication = info.IsX64;
+            pAppData.Arch = pAppData.Is64BitApplication ? "x64" : "x32";
             pAppData.AppName = Path.GetFileNameWithoutExtension(pAppData.ExeName);
             pAppData.MachineType = GetMachineTypeShortString(GetMachineTypeOfExe(pAppData.ExeName));
 

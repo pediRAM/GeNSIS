@@ -396,7 +396,7 @@ namespace GeNSIS
                 }
             }
 
-            ExeInfoHelper.AutoGenerateInstallerName(AppData);
+            //ExeInfoHelper.AutoGenerateInstallerName(AppData);
         }
 
         private void OnCloseClicked(object sender, RoutedEventArgs e) => Close();

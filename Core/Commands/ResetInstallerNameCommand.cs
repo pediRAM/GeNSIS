@@ -16,18 +16,15 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-
-using GeNSIS.Core.Helpers;
-
 namespace GeNSIS.Core.Commands
 {
-    internal class AutoCreateInstallerNameCommand : ACommand
+    internal class ResetInstallerNameCommand : ACommand
     {
-        public AutoCreateInstallerNameCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
-        public override bool CanExecute(object parameter)
-            => !string.IsNullOrWhiteSpace(AppDataViewModel.ExeName);
+        public ResetInstallerNameCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+
+        public override bool CanExecute(object parameter) => true;
 
         public override void Execute(object parameter)
-            => ExeInfoHelper.AutoGenerateInstallerName(AppDataViewModel);
+            => AppDataViewModel.InstallerFileName = null;
     }
 }

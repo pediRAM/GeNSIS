@@ -57,7 +57,7 @@ namespace GeNSIS.Core
         private string m_License;
         private string m_Publisher = Environment.UserName;
         private string m_Url;
-        private string m_InstallerFileName;
+        private string m_InstallerFileName = GConst.Default.INSTALLER_FILENAME;
         private string m_InstallerIcon;
         private string m_InstallerHeaderImage;
         private string m_InstallerWizardImage;
@@ -512,6 +512,17 @@ namespace GeNSIS.Core
                 return m_AutoCreateInstallerNameCommand;
             }
             set => m_AutoCreateInstallerNameCommand = value;
+        }
+
+        private ICommand m_ResetInstallerNameCommand;
+        public ICommand ResetInstallerNameCommand
+        {
+            get
+            {
+                m_ResetInstallerNameCommand ??= new ResetInstallerNameCommand(this);
+                return m_ResetInstallerNameCommand;
+            }
+            set => m_ResetInstallerNameCommand = value;
         }
         #endregion Commands
     }

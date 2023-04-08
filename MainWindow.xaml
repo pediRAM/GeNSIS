@@ -258,7 +258,8 @@
                     <Label      Grid.Row="6" Grid.Column="0" Content="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource label_input}" />
                     <TextBox    Grid.Row="6" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" Width="300" />
                     <StackPanel Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Button Content="Auto name" Command="{Binding AutoCreateInstallerNameCommand}" CommandParameter="{Binding ElementName=txb_ExeName, Path=Text}" Style="{StaticResource button_command}"/>
+                        <Button Content="Reset"  Command="{Binding ResetInstallerNameCommand}"      Style="{StaticResource button_command}"/>
+                        <Button Content="Static" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_command}"/>
                     </StackPanel>
                     
                     <Rectangle Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
@@ -368,10 +369,12 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
+                                
                                 <!-- Welcome Page -->
-                                <Grid Grid.Row="0" Margin="5,5,5,10">
+                                <Grid Grid.Row="0" Margin="10">
                                     <!-- NSIS Installer Welcome Page -->
                                     <Image Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/welcome.png" />
 
@@ -385,7 +388,7 @@
                                 </Grid>
 
                                 <!-- License Page -->
-                                <Grid Grid.Row="1" Margin="5,10,5,5">
+                                <Grid Grid.Row="1" Margin="10">
                                     <!-- NSIS Installer License Page -->
                                     <Image x:Name="img_License" Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/license.png" />
 
@@ -400,6 +403,38 @@
                                     <!-- Icon License right double size -->
                                     <Image Width="48"  Height="48"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="676,58,0,0" Stretch="UniformToFill" Source="{Binding InstallerIcon, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
                                     <!--<Rectangle Width="48"  Height="48"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="676,58,0,0" Fill="Yellow" />-->
+                                </Grid>
+
+                                <!-- Installing Page -->
+                                <Grid Grid.Row="2" Margin="10">
+                                    <!-- NSIS Installer License Page -->
+                                    <Image x:Name="img_License2" Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/installation.png" />
+
+                                    <!-- Image -->
+                                    <Image Width="225"  Height="86"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1,39,0,0" Stretch="UniformToFill" Source="{Binding InstallerHeaderImage, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
+                                    <!--<Rectangle Width="225"  Height="86"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1,39,0,0" Fill="Red" />-->
+
+                                    <!-- Icon -->
+                                    <Image Width="24"  Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="6,7,0,0" Stretch="UniformToFill" Source="{Binding InstallerIcon, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
+                                    <!--<Rectangle Width="24"  Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="6,7,0,0" Fill="Yellow" />-->
+
+                                    <!-- Icon License right double size -->
+                                    <Image Width="48"  Height="48"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="676,58,0,0" Stretch="UniformToFill" Source="{Binding InstallerIcon, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
+                                    <!--<Rectangle Width="48"  Height="48"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="676,58,0,0" Fill="Yellow" />-->
+                                </Grid>
+
+                                <!-- Finish Page -->
+                                <Grid Grid.Row="3" Margin="10">
+                                    <!-- NSIS Installer Welcome Page -->
+                                    <Image Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/finish.png" />
+
+                                    <!-- Installer Wizard Image -->
+                                    <Image Width="245"  Height="470"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1.5,40,0,0" Stretch="UniformToFill" Source="{Binding InstallerWizardImage, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
+                                    <!--<Rectangle Width="245"  Height="470"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="1.5,40,0,0" Fill="Red" />-->
+
+                                    <!-- Installer Icon -->
+                                    <Image Width="24"  Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="6,7,0,0" Stretch="UniformToFill" Source="{Binding InstallerIcon, Mode=OneWay, Converter={conv:StringToImageSourceConverter}}" />
+                                    <!--<Rectangle Width="24"  Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="6,7,0,0" Fill="Yellow" />-->
                                 </Grid>
                             </Grid>
                         </Viewbox>

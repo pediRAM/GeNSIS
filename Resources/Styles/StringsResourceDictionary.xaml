@@ -41,7 +41,8 @@
     <sys:String x:Key="tt_company">Company name: name or initials of the company, organisation or individual which/who is distributing the application</sys:String>
     <sys:String x:Key="tt_publisher">Publisher: name of the company, organisation or individual which/who is publishing the application</sys:String>
     <sys:String x:Key="tt_url">URL of the application/company website</sys:String>
-    <sys:String x:Key="tt_installerfilename">Filename of installer/setup file, like: Setup_MyApp_1.2.3_AMD64_x64.exe</sys:String>
+    <sys:String x:Key="tt_installerfilename" xml:space="preserve">Filename of installer/setup file, like: Setup_MyApp_1.2.3_AMD64_x64.exe&#13;
+Leave empty (default) for dynamic auto-nameing in script</sys:String>
     <sys:String x:Key="tt_associatedextension">Associated file-extension, like: txt, xml, bin, dat,&#x2026; or leave blank for none</sys:String>
     <sys:String x:Key="tt_doinstallperuser">Installation per user: if activated, each user must install the application for himself, else the application will be installed for all users</sys:String>
     <sys:String x:Key="tt_doaddfirewallrule">Adds named rule for your app to windows firewall.</sys:String>
