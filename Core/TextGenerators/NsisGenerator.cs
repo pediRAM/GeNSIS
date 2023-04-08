@@ -117,6 +117,11 @@ namespace GeNSIS.Core.TextGenerators
             AddMainSection();
             AddStripline();
             Add();
+            AddSections();
+            Add();
+            AddShortCutSection();
+            AddStripline();
+            Add();
 
             AddPostSection();
             AddStripline();
@@ -384,19 +389,19 @@ namespace GeNSIS.Core.TextGenerators
 
         private void AddMainSection()
         {
-            Add("Section \"MainSection\" SEC01");
+            Add($"Section \"{m_AppData.AppName}\" SEC01");
             Add("SetOutPath \"$INSTDIR\"");
             Add("SetOverwrite ifnewer");
             Add();
 
-            if (m_AppData.GetDirectories().Any())
-            {
-                AddComment("Add directories recursively (remove /r for non-recursively):");
-                foreach (var s in m_AppData.GetDirectories())
-                    Add($"File /r \"{s}\"");
-                AddStripline();
-                Add();
-            }
+            //if (m_AppData.GetDirectories().Any())
+            //{
+            //    AddComment("Add directories recursively (remove /r for non-recursively):");
+            //    foreach (var s in m_AppData.GetDirectories())
+            //        Add($"File /r \"{s}\"");
+            //    AddStripline();
+            //    Add();
+            //}
 
             AddComment("Add files:");
             foreach (var s in m_AppData.GetFiles())
@@ -404,6 +409,35 @@ namespace GeNSIS.Core.TextGenerators
             AddStripline();
             Add();
 
+            //AddComment("Create shortcuts on Desktop and Programs menu.");
+            //Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
+            //Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
+            Add("SectionEnd");
+        }
+        private int m_SectionCounter = 2;
+        private void AddSections()
+        {
+            m_SectionCounter = 2;
+            foreach (var dir in m_AppData.GetDirectories())
+            {
+                var name = Path.GetDirectoryName(dir);
+                Add($"Section \"{name}\" SEC{m_SectionCounter++:d2}");
+                Add($"SetOutPath \"$INSTDIR\\{name}\"");
+                Add("SetOverwrite ifnewer");
+                Add();
+
+                AddComment("Add files:");
+                foreach (var s in Directory.GetFiles(dir, "*", SearchOption.AllDirectories))
+                    Add($"File \"{s}\"");
+                Add("SectionEnd");
+                AddStripline();
+                Add();
+            }
+        }
+
+        private void AddShortCutSection()
+        {
+            Add($"Section \"Create Shortcuts\" SEC{m_SectionCounter:d2}");
             AddComment("Create shortcuts on Desktop and Programs menu.");
             Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");

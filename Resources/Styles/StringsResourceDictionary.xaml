@@ -15,7 +15,7 @@
     <sys:String x:Key="label_appbuild">Application build:</sys:String>
     <sys:String x:Key="label_appicon">Application icon (*.ico):</sys:String>
     <sys:String x:Key="label_files">Files:</sys:String>
-    <sys:String x:Key="label_directories">Directories:</sys:String>
+    <sys:String x:Key="label_directories">Components:</sys:String>
     <sys:String x:Key="label_design_installer">Installer Design</sys:String>
     <sys:String x:Key="label_design_uninstaller">Uninstaller Design</sys:String>
     <sys:String x:Key="label_exename">Executable file:</sys:String>    
