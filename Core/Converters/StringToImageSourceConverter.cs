@@ -26,6 +26,8 @@ namespace GeNSIS.Core.Converters
     {
         public override object Convert(object pValue)
         {
+            if (pValue == null) return null;
+
             string path = (string)pValue;
             try
             {

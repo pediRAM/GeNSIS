@@ -17,6 +17,8 @@
 ****************************************************************************************/
 
 
+using GeNSIS.Core.ViewModels;
+
 namespace GeNSIS.Core.Commands
 {
     public class RemoveSelectedFileCommand : ACommand
@@ -28,11 +30,11 @@ namespace GeNSIS.Core.Commands
 
         public override void Execute(object parameter)
         {
-            string path = (string)parameter;
-            AppDataViewModel.Files.Remove(path);
-            if (AppDataViewModel.License == path) AppDataViewModel.License = string.Empty;
-            if (AppDataViewModel.ExeName == path) AppDataViewModel.ExeName = string.Empty;
-            if (AppDataViewModel.InstallerIcon == path) AppDataViewModel.InstallerIcon = string.Empty;
+            FileSystemItemVM fsi = (FileSystemItemVM)parameter;
+            AppDataViewModel.Files.Remove(fsi);
+            if (AppDataViewModel.License != null && AppDataViewModel.License.Path == fsi.Path) AppDataViewModel.License = null;
+            if (AppDataViewModel.ExeName != null && AppDataViewModel.ExeName.Path == fsi.Path) AppDataViewModel.ExeName = null;
+            if (AppDataViewModel.InstallerIcon == fsi.Path) AppDataViewModel.InstallerIcon = null;
         }
     }
 }

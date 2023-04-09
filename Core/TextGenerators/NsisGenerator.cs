@@ -20,11 +20,12 @@
 namespace GeNSIS.Core.TextGenerators
 {
     using GeNSIS.Core.Extensions;
-    using GeNSIS.Core.Models;
+    using GeNSIS.Core.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
 
     public class NsisGenerator : ITextGenerator
@@ -64,8 +65,10 @@ namespace GeNSIS.Core.TextGenerators
             m_AppData = pAppData;
             m_Options = pOptions;
 
-            var totalSize = pAppData.GetFiles().Sum(x => new FileInfo(x).Length);
-            var totalDirSize = pAppData.GetDirectories().Sum(x => new DirectoryInfo(x).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
+            var totalFilesSizeMainSection = pAppData.GetFiles().Where(x => x.FileSystemType == Enums.EFileSystemType.File).Sum(x => new FileInfo(x.Path).Length);
+            var totalDirsSizeMainSection  = pAppData.GetFiles().Where(x => x.FileSystemType == Enums.EFileSystemType.Directory).Sum(x => new DirectoryInfo(x.Path).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
+           
+            var totalDirSize = pAppData.GetSections().Sum(x => new DirectoryInfo(x.SourcePath).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
             bool isOver16Mb = (totalDirSize + totalDirSize) > (ZLIB_SIZE_LIMIT);
 
             AddCommentHeader();
@@ -120,8 +123,8 @@ namespace GeNSIS.Core.TextGenerators
             AddStripline();
             Add();
             AddSections();
-            Add();
-            AddShortCutSection();
+            //Add();
+            //AddShortCutSection();
             AddStripline();
             Add();
 
@@ -162,7 +165,7 @@ namespace GeNSIS.Core.TextGenerators
             Add();
 
             AddComment("Filename of Application EXE file (*.exe):");
-            AddDefine("APP_EXE_NAME", Path.GetFileName(m_AppData.ExeName));
+            AddDefine("APP_EXE_NAME", Path.GetFileName(m_AppData.ExeName.Path));
             Add();
 
             AddComment("Version of Application:");
@@ -330,10 +333,10 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Show welcome page:");
             AddInsertMacro("MUI_PAGE_WELCOME");
 
-            if (!string.IsNullOrWhiteSpace(m_AppData.License))
+            if (!string.IsNullOrWhiteSpace(m_AppData.License.Path))
             {
                 AddComment("License file (*.txt|*.rtf):");
-                AddInsertMacro("MUI_PAGE_LICENSE", m_AppData.License);
+                AddInsertMacro("MUI_PAGE_LICENSE", m_AppData.License.Path);
             }
 
             AddInsertMacro("MUI_PAGE_DIRECTORY");
@@ -391,7 +394,9 @@ namespace GeNSIS.Core.TextGenerators
 
         private void AddMainSection()
         {
-            Add($"Section \"{m_AppData.AppName}\" SEC01");
+            //Add($"Section \"{m_AppData.AppName}\" SEC01");
+            Add($"Section !Required");
+            Add("SectionIn RO");
             Add("SetOutPath \"$INSTDIR\"");
             Add("SetOverwrite ifnewer");
             Add();
@@ -411,25 +416,27 @@ namespace GeNSIS.Core.TextGenerators
             AddStripline();
             Add();
 
-            //AddComment("Create shortcuts on Desktop and Programs menu.");
-            //Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
-            //Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
+            AddComment("Create shortcuts on Desktop and Programs menu.");
+            Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
+            Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add("SectionEnd");
         }
-        private int m_SectionCounter = 2;
+        private int m_SectionCounter = 1;
         private void AddSections()
         {
-            m_SectionCounter = 2;
-            foreach (var dir in m_AppData.GetDirectories())
+            m_SectionCounter = 1;
+            foreach (var dir in m_AppData.GetSections())
             {
-                var name = Path.GetDirectoryName(dir);
-                Add($"Section \"{name}\" SEC{m_SectionCounter++:d2}");
-                Add($"SetOutPath \"$INSTDIR\\{name}\"");
+                Add($"Section \"{dir.Name}\" SEC{m_SectionCounter++:d2}");
+                if (string.IsNullOrEmpty(dir.TargetInstallDir))
+                    Add($"SetOutPath \"$INSTDIR\"");
+                else
+                    Add($"SetOutPath \"$INSTDIR\\{dir.TargetInstallDir}\"");
                 Add("SetOverwrite ifnewer");
                 Add();
 
                 AddComment("Add files:");
-                foreach (var s in Directory.GetFiles(dir, "*", SearchOption.AllDirectories))
+                foreach (var s in Directory.GetFiles(dir.SourcePath, "*", SearchOption.AllDirectories))
                     Add($"File \"{s}\"");
                 Add("SectionEnd");
                 AddStripline();
@@ -488,11 +495,14 @@ namespace GeNSIS.Core.TextGenerators
             Add("Delete \"$SMPROGRAMS\\${APP_NAME}.lnk\"");
 
 
-            if (m_AppData.GetDirectories().Any())
+            if (m_AppData.GetSections().Any())
             {
                 AddComment("Deleteing Subfolders:");
-                foreach (var s in m_AppData.GetDirectories())
-                    Add($"RMDir /r \"$INSTDIR\\{Path.GetFileName(s)}\"");
+                foreach (var s in m_AppData.GetSections())
+                {
+                    if (!string.IsNullOrEmpty(s.TargetInstallDir))
+                        Add($"RMDir /r \"$INSTDIR\\{Path.GetFileName(s.TargetInstallDir)}\"");
+                }
                 AddStripline();
             }
 

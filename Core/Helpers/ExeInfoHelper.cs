@@ -40,11 +40,11 @@ namespace GeNSIS.Core.Helpers
         internal static void AutoSetProperties(AppDataVM pAppData)
         {
             // Find out if exe is managed (.NET), 64bit and which version it has, then set them:
-            var info = GetExeData(pAppData.ExeName);
+            var info = GetExeData(pAppData.ExeName.Path);
             pAppData.Is64BitApplication = info.IsX64;
             pAppData.Arch = pAppData.Is64BitApplication ? "x64" : "x32";
-            pAppData.AppName = Path.GetFileNameWithoutExtension(pAppData.ExeName);
-            pAppData.MachineType = GetMachineTypeShortString(GetMachineTypeOfExe(pAppData.ExeName));
+            pAppData.AppName = Path.GetFileNameWithoutExtension(pAppData.ExeName.Path);
+            pAppData.MachineType = GetMachineTypeShortString(GetMachineTypeOfExe(pAppData.ExeName.Path));
 
             if (string.IsNullOrWhiteSpace(pAppData.Url))
                 pAppData.Url = ConfigHelper.GetAppConfig().Website;
@@ -58,7 +58,7 @@ namespace GeNSIS.Core.Helpers
                 pAppData.AppVersion = info.Version;
 
             // Simplify and set AppDataVM.Company and Publisher:
-            var fvi = FileVersionInfo.GetVersionInfo(pAppData.ExeName);
+            var fvi = FileVersionInfo.GetVersionInfo(pAppData.ExeName.Path);
             if (!string.IsNullOrWhiteSpace(fvi.CompanyName))
             {
                 var fullCompany = string.Join("-", fvi.CompanyName.Replace(" ", "-").Split(Path.GetInvalidFileNameChars()));

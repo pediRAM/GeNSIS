@@ -17,20 +17,60 @@
 ****************************************************************************************/
 
 
-using GeNSIS.Core.ViewModels;
-
-namespace GeNSIS.Core.Commands
+namespace GeNSIS.Core.Models
 {
-    public class RemoveSelectedDirectoryCommand : ACommand
+    #region Usings
+    using GeNSIS.Core.Interfaces;
+    using GeNSIS.Core.ViewModels;
+    using System.Xml;
+    using System.Xml.Serialization;
+    #endregion Usings
+
+    [XmlRoot]
+    public class Section : ISection
     {
-        public RemoveSelectedDirectoryCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        #region Ctors
+        public Section() { }
 
-        public override bool CanExecute(object parameter)
-            => parameter != null;
-
-        public override void Execute(object parameter)
+        public Section(ISection pSection) : this()
         {
-            AppDataViewModel.Sections.Remove((SectionVM)parameter);
+            UpdateValues(pSection);
         }
+        #endregion Ctors
+
+
+
+        #region Properties
+        [XmlElement]
+        public string Name { get; set; }
+
+        [XmlElement]
+        public string SourcePath { get; set; }
+
+        [XmlElement]
+        public string TargetInstallDir { get; set; }
+
+        #endregion Properties
+
+        #region Functions
+        public SectionVM ToViewModel()
+        {
+            // todo: check and review Clone() function!
+            return new SectionVM
+            {
+                Name = Name,
+                SourcePath = SourcePath,
+                TargetInstallDir = TargetInstallDir,
+            };
+        }
+
+        public void UpdateValues(ISection s)
+        {
+            Name = s.Name;
+            SourcePath = s.SourcePath;
+            TargetInstallDir = s.TargetInstallDir;
+        }
+
+        #endregion Functions
     }
 }

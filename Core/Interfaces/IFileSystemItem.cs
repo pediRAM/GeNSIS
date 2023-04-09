@@ -17,22 +17,13 @@
 ****************************************************************************************/
 
 
-using System.Collections.Generic;
+using GeNSIS.Core.Enums;
 
-namespace GeNSIS.Core.Models
+namespace GeNSIS.Core.Interfaces
 {
-    public interface IConfig
+    public interface IFileSystemItem
     {
-        string CompanyName { get; set; }
-        string Publisher { get; set; }
-        string Website { get; set; }
-        string GeNSISProjectsDirectory { get; set; }
-        string ScriptsDirectory { get; set; }
-        string InstallersDirectory { get; set; }
-        string NsisInstallationDirectory { get; set; }
-
-        List<string> GetLastProjects();
-        List<string> GetLastScripts();
-        void UpdateValues(IConfig pIAppConfig);
+        EFileSystemType FileSystemType { get; set; }
+        string Path { get; set; }
     }
 }

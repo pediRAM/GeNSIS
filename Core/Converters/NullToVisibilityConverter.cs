@@ -17,6 +17,7 @@
 ****************************************************************************************/
 
 
+using GeNSIS.Core.Interfaces;
 using System.Windows;
 
 namespace GeNSIS.Core.Converters
@@ -33,6 +34,18 @@ namespace GeNSIS.Core.Converters
         /// </summary>
         public Visibility VisibilityWhenNotNull { get; set; } = Visibility.Visible;
 
-        public override object Convert(object pValue) => (pValue == null) ? VisibilityWhenNull : VisibilityWhenNotNull;
+        public override object Convert(object pValue)
+        {
+            if (pValue == null)
+                return VisibilityWhenNull;
+
+            else if (pValue is IFileSystemItem)
+                return string.IsNullOrWhiteSpace((pValue as IFileSystemItem).Path) ? VisibilityWhenNull : VisibilityWhenNotNull;
+            else if (pValue is ISection)
+                return string.IsNullOrWhiteSpace((pValue as ISection).SourcePath) ? VisibilityWhenNull : VisibilityWhenNotNull;
+            else if (pValue is string)
+                return string.IsNullOrWhiteSpace(pValue as string) ? VisibilityWhenNull : VisibilityWhenNotNull;
+            return VisibilityWhenNotNull;
+        }
     }
 }

@@ -19,6 +19,7 @@
 
 namespace GeNSIS.Core.Models
 {
+    using GeNSIS.Core.Interfaces;
     using System.Collections.Generic;
     using System.Linq;
 

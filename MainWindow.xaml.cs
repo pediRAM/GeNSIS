@@ -21,8 +21,10 @@ using GeNSIS.Core;
 using GeNSIS.Core.Converters;
 using GeNSIS.Core.Extensions;
 using GeNSIS.Core.Helpers;
+using GeNSIS.Core.Interfaces;
 using GeNSIS.Core.Models;
 using GeNSIS.Core.TextGenerators;
+using GeNSIS.Core.ViewModels;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -32,6 +34,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
@@ -74,7 +77,6 @@ namespace GeNSIS
         
         private NsisGenerator m_NsisCodeGenerator = new NsisGenerator();
         #endregion Variables
-
 
         #region Ctor
         public MainWindow()
@@ -261,7 +263,7 @@ namespace GeNSIS
             if (m_OpenFilesDialog.ShowDialog().Value != true) 
                 return;
 
-            AppData.Files.AddRange(m_OpenFilesDialog.FileNames);
+            AppData.Files.AddRange(FileSystemItemVM.From(m_OpenFilesDialog.FileNames));
         }
 
 
@@ -269,7 +271,7 @@ namespace GeNSIS
         {
             if (m_FolderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                AppData.Directories.Add(m_FolderBrowserDialog.SelectedPath);
+                AppData.Sections.Add(new SectionVM(m_FolderBrowserDialog.SelectedPath));
             }
         }
         
@@ -352,47 +354,61 @@ namespace GeNSIS
 
         private void OnAddFilesFromFolderClicked(object sender, RoutedEventArgs e)
         {
+#if DEBUG
+            m_FolderBrowserDialog.InitialDirectory = @"H:\MyTemp\__Install Files for MyApp 1.2.3\MyApp 1.2.3"; // todo: <-- remove!
+#else
             FileDialogHelper.InitDir(m_FolderBrowserDialog, PathHelper.GetMyDocuments());
+#endif
             if (m_FolderBrowserDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
 
             foreach(var dir in Directory.GetDirectories(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly)) 
-                AppData.Directories.Add(dir);
+                AppData.Files.Add(new FileSystemItemVM { Path = dir, FileSystemType = Core.Enums.EFileSystemType.Directory });
 
             foreach (var file in Directory.GetFiles(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly))
             {
                 if (Path.GetExtension(file).Equals(".pdb", StringComparison.OrdinalIgnoreCase)) // todo: filter by ignore list!
                     continue;
-
-                AppData.Files.Add(file);
-                var ext = Path.GetExtension(file);
-                if (!string.IsNullOrWhiteSpace(ext))
+                try
                 {
-                    switch (ext.ToLower())
-                    {
-                        case ".exe":
-                            {
-                                AppData.ExeName = file;
-                                try
-                                {
-                                    ExeInfoHelper.AutoSetProperties(AppData);
-                                }
-                                catch { }
-                            }
-                            break;
-                        case ".ico": AppData.InstallerIcon = file; break;
 
-                        case ".rtf":
-                        case ".txt":
-                            {
-                                var name = Path.GetFileName(file);
-                                if (name.Contains("license",   StringComparison.OrdinalIgnoreCase) ||
-                                    name.Contains("eula",      StringComparison.OrdinalIgnoreCase) ||
-                                    name.Contains("agreement", StringComparison.OrdinalIgnoreCase))
-                                    AppData.License = file;
-                            }
-                            break;
+                    AppData.Files.Add(new FileSystemItemVM { Path = file, FileSystemType = Core.Enums.EFileSystemType.File });
+                    var ext = Path.GetExtension(file);
+                    if (!string.IsNullOrWhiteSpace(ext))
+                    {
+                        switch (ext.ToLower())
+                        {
+                            case ".exe":
+                                {
+                                    AppData.ExeName = new FileSystemItemVM(file);
+                                    try
+                                    {
+                                        ExeInfoHelper.AutoSetProperties(AppData);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        var x = ex;
+                                    }
+                                }
+                                break;
+                            case ".ico": AppData.InstallerIcon = file; break;
+
+                            case ".rtf":
+                            case ".txt":
+                                {
+                                    var name = Path.GetFileName(file);
+                                    if (name.Contains("license", StringComparison.OrdinalIgnoreCase) ||
+                                        name.Contains("eula", StringComparison.OrdinalIgnoreCase) ||
+                                        name.Contains("agreement", StringComparison.OrdinalIgnoreCase))
+                                        AppData.License = new FileSystemItemVM(file);
+                                }
+                                break;
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    var x = ex;
                 }
             }
 
@@ -499,7 +515,7 @@ namespace GeNSIS
             tabItem_Editor.IsSelected = true;
             PathToGeneratedNsisScript = m_OpenScriptDialog.FileName;
         }
-        #endregion Open/Save Script
+#endregion Open/Save Script
 
         #region Desing (Icons & Images)
         private void OnLoadIconClicked(object sender, RoutedEventArgs e)
@@ -526,8 +542,8 @@ namespace GeNSIS
                     var fi = new FileInfo(m_OpenImageDialog.FileName);
                     if (fi.Extension.Equals(".ico", StringComparison.InvariantCultureIgnoreCase) && fi.Length > 0)
                     {
-                        if (!AppData.Files.Contains(m_OpenImageDialog.FileName))
-                            AppData.Files.Add(m_OpenImageDialog.FileName);
+                        if (!AppData.Files.Any(x => x.Path.Equals(m_OpenImageDialog.FileName, StringComparison.OrdinalIgnoreCase)))
+                            AppData.Files.Add(new FileSystemItemVM(m_OpenImageDialog.FileName));
                     }
                     pFileName = m_OpenImageDialog.FileName;
                     return true;
@@ -797,7 +813,7 @@ namespace GeNSIS
             if (lsb_Files.SelectedItems == null || lsb_Files.SelectedItems.Count == 0)
                 return;
 
-            var items = lsb_Files.GetSelectedItems<string>();
+            var items = lsb_Files.GetSelectedItems<FileSystemItemVM>();
             AppData.Files.RemoveRange(items);
         }
 

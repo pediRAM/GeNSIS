@@ -20,6 +20,7 @@
 namespace GeNSIS.Core.Models
 {
     using GeNSIS.Core.Extensions;
+    using GeNSIS.Core.Interfaces;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;

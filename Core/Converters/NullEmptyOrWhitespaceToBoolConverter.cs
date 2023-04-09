@@ -18,6 +18,8 @@
 
 
 
+using GeNSIS.Core.ViewModels;
+
 namespace GeNSIS.Core.Converters
 {
     internal class NullEmptyOrWhitespaceToBoolConverter : AValueConverter
@@ -32,6 +34,10 @@ namespace GeNSIS.Core.Converters
         /// </summary>
         public bool ValueElse { get; set; } = true;
         public override object Convert(object pValue)
-            => (string.IsNullOrWhiteSpace((string)pValue)) ? ValueWhenNullEmptyOrWhitespace : ValueElse;
+        {
+            if (pValue == null) 
+                return ValueWhenNullEmptyOrWhitespace;
+            return string.IsNullOrWhiteSpace(((FileSystemItemVM)pValue).Path) ? ValueWhenNullEmptyOrWhitespace : ValueElse;
+        }
     }
 }

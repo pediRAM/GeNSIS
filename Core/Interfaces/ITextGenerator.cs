@@ -17,50 +17,13 @@
 ****************************************************************************************/
 
 
-using System.Collections.Generic;
+using GeNSIS.Core.Models;
+using GeNSIS.Core.TextGenerators;
 
-namespace GeNSIS.Core.Models
+namespace GeNSIS.Core.Interfaces
 {
-    public interface IAppData
+    internal interface ITextGenerator
     {
-        string AppName { get; }
-
-        bool Is64BitApplication { get; }
-
-        bool DoInstallPerUser { get; }
-        bool DoAddFWRule { get; }
-        string ExeName { get; }       
-
-        string AssociatedExtension { get; }
-
-        string AppVersion { get; }
-
-        string AppBuild { get; }
-        bool DoCreateCompanyDir { get; }
-        string Arch { get; }
-        string MachineType { get; }
-
-        string Company { get; }
-
-        string License { get; }
-
-        string Publisher { get; }
-
-        string Url { get; }
-
-        string InstallerFileName { get; }
-        string InstallerIcon { get; }
-        string InstallerHeaderImage { get; }
-        string InstallerWizardImage { get; }
-
-        string UninstallerIcon { get; }
-        string UninstallerHeaderImage { get; }
-        string UninstallerWizardImage { get; }
-
-        IEnumerable<string> GetFiles();
-
-        IEnumerable<string> GetDirectories();
-
-        void UpdateValues(IAppData pAppData);
+        string Generate(IAppData pAppData, TextGeneratorOptions pOptions);
     }
 }

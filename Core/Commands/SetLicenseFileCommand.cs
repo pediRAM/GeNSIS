@@ -17,6 +17,7 @@
 ****************************************************************************************/
 
 
+using GeNSIS.Core.ViewModels;
 using System.IO;
 
 namespace GeNSIS.Core.Commands
@@ -32,7 +33,7 @@ namespace GeNSIS.Core.Commands
 
         public override void Execute(object parameter)
         {
-            AppDataViewModel.License = (string)parameter;
+            AppDataViewModel.License = (FileSystemItemVM)parameter;
         }
     }
 }

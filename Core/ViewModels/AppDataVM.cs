@@ -21,13 +21,14 @@ namespace GeNSIS.Core
 {
     #region Usings
     using GeNSIS.Core.Commands;
-    using GeNSIS.Core.Extensions;
+    using GeNSIS.Core.Interfaces;
     using GeNSIS.Core.Models;
+    using GeNSIS.Core.ViewModels;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Linq;
+    using System.Diagnostics.Eventing.Reader;
     using System.Windows.Input;
     #endregion Usings
 
@@ -49,12 +50,12 @@ namespace GeNSIS.Core
         private bool m_DoInstallPerUser;
         private bool m_DoAddFWRule;
         private string m_AppName;
-        private string m_ExeName;
+        private FileSystemItemVM m_ExeName;
         private string m_AssociatedExtension;
         private string m_AppVersion;
         private string m_AppBuild;
         private string m_Company;
-        private string m_License;
+        private FileSystemItemVM m_License;
         private string m_Publisher = Environment.UserName;
         private string m_Url;
         private string m_InstallerFileName = GConst.Default.INSTALLER_FILENAME;
@@ -160,13 +161,19 @@ namespace GeNSIS.Core
             }
         }
 
-        public string ExeName
+        public IFileSystemItem ExeName
         {
             get { return  m_ExeName; }
             set
             {
                 if (value == m_ExeName) return;
-                m_ExeName = value;
+
+                if (value is FileSystemItemVM)
+                    m_ExeName = value as FileSystemItemVM;
+                else if (value != null)
+                    m_ExeName = new FileSystemItemVM(value);
+                else m_ExeName = null;
+
                 NotifyPropertyChanged(nameof(ExeName));
 
             }
@@ -213,19 +220,24 @@ namespace GeNSIS.Core
                 if (value == m_Company) return;
                 m_Company = value;
                 NotifyPropertyChanged(nameof(Company));
-
             }
         }
 
-        public string License
+        public IFileSystemItem License
         {
             get { return  m_License; }
             set
             {
                 if (value == m_License) return;
-                m_License = value;
-                NotifyPropertyChanged(nameof(License));
 
+                if (value is FileSystemItemVM)
+                    m_License = value as FileSystemItemVM;
+                else if (value != null)
+                    m_License = new FileSystemItemVM(value);
+                else
+                    m_License = null;                
+
+                NotifyPropertyChanged(nameof(License));
             }
         }
 
@@ -237,7 +249,6 @@ namespace GeNSIS.Core
                 if (value == m_Publisher) return;
                 m_Publisher = value;
                 NotifyPropertyChanged(nameof(Publisher));
-
             }
         }
 
@@ -249,7 +260,6 @@ namespace GeNSIS.Core
                 if (value == m_Url) return;
                 m_Url = value;
                 NotifyPropertyChanged(nameof(Url));
-
             }
         }
 
@@ -273,7 +283,6 @@ namespace GeNSIS.Core
                 if (value == m_InstallerIcon) return;
                 m_InstallerIcon = value;
                 NotifyPropertyChanged(nameof(InstallerIcon));
-
             }
         }
 
@@ -333,9 +342,9 @@ namespace GeNSIS.Core
             }
         }
 
-        public ObservableCollection<string> Files { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<FileSystemItemVM> Files { get; set; } = new ObservableCollection<FileSystemItemVM>();
 
-        public ObservableCollection<string> Directories { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<SectionVM> Sections { get; set; } = new ObservableCollection<SectionVM>();
 
         public bool HasUnsavedChanges
         {
@@ -351,24 +360,22 @@ namespace GeNSIS.Core
 
 
         #region Methods
-        public IEnumerable<string> GetFiles() => Files;
-        public IEnumerable<string> GetDirectories() => Directories;
+        public IEnumerable<IFileSystemItem> GetFiles() => Files;
+        public IEnumerable<ISection> GetSections() => Sections;
         public void ResetHasUnsavedChanges() => m_HasUnsavedChanges = false;
 
         public AppData ToModel()
         {
-            return new AppData
+            var clone = new AppData
             {
                 AppBuild = AppBuild,
                 AppName = AppName,
                 AppVersion = AppVersion,
                 AssociatedExtension = AssociatedExtension,
                 Company = Company,
-                Directories = Directories.ToList(),
                 DoAddFWRule = DoAddFWRule,
                 DoInstallPerUser = DoInstallPerUser,
                 ExeName = ExeName,
-                Files = Files.ToList(),
                 InstallerHeaderImage = InstallerHeaderImage,
                 UninstallerHeaderImage = UninstallerHeaderImage,
                 InstallerFileName = InstallerFileName,
@@ -384,6 +391,16 @@ namespace GeNSIS.Core
                 Publisher = Publisher,
                 Url = Url,
             };
+
+            clone.Sections = new List<Section>();
+            foreach (var s in Sections)
+                clone.Sections.Add(new Section(s));
+
+            clone.Files = new List<FileSystemItem>();
+            foreach (var f in Files)
+                clone.Files.Add(new FileSystemItem(f));
+
+            return clone;
         }
 
         public void UpdateValues(IAppData pAppData)
@@ -394,7 +411,7 @@ namespace GeNSIS.Core
             AssociatedExtension = pAppData.AssociatedExtension;
             Company = pAppData.Company;
             DoInstallPerUser = pAppData.DoInstallPerUser;
-            ExeName = pAppData.ExeName;
+            ExeName = new FileSystemItemVM(pAppData.ExeName);
             InstallerHeaderImage = pAppData.InstallerHeaderImage;
             UninstallerHeaderImage = pAppData.UninstallerHeaderImage;
             InstallerFileName = pAppData.InstallerFileName;
@@ -406,15 +423,17 @@ namespace GeNSIS.Core
             DoCreateCompanyDir = pAppData.DoCreateCompanyDir;
             Arch = pAppData.Arch;
             MachineType = pAppData.MachineType;
-            License = pAppData.License;
+            License = new FileSystemItemVM(License);
             Publisher = pAppData.Publisher;
             Url = pAppData.Url;
 
             Files.Clear();
-            Files.AddRange(pAppData.GetFiles());
+            foreach (var f in pAppData.GetFiles())
+                Files.Add(new FileSystemItemVM(f));
 
-            Directories.Clear();
-            Directories.AddRange(pAppData.GetDirectories());
+            Sections.Clear();
+            foreach (var s in pAppData.GetSections())
+                Sections.Add(new SectionVM(s));
         }
 
         private void NotifyPropertyChanged(string pPropertyName)

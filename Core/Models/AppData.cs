@@ -19,9 +19,10 @@
 
 namespace GeNSIS.Core.Models
 {
+    using GeNSIS.Core.Interfaces;
+    using GeNSIS.Core.ViewModels;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Xml.Serialization;
 
     [XmlRoot]
@@ -40,7 +41,7 @@ namespace GeNSIS.Core.Models
         public string AppName { get; set; }
 
         [XmlElement]
-        public string ExeName { get; set; }
+        public IFileSystemItem ExeName { get; set; }
 
         [XmlElement]
         public bool DoCreateCompanyDir { get; set; }
@@ -64,7 +65,7 @@ namespace GeNSIS.Core.Models
         public string Company { get; set; }
 
         [XmlElement]
-        public string License { get; set; }
+        public IFileSystemItem License { get; set; }
 
         [XmlElement]
         public string Publisher { get; set; } = Environment.UserName;
@@ -73,10 +74,10 @@ namespace GeNSIS.Core.Models
         public string Url { get; set; }
 
         [XmlArray]
-        public List<string> Files { get; set; } = new List<string>();
+        public List<FileSystemItem> Files { get; set; } = new List<FileSystemItem>();
 
         [XmlArray]
-        public List<string> Directories { get; set; } = new List<string>();
+        public List<Section> Sections { get; set; } = new List<Section>();
 
         [XmlElement]
         public string InstallerFileName { get; set; }
@@ -97,23 +98,21 @@ namespace GeNSIS.Core.Models
         [XmlElement]
         public string UninstallerWizardImage { get; set; }
 
-        public IEnumerable<string> GetFiles() => Files;
-        public IEnumerable<string> GetDirectories() => Directories;
+        public IEnumerable<IFileSystemItem> GetFiles() => Files;
+        public IEnumerable<ISection> GetSections() => Sections;
 
         public AppDataVM ToViewModel()
         {
-            return new AppDataVM
+            var vm = new AppDataVM
             {
                 AppBuild = AppBuild,
                 AppName = AppName,
                 AppVersion = AppVersion,
                 AssociatedExtension = AssociatedExtension,
                 Company = Company,
-                Directories = new System.Collections.ObjectModel.ObservableCollection<string>(Directories),
                 DoAddFWRule = DoAddFWRule,
                 DoInstallPerUser = DoInstallPerUser,
                 ExeName = ExeName,
-                Files = new System.Collections.ObjectModel.ObservableCollection<string>(Files),
                 InstallerHeaderImage = InstallerHeaderImage,
                 UninstallerHeaderImage = UninstallerHeaderImage,
                 InstallerFileName = InstallerFileName,
@@ -129,6 +128,16 @@ namespace GeNSIS.Core.Models
                 Publisher = Publisher,
                 Url = Url,
             };
+
+            vm.Files = new System.Collections.ObjectModel.ObservableCollection<FileSystemItemVM>();
+            foreach (var f in Files)
+                vm.Files.Add(f.ToModelView());
+
+            vm.Sections = new System.Collections.ObjectModel.ObservableCollection<SectionVM>();
+            foreach (var s in Sections)
+                vm.Sections.Add(s.ToViewModel());
+
+            return vm;
         }
 
         public void UpdateValues(IAppData pAppData)
@@ -138,10 +147,8 @@ namespace GeNSIS.Core.Models
             AppVersion = pAppData.AppVersion;
             AssociatedExtension = pAppData.AssociatedExtension;
             Company = pAppData.Company;
-            Directories = pAppData.GetDirectories().ToList();
             DoInstallPerUser = pAppData.DoInstallPerUser;
             ExeName = pAppData.ExeName;
-            Files = pAppData.GetFiles().ToList();
             InstallerFileName = pAppData.InstallerFileName;
             InstallerHeaderImage = pAppData.InstallerHeaderImage;
             InstallerIcon = pAppData.InstallerIcon;
@@ -156,6 +163,14 @@ namespace GeNSIS.Core.Models
             UninstallerIcon = pAppData.UninstallerIcon;
             UninstallerWizardImage = pAppData.UninstallerWizardImage;
             Url = pAppData.Url;
+
+            Files.Clear();
+            foreach (var f in pAppData.GetFiles())
+                Files.Add(new FileSystemItem(f));
+
+            Sections.Clear();
+            foreach (var s in pAppData.GetSections())
+                Sections.Add(new Section(s));
         }
     }
 }

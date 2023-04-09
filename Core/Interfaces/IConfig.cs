@@ -17,12 +17,22 @@
 ****************************************************************************************/
 
 
-using GeNSIS.Core.Models;
+using System.Collections.Generic;
 
-namespace GeNSIS.Core.TextGenerators
+namespace GeNSIS.Core.Interfaces
 {
-    internal interface ITextGenerator
+    public interface IConfig
     {
-        string Generate(IAppData pAppData, TextGeneratorOptions pOptions);
+        string CompanyName { get; set; }
+        string Publisher { get; set; }
+        string Website { get; set; }
+        string GeNSISProjectsDirectory { get; set; }
+        string ScriptsDirectory { get; set; }
+        string InstallersDirectory { get; set; }
+        string NsisInstallationDirectory { get; set; }
+
+        List<string> GetLastProjects();
+        List<string> GetLastScripts();
+        void UpdateValues(IConfig pIAppConfig);
     }
 }

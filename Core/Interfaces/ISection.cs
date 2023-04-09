@@ -16,21 +16,13 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-
-using GeNSIS.Core.ViewModels;
-
-namespace GeNSIS.Core.Commands
+namespace GeNSIS.Core.Interfaces
 {
-    public class RemoveSelectedDirectoryCommand : ACommand
+    public interface ISection
     {
-        public RemoveSelectedDirectoryCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        string Name { get; set; }
+        string SourcePath { get; set; }
+        string TargetInstallDir { get; set; }
 
-        public override bool CanExecute(object parameter)
-            => parameter != null;
-
-        public override void Execute(object parameter)
-        {
-            AppDataViewModel.Sections.Remove((SectionVM)parameter);
-        }
     }
 }

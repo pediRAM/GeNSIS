@@ -25,7 +25,7 @@ namespace GeNSIS.Core.Commands
     {
         public AutoCreateInstallerNameCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
         public override bool CanExecute(object parameter)
-            => !string.IsNullOrWhiteSpace(AppDataViewModel.ExeName);
+            => AppDataViewModel.ExeName != null;
 
         public override void Execute(object parameter)
             => ExeInfoHelper.AutoGenerateInstallerName(AppDataViewModel);

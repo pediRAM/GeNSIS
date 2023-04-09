@@ -17,6 +17,7 @@
 ****************************************************************************************/
 
 
+using GeNSIS.Core.Interfaces;
 using System;
 
 namespace GeNSIS.Core.Converters
@@ -29,7 +30,16 @@ namespace GeNSIS.Core.Converters
             {
                 try
                 {
-                    return System.IO.Path.GetFileName((string)pValue);
+                    if (pValue is IFileSystemItem)
+                        return System.IO.Path.GetFileName(((IFileSystemItem)pValue).Path);
+
+                    else if (pValue is ISection)
+                        return ((ISection)pValue).Name;
+
+                    else if (pValue is string)
+                        return System.IO.Path.GetFileName((string)pValue);
+
+                    return "Unknown Type!";
                 }
                 catch (Exception ex)
                 {

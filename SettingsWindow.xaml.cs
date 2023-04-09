@@ -19,6 +19,7 @@
 
 namespace GeNSIS
 {
+    using GeNSIS.Core.Interfaces;
     using GeNSIS.Core.Models;
     using System.Windows;
     using System.Windows.Forms;

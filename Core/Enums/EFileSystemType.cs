@@ -16,21 +16,12 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-
-using GeNSIS.Core.ViewModels;
-
-namespace GeNSIS.Core.Commands
+namespace GeNSIS.Core.Enums
 {
-    public class RemoveSelectedDirectoryCommand : ACommand
+    public enum EFileSystemType
     {
-        public RemoveSelectedDirectoryCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
-
-        public override bool CanExecute(object parameter)
-            => parameter != null;
-
-        public override void Execute(object parameter)
-        {
-            AppDataViewModel.Sections.Remove((SectionVM)parameter);
-        }
+        None = 0,
+        Directory = 1,
+        File = 2,
     }
 }

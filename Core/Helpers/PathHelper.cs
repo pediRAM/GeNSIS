@@ -17,6 +17,7 @@
 ****************************************************************************************/
 
 
+using GeNSIS.Core.Interfaces;
 using GeNSIS.Core.Models;
 using System;
 
@@ -32,6 +33,7 @@ namespace GeNSIS.Core.Helpers
 
         public static string GetUserProgramFilesNsisDir()
             => Environment.GetFolderPath(Environment.SpecialFolder.Programs) + GConst.Nsis.SUBDIR;
+
         public static string GetMyDocuments()
             => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 

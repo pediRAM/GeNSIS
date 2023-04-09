@@ -60,7 +60,7 @@ namespace GeNSIS.Core
             if (p.Files.Count == 0) { pError = new ValidationError(nameof(AppData.Files), ERR_EMPTY_FILES, HINT_FILES); return false; }
 
             // There must be an exe file.
-            if (string.IsNullOrWhiteSpace(p.ExeName)) { pError = new ValidationError(nameof(AppData.ExeName), ERR_EMPTY_EXENAME, HINT_EXENAME); return false; }
+            if (string.IsNullOrWhiteSpace(p.ExeName.Path)) { pError = new ValidationError(nameof(AppData.ExeName), ERR_EMPTY_EXENAME, HINT_EXENAME); return false; }
 
             // We need an application-name for installation.
             if (string.IsNullOrWhiteSpace(p.AppName)) { pError = new ValidationError(nameof(AppData.AppName), ERR_EMPTY_APPNAME, HINT_APPNAME); return false; }

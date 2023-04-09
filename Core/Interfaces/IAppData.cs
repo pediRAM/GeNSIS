@@ -17,20 +17,50 @@
 ****************************************************************************************/
 
 
-using GeNSIS.Core.ViewModels;
+using System.Collections.Generic;
 
-namespace GeNSIS.Core.Commands
+namespace GeNSIS.Core.Interfaces
 {
-    public class RemoveSelectedDirectoryCommand : ACommand
+    public interface IAppData
     {
-        public RemoveSelectedDirectoryCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        string AppName { get; }
 
-        public override bool CanExecute(object parameter)
-            => parameter != null;
+        bool Is64BitApplication { get; }
 
-        public override void Execute(object parameter)
-        {
-            AppDataViewModel.Sections.Remove((SectionVM)parameter);
-        }
+        bool DoInstallPerUser { get; }
+        bool DoAddFWRule { get; }
+        IFileSystemItem ExeName { get; }       
+
+        string AssociatedExtension { get; }
+
+        string AppVersion { get; }
+
+        string AppBuild { get; }
+        bool DoCreateCompanyDir { get; }
+        string Arch { get; }
+        string MachineType { get; }
+
+        string Company { get; }
+
+        IFileSystemItem License { get; }
+
+        string Publisher { get; }
+
+        string Url { get; }
+
+        string InstallerFileName { get; }
+        string InstallerIcon { get; }
+        string InstallerHeaderImage { get; }
+        string InstallerWizardImage { get; }
+
+        string UninstallerIcon { get; }
+        string UninstallerHeaderImage { get; }
+        string UninstallerWizardImage { get; }
+
+        IEnumerable<IFileSystemItem> GetFiles();
+
+        IEnumerable<ISection> GetSections();
+
+        void UpdateValues(IAppData pAppData);
     }
 }
