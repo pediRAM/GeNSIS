@@ -142,10 +142,18 @@
 
                     <!-- Directories (List<Directory>) -->
                     <Label Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
-                    <ListBox x:Name="lsb_Directories"  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Directories}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
+                    <ListBox x:Name="lsb_Directories"  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Converter={conv:FilePathToNameConverter}}" ToolTip="{Binding}" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Width="16" Source="Resources/Icons/nuvola/22x22/kblackbox.png" />
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=Name}" Margin="5,2,2,2"/>
+                                </Grid>
+                                
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

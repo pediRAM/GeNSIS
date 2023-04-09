@@ -208,8 +208,8 @@ namespace GeNSIS.Core.TextGenerators
             else
             {
                 AddDefine("SETUP_EXE_NAME", m_AppData.InstallerFileName);
-                AddComment("Just in case you want to use the dynamic setup-naming:");
-                AddComment($"!define SETUP_EXE_NAME \"Setup_${{APP_NAME}}_${{APP_VERSION}}_${{APP_BUILD}}_${{APP_MACHINE_TYPE}}_${{APP_ARCH}}.exe\"");
+                //AddComment("Just in case you want to use the dynamic setup-naming:");
+                //AddComment($"!define SETUP_EXE_NAME \"Setup_${{APP_NAME}}_${{APP_VERSION}}_${{APP_BUILD}}_${{APP_MACHINE_TYPE}}_${{APP_ARCH}}.exe\"");
             }
         }
 

@@ -31,7 +31,8 @@ namespace GeNSIS.Core.Converters
     {
         public override object Convert(object pValue)
         {
-            if (pValue == null) return null;
+            if (pValue == null) 
+                return null;
             
             try
             {
@@ -67,8 +68,10 @@ namespace GeNSIS.Core.Converters
                 case ".zip": return CreateImage("application-x-zip.png");
 
                 case ".css":
-                case ".js":
-                case ".html": return CreateImage("application-xhtml+xml.png");
+                case ".js":                
+                case ".htm":
+                case ".html":
+                case ".xml": return CreateImage("application-xhtml+xml.png");
 
                 case ".pdf": return CreateImage("application-pdf.png");
 

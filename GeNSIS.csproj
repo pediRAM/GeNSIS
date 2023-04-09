@@ -296,6 +296,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\folder-orange.png" />
     <None Remove="Resources\Icons\nuvola\22x22\folder.png" />
     <None Remove="Resources\Icons\nuvola\22x22\help-about.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\kblackbox.png" />
     <None Remove="Resources\Icons\nuvola\22x22\kcmsystem.png" />
     <None Remove="Resources\Icons\nuvola\22x22\kcontrol.png" />
     <None Remove="Resources\Icons\nuvola\22x22\knotes.png" />
@@ -306,6 +307,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\project-open.png" />
     <None Remove="Resources\Icons\nuvola\22x22\source.png" />
     <None Remove="Resources\Icons\nuvola\22x22\template_source.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\text-x-moc.png" />
     <None Remove="Resources\Icons\nuvola\22x22\tools-wizard.png" />
     <None Remove="Resources\Icons\nuvola\22x22\tool_delete.png" />
     <None Remove="Resources\Icons\nuvola\22x22\txt.png" />
@@ -603,6 +605,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\folder-orange.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\folder.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\help-about.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\kblackbox.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\kcmsystem.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\kcontrol.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\knotes.png" />
@@ -613,6 +616,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\project-open.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\source.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\template_source.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\text-x-moc.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\tools-wizard.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\tool_delete.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\txt.png" />
