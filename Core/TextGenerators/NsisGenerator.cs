@@ -45,19 +45,21 @@ namespace GeNSIS.Core.TextGenerators
         private StringBuilder sb = new StringBuilder();
         private IAppData m_AppData = null;
         private TextGeneratorOptions m_Options = null;
+        private int ln = 0;
         #endregion Variables
 
 
         #region Methods
 
-        public bool IsCompanyDirEnabled() 
+        public bool IsCompanyDirEnabled()
             => (m_AppData.DoCreateCompanyDir && string.IsNullOrWhiteSpace(m_AppData.Company));
 
 
         #region NSIS Code Creation
-        
+
         public string Generate(IAppData pAppData, TextGeneratorOptions pOptions)
         {
+            ln = 1;
             sb.Clear();
             m_AppData = pAppData;
             m_Options = pOptions;
@@ -147,7 +149,7 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("For more information visit: https://github.com/pediRAM/GeNSIS");
             AddStripline();
             AddComment($"Copyright (C){DateTime.Now.Year} by {m_AppData.Publisher}");
-            AddEmptyLine();
+            AddEmptyComment();
             AddComment($"This script creates installer for: {m_AppData.AppName} {m_AppData.AppVersion}");
             AddStripline();
         }
@@ -513,39 +515,75 @@ namespace GeNSIS.Core.TextGenerators
         }
         #endregion NSIS Code Creation
 
+        #region Code Line Adding Methods
+        private void Add()
+        {
+            sb.AppendLine();
+            ln++;
+        }
 
-        private void Add() => sb.AppendLine();
+        private void Add(string s)
+        {
+            sb.AppendLine(s);
+            ln++;
+        }
 
-        private void Add(string s) => sb.AppendLine(s);
-
-        private void AddComment(string pCommentLine) 
-            => sb.AppendLine($"; {pCommentLine}");
+        private void AddComment(string pCommentLine)
+        {
+            sb.AppendLine($"; {pCommentLine}");
+            ln++;
+        }
 
         private void AddCommentBlock(IEnumerable<string> pCommentLines)
         {
-            foreach (var s in pCommentLines) 
+            foreach (var s in pCommentLines)
                 sb.AppendLine($"; {s}");
+            ln += pCommentLines.Count();
         }
 
-        private void AddEmptyLine() => sb.AppendLine(";");
+        private void AddEmptyComment()
+        {
+            sb.AppendLine(";");
+            ln++;
+        }
 
-        private void AddStripline(int pPadRight = STRIPLINE_LENGTH) 
-            => sb.AppendLine(";".PadRight(pPadRight, '-'));
+        private void AddStripline(int pPadRight = STRIPLINE_LENGTH)
+        {
+            sb.AppendLine(";".PadRight(pPadRight, '-'));
+            ln++;
+        }
 
-        private void AddDefine(string pVarName, string pValue) 
-            => sb.AppendLine($"!define {pVarName} \"{pValue}\"");
+        private void AddDefine(string pVarName, string pValue)
+        {
+            sb.AppendLine($"!define {pVarName} \"{pValue}\"");
+            ln++;
+        }
 
         private void AddDefine(string pVarName)
-            => sb.AppendLine($"!define {pVarName}");
+        {
+            sb.AppendLine($"!define {pVarName}");
+            ln++;
+        }
 
         private void AddLog(string pValue)
-            => sb.AppendLine($"!echo \"{pValue}\"");
+        {
+            sb.AppendLine($"!echo \"{pValue}\"");
+            ln++;
+        }
 
         private void AddInsertMacro(string pMacro, string pValue)
-            => sb.AppendLine($"!insertmacro {pMacro} \"{pValue}\"");
+        {
+            sb.AppendLine($"!insertmacro {pMacro} \"{pValue}\"");
+            ln++;
+        }
 
         private void AddInsertMacro(string pMacro)
-            => sb.AppendLine($"!insertmacro {pMacro}");
+        {
+            sb.AppendLine($"!insertmacro {pMacro}");
+            ln++;
+        }
+        #endregion Code Line Adding Methods
+
         #endregion Methods
     }
 }
