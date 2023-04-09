@@ -40,6 +40,7 @@ namespace GeNSIS.Core.ViewModels
         #region Variables
         private EFileSystemType m_FileSystemType;
         private string m_Path;
+        private string m_Name;
         #endregion Variables
 
 
@@ -51,14 +52,19 @@ namespace GeNSIS.Core.ViewModels
             Path = pPath;
 
             if (File.Exists(pPath))
+            {
                 FileSystemType = EFileSystemType.File;
+                Name = System.IO.Path.GetFileName(pPath);
+            }
             else if (Directory.Exists(pPath))
+            {
                 FileSystemType = EFileSystemType.Directory;
+                Name = System.IO.Path.GetFileName(pPath);
+            }
             else
                 FileSystemType = EFileSystemType.None;
-
-            
         }
+
         public FileSystemItemVM(IFileSystemItem pFileSystemItem) :this()
         {
             UpdateValues(pFileSystemItem);
@@ -90,17 +96,29 @@ namespace GeNSIS.Core.ViewModels
                 NotifyPropertyChanged(nameof(Path));
             }
         }
+
+        [XmlElement]
+        public string Name
+        {
+            get { return m_Name; }
+            set
+            {
+                if (value == m_Name) return;
+                m_Name = value;
+                NotifyPropertyChanged(nameof(Name));
+            }
+        }
         #endregion Properties
 
 
         #region Methods
         public FileSystemItem ToModel()
         {
-            // todo: check and review Clone() function!
             return new FileSystemItem
             {
                 FileSystemType = FileSystemType,
                 Path = Path,
+                Name = Name,
             };
         }
 
@@ -108,6 +126,7 @@ namespace GeNSIS.Core.ViewModels
         {
             FileSystemType = pFileSystemItem.FileSystemType;
             Path = pFileSystemItem.Path;
+            Name = pFileSystemItem.Name;
         }
 
         public static IEnumerable<FileSystemItemVM> From(IEnumerable<string> pFilePaths)

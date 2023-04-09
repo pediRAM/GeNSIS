@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:GeNSIS"
         xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
+        xmlns:enum="clr-namespace:GeNSIS.Core.Enums"
         mc:Ignorable="d"
         Height="680" Width="900">
     <Window.Resources>
@@ -80,7 +81,27 @@
                     <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files}" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Converter={conv:FilePathToNameConverter}}" ToolTip="{Binding}" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0">
+                                            <Image.Style>
+                                                <Style TargetType="{x:Type Image}">
+                                                <Setter Property="Source" Value="{Binding Path=Name, Converter={conv:FileExtensionToImageSourceConverter}}"/>
+                                                    <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=FileSystemType}" Value="{x:Static enum:EFileSystemType.Directory}">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="Source" Value="Resources/Icons/nuvola/22x22/folder.png"/>
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=Name}" Margin="5,2,2,2"/>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         <ListBox.ContextMenu>

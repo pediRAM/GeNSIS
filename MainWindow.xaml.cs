@@ -363,7 +363,7 @@ namespace GeNSIS
                 return;
 
             foreach(var dir in Directory.GetDirectories(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly)) 
-                AppData.Files.Add(new FileSystemItemVM { Path = dir, FileSystemType = Core.Enums.EFileSystemType.Directory });
+                AppData.Files.Add(new FileSystemItemVM(dir));
 
             foreach (var file in Directory.GetFiles(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly))
             {
@@ -372,7 +372,7 @@ namespace GeNSIS
                 try
                 {
 
-                    AppData.Files.Add(new FileSystemItemVM { Path = file, FileSystemType = Core.Enums.EFileSystemType.File });
+                    AppData.Files.Add(new FileSystemItemVM(file));
                     var ext = Path.GetExtension(file);
                     if (!string.IsNullOrWhiteSpace(ext))
                     {

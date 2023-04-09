@@ -34,15 +34,23 @@ namespace GeNSIS.Core.Models
     {
         #region Ctors
         public FileSystemItem() { }
+
         public FileSystemItem(string pPath) : this()
         {
             if (File.Exists(pPath))
+            {
                 FileSystemType = EFileSystemType.File;
+                Name = System.IO.Path.GetFileName(pPath);
+            }
             else if (Directory.Exists(pPath))
+            {
                 FileSystemType = EFileSystemType.Directory;
+                Name = System.IO.Path.GetFileName(pPath);
+            }
             else
                 FileSystemType = EFileSystemType.None;
         }
+
         public FileSystemItem(IFileSystemItem pFileSystemItem) : this()
         {
             UpdateValues(pFileSystemItem);
@@ -56,6 +64,9 @@ namespace GeNSIS.Core.Models
 
         [XmlElement]
         public string Path { get; set; }
+
+        [XmlElement]
+        public string Name { get; set; }
         #endregion Properties
 
 
@@ -66,6 +77,7 @@ namespace GeNSIS.Core.Models
             {
                 FileSystemType = FileSystemType,
                 Path = Path,
+                Name = Name,
             };
         }
 
@@ -74,7 +86,7 @@ namespace GeNSIS.Core.Models
 
             FileSystemType = pFileSystemItem.FileSystemType;
             Path = pFileSystemItem.Path;
-
+            Name = pFileSystemItem.Name;
         }
 
         public static IEnumerable<FileSystemItem> From(IEnumerable<string> pFilePaths)

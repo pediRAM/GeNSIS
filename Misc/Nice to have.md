@@ -12,17 +12,7 @@
 9.  Service in windows registrieren + deregistrieren
 10. Firewall-Rulename in windows einfügen + entfernen
 
-public static IEnumerable<FileSystemItem> ToEnumerableOfModels(IEnumerable<IFileSystemItem> items)
-            {
-                foreach (var item in items)
-                    yield return new FileSystemItem(item);
-            }
-
-            public static IEnumerable<FileSystemItemVM> ToEnumerableOfViewModels(IEnumerable<IFileSystemItem> items)
-            {
-                foreach (var item in items)
-                    yield return new FileSystemItemVM(item);
-            }
+# Converter die nicht mehr benötigt werden => Weg!
 
 MessageBox: https://nsis.sourceforge.io/Reference/MessageBox
 
