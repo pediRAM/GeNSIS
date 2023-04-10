@@ -340,7 +340,7 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Show welcome page:");
             AddInsertMacro("MUI_PAGE_WELCOME");
 
-            if ()
+            if (HasLicenseFile())
             {
                 AddComment("License file (*.txt|*.rtf):");
                 AddInsertMacro("MUI_PAGE_LICENSE", m_AppData.License.Path);
@@ -415,6 +415,7 @@ namespace GeNSIS.Core.TextGenerators
             {
                 Add($"Section \"Required\" SEC01");
             }
+
             Add("SetOutPath \"$INSTDIR\"");
             Add("SetOverwrite ifnewer");
             Add();
