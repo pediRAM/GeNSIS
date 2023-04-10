@@ -1,9 +1,8 @@
 ﻿
 # todo:
-1.  ~~COMPANY_NAME darf leer sein --> dann: 1. Kein Verzeichnis PGH (inst. + uninst.!)~~
-2.  ~~COMPANY_NAME ist nicht leer aber User möchte kein Verzeichnis extra erstellen~~ 
-3.  ~~ARCH und Bit32/64 und BUILD als properties ins IAppData und NSI-Script (als Variable) hinzufügen~~
-4.  ~~Wenn 3. erledigt --> Outfile erweitern (ist derzeit kommentiert)~~
+1. Beim Auto-Add-All-From-Folder: Verzeichnisse als Verzeichnis kopieren
+2. User muss sofort sehen wohin die Section kopiert wird
+3. Mit Pecopaliss kleines Test-Installer erstellen + Installieren und Deinstallieren TESTEN!
 4. ShortCut als eigene Sektion??? Alternativen? Optionen? TODO
 5.  Die Bilder von Installer unter Design TabItem erweitern
 6.  Doku in English + PDF + auf Github

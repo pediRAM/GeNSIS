@@ -25,7 +25,6 @@ namespace GeNSIS.Core.TextGenerators
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Text;
 
     public class NsisGenerator : ITextGenerator
@@ -52,8 +51,16 @@ namespace GeNSIS.Core.TextGenerators
 
         #region Methods
 
+        #region Help Methods
         public bool IsCompanyDirEnabled()
             => (m_AppData.DoCreateCompanyDir && string.IsNullOrWhiteSpace(m_AppData.Company));
+
+        public bool HasOptionalSections()
+            => (m_AppData.GetSections().Count() > 0);
+
+        public bool HasLicenseFile()
+            => !string.IsNullOrWhiteSpace(m_AppData.License.Path);
+        #endregion Help Methods
 
 
         #region NSIS Code Creation
@@ -333,14 +340,17 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Show welcome page:");
             AddInsertMacro("MUI_PAGE_WELCOME");
 
-            if (!string.IsNullOrWhiteSpace(m_AppData.License.Path))
+            if ()
             {
                 AddComment("License file (*.txt|*.rtf):");
                 AddInsertMacro("MUI_PAGE_LICENSE", m_AppData.License.Path);
             }
 
             AddInsertMacro("MUI_PAGE_DIRECTORY");
-            AddInsertMacro("MUI_PAGE_COMPONENTS");
+
+            if (HasOptionalSections())
+                AddInsertMacro("MUI_PAGE_COMPONENTS");
+
             AddInsertMacro("MUI_PAGE_INSTFILES");
             AddInsertMacro("MUI_PAGE_FINISH");
             AddInsertMacro("MUI_UNPAGE_INSTFILES");
@@ -394,25 +404,35 @@ namespace GeNSIS.Core.TextGenerators
 
         private void AddMainSection()
         {
-            //Add($"Section \"{m_AppData.AppName}\" SEC01");
-            Add($"Section !Required");
-            Add("SectionIn RO");
+            AddComment("Main Section (first component/section), which is mandatory. This means:");
+            AddComment("user cannot unselect this component/section (if there are two or more).");
+            if (HasOptionalSections())
+            {
+                Add($"Section !Required");
+                Add("SectionIn RO");
+            }
+            else
+            {
+                Add($"Section \"Required\" SEC01");
+            }
             Add("SetOutPath \"$INSTDIR\"");
             Add("SetOverwrite ifnewer");
             Add();
 
-            //if (m_AppData.GetDirectories().Any())
-            //{
-            //    AddComment("Add directories recursively (remove /r for non-recursively):");
-            //    foreach (var s in m_AppData.GetDirectories())
-            //        Add($"File /r \"{s}\"");
-            //    AddStripline();
-            //    Add();
-            //}
+            if (m_AppData.GetFiles().Any(x => x.FileSystemType == Enums.EFileSystemType.Directory))
+            {
+                AddComment("Add directories recursively (remove /r for non-recursively):");
+                foreach (var s in m_AppData.GetFiles().Where(s => s.FileSystemType == Enums.EFileSystemType.Directory))
+                    Add($"File /r \"{s}\"");
+                AddStripline();
+                Add();
+            }
 
             AddComment("Add files:");
-            foreach (var s in m_AppData.GetFiles())
+            foreach (var s in m_AppData.GetFiles().Where(s => s.FileSystemType == Enums.EFileSystemType.File))
+            {
                 Add($"File \"{s}\"");
+            }
             AddStripline();
             Add();
 
