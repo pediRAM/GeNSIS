@@ -30,7 +30,7 @@ namespace GeNSIS.Core.Commands
 
         public override void Execute(object parameter)
         {
-            AppDataViewModel.Sections.Remove((SectionVM)parameter);
+            AppDataViewModel.Sections.Remove(parameter as SectionVM);
         }
     }
 }

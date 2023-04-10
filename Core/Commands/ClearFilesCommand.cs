@@ -29,7 +29,8 @@ namespace GeNSIS.Core.Commands
 
         public override void Execute(object parameter)
         {
-            AppDataViewModel.Files.Clear();
+            AppDataViewModel.Files.Clear();            
+
             AppDataViewModel.ExeName = null;
             AppDataViewModel.License = null;
             AppDataViewModel.InstallerIcon = null;

@@ -27,9 +27,20 @@ namespace GeNSIS.Core.Commands
         public SetLicenseFileCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
-            => (parameter != null && 
-            (Path.GetExtension((string)parameter).Equals(".rtf", System.StringComparison.OrdinalIgnoreCase) || 
-            Path.GetExtension((string)parameter).Equals(".txt", System.StringComparison.OrdinalIgnoreCase)));
+        {
+            if (parameter == null) 
+                return false;
+
+            var fsi = (parameter as FileSystemItemVM);
+            if (fsi.FileSystemType != Enums.EFileSystemType.File)
+                return false;
+
+            var fileExtension = Path.GetExtension(fsi.Name);
+            
+            return 
+                fileExtension.Equals(".rtf", System.StringComparison.OrdinalIgnoreCase) ||
+                fileExtension.Equals(".txt", System.StringComparison.OrdinalIgnoreCase);
+        }
 
         public override void Execute(object parameter)
         {

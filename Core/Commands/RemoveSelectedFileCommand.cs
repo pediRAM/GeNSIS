@@ -30,8 +30,9 @@ namespace GeNSIS.Core.Commands
 
         public override void Execute(object parameter)
         {
-            FileSystemItemVM fsi = (FileSystemItemVM)parameter;
+            var fsi = parameter as FileSystemItemVM;
             AppDataViewModel.Files.Remove(fsi);
+
             if (AppDataViewModel.License != null && AppDataViewModel.License.Path == fsi.Path) AppDataViewModel.License = null;
             if (AppDataViewModel.ExeName != null && AppDataViewModel.ExeName.Path == fsi.Path) AppDataViewModel.ExeName = null;
             if (AppDataViewModel.InstallerIcon == fsi.Path) AppDataViewModel.InstallerIcon = null;

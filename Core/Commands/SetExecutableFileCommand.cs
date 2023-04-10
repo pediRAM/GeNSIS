@@ -17,6 +17,7 @@
 ****************************************************************************************/
 
 
+
 using GeNSIS.Core.ViewModels;
 using System.IO;
 
@@ -27,11 +28,11 @@ namespace GeNSIS.Core.Commands
         public SetExecutableFileCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
-            => (parameter != null && Path.GetExtension((string)parameter).Equals(".exe", System.StringComparison.OrdinalIgnoreCase));
+            => (parameter != null && Path.GetExtension((parameter as FileSystemItemVM).Name).Equals(".exe", System.StringComparison.OrdinalIgnoreCase));
 
         public override void Execute(object parameter)
         {
-            AppDataViewModel.ExeName = (FileSystemItemVM)parameter;
+            AppDataViewModel.ExeName = parameter as FileSystemItemVM;
         }
     }
 }
