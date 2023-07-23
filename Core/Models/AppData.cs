@@ -40,7 +40,7 @@ namespace GeNSIS.Core.Models
         [XmlElement]
         public string AppName { get; set; }
 
-        [XmlElement]
+        [XmlElement(typeof(FileSystemItem))]        
         public IFileSystemItem ExeName { get; set; }
 
         [XmlElement]
@@ -64,7 +64,7 @@ namespace GeNSIS.Core.Models
         [XmlElement]
         public string Company { get; set; }
 
-        [XmlElement]
+        [XmlElement(typeof(FileSystemItem))]
         public IFileSystemItem License { get; set; }
 
         [XmlElement]
@@ -74,6 +74,7 @@ namespace GeNSIS.Core.Models
         public string Url { get; set; }
 
         [XmlArray]
+        [XmlArrayItem(typeof(FileSystemItem))]
         public List<FileSystemItem> Files { get; set; } = new List<FileSystemItem>();
 
         [XmlArray]
@@ -84,6 +85,7 @@ namespace GeNSIS.Core.Models
 
         [XmlElement]
         public string InstallerIcon { get; set; }
+
         [XmlElement]
         public string InstallerHeaderImage { get; set; }
 
@@ -92,6 +94,7 @@ namespace GeNSIS.Core.Models
 
         [XmlElement]
         public string UninstallerIcon { get; set; }
+
         [XmlElement]
         public string UninstallerHeaderImage { get; set; }
 

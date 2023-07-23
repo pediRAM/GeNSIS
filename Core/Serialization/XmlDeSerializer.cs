@@ -19,9 +19,11 @@
 
 namespace GeNSIS.Core.Serialization
 {
+    using ExtendedXmlSerializer;
+    using ExtendedXmlSerializer.Configuration;
     using GeNSIS.Core.Models;
     using System.IO;
-    using System.Xml.Serialization;
+    using System.Xml;
 
     class XmlDeSerializer : IDeSerializer
     {
@@ -30,28 +32,18 @@ namespace GeNSIS.Core.Serialization
         public string Extension => ".xml";
 
         public Project ToProject(string pModelString)
-        {
-            Project project = null;
-            var xmlSerializer = new XmlSerializer(typeof(Project));
-
-            using (var stringReader = new StringReader(pModelString))
-            {
-                project = (Project)xmlSerializer.Deserialize(stringReader);
-            }
-            return project;
-        }
+            => GetExtendedSerializer().Deserialize<Project>(pModelString);
 
         public string ToString(Project project)
-        {
-            var xmlString = string.Empty;
-            var xmlSerializer = new XmlSerializer(typeof(Project));
+            => GetExtendedSerializer().Serialize(new XmlWriterSettings { Indent = true }, project);
 
-            using (var stringWriter = new StringWriter())
-            {
-                xmlSerializer.Serialize(stringWriter, project);
-                xmlString = stringWriter.ToString();
-            }
-            return xmlString;
+        private IExtendedXmlSerializer GetExtendedSerializer()
+        {
+            return new ConfigurationContainer()
+                .UseAutoFormatting()
+                .UseOptimizedNamespaces()
+                .EnableImplicitTyping(typeof(Project))
+                .Create();
         }
     }
 }

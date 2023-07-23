@@ -18,13 +18,13 @@
 
 namespace GeNSIS.Core.Commands
 {
-    internal class ResetInstallerNameCommand : ACommand
+    internal class ClearInstallerNameCommand : ACommand
     {
-        public ResetInstallerNameCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        public ClearInstallerNameCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter) => true;
 
         public override void Execute(object parameter)
-            => AppDataViewModel.InstallerFileName = GConst.Default.INSTALLER_FILENAME;
+            => AppDataViewModel.InstallerFileName = null;
     }
 }

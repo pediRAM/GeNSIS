@@ -54,7 +54,7 @@ namespace GeNSIS.Core.Helpers
 
 
         internal MessageBoxResult ShowUnsavedChangesByClosingAppWarning()
-            => ShowWarn("Closing GeNSIS", "Unsaved changes will be lost if you close the application!\nAre you sure you want to create a new project?");
+            => ShowWarn("Closing GeNSIS", "Unsaved changes will be lost if you close the application!\nAre you sure you want to close GeNSIS?");
 
         internal MessageBoxResult ShowSaveSettingChangesQuestion()
             => ShowQuestion("Save settings changes", "Some settings has been changed.\nDo you want to save settings?");

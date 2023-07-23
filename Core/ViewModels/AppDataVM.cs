@@ -411,7 +411,7 @@ namespace GeNSIS.Core
             AssociatedExtension = pAppData.AssociatedExtension;
             Company = pAppData.Company;
             DoInstallPerUser = pAppData.DoInstallPerUser;
-            ExeName = new FileSystemItemVM(pAppData.ExeName);
+            ExeName = (pAppData.ExeName == null) ? new FileSystemItemVM() : new FileSystemItemVM(pAppData.ExeName);
             InstallerHeaderImage = pAppData.InstallerHeaderImage;
             UninstallerHeaderImage = pAppData.UninstallerHeaderImage;
             InstallerFileName = pAppData.InstallerFileName;
@@ -423,7 +423,7 @@ namespace GeNSIS.Core
             DoCreateCompanyDir = pAppData.DoCreateCompanyDir;
             Arch = pAppData.Arch;
             MachineType = pAppData.MachineType;
-            License = new FileSystemItemVM(License);
+            License = (pAppData.License == null) ? new FileSystemItemVM() : new FileSystemItemVM(pAppData.License);
             Publisher = pAppData.Publisher;
             Url = pAppData.Url;
 
@@ -456,6 +456,7 @@ namespace GeNSIS.Core
             set => m_RemoveSelectedFileCommand = value;
         }
 
+
         private ICommand m_RemoveSelectedDirectoryCommand;
         public ICommand RemoveSelectedDirectoryCommand
         {
@@ -466,6 +467,7 @@ namespace GeNSIS.Core
             }
             set => m_RemoveSelectedDirectoryCommand = value;
         }
+
 
         private ICommand m_ClearFilesCommand;
         public ICommand ClearFilesCommand
@@ -478,6 +480,7 @@ namespace GeNSIS.Core
             set => m_ClearFilesCommand = value;
         }
 
+
         private ICommand m_SetLicenseFileCommand;
         public ICommand SetLicenseFileCommand
         {
@@ -488,6 +491,7 @@ namespace GeNSIS.Core
             }
             set => m_SetLicenseFileCommand = value;
         }
+
 
         private ICommand m_SetExecutableFileCommand;
         public ICommand SetExecutableFileCommand
@@ -500,6 +504,7 @@ namespace GeNSIS.Core
             set => m_SetExecutableFileCommand = value;
         }
 
+
         private ICommand m_SetIconFileCommand;
         public ICommand SetIconFileCommand
         {
@@ -510,6 +515,7 @@ namespace GeNSIS.Core
             }
             set => m_SetIconFileCommand = value;
         }
+
 
         private ICommand m_AutoRetrieveExeDataCommand;
         public ICommand AutoRetrieveExeDataCommand
@@ -522,6 +528,7 @@ namespace GeNSIS.Core
             set => m_AutoRetrieveExeDataCommand = value;
         }
 
+
         private ICommand m_AutoCreateInstallerNameCommand;
         public ICommand AutoCreateInstallerNameCommand
         {
@@ -533,6 +540,7 @@ namespace GeNSIS.Core
             set => m_AutoCreateInstallerNameCommand = value;
         }
 
+
         private ICommand m_ResetInstallerNameCommand;
         public ICommand ResetInstallerNameCommand
         {
@@ -542,6 +550,18 @@ namespace GeNSIS.Core
                 return m_ResetInstallerNameCommand;
             }
             set => m_ResetInstallerNameCommand = value;
+        }
+
+
+        public ICommand m_ClearInstallerNameCommand;
+        public ICommand ClearInstallerNameCommand
+        {
+            get
+            {
+                m_ClearInstallerNameCommand ??= new ClearInstallerNameCommand(this);
+                return m_ClearInstallerNameCommand;
+            }
+            set => m_ClearInstallerNameCommand = value;
         }
         #endregion Commands
     }

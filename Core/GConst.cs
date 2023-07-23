@@ -16,8 +16,6 @@
 * If not, see <https://www.gnu.org/licenses/>.                                         *
 ****************************************************************************************/
 
-using System.CodeDom;
-
 namespace GeNSIS.Core
 {
     internal static class GConst

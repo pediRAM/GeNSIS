@@ -275,7 +275,7 @@
                     <CheckBox  Grid.Row="1" Grid.Column="1" IsChecked="{Binding DoInstallPerUser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource checkbox_input}" />
 
                     <!-- DoCreateCompanyDir (bool) -->
-                    <Label    Grid.Row="2" Grid.Column="0" Content="Create nested company directory:" Style="{StaticResource label_input}" />
+                    <Label    Grid.Row="2" Grid.Column="0" Content="Nest in company directory:" Style="{StaticResource label_input}" />
                     <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding DoCreateCompanyDir}" Style="{StaticResource checkbox_input}" />
                     
                     <!-- DoAddFirewallRule (bool) -->
@@ -287,8 +287,9 @@
                     <Label      Grid.Row="6" Grid.Column="0" Content="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource label_input}" />
                     <TextBox    Grid.Row="6" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" Width="300" />
                     <StackPanel Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Button Content="Reset"  Command="{Binding ResetInstallerNameCommand}"      Style="{StaticResource button_command}"/>
-                        <Button Content="Static" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_command}"/>
+                        <Button Content="Reset"  Command="{Binding ResetInstallerNameCommand}"      Style="{StaticResource button_sort}"/>
+                        <Button Content="Static" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_sort}"/>
+                        <Button Content="Clear" Command="{Binding ClearInstallerNameCommand}"       Style="{StaticResource button_sort}"/>
                     </StackPanel>
                     
                     <Rectangle Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
@@ -528,7 +529,7 @@
         <Border Grid.Row="3" Grid.ColumnSpan="10" BorderBrush="DarkGray" BorderThickness="1" Background="#f0f0f0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
 
-                <Label     Content="App.:" Style="{StaticResource label_statusbar}" />
+                <Label     Content="Application Name:" Style="{StaticResource label_statusbar}" />
                 <TextBlock Text="{Binding AppName}" Style="{StaticResource textblock_statusbar}" />
                 <Rectangle Style="{StaticResource vert_line_statusbar}" />
 
@@ -536,7 +537,7 @@
                 <TextBlock Text="{Binding ElementName=lsb_Files, Path=Items.Count}" Style="{StaticResource textblock_statusbar}" />
                 <Rectangle Style="{StaticResource vert_line_statusbar}" />
 
-                <Label     Content="Folders:" Style="{StaticResource label_statusbar}" />
+                <Label     Content="Components (Folders):" Style="{StaticResource label_statusbar}" />
                 <TextBlock Text="{Binding ElementName=lsb_Directories, Path=Items.Count}" Style="{StaticResource textblock_statusbar}" />
                 <Rectangle Style="{StaticResource vert_line_statusbar}" />
 

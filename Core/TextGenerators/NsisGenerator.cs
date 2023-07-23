@@ -46,6 +46,7 @@ namespace GeNSIS.Core.TextGenerators
         private IAppData m_AppData = null;
         private TextGeneratorOptions m_Options = null;
         private int ln = 0;
+        private string m_FileExtension = null;
         #endregion Variables
 
 
@@ -59,7 +60,7 @@ namespace GeNSIS.Core.TextGenerators
             => (m_AppData.GetSections().Count() > 0);
 
         public bool HasLicenseFile()
-            => !string.IsNullOrWhiteSpace(m_AppData.License.Path);
+            => (m_AppData.License != null && !string.IsNullOrWhiteSpace(m_AppData.License.Path));
         #endregion Help Methods
 
 
@@ -77,6 +78,15 @@ namespace GeNSIS.Core.TextGenerators
            
             var totalDirSize = pAppData.GetSections().Sum(x => new DirectoryInfo(x.SourcePath).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
             bool isOver16Mb = (totalDirSize + totalDirSize) > (ZLIB_SIZE_LIMIT);
+
+            // Does file extension (if any) start with '.'?
+            if (!string.IsNullOrWhiteSpace(m_AppData.AssociatedExtension))
+            {
+                if (m_AppData.AssociatedExtension.StartsWith('.'))
+                    m_FileExtension = m_AppData.AssociatedExtension;
+                else
+                    m_FileExtension = $".{m_AppData.AssociatedExtension}";
+            }
 
             AddCommentHeader();
             Add();
@@ -193,6 +203,13 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Machine type of Application:");
             AddDefine("APP_MACHINE_TYPE", m_AppData.MachineType);
             Add();
+
+            if (m_FileExtension != null)
+            {
+                AddComment("File extension associated to Application:");
+                AddDefine("FILE_EXTENSION", m_FileExtension);
+                Add();
+            }
 
             AddComment("Application Publisher (company, organisation, author):");
             AddDefine("APP_PUBLISHER", m_AppData.Publisher);
@@ -424,7 +441,7 @@ namespace GeNSIS.Core.TextGenerators
             {
                 AddComment("Add directories recursively (remove /r for non-recursively):");
                 foreach (var s in m_AppData.GetFiles().Where(s => s.FileSystemType == Enums.EFileSystemType.Directory))
-                    Add($"File /r \"{s}\"");
+                    Add($"File /r \"{s.Path}\"");
                 AddStripline();
                 Add();
             }
@@ -432,16 +449,29 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Add files:");
             foreach (var s in m_AppData.GetFiles().Where(s => s.FileSystemType == Enums.EFileSystemType.File))
             {
-                Add($"File \"{s}\"");
+                Add($"File \"{s.Path}\"");
             }
             AddStripline();
             Add();
+
+            if (m_FileExtension != null)
+            {
+                AddComment("Create association of file extension to application:");
+                Add(@"WriteRegStr HKCR ""${FILE_EXTENSION}"" """" ""${APP_NAME}""");
+                Add(@"WriteRegStr HKCR ""${APP_NAME}"" """" ""${APP_NAME} File""");
+                Add(@"WriteRegStr HKCR ""${APP_NAME}\DefaultIcon"" """" ""$INSTDIR\${APP_EXE_NAME},0""");
+                Add(@"WriteRegStr HKCR ""${APP_NAME}\Shell\Open\Command"" """" ""$\""$INSTDIR\${APP_EXE_NAME}$\"" $\""%1$\""""");
+                AddStripline();
+                Add();
+            }
 
             AddComment("Create shortcuts on Desktop and Programs menu.");
             Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add("SectionEnd");
         }
+
+
         private int m_SectionCounter = 1;
         private void AddSections()
         {
@@ -535,10 +565,15 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Deleting registration keys:");
             Add("DeleteRegKey ${UNINST_ROOT_KEY} \"${UNINST_KEY}\"");
 
+            if (m_FileExtension != null)
+                Add(@"DeleteRegKey ${UNINST_ROOT_KEY} ""${FILE_EXTENSION}""");
+
             if (m_AppData.DoCreateCompanyDir && !string.IsNullOrWhiteSpace(m_AppData.Company))
                 Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${COMPANY_NAME}\\${APP_NAME}\"");
             else
                 Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${APP_NAME}\"");
+
+            Add(@"DeleteRegKey ${UNINST_ROOT_KEY} ""${APP_NAME}""");
 
             Add();
             Add("SetAutoClose true");

@@ -28,6 +28,7 @@
       <Word>APP_URL</Word>
       <Word>APP_VERSION</Word>
       <Word>COMPANY_NAME</Word>
+      <Word>FILE_EXTENSION</Word>
       <Word>SETUP_EXE_NAME</Word>
       <Word>UNINST_KEY</Word>
       <Word>UNINST_ROOT_KEY</Word>

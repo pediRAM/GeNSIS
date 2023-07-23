@@ -1,6 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit">
+
+    <sys:Double x:Key="Radius">2.5</sys:Double>
+    <CornerRadius x:Key="RoundCorner" 
+                  TopLeft="{StaticResource ResourceKey=Radius}"
+                  TopRight="{StaticResource ResourceKey=Radius}"
+                  BottomLeft="{StaticResource ResourceKey=Radius}"
+                  BottomRight="{StaticResource ResourceKey=Radius}"/>
 
     <Style x:Key="label_tabitem" TargetType="TabItem">
         <Setter Property="Padding" Value="15,5,25,5" />
@@ -47,7 +55,7 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Style.Resources>
             <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="2"/>
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
             </Style>
         </Style.Resources>
     </Style>
@@ -63,7 +71,7 @@
         <Setter Property="IsThreeState" Value="False" />
         <Style.Resources>
             <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="2"/>
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
             </Style>
         </Style.Resources>
     </Style>
@@ -74,7 +82,7 @@
         <Setter Property="Margin" Value="5" />
         <Style.Resources>
             <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
             </Style>
         </Style.Resources>
     </Style>
@@ -89,7 +97,7 @@
         <Setter Property="Margin" Value="5" />
         <Style.Resources>
             <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
             </Style>
         </Style.Resources>
     </Style>
@@ -97,7 +105,7 @@
     <Style x:Key="border_icon" TargetType="Border">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="BorderThickness" Value="0.2"/>
-        <Setter Property="CornerRadius" Value="2"/>
+        <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="Margin" Value="5" />
     </Style>
@@ -109,7 +117,7 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Style.Resources>
             <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="2"/>
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
             </Style>
         </Style.Resources>
     </Style>
@@ -128,7 +136,7 @@
         <Setter Property="Margin" Value="5"/>
         <Style.Resources>
             <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="2"/>
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
             </Style>
         </Style.Resources>
     </Style>
