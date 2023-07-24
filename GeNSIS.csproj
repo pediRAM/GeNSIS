@@ -329,7 +329,7 @@
     </Content>
     <Content Include="Misc\GeNSIS_mini_icon_white.ico" />
     <Content Include="nlog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -650,6 +650,7 @@
 
   <ItemGroup>
     <Folder Include="Core\UserInterfaces\" />
+    <Folder Include="Misc\Images\" />
   </ItemGroup>
 
 </Project>
