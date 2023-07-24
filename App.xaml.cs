@@ -62,7 +62,7 @@ namespace GeNSIS
             {
                 System.Reflection.AssemblyName assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName();
                 message = string.Format("Unhandled exception in {0} v{1}", assemblyName.Name, assemblyName.Version);
-                Log.Fatal(message);
+                Log.Fatal($"Unhandled exception ({source})");
             }
             catch (Exception ex)
             {

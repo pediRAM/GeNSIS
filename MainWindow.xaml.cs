@@ -34,7 +34,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
@@ -80,8 +79,8 @@ namespace GeNSIS
 
         #region Ctor
         public MainWindow()
-        {            
-            AppData = new AppDataVM(true);
+        {
+            CreateAppData();
             m_Storage.Put<IAppData>(AppData);
 
             InitializeComponent();
@@ -94,9 +93,29 @@ namespace GeNSIS
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
             m_SaveScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
             m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
+
             InitLanguages();
             m_Storage.Put<ObservableCollection<Language>>(LangDst);
-            DataContext = AppData;
+            DataContext = AppData;            
+        }
+
+        private void CreateAppData()
+        {
+            var args = Environment.GetCommandLineArgs();
+            if (args == null || args.Length < 2)
+                AppData = new AppDataVM(true);
+            else
+            {
+                try
+                {
+                    if (File.Exists(args[1]))
+                        LoadProject(args[1]);
+                }
+                catch(Exception ex)
+                {
+                    Log.Error(ex);
+                }
+            }
         }
 
         private void InitLanguages()
@@ -448,7 +467,7 @@ namespace GeNSIS
 
         private void OnOpenProjectClicked(object sender, RoutedEventArgs e)
         {
-            if(AppData.HasUnsavedChanges)
+            if (AppData.HasUnsavedChanges)
             {
                 if (m_MsgBoxMgr.ShowUnsavedChangesByOpenProjectWarning() != MessageBoxResult.Yes)
                     return;
@@ -459,7 +478,12 @@ namespace GeNSIS
             if (m_OpenFilesDialog.ShowDialog() != true)
                 return;
 
-            var appData = m_ProjectManager.Load(m_OpenFilesDialog.FileName).AppData;
+            LoadProject(m_OpenFilesDialog.FileName);
+        }
+
+        private void LoadProject(string pPathToProjectFile)
+        {
+            var appData = m_ProjectManager.Load(pPathToProjectFile).AppData;
             AppData.UpdateValues(appData);
             ResetScriptAndPath();
         }
