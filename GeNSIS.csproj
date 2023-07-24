@@ -20,6 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="LICENSE.TXT" />
     <None Remove="nlog.config" />
     <None Remove="Resources\Files\nsis.xshd" />
     <None Remove="Resources\Icons\Flags\ad.png" />
@@ -323,6 +324,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="LICENSE.TXT">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Misc\GeNSIS_mini_icon_white.ico" />
     <Content Include="nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
