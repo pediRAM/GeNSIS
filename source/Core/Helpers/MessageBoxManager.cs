@@ -81,5 +81,9 @@ namespace GeNSIS.Core.Helpers
                 "1. Continue without NSIS compiler (YES)\n" +
                 "2. Exit and install NSIS3 first then restart GeNSIS (NO)\n" +
                 "\nDo you want to continue withouth compilation ability?");
+
+        internal MessageBoxResult ShowContentFileNotFoundError(string pFilePath)
+            => ShowError("File not found!",
+                $"Missing content file: \"{pFilePath}\"!\nPlease copy the file to the folder, then try again!");
     }
 }

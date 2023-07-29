@@ -316,9 +316,13 @@ namespace GeNSIS
                 editor.Text = nsisCode;
                 tabItem_Editor.IsSelected = true;
             }
+            catch(FileNotFoundException fnfEx)
+            {
+                m_MsgBoxMgr.ShowContentFileNotFoundError(fnfEx.FileName);
+            }
             catch(Exception ex)
             {
-                m_MsgBoxMgr.ShowError("Error!", ex.ToString());
+                m_MsgBoxMgr.ShowError("Unexpected error!", $"Error message:\n{ex.Message}\n{ex.StackTrace[0]}");
             }
         }
 
