@@ -1,16 +1,16 @@
 
 - [About](#about)
 - [Dependencies](#dependencies)
-- [Step by Step Tutorial](#Step by Step Tutorial)
-- [Application Files and Folders](#Application-Files-and-Folders)
-- [Application and Publisher](#Application-and-Publisher)
-- [Installer](#Installer)
-- [Design](#Design)
-- [Generating the Script](#Generating-the-Script)
-- [Compiling the Script](#Compiling-the-Script)
-- [Testing the Installer](#Testing-the-Installer)
-- [Saving the Project](#Saving-the-Project)
-- [NSIS Script Code Example](#NSIS-Script-Code-Example)
+- [Step by Step Tutorial](#step-by-step-tutorial)
+- [Application Files and Folders](#application-files-and-folders)
+- [Application and Publisher](#application-and-publisher)
+- [Installer](#installer)
+- [Design](#design)
+- [Generating the Script](#generating-the-script)
+- [Compiling the Script](#compiling-the-script)
+- [Testing the Installer](#testing-the-installer)
+- [Saving the Project](#saving-the-project)
+- [NSIS Script Code Example](#nsis-script-code-example)
 
 # About
 **GE**nerate **NSIS** is a RAD tool that takes over the writing of the NSIS script for you. 
