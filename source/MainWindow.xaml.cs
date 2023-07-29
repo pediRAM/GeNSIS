@@ -494,11 +494,27 @@ namespace GeNSIS
             if (m_OpenScriptDialog.ShowDialog() != true)
                 return;
 
-            editor.Text = File.ReadAllText(m_OpenScriptDialog.FileName, System.Text.Encoding.UTF8);
-            tabItem_Editor.IsSelected = true;
-            PathToGeneratedNsisScript = m_OpenScriptDialog.FileName;
+            LoadScriptFromFile(m_OpenScriptDialog.FileName);
         }
-#endregion Open/Save Script
+
+        private void LoadScriptFromFile(string pScriptPath)
+        {
+            try
+            {
+                editor.Text = File.ReadAllText(pScriptPath, Encoding.UTF8);
+                tabItem_Editor.IsSelected = true;
+                PathToGeneratedNsisScript = m_OpenScriptDialog.FileName;
+            }
+            catch(FileNotFoundException fnfEx)
+            {
+                m_MsgBoxMgr.ShowScriptNotFoundError(fnfEx.FileName);
+            }
+            catch(Exception ex)
+            {
+                m_MsgBoxMgr.ShowException(ex);
+            }
+        }
+        #endregion Open/Save Script
 
         #region Desing (Icons & Images)
         private void OnLoadIconClicked(object sender, RoutedEventArgs e)
@@ -807,9 +823,25 @@ namespace GeNSIS
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                var files = e.Data.GetData(DataFormats.FileDrop) as IEnumerable<string>;
+                IEnumerable<string> files = e.Data.GetData(DataFormats.FileDrop) as IEnumerable<string>;
                 if (files != null)
                     AppData.AddFiles(files);
+            }
+        }
+
+        private void OnScriptDropped(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] paths = e.Data.GetData(DataFormats.FileDrop) as string[];
+                foreach (string path in paths)
+                {
+                    if (Path.GetExtension(paths[0]).Equals(".nsi", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        LoadScriptFromFile(path);
+                        return;
+                    }
+                }
             }
         }
     }

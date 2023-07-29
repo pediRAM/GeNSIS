@@ -26,6 +26,9 @@ namespace GeNSIS.Core.Helpers
     {
         internal MessageBoxResult ShowError(string pTitle, string pMessage, MessageBoxButton pButtons = MessageBoxButton.OK, MessageBoxImage pImage = MessageBoxImage.Error)
             => MessageBox.Show(pMessage, pTitle, pButtons, pImage);
+
+        internal MessageBoxResult ShowException(Exception pEx)
+            => ShowError($"Unexpected error: {pEx.GetType().Name}", $"Error message:\n{pEx.Message}\n{pEx.StackTrace[0]}");
         internal MessageBoxResult ShowInfo(string pTitle, string pMessage, MessageBoxButton pButtons = MessageBoxButton.OK, MessageBoxImage pImage = MessageBoxImage.Information)
             => MessageBox.Show(pMessage, pTitle, pButtons, pImage);
         internal MessageBoxResult ShowWarn(string pTitle, string pMessage, MessageBoxButton pButtons = MessageBoxButton.YesNo, MessageBoxImage pImage = MessageBoxImage.Warning)
@@ -75,7 +78,7 @@ namespace GeNSIS.Core.Helpers
             => ShowQuestion("Select directory manually", "NSIS installation directory not found!\nDo you want to browse and select it by yourself?", MessageBoxButton.YesNoCancel);
 
         internal MessageBoxResult ShowContinueWithoutNsisWarning()
-            => ShowWarn("Missing NSIS compiler!", 
+            => ShowWarn("Missing NSIS compiler!",
                 "NSIS compiler not found!\n" +
                 "You have two options:\n" +
                 "1. Continue without NSIS compiler (YES)\n" +
@@ -85,5 +88,8 @@ namespace GeNSIS.Core.Helpers
         internal MessageBoxResult ShowContentFileNotFoundError(string pFilePath)
             => ShowError("File not found!",
                 $"Missing content file: \"{pFilePath}\"!\nPlease copy the file to the folder, then try again!");
+
+        internal MessageBoxResult ShowScriptNotFoundError(string pFilePath)
+            => ShowError("File/Script not found!", $"Script/File: \"{pFilePath}\" was not found!");
     }
 }

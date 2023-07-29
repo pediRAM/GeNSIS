@@ -507,7 +507,7 @@
                         </MenuItem>
                     </Menu>-->
                     <!-- Editor -->
-                    <avl:TextEditor x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource editor}" >
+                    <avl:TextEditor x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource editor}" AllowDrop="True" Drop="OnScriptDropped">
                         <avl:TextEditor.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Remove empty or comment lines" Click="OnRemoveEmptyLinesAndCommentsClicked" />
