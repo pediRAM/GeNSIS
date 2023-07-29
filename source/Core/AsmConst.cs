@@ -22,8 +22,8 @@ namespace GeNSIS.Core
     public static class AsmConst
     {
         public const string MODEL_VERSION = "1.0";
-        public const string VERSION = "0.1";
-        public const string BUILD = " Beta";
+        public const string VERSION = "0.2";
+        public const string BUILD = " ALPHA";
         public const string FULL_VERSION = VERSION + BUILD;
     }
 }
