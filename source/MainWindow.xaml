@@ -141,8 +141,8 @@
                     <Rectangle Grid.Row="1" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
 
                     <!-- Directories (List<Directory>) -->
-                    <Label Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
-                    <ListBox x:Name="lsb_Directories"  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
+                    <Label   Visibility="Collapsed"   Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
+                    <ListBox   Visibility="Collapsed"   x:Name="lsb_Directories"  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -157,12 +157,12 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left">
+                    <StackPanel   Visibility="Collapsed"   Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left">
                         <Button x:Name="btn_AddDirectory"    Style="{StaticResource button_command}" Click="OnAddDirectoryClicked" Content="Add..."/>
                         <Button x:Name="btn_RemoveDirectory" Style="{StaticResource button_command}" Content="Remove selected" Command="{Binding Path=RemoveSelectedDirectoryCommand}" CommandParameter="{Binding ElementName=lsb_Directories, Path=SelectedItem}"/>
                     </StackPanel>
 
-                    <Rectangle Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
+                    <Rectangle   Visibility="Collapsed"   Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
 
                     <!-- ExeName (string) -->
                     <Label   Grid.Row="4" Grid.Column="0" Content="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource label_input}" />

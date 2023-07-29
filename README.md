@@ -13,31 +13,33 @@
 - [NSIS Script Code Example](#nsis-script-code-example)
 
 # About
-**GE**nerate **NSIS** is a [RAD](https://en.wikipedia.org/wiki/Rapid_application_development) tool that takes over the writing of the [NSIS](https://nsis.sourceforge.io/Main_Page) script for you. 
+**GeNSIS** (an amalgamation of **Ge**nerate + **NSIS** or "Nullsoft Scriptable Install System"), is a Rapid Application Development ([RAD](https://en.wikipedia.org/wiki/Rapid_application_development)) tool that automates the writing of [NSIS](https://nsis.sourceforge.io/Main_Page) script for you. 
 
-It enables you to **auto-generate** and build an installer for your applications **fast** and **painless**.
+It enables you to **auto-generate** and build installers for your applications **fast** and **effortless** way.
+
+Updating subsequent versions of your application becomes even more straightforward and efficient.
 
 # Dependencies
-- .NET 6 (runtime)
-- NSIS 3
+- Windows operating system (XP, Vista, 7, 8, 10 or 11)
+- .NET 6 runtime ([download .NET6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0))
+- NSIS 3 ([download NSIS3+](https://nsis.sourceforge.io/Download))
 
 # GeNSIS Installer
 The **GeNSIS Installer(s)** are [here](https://github.com/pediRAM/GeNSIS/tree/main/Installers).
 ## GeNSIS File Structure
-When starting for the very first time, GeNSIS will create following folders
-- **Installers**: built installers (*.exe files) are here
-- **Projects**: all GeNSIS project files (*.gensis) will/should be saved here
-- **Scripts**: contains all generated NSIS scripts (*.nsi files)
-
+Upon first execution, GeNSIS will create the following folders:
+- **Installers:** This is where the built installers (*.exe files) are located.
+- **Projects:** All GeNSIS project files (*.gensis) should be saved here.
+- **Scripts:** This contains all the generated NSIS scripts (*.nsi files).
 
 # Step by Step Tutorial
 ## Application Files and Folders
 After you have copied all needed files to a folder:
-1. Click on the button **"Add folder..."** => A dialog will be opened
-2. After you have navigated to the folder containing app install files, click on button **"Select folder"**
-3. All files will be added to the project
-4. The application executable will be automatically detected (you can change this)
-5. Also the license file (*.txt or *.rtf) will be automatically detected (you can change this)
+1. Click on the **"Add folder..."** button to open the dialog
+2. Navigate to the folder containing the application installation files, then click on the **"Select folder"** button
+3. This will add all the files to the project
+4. The application executable will be detected automatically (you have the option to change this)
+5. The license file (*.txt or *.rtf) will also be automatically detected (you can change this as well)
 
 ![Add files](source/Misc/Images/1_add_files.png)
 
@@ -50,9 +52,9 @@ Now you can set the properties about your organisation/company, publisher etc. a
 3. (Optional) edit the auto-detected version of your app
 4. (Optional) type an arbitary build like DEBUG, Release-Candidate, Demo ... or leave blank
 5. (Optional) type the file extension which should be assigned to your app or leave blank
-6. Type the name or initials of your organization/company/...
-7. Type the name of the publisher of the app
-8. Type the homepage of your app/company/organization
+6. Enter the name or initials of your organization/company/...
+7. Enter the name of your app's publisher
+8. Enter the web-address/url of the app or company/organization homepage
 
 ![Properties about Application and Publisher](source/Misc/Images/2_app_and_publisher_data.png)
 
@@ -129,7 +131,13 @@ To test the built installer, just click on the button **"Test installer..."**:
 If everything was OK, the background will become green, 
 else yellow (with red marked error messages, line-number of code, where the error occured etc.).
 
-To test the installer simply click on the button **"Test Installer"**:
+To test the installer simply click on the button **"Test Installer"**.
+In case of error(s) or warnings:
+- Always read carefully the error/warning messages and try to understand what they mean
+- Look carefully for typos in your NSIS script code, specially the "Copy & Paste" ones! Often one character is missed or some value after paste-action has not been changed
+- Check if filepaths are OK and files exist
+- In case of SYNTAX ERROR or other ERROR messages from NSIS compiler while generating the installer, read carefully the code line at given linenumber then compare it to examples in tutorials or [documentations](https://nsis.sourceforge.io/Docs/)
+- If you are calling/using module(s) in your *.nsi script: have you installed the NSIS module you are calling? Is it up to date? Check the version and documentations of the module too!
 
 ![Testing Installer](source/Misc/Images/7_test_installer.png)
 

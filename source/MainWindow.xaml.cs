@@ -293,26 +293,33 @@ namespace GeNSIS
         
         private void OnGenerate(object sender, RoutedEventArgs e)
         {
-            var validator = new Core.Validator();
-            ValidationError error = null;
-            if (!validator.IsValid(AppData, out error))
+            try
             {
-                _ = m_MsgBoxMgr.ShowInvalidDataError(error.ToString());
-                return;
+                var validator = new Core.Validator();
+                ValidationError error = null;
+                if (!validator.IsValid(AppData, out error))
+                {
+                    _ = m_MsgBoxMgr.ShowInvalidDataError(error.ToString());
+                    return;
+                }
+
+                FileDialogHelper.InitDir(m_SaveScriptDialog, m_Config.ScriptsDirectory);
+                m_SaveScriptDialog.FileName = PathHelper.GetNewScriptName(AppData);
+                m_SaveScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
+
+                if (m_SaveScriptDialog.ShowDialog() != true)
+                    return;
+
+                var nsisCode = m_NsisCodeGenerator.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true, Languages = LangDst.ToList() });
+                FileDialogHelper.InitDir(m_SaveScriptDialog, PathHelper.GetGeNSISScriptsDir());
+                SaveScript(m_SaveScriptDialog.FileName, nsisCode);
+                editor.Text = nsisCode;
+                tabItem_Editor.IsSelected = true;
             }
-
-            FileDialogHelper.InitDir(m_SaveScriptDialog, m_Config.ScriptsDirectory);
-            m_SaveScriptDialog.FileName = PathHelper.GetNewScriptName(AppData);
-            m_SaveScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
-
-            if (m_SaveScriptDialog.ShowDialog() != true)
-                return;
-
-            var nsisCode = m_NsisCodeGenerator.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true, Languages = LangDst.ToList() });
-            FileDialogHelper.InitDir(m_SaveScriptDialog, PathHelper.GetGeNSISScriptsDir());
-            SaveScript(m_SaveScriptDialog.FileName, nsisCode);
-            editor.Text = nsisCode;
-            tabItem_Editor.IsSelected = true;
+            catch(Exception ex)
+            {
+                m_MsgBoxMgr.ShowError("Error!", ex.ToString());
+            }
         }
 
         private void SaveScript(string pFileName, string pNsiString)
