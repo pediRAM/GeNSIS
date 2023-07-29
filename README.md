@@ -1,6 +1,8 @@
 
 - [About](#about)
 - [Dependencies](#dependencies)
+- [GeNSIS Installer](#gensis-installer)
+- [GeNSIS File Structure](#gensis-file-structure)
 - [Step by Step Tutorial](#step-by-step-tutorial)
 - [Application Files and Folders](#application-files-and-folders)
 - [Application and Publisher](#application-and-publisher)
@@ -11,6 +13,7 @@
 - [Testing the Installer](#testing-the-installer)
 - [Saving the Project](#saving-the-project)
 - [NSIS Script Code Example](#nsis-script-code-example)
+- [Thirdparty Software and Content](#thirdparty-software-and-content)
 
 # About
 **GeNSIS** (an amalgamation of **Ge**nerate + **NSIS** or "Nullsoft Scriptable Install System"), is a Rapid Application Development ([RAD](https://en.wikipedia.org/wiki/Rapid_application_development)) tool that automates the writing of [NSIS](https://nsis.sourceforge.io/Main_Page) script for you. 
