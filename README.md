@@ -13,7 +13,7 @@
 - [NSIS Script Code Example](#nsis-script-code-example)
 
 # About
-**GE**nerate **NSIS** is a RAD tool that takes over the writing of the NSIS script for you. 
+**GE**nerate **NSIS** is a [RAD](https://en.wikipedia.org/wiki/Rapid_application_development) tool that takes over the writing of the [NSIS](https://nsis.sourceforge.io/Main_Page) script for you. 
 
 It enables you to **auto-generate** and build an installer for your applications **fast** and **painless**.
 
@@ -23,6 +23,11 @@ It enables you to **auto-generate** and build an installer for your applications
 
 # GeNSIS Installer
 The **GeNSIS Installer(s)** are [here](https://github.com/pediRAM/GeNSIS/tree/main/Installers).
+## GeNSIS File Structure
+When starting for the very first time, GeNSIS will create following folders
+- **Installers**: built installers (*.exe files) are here
+- **Projects**: all GeNSIS project files (*.gensis) will/should be saved here
+- **Scripts**: contains all generated NSIS scripts (*.nsi files)
 
 
 # Step by Step Tutorial

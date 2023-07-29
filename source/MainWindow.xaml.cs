@@ -80,11 +80,11 @@ namespace GeNSIS
         #region Ctor
         public MainWindow()
         {
-            CreateAppData();
-            m_Storage.Put<IAppData>(AppData);
+            AppData = new AppDataVM(true);            
+            m_Storage.Put<IAppData>(AppData);            
 
             InitializeComponent();
-           Loaded += OnMainWindowLoaded;
+            Loaded += OnMainWindowLoaded;
 
             Title = $"GeNSIS {AsmConst.FULL_VERSION}";
             editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");                        
@@ -99,22 +99,17 @@ namespace GeNSIS
             DataContext = AppData;            
         }
 
-        private void CreateAppData()
+        private void CheckForProjectPath()
         {
-            var args = Environment.GetCommandLineArgs();
-            if (args == null || args.Length < 2)
-                AppData = new AppDataVM(true);
-            else
+            try
             {
-                try
-                {
-                    if (File.Exists(args[1]))
-                        LoadProject(args[1]);
-                }
-                catch(Exception ex)
-                {
-                    Log.Error(ex);
-                }
+                var args = Environment.GetCommandLineArgs();
+                if (args != null && args.Length >= 2 && File.Exists(args[1]))
+                    LoadProject(args[1]);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
             }
         }
 
@@ -192,6 +187,8 @@ namespace GeNSIS
                     return;
                 }
             }
+
+            CheckForProjectPath();
         }
 
         protected override void OnClosing(CancelEventArgs e)
