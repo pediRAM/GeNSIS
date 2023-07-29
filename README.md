@@ -1,6 +1,6 @@
 
-- [About](#About)
-- [Dependencies](#Dependencies)
+- [About](#about)
+- [Dependencies](#dependencies)
 - [Step by Step Tutorial](#Step by Step Tutorial)
 - [Application Files and Folders](#Application-Files-and-Folders)
 - [Application and Publisher](#Application-and-Publisher)
