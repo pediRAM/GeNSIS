@@ -21,6 +21,7 @@ namespace GeNSIS.Core
 {
     #region Usings
     using GeNSIS.Core.Commands;
+    using GeNSIS.Core.Helpers;
     using GeNSIS.Core.Interfaces;
     using GeNSIS.Core.Models;
     using GeNSIS.Core.ViewModels;
@@ -29,6 +30,7 @@ namespace GeNSIS.Core
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Diagnostics.Eventing.Reader;
+    using System.IO;
     using System.Windows.Input;
     #endregion Usings
 
@@ -442,6 +444,56 @@ namespace GeNSIS.Core
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
             => m_HasUnsavedChanges = true;
 
+        public void AddFiles(IEnumerable<string> pFilePaths)
+        {
+            foreach (string f in pFilePaths) 
+                AddFile(f);
+        }
+
+        public void AddFile(string file)
+        {
+            try
+            {
+
+                Files.Add(new FileSystemItemVM(file));
+                var ext = Path.GetExtension(file);
+                if (!string.IsNullOrWhiteSpace(ext))
+                {
+                    switch (ext.ToLower())
+                    {
+                        case ".exe":
+                            {
+                                ExeName = new FileSystemItemVM(file);
+                                try
+                                {
+                                    ExeInfoHelper.AutoSetProperties(this);
+                                }
+                                catch (Exception ex)
+                                {
+                                    var x = ex;
+                                }
+                            }
+                            break;
+                        case ".ico": InstallerIcon = file; break;
+
+                        case ".rtf":
+                        case ".txt":
+                            {
+                                var name = Path.GetFileName(file);
+                                if (name.Contains("license", StringComparison.OrdinalIgnoreCase) ||
+                                    name.Contains("eula", StringComparison.OrdinalIgnoreCase) ||
+                                    name.Contains("agreement", StringComparison.OrdinalIgnoreCase))
+                                    License = new FileSystemItemVM(file);
+                            }
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var x = ex;
+            }
+        }
         #endregion Methods
 
         #region Commands

@@ -18,6 +18,7 @@
 
 
 using GeNSIS.Core.Models;
+using System;
 
 namespace GeNSIS.Core
 {
@@ -56,30 +57,37 @@ namespace GeNSIS.Core
         public bool IsValid(AppDataVM p, out ValidationError pError)
         {
             pError = null;
-            // At least 1 file for installing needed.
-            if (p.Files.Count == 0) { pError = new ValidationError(nameof(AppData.Files), ERR_EMPTY_FILES, HINT_FILES); return false; }
+            try
+            {
+                // At least 1 file for installing needed.
+                if (p.Files.Count == 0) { pError = new ValidationError(nameof(AppData.Files), ERR_EMPTY_FILES, HINT_FILES); return false; }
 
-            // There must be an exe file.
-            if (string.IsNullOrWhiteSpace(p.ExeName.Path)) { pError = new ValidationError(nameof(AppData.ExeName), ERR_EMPTY_EXENAME, HINT_EXENAME); return false; }
+                // There must be an exe file.
+                if (string.IsNullOrWhiteSpace(p.ExeName.Path)) { pError = new ValidationError(nameof(AppData.ExeName), ERR_EMPTY_EXENAME, HINT_EXENAME); return false; }
 
-            // We need an application-name for installation.
-            if (string.IsNullOrWhiteSpace(p.AppName)) { pError = new ValidationError(nameof(AppData.AppName), ERR_EMPTY_APPNAME, HINT_APPNAME); return false; }
+                // We need an application-name for installation.
+                if (string.IsNullOrWhiteSpace(p.AppName)) { pError = new ValidationError(nameof(AppData.AppName), ERR_EMPTY_APPNAME, HINT_APPNAME); return false; }
 
-            // We need an icon to register for app while installation.
-            //if (string.IsNullOrWhiteSpace(p.InstallerIcon)) { pError = new ValidationError(nameof(AppData.InstallerIcon), ERR_EMPTY_APPICON, HINT_APPICON); return false; }
+                // We need an icon to register for app while installation.
+                //if (string.IsNullOrWhiteSpace(p.InstallerIcon)) { pError = new ValidationError(nameof(AppData.InstallerIcon), ERR_EMPTY_APPICON, HINT_APPICON); return false; }
 
-            // We need a publisher (also for company if null) for creating a direcotry in program folder.
-            if (string.IsNullOrWhiteSpace(p.Publisher)) { pError = new ValidationError(nameof(AppData.Publisher), ERR_EMPTY_PUBLISHER, HINT_PUBLISHER); return false; }
+                // We need a publisher (also for company if null) for creating a direcotry in program folder.
+                if (string.IsNullOrWhiteSpace(p.Publisher)) { pError = new ValidationError(nameof(AppData.Publisher), ERR_EMPTY_PUBLISHER, HINT_PUBLISHER); return false; }
 
-            // Optional (for now).
-            // todo: extend!
-            // if (string.IsNullOrWhiteSpace(p.AssociatedExtension)) { pError = new ValidationError(nameof(AppData.AssociatedExtension), ERR_EMPTY_ASSOCIATEDEXTENSION, HINT_ASSOCIATEDEXTENSION); return false; }
-            // if (string.IsNullOrWhiteSpace(p.AppVersion)) { pError = new ValidationError(nameof(AppData.AppVersion), ERR_EMPTY_APPVERSION, HINT_APPVERSION); return false; }
-            // if (string.IsNullOrWhiteSpace(p.AppBuild) { pError = new ValidationError(nameof(AppData.AppBuild), ERR_EMPTY_APPBUILD, HINT_APPBUILD); return false; }
-            // if (string.IsNullOrWhiteSpace(p.Company)) { pError = new ValidationError(nameof(AppData.Company), ERR_EMPTY_COMPANY, HINT_COMPANY); return false; }
-            // if (string.IsNullOrWhiteSpace(p.License) { pError = new ValidationError(nameof(AppData.License), ERR_EMPTY_LICENSE, HINT_LICENSE); return false; }
-            // if (string.IsNullOrWhiteSpace(p.Url) { pError = new ValidationError(nameof(AppData.Url), ERR_EMPTY_URL, HINT_URL); return false; }
-
+                // Optional (for now).
+                // todo: extend!
+                // if (string.IsNullOrWhiteSpace(p.AssociatedExtension)) { pError = new ValidationError(nameof(AppData.AssociatedExtension), ERR_EMPTY_ASSOCIATEDEXTENSION, HINT_ASSOCIATEDEXTENSION); return false; }
+                // if (string.IsNullOrWhiteSpace(p.AppVersion)) { pError = new ValidationError(nameof(AppData.AppVersion), ERR_EMPTY_APPVERSION, HINT_APPVERSION); return false; }
+                // if (string.IsNullOrWhiteSpace(p.AppBuild) { pError = new ValidationError(nameof(AppData.AppBuild), ERR_EMPTY_APPBUILD, HINT_APPBUILD); return false; }
+                // if (string.IsNullOrWhiteSpace(p.Company)) { pError = new ValidationError(nameof(AppData.Company), ERR_EMPTY_COMPANY, HINT_COMPANY); return false; }
+                // if (string.IsNullOrWhiteSpace(p.License) { pError = new ValidationError(nameof(AppData.License), ERR_EMPTY_LICENSE, HINT_LICENSE); return false; }
+                // if (string.IsNullOrWhiteSpace(p.Url) { pError = new ValidationError(nameof(AppData.Url), ERR_EMPTY_URL, HINT_URL); return false; }
+            }
+            catch(Exception ex)
+            {
+                pError = new ValidationError("Runtime", "Exception occured!", "Inform software developer of GeNSIS please!");
+                return false;
+            }
             return true;
         }
     }

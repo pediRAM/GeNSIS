@@ -18,6 +18,7 @@
 
 
 using GeNSIS.Core.ViewModels;
+using System;
 using System.IO;
 
 namespace GeNSIS.Core.Commands
@@ -28,6 +29,14 @@ namespace GeNSIS.Core.Commands
 
         public override bool CanExecute(object parameter)
         {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine($"CanExecute called with parameter: {parameter}");
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
             if (parameter == null) 
                 return false;
 

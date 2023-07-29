@@ -389,57 +389,8 @@ namespace GeNSIS
             if (m_FolderBrowserDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
 
-            foreach(var dir in Directory.GetDirectories(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly)) 
-                AppData.Files.Add(new FileSystemItemVM(dir));
-
-            foreach (var file in Directory.GetFiles(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly))
-            {
-                if (Path.GetExtension(file).Equals(".pdb", StringComparison.OrdinalIgnoreCase)) // todo: filter by ignore list!
-                    continue;
-                try
-                {
-
-                    AppData.Files.Add(new FileSystemItemVM(file));
-                    var ext = Path.GetExtension(file);
-                    if (!string.IsNullOrWhiteSpace(ext))
-                    {
-                        switch (ext.ToLower())
-                        {
-                            case ".exe":
-                                {
-                                    AppData.ExeName = new FileSystemItemVM(file);
-                                    try
-                                    {
-                                        ExeInfoHelper.AutoSetProperties(AppData);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        var x = ex;
-                                    }
-                                }
-                                break;
-                            case ".ico": AppData.InstallerIcon = file; break;
-
-                            case ".rtf":
-                            case ".txt":
-                                {
-                                    var name = Path.GetFileName(file);
-                                    if (name.Contains("license", StringComparison.OrdinalIgnoreCase) ||
-                                        name.Contains("eula", StringComparison.OrdinalIgnoreCase) ||
-                                        name.Contains("agreement", StringComparison.OrdinalIgnoreCase))
-                                        AppData.License = new FileSystemItemVM(file);
-                                }
-                                break;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    var x = ex;
-                }
-            }
-
-            //ExeInfoHelper.AutoGenerateInstallerName(AppData);
+            AppData.AddFiles(Directory.GetDirectories(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly));
+            AppData.AddFiles(Directory.GetFiles(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly));
         }
 
         private void OnCloseClicked(object sender, RoutedEventArgs e) => Close();
@@ -851,6 +802,16 @@ namespace GeNSIS
 
         private void OnClearFilesClicked(object sender, RoutedEventArgs e)
             => AppData.Files.Clear();
+
+        private void OnDirectoryDroped(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                var files = e.Data.GetData(DataFormats.FileDrop) as IEnumerable<string>;
+                if (files != null)
+                    AppData.AddFiles(files);
+            }
+        }
     }
 
 }

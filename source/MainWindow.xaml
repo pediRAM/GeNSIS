@@ -78,7 +78,7 @@
 
                     <!-- Files (List<string>) -->
                     <Label     Grid.Row="0" Grid.Column="0" Content="{StaticResource label_files}"    ToolTip="{StaticResource tt_files}" Style="{StaticResource label_input}" />
-                    <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files}" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}">
+                    <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files, UpdateSourceTrigger=PropertyChanged}" AllowDrop="True" Drop="OnDirectoryDroped" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -133,8 +133,8 @@
                         <StackPanel Grid.Row="2" Orientation="Vertical" Visibility="{Binding ElementName=lsb_Files, Path=SelectedItem, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenNotNull=Visible}}">
                             <TextBlock Text="Selected file is the..." Style="{StaticResource textblock_label}" MinWidth="100" />
                             <Button Content="Executable" Style="{StaticResource button_command}" Command="{Binding Path=SetExecutableFileCommand}" CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
-                            <Button Content="Icon"       Style="{StaticResource button_command}" Command="{Binding Path=SetIconFileCommand}"       CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
                             <Button Content="License"    Style="{StaticResource button_command}" Command="{Binding Path=SetLicenseFileCommand}"    CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
+                            <Button Content="Icon"       Style="{StaticResource button_command}" Command="{Binding Path=SetIconFileCommand}"       CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
                         </StackPanel>
                     </Grid>
 
