@@ -39,7 +39,8 @@ using System.Windows;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
-
+using ICSharpCode.AvalonEdit.Utils;
+using System.Windows.Documents;
 
 namespace GeNSIS
 {
@@ -73,21 +74,21 @@ namespace GeNSIS
         private ProjectManager m_ProjectManager = new ProjectManager();
 
         private MessageBoxManager m_MsgBoxMgr = new MessageBoxManager();
-        
+
         private NsisGenerator m_NsisCodeGenerator = new NsisGenerator();
         #endregion Variables
 
         #region Ctor
         public MainWindow()
         {
-            AppData = new AppDataVM(true);            
-            m_Storage.Put<IAppData>(AppData);            
+            AppData = new AppDataVM(true);
+            m_Storage.Put<IAppData>(AppData);
 
             InitializeComponent();
             Loaded += OnMainWindowLoaded;
 
             Title = $"GeNSIS {AsmConst.FULL_VERSION}";
-            editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");                        
+            editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");
 
             FileDialogHelper.InitDir(m_OpenFilesDialog, PathHelper.GetMyDocuments());
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
@@ -96,7 +97,7 @@ namespace GeNSIS
 
             InitLanguages();
             m_Storage.Put<ObservableCollection<Language>>(LangDst);
-            DataContext = AppData;            
+            DataContext = AppData;
         }
 
         private void CheckForProjectPath()
@@ -116,8 +117,8 @@ namespace GeNSIS
         private void InitLanguages()
         {
             var languages = LanguageHelper.GetLanguages();
-            
-            foreach(var name in LanguageHelper.GetNamesOfMostSpockenLanguages())
+
+            foreach (var name in LanguageHelper.GetNamesOfMostSpockenLanguages())
             {
                 var lang = languages.Single(l => l.Name == name);
                 languages.Remove(lang);
@@ -253,7 +254,7 @@ namespace GeNSIS
                     ConfigHelper.CreateGeNSISDirectoriesIfNotExist();
                     Log.Debug("Creating GeNSIS directories succeeded.");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Log.Error(ex);
                     _ = m_MsgBoxMgr.ShowLoadConfigError(ex);
@@ -276,7 +277,7 @@ namespace GeNSIS
         {
             m_OpenFilesDialog.Filter = FileDialogHelper.Filter.ALL_FILES;
             FileDialogHelper.InitDir(m_OpenFilesDialog, PathHelper.GetMyDocuments());
-            if (m_OpenFilesDialog.ShowDialog().Value != true) 
+            if (m_OpenFilesDialog.ShowDialog().Value != true)
                 return;
 
             AppData.Files.AddRange(FileSystemItemVM.From(m_OpenFilesDialog.FileNames));
@@ -290,7 +291,7 @@ namespace GeNSIS
                 AppData.Sections.Add(new SectionVM(m_FolderBrowserDialog.SelectedPath));
             }
         }
-        
+
         private void OnGenerate(object sender, RoutedEventArgs e)
         {
             try
@@ -316,11 +317,11 @@ namespace GeNSIS
                 editor.Text = nsisCode;
                 tabItem_Editor.IsSelected = true;
             }
-            catch(FileNotFoundException fnfEx)
+            catch (FileNotFoundException fnfEx)
             {
                 m_MsgBoxMgr.ShowContentFileNotFoundError(fnfEx.FileName);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 m_MsgBoxMgr.ShowError("Unexpected error!", $"Error message:\n{ex.Message}\n{ex.StackTrace[0]}");
             }
@@ -329,18 +330,18 @@ namespace GeNSIS
         private void SaveScript(string pFileName, string pNsiString)
         {
             PathToGeneratedNsisScript = pFileName;
-            File.WriteAllText(pFileName, pNsiString, encoding: System.Text.Encoding.UTF8);            
+            File.WriteAllText(pFileName, pNsiString, encoding: System.Text.Encoding.UTF8);
         }
 
         private void OnCompileScript(object sender, RoutedEventArgs e)
         {
-            if(string.IsNullOrEmpty(PathToGeneratedNsisScript))
+            if (string.IsNullOrEmpty(PathToGeneratedNsisScript))
             {
                 _ = m_MsgBoxMgr.ShowNoGeneratedScriptFileError();
                 return;
             }
 
-            if(!File.Exists(PathToGeneratedNsisScript))
+            if (!File.Exists(PathToGeneratedNsisScript))
             {
                 _ = m_MsgBoxMgr.ShowGeneratedScriptFileNotFoundError();
                 return;
@@ -355,7 +356,7 @@ namespace GeNSIS
             var makeNsisExePath = $@"{m_Config.NsisInstallationDirectory}\makensisw.exe";
             var pi = new ProcessStartInfo($"\"{makeNsisExePath}\"", $"/V4 /NOCD \"{PathToGeneratedNsisScript}\"");
             pi.UseShellExecute = false;
-            
+
             var proc = new Process();
             proc.StartInfo = pi;
             _ = proc.Start();
@@ -505,11 +506,11 @@ namespace GeNSIS
                 tabItem_Editor.IsSelected = true;
                 PathToGeneratedNsisScript = m_OpenScriptDialog.FileName;
             }
-            catch(FileNotFoundException fnfEx)
+            catch (FileNotFoundException fnfEx)
             {
                 m_MsgBoxMgr.ShowScriptNotFoundError(fnfEx.FileName);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 m_MsgBoxMgr.ShowException(ex);
             }
@@ -647,7 +648,7 @@ namespace GeNSIS
         private bool m_SortByName;
         private void OnSortByNameClicked(object sender, RoutedEventArgs e)
         {
-            if(!m_SortByName)
+            if (!m_SortByName)
             {
                 var l = LangSrc.ToList();
                 LangSrc.Clear();
@@ -785,7 +786,7 @@ namespace GeNSIS
             => ReorderSelectedLanguages(LangDst.MovePrev);
 
         private void OnMoveSelectedLanguagesToNextClicked(object sender, RoutedEventArgs e)
-            => ReorderSelectedLanguages(LangDst.MoveNext);        
+            => ReorderSelectedLanguages(LangDst.MoveNext);
 
         private void ReorderSelectedLanguages(Action<List<Language>> pAction)
         {
@@ -842,6 +843,17 @@ namespace GeNSIS
                         return;
                     }
                 }
+            }
+        }
+
+        private void OnPrintScriptClicked(object sender, RoutedEventArgs e)
+        {
+            var printDialog = new System.Windows.Controls.PrintDialog();
+            if (printDialog.ShowDialog() == true)
+            {
+                var rtfBox = new System.Windows.Controls.RichTextBox();
+                rtfBox.Document = DocumentPrinter.CreateFlowDocumentForEditor(editor);
+                printDialog.PrintDocument((((IDocumentPaginatorSource)rtfBox).DocumentPaginator), "printing as paginator");
             }
         }
     }

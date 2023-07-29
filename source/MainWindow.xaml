@@ -511,6 +511,7 @@
                         <avl:TextEditor.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Remove empty or comment lines" Click="OnRemoveEmptyLinesAndCommentsClicked" />
+                                <MenuItem Header="Print..." Click="OnPrintScriptClicked" />
                             </ContextMenu>
                         </avl:TextEditor.ContextMenu>
                     </avl:TextEditor>
