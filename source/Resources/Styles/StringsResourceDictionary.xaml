@@ -1,0 +1,74 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib" >
+
+
+    <sys:String x:Key="btn_compile">Compile&#x2026;</sys:String>
+    <sys:String x:Key="btn_installer_icon">Icon&#x2026;</sys:String>
+    <sys:String x:Key="btn_installer_wizard">Wizard image&#x2026;</sys:String>
+    <sys:String x:Key="btn_installer_header">Header image&#x2026;</sys:String>
+    <sys:String x:Key="btn_generate_script">Generate script&#x2026;</sys:String>
+    <sys:String x:Key="btn_save_script">Save changes</sys:String>
+    <sys:String x:Key="label_is64bitapplication">Is x64 app:</sys:String>
+    <sys:String x:Key="label_appname">Application name:</sys:String>
+    <sys:String x:Key="label_appversion">Application version:</sys:String>
+    <sys:String x:Key="label_appbuild">Application build:</sys:String>
+    <sys:String x:Key="label_appicon">Application icon (*.ico):</sys:String>
+    <sys:String x:Key="label_files">Files:</sys:String>
+    <sys:String x:Key="label_directories">Components:</sys:String>
+    <sys:String x:Key="label_design_installer">Installer Design</sys:String>
+    <sys:String x:Key="label_design_uninstaller">Uninstaller Design</sys:String>
+    <sys:String x:Key="label_exename">Executable file:</sys:String>    
+    <sys:String x:Key="label_license">License file:</sys:String>    
+    <sys:String x:Key="label_company">Company name:</sys:String>
+    <sys:String x:Key="label_publisher">Publisher name:</sys:String>
+    <sys:String x:Key="label_url">Website (url):</sys:String>
+    <sys:String x:Key="label_installer_filename">Installer filename:</sys:String>
+    <sys:String x:Key="label_associatedextension">Associated extension:</sys:String>
+    <sys:String x:Key="label_doinstallperuser">Do install per user:</sys:String>
+    <sys:String x:Key="label_doaddfirewallrule">Add firewall rule:</sys:String>
+
+    <sys:String x:Key="tt_is64bitapplication">Whether the application is a 64 bit application or not (x86)</sys:String>
+    <sys:String x:Key="tt_appname">Displayed name of application</sys:String>
+    <sys:String x:Key="tt_appversion">Version of application, like: 1.2 or 1.2.3 or 1.2.3.4</sys:String>
+    <sys:String x:Key="tt_appbuild">Application Build, like: alpha, Beta, RC, ReleaseCandidate, RELEASE, DEMO etc.</sys:String>
+    <sys:String x:Key="tt_appicon">Installer icon (*.ico)</sys:String>
+    <sys:String x:Key="tt_leftimageonwelcomepage">Left image (Bitmap: *.bmp) on installer welcome page</sys:String>
+    <sys:String x:Key="tt_files">Files of your application, which should be copied to the installation directory</sys:String>
+    <sys:String x:Key="tt_directories">Directories of your application, which should be copied (optional recursively) to the installation dirctory</sys:String>
+    <sys:String x:Key="tt_exename">Executable filename: name of the *.exe file of your application</sys:String>
+    <sys:String x:Key="tt_license">License file: name of the license file (*.rtf, *.txt), like: License.txt or License.rtf</sys:String>
+    <sys:String x:Key="tt_company">Company name: name or initials of the company, organisation or individual which/who is distributing the application</sys:String>
+    <sys:String x:Key="tt_publisher">Publisher: name of the company, organisation or individual which/who is publishing the application</sys:String>
+    <sys:String x:Key="tt_url">URL of the application/company website</sys:String>
+    <sys:String x:Key="tt_installerfilename" xml:space="preserve">Filename of installer/setup file, like: Setup_MyApp_1.2.3_AMD64_x64.exe&#13;
+Leave empty (default) for dynamic auto-nameing in script</sys:String>
+    <sys:String x:Key="tt_associatedextension">Associated file-extension, like: txt, xml, bin, dat,&#x2026; or leave blank for none</sys:String>
+    <sys:String x:Key="tt_doinstallperuser">Installation per user: if activated, each user must install the application for himself, else the application will be installed for all users</sys:String>
+    <sys:String x:Key="tt_doaddfirewallrule">Adds named rule for your app to windows firewall.</sys:String>
+
+    <!-- *** Begin of Content of Lables *** -->
+    <sys:String x:Key="label_NsisInstallationDirectory">Installation folder of NSIS:</sys:String>
+    <sys:String x:Key="label_GeNSISProjectsDirectory">Projects folder of GeNSIS:</sys:String>
+    <sys:String x:Key="label_ScriptsDirectory">Scripts folder for *.nsi files:</sys:String>
+    <sys:String x:Key="label_InstallersDirectory">Installers folder for *.exe setup files:</sys:String>
+    <sys:String x:Key="label_CompanyName">Company:</sys:String>
+    <sys:String x:Key="label_Publisher">Publisher:</sys:String>
+    <sys:String x:Key="label_Website">Website:</sys:String>
+    <!-- *** End of Content of Lables *** -->
+
+    <!-- *** Begin of Content of Button  *** -->
+    <sys:String x:Key="label_Save">Save</sys:String>
+    <sys:String x:Key="label_Cancel">Cancel</sys:String>
+    <!-- *** End of Content of Button  *** -->
+
+    <!-- *** Begin of Text of ToolTips *** -->
+    <sys:String x:Key="tt_NsisInstallationDirectory">The path of the &quot;NSIS&quot; folder, where NSIS files are installed</sys:String>
+    <sys:String x:Key="tt_GeNSISProjectsDirectory">The path of the folder, where GeNSIS project files are saved</sys:String>
+    <sys:String x:Key="tt_ScriptsDirectory">The path of the folder, where generated NSIS scripts (*.nsi files) are saved</sys:String>
+    <sys:String x:Key="tt_InstallersDirectory">The path of the folder, where generated installers (*.exe setup files) are saved</sys:String>
+    <sys:String x:Key="tt_CompanyName">Default company name without whitespaces or special characters (or initials), which will be used as default in your GeNSIS projects</sys:String>
+    <sys:String x:Key="tt_Publisher">Publisher</sys:String>
+    <sys:String x:Key="tt_Website">Website</sys:String>
+    <!-- *** End of Text of ToolTips *** -->
+</ResourceDictionary>

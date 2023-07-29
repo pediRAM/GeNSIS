@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Icons -->
+    <Image x:Key="icon_new" Source="../Icons/nuvola/22x22/document-new.png" />
+    <Image x:Key="icon_open" Source="../Icons/nuvola/22x22/folder-orange.png" />
+    <Image x:Key="icon_save" Source="../Icons/nuvola/22x22/document-save.png" />
+    <Image x:Key="icon_save_as" Source="../Icons/nuvola/22x22/document-save-as.png" />
+    <Image x:Key="icon_exit" Source="../Icons/nuvola/22x22/application-exit.png" />
+    <Image x:Key="icon_generate" Source="../Icons/nuvola/22x22/tools-wizard.png" />
+    <Image x:Key="icon_manuals" Source="../Icons/nuvola/22x22/help-about.png" />
+    <Image x:Key="icon_about" Source="../Icons/nuvola/22x22/dialog-information.png" />
+    <Image x:Key="icon_search" Source="../Icons/nuvola/22x22/zoom.png" />
+    <Image x:Key="icon_add" Source="../Icons/nuvola/22x22/zoom-in.png" />
+    <Image x:Key="icon_remove" Source="../Icons/nuvola/22x22/zoom-out.png" />
+    <Image x:Key="icon_clear" Source="../Icons/nuvola/22x22/tool_delete.png" />
+    <Image x:Key="icon_note" Source="../Icons/nuvola/22x22/knotes.png" />
+    <Image x:Key="icon_users" Source="../Icons/nuvola/22x22/kuser.png" />
+    <Image x:Key="icon_user" Source="../Icons/nuvola/22x22/preferences-desktop-user.png" />
+    <Image x:Key="icon_browser" Source="../Icons/nuvola/22x22/applications-internet.png" />
+    <Image x:Key="icon_folder" Source="../Icons/nuvola/22x22/folder-orange.png" />
+    <Image x:Key="icon_file" Source="../Icons/nuvola/22x22/krec_fileempty.png" />
+    <Image x:Key="icon_files" Source="../Icons/nuvola/22x22/document-multiple.png" />
+    <Image x:Key="icon_info" Source="../Icons/nuvola/22x22/dialog-information.png" />
+    <Image x:Key="icon_settings" Source="../Icons/nuvola/22x22/kcontrol.png" />
+    <Image x:Key="icon_script" Source="../Icons/nuvola/22x22/source.png" />
+
+    <Image x:Key="icon_nsis" Source="../Icons/Installer/modern-install.ico" />
+    <Image x:Key="icon_project" Source="../Icons/nuvola/22x22/project-open.png" />
+
+    <!-- Images -->
+    <Image x:Key="image_installer_welcome_page" Source="../Images/Installer/welcome_page.png" />
+
+</ResourceDictionary>

@@ -1,0 +1,64 @@
+﻿class AppConfig
+	property string NsisInstallationDirectory
+	property string GeNSISProjectsDirectory
+	property string ScriptsDirectory
+	property string CompanyName
+	property string Publisher
+
+
+class TextGeneraotrOptions
+	property bool EnableLogs
+	property bool EnableComments
+
+
+class xxx
+	property AppDataViewModel AppData
+
+
+class Directory
+	property string Path
+	property bool IsRecursive
+
+
+class ValidationError
+	property string Name
+	property string Error
+	property string Hint
+
+
+class AppData
+	property string AppName
+	property bool Is64BitApplication
+	property bool DoInstallPerUser
+	property string ExeName
+	property string AssociatedExtension
+	property string AppVersion
+	property string AppBuild
+	property string AppIcon
+	property string Company
+	property string License
+	property string Publisher
+	property string Url
+	property List<string> Files
+	property List<Directory> Directories
+	property bool HasUnsavedChanges
+
+	function List<ValidationError> Validate()
+
+
+class ProjectModel
+	property string Version
+	property string Note
+	property AppData AppData
+
+
+class ProjectManager
+	function Project Load(string Path)
+
+	method Save(string Path)
+
+
+class TextGenerator
+	function string Generate(AppData AppData)
+
+
