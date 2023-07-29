@@ -365,5 +365,21 @@ SectionEnd
 
 ```
 
+# Thirdparty Software and Content
+GeNSIS and this documentation could not be created without following icons, tools, and libraries:
+- [NSIS](http://nsis.sourceforge.io/) zlib license, copyright by [contributors](https://nsis.sourceforge.io/License)
+- [Gnu Image Manipulation Program](https://www.gimp.org/) GPL-3.0 license, copyright by Spencer KIMBALL & Peter MATTIS
+- [Nuvola](https://en.wikipedia.org/wiki/Nuvola) icons LGPL 2.1 license and copyright by [David VIGNONI](https://web.archive.org/web/20081026105155/http://www.icon-king.com/projects/nuvola/) the artist and creator of Nuvola icons
+- [Greenshot](https://github.com/greenshot/greenshot), a very strightforward screenshot tool, GPL-3.0 license and copyright by [Robin KROM](https://github.com/Lakritzator)
+- [AvalonEdit](http://avalonedit.net/) MIT license and copyright by [Daniel GRUNWALD](https://github.com/dgrunwald) ([source on Github](https://github.com/icsharpcode/AvalonEdit))
+- [Visual Studio 2022 Community](https://visualstudio.microsoft.com/) licensed under [MICROSOFT VISUAL STUDIO COMMUNITY 2022](https://visualstudio.microsoft.com/license-terms/vs2022-ga-community/) copyright by Microsoft
+- [Visual Studio Code](https://code.visualstudio.com/) licensed under [MICROSOFT VISUAL STUDIO CODE](https://code.visualstudio.com/license?lang=en)
+- [ExtendedXmlSerializer](https://extendedxmlserializer.github.io/) MIT license and copyright by Wojciech NAGÓRSKI & Michael DEMOND
+- [NLog](https://nlog-project.org/) BSD-3-Cluase license, copyright by Jarek KOWALSKI, Kim CHRISTENSEN, Julian VERDURMEN
+
+
+
+
+
 
  
