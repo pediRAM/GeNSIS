@@ -23,9 +23,9 @@ using GeNSIS.Core.Helpers;
 
 namespace GeNSIS.Core.Commands
 {
-    public abstract class AbstractAddFirewallRules : ACommand
+    public abstract class AbstractAddFirewallRulesCommand : ACommand
     {
-        public AbstractAddFirewallRules(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        public AbstractAddFirewallRulesCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         protected abstract EProtocolType ProtocolType { get; }
         public override bool CanExecute(object parameter) => true;
@@ -33,21 +33,24 @@ namespace GeNSIS.Core.Commands
         public override void Execute(object parameter) => AppDataViewModel.FirewallRules.AddRange(FirewallRuleHelper.ParseFirewallRules(parameter as string, ProtocolType));
     }
 
-    public class AddTcpFWRules : AbstractAddFirewallRules
+
+    public class AddTcpFWRulesCommand : AbstractAddFirewallRulesCommand
     {
-        public AddTcpFWRules(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        public AddTcpFWRulesCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
         protected override EProtocolType ProtocolType => EProtocolType.TCP;
     }
 
-    public class AddUdpFWRules : AbstractAddFirewallRules
+
+    public class AddUdpFWRulesCommand : AbstractAddFirewallRulesCommand
     {
-        public AddUdpFWRules(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        public AddUdpFWRulesCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
         protected override EProtocolType ProtocolType => EProtocolType.UDP;
     }
 
-    public class AddTcpUdpFWRules : AbstractAddFirewallRules
+
+    public class AddBothFWRulesCommand : AbstractAddFirewallRulesCommand
     {
-        public AddTcpUdpFWRules(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        public AddBothFWRulesCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
         protected override EProtocolType ProtocolType => EProtocolType.Both;
     }
 }

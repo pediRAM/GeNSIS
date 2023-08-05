@@ -21,9 +21,9 @@ using GeNSIS.Core.Extensions;
 
 namespace GeNSIS.Core.Commands
 {
-    public class ClearFirewallRules : ACommand
+    public class ClearFirewallRulesCommand : ACommand
     {
-        public ClearFirewallRules(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
+        public ClearFirewallRulesCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter) => AppDataViewModel.FirewallRules.HasElement();
 

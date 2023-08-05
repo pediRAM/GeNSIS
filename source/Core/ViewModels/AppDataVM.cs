@@ -636,6 +636,53 @@ namespace GeNSIS.Core
             }
             set => m_ClearInstallerNameCommand = value;
         }
+
+
+        public ICommand m_ClearFirewallRulesCommand;
+        public ICommand ClearFirewallRulesCommand
+        {
+            get
+            {
+                m_ClearInstallerNameCommand ??= new ClearFirewallRulesCommand(this);
+                return m_ClearFirewallRulesCommand;
+            }
+            set => m_ClearFirewallRulesCommand = value;
+        }
+
+        public ICommand m_AddTcpFWRulesCommand;
+        public ICommand AddTcpFWRulesCommand
+        {
+            get
+            {
+                m_AddTcpFWRulesCommand ??= new AddTcpFWRulesCommand(this);
+                return m_AddTcpFWRulesCommand;
+            }
+            set => m_AddTcpFWRulesCommand = value;
+        }
+
+        public ICommand m_AddUdpFWRulesCommand;
+        public ICommand AddUdpFWRulesCommand
+        {
+            get
+            {
+                m_AddUdpFWRulesCommand ??= new AddUdpFWRulesCommand(this);
+                return m_AddUdpFWRulesCommand;
+            }
+            set => m_AddUdpFWRulesCommand = value;
+        }
+
+        public ICommand m_AddBothFWRulesCommand;
+        public ICommand AddBothFWRulesCommand
+        {
+            get
+            {
+                m_AddBothFWRulesCommand ??= new AddBothFWRulesCommand(this);
+                return m_AddBothFWRulesCommand;
+            }
+            set => m_AddBothFWRulesCommand = value;
+        }
+
+
         #endregion Commands
     }
 }
