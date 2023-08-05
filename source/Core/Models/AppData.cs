@@ -37,6 +37,11 @@ namespace GeNSIS.Core.Models
         [XmlElement]
         public bool DoAddFWRule { get; set; }
 
+        [XmlArray]
+        [XmlArrayItem(typeof(FirewallRule))]
+        public List<FirewallRule> FirewallRules { get; set; } = new List<FirewallRule>();
+
+
         [XmlElement]
         public string AppName { get; set; }
 
@@ -77,6 +82,7 @@ namespace GeNSIS.Core.Models
         [XmlArrayItem(typeof(FileSystemItem))]
         public List<FileSystemItem> Files { get; set; } = new List<FileSystemItem>();
 
+
         [XmlArray]
         public List<Section> Sections { get; set; } = new List<Section>();
 
@@ -103,6 +109,7 @@ namespace GeNSIS.Core.Models
 
         public IEnumerable<IFileSystemItem> GetFiles() => Files;
         public IEnumerable<ISection> GetSections() => Sections;
+        public IEnumerable<IFirewallRule> GetFirewallRules() => FirewallRules;
 
         public AppDataVM ToViewModel()
         {
@@ -134,11 +141,15 @@ namespace GeNSIS.Core.Models
 
             vm.Files = new System.Collections.ObjectModel.ObservableCollection<FileSystemItemVM>();
             foreach (var f in Files)
-                vm.Files.Add(f.ToModelView());
+                vm.Files.Add(f.ToViewModel());
 
             vm.Sections = new System.Collections.ObjectModel.ObservableCollection<SectionVM>();
             foreach (var s in Sections)
                 vm.Sections.Add(s.ToViewModel());
+
+            vm.FirewallRules = new System.Collections.ObjectModel.ObservableCollection<FirewallRuleVM>();
+            foreach (var fwr in FirewallRules)
+                vm.FirewallRules.Add(fwr.ToViewModel());
 
             return vm;
         }
@@ -174,6 +185,10 @@ namespace GeNSIS.Core.Models
             Sections.Clear();
             foreach (var s in pAppData.GetSections())
                 Sections.Add(new Section(s));
+
+            FirewallRules.Clear();
+            foreach (var fwr in pAppData.GetFirewallRules())
+                FirewallRules.Add(new FirewallRule(fwr));
         }
     }
 }

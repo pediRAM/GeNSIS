@@ -72,7 +72,7 @@ namespace GeNSIS.Core.Models
 
 
         #region Functions
-        public FileSystemItemVM ToModelView()
+        public FileSystemItemVM ToViewModel()
         {
             return new FileSystemItemVM
             {

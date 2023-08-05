@@ -29,6 +29,7 @@ namespace GeNSIS.Core.Interfaces
 
         bool DoInstallPerUser { get; }
         bool DoAddFWRule { get; }
+
         IFileSystemItem ExeName { get; }       
 
         string AssociatedExtension { get; }
@@ -60,6 +61,8 @@ namespace GeNSIS.Core.Interfaces
         IEnumerable<IFileSystemItem> GetFiles();
 
         IEnumerable<ISection> GetSections();
+
+        IEnumerable<IFirewallRule> GetFirewallRules();
 
         void UpdateValues(IAppData pAppData);
     }

@@ -152,6 +152,9 @@ namespace GeNSIS.Core
             }
         }
 
+        public ObservableCollection<FirewallRuleVM> FirewallRules { get; set; } = new ObservableCollection<FirewallRuleVM>();
+
+
         public string AppName
         {
             get { return  m_AppName; }
@@ -364,6 +367,7 @@ namespace GeNSIS.Core
         #region Methods
         public IEnumerable<IFileSystemItem> GetFiles() => Files;
         public IEnumerable<ISection> GetSections() => Sections;
+        public IEnumerable<IFirewallRule> GetFirewallRules() => FirewallRules;
         public void ResetHasUnsavedChanges() => m_HasUnsavedChanges = false;
 
         public AppData ToModel()
@@ -402,6 +406,10 @@ namespace GeNSIS.Core
             foreach (var f in Files)
                 clone.Files.Add(new FileSystemItem(f));
 
+            clone.FirewallRules = new List<FirewallRule>();
+            foreach (var fwr in FirewallRules)
+                clone.FirewallRules.Add(new FirewallRule(fwr));
+
             return clone;
         }
 
@@ -436,6 +444,10 @@ namespace GeNSIS.Core
             Sections.Clear();
             foreach (var s in pAppData.GetSections())
                 Sections.Add(new SectionVM(s));
+
+            FirewallRules.Clear();
+            foreach (var fwr in pAppData.GetFirewallRules())
+                FirewallRules.Add(new FirewallRuleVM(fwr));
         }
 
         private void NotifyPropertyChanged(string pPropertyName)
@@ -494,6 +506,15 @@ namespace GeNSIS.Core
                 var x = ex;
             }
         }
+
+        public void AddFirewallRules(IEnumerable<IFirewallRule> pFirewallRules)
+        {
+            foreach (IFirewallRule rule in pFirewallRules)
+                AddFirewallRule(rule);
+        }
+
+        public void AddFirewallRule(IFirewallRule pFirewallRule)
+            => FirewallRules.Add(new FirewallRuleVM(pFirewallRule));
         #endregion Methods
 
         #region Commands

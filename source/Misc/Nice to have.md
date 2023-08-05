@@ -11,6 +11,35 @@
 9.  Service in windows registrieren + deregistrieren
 10. Firewall-Rulename in windows einfügen + entfernen
 
+# Tipps von Chat GPT4
+It looks like you've introduced a shorthand or template language for describing common programming elements in object-oriented programming, such as classes, methods, properties, and specific data types. This kind of templating can be very useful for quickly sketching out structures or for generating code in different languages using a consistent notation.
+
+To clarify, the purpose of this syntax is to provide a quick and concise way to define class structures (or potentially other data types like structs, enums, and bitsets) and their associated members, right?
+
+Given your description, I understand the basic principles:
+
+1. **Type Declarations**: Different types can be defined using keywords like `class`, `enum`, `flags`, and `struct`.
+  
+2. **Program Elements**: You have defined shorthand for various program elements like `event`, `function`, `method`, and `property`.
+  
+3. **Data Types**: There are shorthand notations for a number of common data types, and it looks like unrecognized data types are left as-is.
+  
+4. **Examples**: The examples provided demonstrate how one can use verbose, short, or middle verbose syntaxes to define the same structure.
+
+This templating is a good starting point. However, a few considerations might be useful:
+
+- **Scoping and Access Modifiers**: Consider how you might incorporate access modifiers (like `public`, `private`, `protected`) or static members.
+  
+- **Function and Method Bodies**: Do you plan to include any mechanism for detailing the logic inside functions and methods, or is this strictly for structure definition?
+  
+- **Default Values**: It could be useful to have a way to provide default values for properties.
+  
+- **Attributes or Annotations**: Many programming languages use attributes or annotations to provide meta-information about classes, methods, or properties. Consider if you'd like a way to add these to your template.
+  
+- **Extensions or Plugins**: If this is intended to be used in a broader tool or system, consider how others might extend or adapt the template for more specific or specialized use cases.
+
+If you have specific questions or would like further elaboration on any part of this template language, please let me know!
+
 # Converter die nicht mehr benötigt werden => Weg!
 
 MessageBox: https://nsis.sourceforge.io/Reference/MessageBox
@@ -42,3 +71,4 @@ NSIS modern gui: https://nsis.sourceforge.io/Docs/Modern%20UI/Readme.html
 RMDir /r /REBOOTOK NameOfMyDirectory  --> https://nsis.sourceforge.io/Reference/RMDir
 
 C# new Switch expressions since C# 7 or 8: https://codebuns.com/csharp-advanced/csharp-8-switch-expressions/
+
