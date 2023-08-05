@@ -324,9 +324,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="LICENSE.TXT">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Misc\GeNSIS_mini_icon_white.ico" />
     <Content Include="nlog.config">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
