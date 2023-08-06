@@ -465,9 +465,12 @@ namespace GeNSIS.Core.TextGenerators
                 Add();
             }
 
+            
             AddComment("Create shortcuts on Desktop and Programs menu.");
+            var endLabel = AddDialogYesNo("Create shortcuts on Desktop and Programs menu?", "createShortcuts");
             Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
+            Add($"{endLabel}:");
             Add("SectionEnd");
         }
 
@@ -578,6 +581,28 @@ namespace GeNSIS.Core.TextGenerators
             Add();
             Add("SetAutoClose true");
             Add("SectionEnd");
+        }
+
+        /// <summary>
+        /// Adds the script code for showing a Yes-No-MessageBox to the user and returns the endLabel.
+        /// </summary>
+        /// <param name="pQuestion">The Question.</param>
+        /// <param name="pLabelName">Simple name of label (without "Label"), like: "addDesktopShortcut", "addShortcutToStartMenu", "addFirewallRules" aso.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        private string AddDialogYesNo(string pQuestion, string pLabelName)
+        {
+            if (string.IsNullOrWhiteSpace(pLabelName))
+                throw new ArgumentNullException(nameof(pLabelName), $"Name of a Label cannot be NULL/empty/whitespace!");
+
+            var yesLabel = $"{pLabelName}YesLabel";
+            var noLabel = $"{pLabelName}NoLabel";
+            var endLabel = $"{pLabelName}endLabel";
+            AddComment($"Ask user Yes/No question: {pQuestion}");
+            Add($"MessageBox MB_YESNO \"{pQuestion}\" IDYES {yesLabel}");
+            Add($"Goto {endLabel}");
+            Add($"{yesLabel}:");
+            return endLabel;
         }
         #endregion NSIS Code Creation
 
