@@ -637,13 +637,24 @@ namespace GeNSIS.Core
             set => m_ClearInstallerNameCommand = value;
         }
 
+        #region FirewallRules Commands
+        public ICommand m_RemoveFirewallRulesCommand;
+        public ICommand RemoveFirewallRulesCommand
+        {
+            get
+            {
+                m_RemoveFirewallRulesCommand ??= new RemoveFirewallRulesCommand(this);
+                return m_RemoveFirewallRulesCommand;
+            }
+            set => m_RemoveFirewallRulesCommand = value;
+        }
 
         public ICommand m_ClearFirewallRulesCommand;
         public ICommand ClearFirewallRulesCommand
         {
             get
             {
-                m_ClearInstallerNameCommand ??= new ClearFirewallRulesCommand(this);
+                m_ClearFirewallRulesCommand ??= new ClearFirewallRulesCommand(this);
                 return m_ClearFirewallRulesCommand;
             }
             set => m_ClearFirewallRulesCommand = value;
@@ -681,7 +692,7 @@ namespace GeNSIS.Core
             }
             set => m_AddBothFWRulesCommand = value;
         }
-
+        #endregion FirewallRules Commands
 
         #endregion Commands
     }

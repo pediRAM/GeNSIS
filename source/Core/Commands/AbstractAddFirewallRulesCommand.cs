@@ -28,7 +28,7 @@ namespace GeNSIS.Core.Commands
         public AbstractAddFirewallRulesCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         protected abstract EProtocolType ProtocolType { get; }
-        public override bool CanExecute(object parameter) => true;
+        public override bool CanExecute(object parameter) => !string.IsNullOrWhiteSpace((string)parameter);
 
         public override void Execute(object parameter) => AppDataViewModel.FirewallRules.AddRange(FirewallRuleHelper.ParseFirewallRules(parameter as string, ProtocolType));
     }

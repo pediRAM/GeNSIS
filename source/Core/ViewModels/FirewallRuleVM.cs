@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 using GeNSIS.Core.Enums;
+using GeNSIS.Core.Extensions;
 using GeNSIS.Core.Interfaces;
 using GeNSIS.Core.Models;
 using System.ComponentModel;
@@ -104,9 +105,9 @@ namespace GeNSIS.Core.ViewModels
         public override string ToString()
         {
             if (IsRange) 
-                return $"{ProtocolType}:{IP}-{ToIP}";
+                return $"{IP}-{ToIP} {ProtocolType.GetDisplayName()}";
 
-            return $"{ProtocolType}:{IP}";
+            return $"{IP} {ProtocolType.GetDisplayName()}";
         }
 
         private void NotifyPropertyChanged(string pPropertyName)

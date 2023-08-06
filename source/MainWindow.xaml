@@ -177,9 +177,125 @@
 
                 </Grid>
             </TabItem>
+            
+            <!-- Tab: Service and Firewall -->
+            <TabItem Header="❷ Firewall and Service" Style="{StaticResource label_tabitem}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
+                    <!-- Firewall Rules -->
+                    <!-- DoAddFirewallRule (bool) -->
+                    <Label Grid.Row="0" Grid.Column="0" Content="{StaticResource label_doaddfirewallrule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource label_input}" />
+                    <CheckBox  Grid.Row="0" Grid.Column="1" x:Name="chb_DoAddFWRule" IsChecked="{Binding DoAddFWRule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource checkbox_input}" />
+
+                    <Grid Grid.Row="1" Grid.ColumnSpan="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+
+                    <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_ports}" ToolTip="{StaticResource tt_ports}" Style="{StaticResource label_input}" />
+                    <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="4000 5000 8080-8088"             ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}" Width="300" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Hidden, VisibilityWhenFalse=Hidden, VisibilityWhenTrue=Visible}}" />
+                    
+                    <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button Content="Add TCP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddTcpFWRulesCommand}"       CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
+                        <Button Content="Add UDP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddUdpFWRulesCommand}"       CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
+                        <Button Content="Add Both" Style="{StaticResource button_sort}" Command="{Binding Path=AddBothFWRulesCommand}"      CommandParameter="{Binding ElementName=txb_Ports, Path=Text}" />
+                    </StackPanel>
+
+
+                    <Label     Grid.Row="2" Grid.Column="0" Content="{StaticResource label_firewall_rules}"    ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource label_input}" />
+                    <ListBox   Grid.Row="2" Grid.Column="1" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Hidden, VisibilityWhenFalse=Hidden, VisibilityWhenTrue=Visible}}"/>
+
+
+                    <!-- Files (Buttons) -->
+                    <Grid Grid.Row="2" Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Vertical">                            
+                            <Button Content="Remove"      Style="{StaticResource button_command}" Command="{Binding Path=RemoveFirewallRulesCommand}" CommandParameter="{Binding ElementName=lsb_FirewallRules, Path=SelectedItems}"/>
+                            <Button Content="Clear"       Style="{StaticResource button_command}" Command="{Binding Path=ClearFirewallRulesCommand}"  CommandParameter="{Binding ElementName=lsb_FirewallRules, Path=HasItems}"/>
+                        </StackPanel>
+
+                        <!--<Rectangle  Grid.Row="1" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />-->
+
+                        <!--<StackPanel Grid.Row="2" Orientation="Vertical" Visibility="{Binding ElementName=lsb_Files, Path=SelectedItem, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenNotNull=Visible}}">
+                            <TextBlock Text="Selected file is the..." Style="{StaticResource textblock_label}" MinWidth="100" />
+                            <Button Content="Executable" Style="{StaticResource button_command}" Command="{Binding Path=SetExecutableFileCommand}" CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
+                            <Button Content="License"    Style="{StaticResource button_command}" Command="{Binding Path=SetLicenseFileCommand}"    CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
+                            <Button Content="Icon"       Style="{StaticResource button_command}" Command="{Binding Path=SetIconFileCommand}"       CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
+                        </StackPanel>-->
+                    </Grid>
+
+                    <Rectangle Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
+
+                    <!-- Directories (List<Directory>) -->
+                    <Label   Visibility="Collapsed"   Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
+                    <ListBox   Visibility="Collapsed"   x:Name="lsb_Services"  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Width="16" Source="Resources/Icons/nuvola/22x22/kblackbox.png" />
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=Name}" Margin="5,2,2,2"/>
+                                </Grid>
+
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel   Visibility="Collapsed"   Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left">
+                        <Button x:Name="btn_AddService"    Style="{StaticResource button_command}" Click="OnAddDirectoryClicked" Content="Add..."/>
+                        <Button x:Name="btn_RemoveService" Style="{StaticResource button_command}" Content="Remove selected" Command="{Binding Path=RemoveSelectedDirectoryCommand}" CommandParameter="{Binding ElementName=lsb_Directories, Path=SelectedItem}"/>
+                    </StackPanel>
+
+                    <Rectangle   Visibility="Collapsed"   Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
+
+                    <!-- ExeName (string) -->
+                    <!--<Label   Grid.Row="4" Grid.Column="0" Content="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource label_input}" />
+                    <TextBox Grid.Row="4" Grid.Column="1" x:Name="txb_ServiceExeName" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
+
+                    <Rectangle Grid.Row="5" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>-->
+
+                    <!-- License (string) -->
+                    <!--<Label   Grid.Row="6" Grid.Column="0" Content="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource label_input}" />
+                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />-->
+
+
+                </Grid>
+            </TabItem>
+            <!-- END: Service & Firewall -->
+            
             <!-- Tab: App and Publisher -->
-            <TabItem Header="❷ Application and Publisher" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❸ Application and Publisher" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -247,7 +363,7 @@
 
 
 
-            <TabItem Header="❸ Installer" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❹ Installer" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -278,11 +394,7 @@
                     <Label    Grid.Row="2" Grid.Column="0" Content="Nest in company directory:" Style="{StaticResource label_input}" />
                     <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding DoCreateCompanyDir}" Style="{StaticResource checkbox_input}" />
                     
-                    <!-- DoAddFirewallRule (bool) -->
-                    <!--<TextBlock Grid.Row="2" Grid.Column="0" Text="{StaticResource label_doaddfirewallrule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource textblock_label}" />
-                    <CheckBox  Grid.Row="2" Grid.Column="1" x:Name="chb_DoAddFWRule" IsChecked="{Binding DoAddFWRule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource checkbox_input}" />
-                    <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Text="NSIS plugin ''LiteFirewall'' has to be installed!" Style="{StaticResource textblock_label}" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenFalse=Collapsed, VisibilityWhenTrue=Visible}}"/>-->
-
+                    
                     <!-- Installer Filename (string) -->
                     <Label      Grid.Row="6" Grid.Column="0" Content="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource label_input}" />
                     <TextBox    Grid.Row="6" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" Width="300" />
@@ -372,7 +484,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="❹ Design" x:Name="tabItem_Design" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❺ Design" x:Name="tabItem_Design" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -488,7 +600,7 @@
             </TabItem>
 
 
-            <TabItem Header="❺ Script" x:Name="tabItem_Editor" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❻ Script" x:Name="tabItem_Editor" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

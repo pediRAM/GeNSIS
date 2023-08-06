@@ -18,7 +18,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 using GeNSIS.Core.ViewModels;
-using System;
 using System.IO;
 
 namespace GeNSIS.Core.Commands
@@ -28,16 +27,9 @@ namespace GeNSIS.Core.Commands
         public SetExecutableFileCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
-        {
-            try { return (parameter != null && Path.GetExtension((parameter as FileSystemItemVM).Name).Equals(".exe", System.StringComparison.OrdinalIgnoreCase)); }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+            => (parameter != null && Path.GetExtension((parameter as FileSystemItemVM).Name).Equals(".exe", System.StringComparison.OrdinalIgnoreCase));
+
         public override void Execute(object parameter)
-        {
-            AppDataViewModel.ExeName = parameter as FileSystemItemVM;
-        }
+            => AppDataViewModel.ExeName = parameter as FileSystemItemVM;
     }
 }

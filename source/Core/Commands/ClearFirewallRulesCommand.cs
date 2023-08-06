@@ -25,8 +25,10 @@ namespace GeNSIS.Core.Commands
     {
         public ClearFirewallRulesCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
-        public override bool CanExecute(object parameter) => AppDataViewModel.FirewallRules.HasElement();
+        public override bool CanExecute(object parameter)
+            => parameter == null ? false : (bool)parameter;
 
-        public override void Execute(object parameter) => AppDataViewModel.FirewallRules.Clear();
+        public override void Execute(object parameter) 
+            => AppDataViewModel.FirewallRules.Clear();
     }
 }

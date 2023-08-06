@@ -15,6 +15,7 @@
     <sys:String x:Key="label_appbuild">Application build:</sys:String>
     <sys:String x:Key="label_appicon">Application icon (*.ico):</sys:String>
     <sys:String x:Key="label_files">Files:</sys:String>
+    <sys:String x:Key="label_firewall_rules">Firewall Rules:</sys:String>
     <sys:String x:Key="label_directories">Components:</sys:String>
     <sys:String x:Key="label_design_installer">Installer Design</sys:String>
     <sys:String x:Key="label_design_uninstaller">Uninstaller Design</sys:String>
@@ -24,6 +25,7 @@
     <sys:String x:Key="label_publisher">Publisher name:</sys:String>
     <sys:String x:Key="label_url">Website (url):</sys:String>
     <sys:String x:Key="label_installer_filename">Installer filename:</sys:String>
+    <sys:String x:Key="label_ports">Port(s) or Range:</sys:String>
     <sys:String x:Key="label_associatedextension">Associated extension:</sys:String>
     <sys:String x:Key="label_doinstallperuser">Do install per user:</sys:String>
     <sys:String x:Key="label_doaddfirewallrule">Add firewall rule:</sys:String>
@@ -35,11 +37,14 @@
     <sys:String x:Key="tt_appicon">Installer icon (*.ico)</sys:String>
     <sys:String x:Key="tt_leftimageonwelcomepage">Left image (Bitmap: *.bmp) on installer welcome page</sys:String>
     <sys:String x:Key="tt_files">Files of your application, which should be copied to the installation directory</sys:String>
+    <sys:String x:Key="tt_firewall_rules">Firewall rules to add while installation.</sys:String>
     <sys:String x:Key="tt_directories">Directories of your application, which should be copied (optional recursively) to the installation dirctory</sys:String>
     <sys:String x:Key="tt_exename">Executable filename: name of the *.exe file of your application</sys:String>
     <sys:String x:Key="tt_license">License file: name of the license file (*.rtf, *.txt), like: License.txt or License.rtf</sys:String>
     <sys:String x:Key="tt_company">Company name: name or initials of the company, organisation or individual which/who is distributing the application</sys:String>
     <sys:String x:Key="tt_publisher">Publisher: name of the company, organisation or individual which/who is publishing the application</sys:String>
+    <sys:String x:Key="tt_ports" xml:space="preserve">Portnumbers separated by space, comma or semicolorn, like: 8001 8011 9777
+Or Range as StartIP-EndIP, like: 4000-4010</sys:String>
     <sys:String x:Key="tt_url">URL of the application/company website</sys:String>
     <sys:String x:Key="tt_installerfilename" xml:space="preserve">Filename of installer/setup file, like: Setup_MyApp_1.2.3_AMD64_x64.exe&#13;
 Leave empty (default) for dynamic auto-nameing in script</sys:String>

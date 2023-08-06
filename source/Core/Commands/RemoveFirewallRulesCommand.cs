@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using GeNSIS.Core.Extensions;
 using GeNSIS.Core.ViewModels;
-using System.Windows.Controls;
+using System.Linq;
 
 namespace GeNSIS.Core.Commands
 {
@@ -27,12 +27,26 @@ namespace GeNSIS.Core.Commands
     {
         public RemoveFirewallRulesCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
-        public override bool CanExecute(object parameter) => AppDataViewModel.FirewallRules.HasElement() && (parameter as ListBox).SelectedItems.Count > 0;
+        public override bool CanExecute(object parameter)
+        {
+            if (AppDataViewModel.FirewallRules.HasElement() && parameter != null)
+            {
+                var ienumerable = parameter as System.Collections.IEnumerable;
+                return (ienumerable != null && ienumerable.OfType<FirewallRuleVM>().Count() > 0);
+            }
+            return false;
+        }
+
 
         public override void Execute(object parameter)
         {
-            foreach(var item in (parameter as ListBox).SelectedItems)
-                AppDataViewModel.FirewallRules.Remove(item as FirewallRuleVM);
+            var ienumerable = parameter as System.Collections.IEnumerable;
+            if (ienumerable != null)
+            {
+                var fwRuels = ienumerable.OfType<FirewallRuleVM>().ToArray();
+                foreach (var fwRule in fwRuels)
+                    AppDataViewModel.FirewallRules.Remove(fwRule);
+            }
         }
     }
 }

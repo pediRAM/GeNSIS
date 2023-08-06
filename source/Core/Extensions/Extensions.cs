@@ -18,9 +18,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 using GeNSIS.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
@@ -98,6 +101,20 @@ namespace GeNSIS.Core.Extensions
             foreach (var item in pListBox.SelectedItems)
                 l.Add((T)item);
             return l;
+        }
+    }
+
+    public static class EnumExtensions
+    {
+        public static string GetDisplayName(this Enum enumValue)
+        {
+            var dispAttr = enumValue.GetType()
+              .GetMember(enumValue.ToString())
+              .First()
+              .GetCustomAttribute(typeof(DisplayAttribute), false) as DisplayAttribute;
+
+            if (dispAttr == null) return enumValue.ToString();
+            else return dispAttr.Name;
         }
     }
 }
