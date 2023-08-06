@@ -200,7 +200,7 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="{StaticResource label_doaddfirewallrule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource label_input}" />
                     <CheckBox  Grid.Row="0" Grid.Column="1" x:Name="chb_DoAddFWRule" IsChecked="{Binding DoAddFWRule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource checkbox_input}" />
 
-                    <Grid Grid.Row="1" Grid.ColumnSpan="5">
+                    <Grid Grid.Row="1" Grid.ColumnSpan="5" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenFalse=Collapsed, VisibilityWhenTrue=Visible}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -214,23 +214,23 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                    </Grid>
+                    
 
-                    <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_ports}" ToolTip="{StaticResource tt_ports}" Style="{StaticResource label_input}" />
-                    <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="4000 5000 8080-8088"             ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}" Width="300" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Hidden, VisibilityWhenFalse=Hidden, VisibilityWhenTrue=Visible}}" />
+                    <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_ports}"                 ToolTip="{StaticResource tt_ports}" Style="{StaticResource label_input}" />
+                    <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="Example: 1000 2000 3000-3099" ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}" Width="300" />
                     
                     <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Button Content="Add TCP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddTcpFWRulesCommand}"       CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
-                        <Button Content="Add UDP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddUdpFWRulesCommand}"       CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
-                        <Button Content="Add Both" Style="{StaticResource button_sort}" Command="{Binding Path=AddBothFWRulesCommand}"      CommandParameter="{Binding ElementName=txb_Ports, Path=Text}" />
+                        <Button Content="Add TCP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddTcpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
+                        <Button Content="Add UDP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddUdpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
+                        <Button Content="Add Both" Style="{StaticResource button_sort}" Command="{Binding Path=AddBothFWRulesCommand}" CommandParameter="{Binding ElementName=txb_Ports, Path=Text}" />
                     </StackPanel>
 
 
                     <Label     Grid.Row="2" Grid.Column="0" Content="{StaticResource label_firewall_rules}"    ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource label_input}" />
-                    <ListBox   Grid.Row="2" Grid.Column="1" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Hidden, VisibilityWhenFalse=Hidden, VisibilityWhenTrue=Visible}}"/>
+                    <ListBox   Grid.Row="2" Grid.Column="1" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}" />
 
 
-                    <!-- Files (Buttons) -->
+                    <!-- Firewall Remove/Clear Buttons (right of FW ListBox) -->
                     <Grid Grid.Row="2" Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -238,21 +238,12 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <StackPanel Grid.Row="0" Orientation="Vertical">                            
-                            <Button Content="Remove"      Style="{StaticResource button_command}" Command="{Binding Path=RemoveFirewallRulesCommand}" CommandParameter="{Binding ElementName=lsb_FirewallRules, Path=SelectedItems}"/>
-                            <Button Content="Clear"       Style="{StaticResource button_command}" Command="{Binding Path=ClearFirewallRulesCommand}"  CommandParameter="{Binding ElementName=lsb_FirewallRules, Path=HasItems}"/>
-                        </StackPanel>
-
-                        <!--<Rectangle  Grid.Row="1" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />-->
-
-                        <!--<StackPanel Grid.Row="2" Orientation="Vertical" Visibility="{Binding ElementName=lsb_Files, Path=SelectedItem, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenNotNull=Visible}}">
-                            <TextBlock Text="Selected file is the..." Style="{StaticResource textblock_label}" MinWidth="100" />
-                            <Button Content="Executable" Style="{StaticResource button_command}" Command="{Binding Path=SetExecutableFileCommand}" CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
-                            <Button Content="License"    Style="{StaticResource button_command}" Command="{Binding Path=SetLicenseFileCommand}"    CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
-                            <Button Content="Icon"       Style="{StaticResource button_command}" Command="{Binding Path=SetIconFileCommand}"       CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
-                        </StackPanel>-->
+                            <StackPanel Grid.Row="0" Orientation="Vertical">
+                                <Button Content="Remove" Style="{StaticResource button_command}" Command="{Binding Path=RemoveFirewallRulesCommand}" CommandParameter="{Binding ElementName=lsb_FirewallRules, Path=SelectedItems}"/>
+                                <Button Content="Clear"  Style="{StaticResource button_command}" Command="{Binding Path=ClearFirewallRulesCommand}"  CommandParameter="{Binding ElementName=lsb_FirewallRules, Path=HasItems}"/>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
-
                     <Rectangle Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
 
                     <!-- Directories (List<Directory>) -->
