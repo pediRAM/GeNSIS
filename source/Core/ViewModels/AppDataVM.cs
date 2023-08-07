@@ -191,6 +191,7 @@ namespace GeNSIS.Core
             {
                 if (value == m_AssociatedExtension) return;
                 m_AssociatedExtension = value;
+                NotifyPropertyChanged(nameof(AssociatedExtension));
             }
         }
 
@@ -202,7 +203,6 @@ namespace GeNSIS.Core
                 if (value == m_AppVersion) return;
                 m_AppVersion = value;
                 NotifyPropertyChanged(nameof(AppVersion));
-
             }
         }
 

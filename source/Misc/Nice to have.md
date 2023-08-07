@@ -1,5 +1,9 @@
 ﻿
 # todo:
+- Code Auto-Gen. für Firewall-Rules + YesNo-MsgBox anwenden! + Testen!
+# BUGs:
+## Warum wird nach dem laden von *.gensis AssociatedExtension nie angezeigt?
+
 1. ~~Beim Auto-Add-All-From-Folder: Verzeichnisse als Verzeichnis kopieren~~
 2. User muss sofort sehen wohin die Section kopiert wird
 3. Mit Pecopaliss kleines Test-Installer erstellen + Installieren und Deinstallieren TESTEN!

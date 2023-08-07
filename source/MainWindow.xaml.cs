@@ -100,13 +100,16 @@ namespace GeNSIS
             DataContext = AppData;
         }
 
-        private void CheckForProjectPath()
+        private void CheckAndLoadProjectPathFromArguments()
         {
             try
             {
                 var args = Environment.GetCommandLineArgs();
                 if (args != null && args.Length >= 2 && File.Exists(args[1]))
+                {
+                    Log.Debug($"Found existing path in args:'{args[1]}'");
                     LoadProject(args[1]);
+                }
             }
             catch (Exception ex)
             {
@@ -178,18 +181,20 @@ namespace GeNSIS
 
         private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
+            Log.Info("Main window has loaded.");
+
             ProcessAppConfig();
             if (!NsisInstallationDirectoryExists())
             {
                 if (m_MsgBoxMgr.ShowContinueWithoutNsisWarning() != MessageBoxResult.Yes)
                 {
-                    Log?.Debug("User decided to quit due to missing NSIS installation.");
+                    Log.Debug("User decided to quit due to missing NSIS installation.");
                     Close();
                     return;
                 }
             }
 
-            CheckForProjectPath();
+            CheckAndLoadProjectPathFromArguments();
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -275,6 +280,8 @@ namespace GeNSIS
 
         private void OnAddFilesClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked on AddFiles.");
+
             m_OpenFilesDialog.Filter = FileDialogHelper.Filter.ALL_FILES;
             FileDialogHelper.InitDir(m_OpenFilesDialog, PathHelper.GetMyDocuments());
             if (m_OpenFilesDialog.ShowDialog().Value != true)
@@ -286,6 +293,7 @@ namespace GeNSIS
 
         private void OnAddDirectoryClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked on AddDirectory.");
             if (m_FolderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 AppData.Sections.Add(new SectionVM(m_FolderBrowserDialog.SelectedPath));
@@ -294,6 +302,7 @@ namespace GeNSIS
 
         private void OnGenerate(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked on OnGenerate.");
             try
             {
                 var validator = new Core.Validator();
@@ -319,39 +328,53 @@ namespace GeNSIS
             }
             catch (FileNotFoundException fnfEx)
             {
+                Log.Error(fnfEx);
                 m_MsgBoxMgr.ShowContentFileNotFoundError(fnfEx.FileName);
             }
             catch (Exception ex)
             {
-                m_MsgBoxMgr.ShowError("Unexpected error!", $"Error message:\n{ex.Message}\n{ex.StackTrace[0]}");
+                Log.Error(ex);
+                m_MsgBoxMgr.ShowException(ex);
             }
         }
 
         private void SaveScript(string pFileName, string pNsiString)
         {
+            Log.Debug($"Saving nsis script to file:'{pFileName}' ...");
             PathToGeneratedNsisScript = pFileName;
-            File.WriteAllText(pFileName, pNsiString, encoding: System.Text.Encoding.UTF8);
+            File.WriteAllText(pFileName, pNsiString, encoding: Encoding.UTF8);
         }
 
         private void OnCompileScript(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked on CompileScript.");
             if (string.IsNullOrEmpty(PathToGeneratedNsisScript))
             {
+                Log.Warn($"{nameof(PathToGeneratedNsisScript)} was null or empty!");
                 _ = m_MsgBoxMgr.ShowNoGeneratedScriptFileError();
                 return;
             }
 
             if (!File.Exists(PathToGeneratedNsisScript))
             {
+                Log.Warn($"File not found in:'{PathToGeneratedNsisScript}'!");
                 _ = m_MsgBoxMgr.ShowGeneratedScriptFileNotFoundError();
                 return;
             }
 
             if (string.IsNullOrEmpty(m_Config.NsisInstallationDirectory))
             {
+                Log.Warn($"{nameof(m_Config.NsisInstallationDirectory)} was null or empty!");
                 _ = m_MsgBoxMgr.ShowSettingsHasNoNsisPathDefError();
                 return;
             }
+
+            StartMakensiswProcess();
+        }
+
+        private void StartMakensiswProcess()
+        {
+            Log.Info("Starting makensisw process...");
             Directory.SetCurrentDirectory(m_Config.InstallersDirectory);
             var makeNsisExePath = $@"{m_Config.NsisInstallationDirectory}\makensisw.exe";
             var pi = new ProcessStartInfo($"\"{makeNsisExePath}\"", $"/V4 /NOCD \"{PathToGeneratedNsisScript}\"");
@@ -364,6 +387,7 @@ namespace GeNSIS
 
         private void OnNewProjectClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked NewProject.");
             if (AppData.HasUnsavedChanges)
             {
                 if (m_MsgBoxMgr.ShowUnsavedChangesByNewProjectWarning() != MessageBoxResult.Yes)
@@ -376,12 +400,14 @@ namespace GeNSIS
 
         private void ResetScriptAndPath()
         {
+            Log.Debug("Resetting script and path...");
             editor.Clear();
             PathToGeneratedNsisScript = null;
         }
 
         private void OnAddFilesFromFolderClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked AddFilesFromFolder.");
 #if DEBUG
             m_FolderBrowserDialog.InitialDirectory = @"H:\MyTemp\__Install Files for MyApp 1.2.3\MyApp 1.2.3"; // todo: <-- remove!
 #else
@@ -394,10 +420,15 @@ namespace GeNSIS
             AppData.AddFiles(Directory.GetFiles(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly));
         }
 
-        private void OnCloseClicked(object sender, RoutedEventArgs e) => Close();
+        private void OnCloseClicked(object sender, RoutedEventArgs e)
+        {
+            Log.Info("User clicked Close.");
+            Close();
+        }
 
         private void OnSaveProjectAsClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked SaveProjectAs.");
             m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
             FileDialogHelper.InitDir(m_SaveProjectDialog, m_Config.GeNSISProjectsDirectory);
             m_SaveProjectDialog.FileName = PathHelper.GetNewProjectName(AppData);
@@ -411,6 +442,7 @@ namespace GeNSIS
 
         private void OnSaveProjectClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked SaveProject.");
             // Is project already saved (by "Save as...")?
             string pathOfSavedProject = m_ProjectManager.GetProjectFilePath();
             if (pathOfSavedProject == null)
@@ -427,6 +459,7 @@ namespace GeNSIS
 
         private void OnOpenProjectClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked OpenProject.");
             if (AppData.HasUnsavedChanges)
             {
                 if (m_MsgBoxMgr.ShowUnsavedChangesByOpenProjectWarning() != MessageBoxResult.Yes)
@@ -443,6 +476,8 @@ namespace GeNSIS
 
         private void LoadProject(string pPathToProjectFile)
         {
+            Log.Debug($"Loading project file from:'{pPathToProjectFile}'");
+
             var appData = m_ProjectManager.Load(pPathToProjectFile).AppData;
             AppData.UpdateValues(appData);
             ResetScriptAndPath();
@@ -450,6 +485,7 @@ namespace GeNSIS
 
         private void OnOpenSettingsWindowClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked OpenSettingsWindow.");
             var sw = new SettingsWindow(m_Config);
             sw.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             if (sw.ShowDialog() != true && sw.Config.HasUnsavedChanges)
@@ -477,6 +513,7 @@ namespace GeNSIS
         #region Open/Save Script
         private void OnSaveScriptClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked SaveScript.");
             if (string.IsNullOrWhiteSpace(PathToGeneratedNsisScript))
             {
                 _ = m_MsgBoxMgr.ShowNoGeneratedScriptFileError();
@@ -490,6 +527,7 @@ namespace GeNSIS
 
         private void OnOpenScriptClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked OpenScript.");
             m_OpenScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
             FileDialogHelper.InitDir(m_OpenScriptDialog, PathHelper.GetGeNSISScriptsDir());
             if (m_OpenScriptDialog.ShowDialog() != true)
@@ -500,18 +538,21 @@ namespace GeNSIS
 
         private void LoadScriptFromFile(string pScriptPath)
         {
+            Log.Debug($"Loading script from file:'{pScriptPath}' ...");
             try
             {
                 editor.Text = File.ReadAllText(pScriptPath, Encoding.UTF8);
                 tabItem_Editor.IsSelected = true;
-                PathToGeneratedNsisScript = m_OpenScriptDialog.FileName;
+                PathToGeneratedNsisScript = pScriptPath;
             }
             catch (FileNotFoundException fnfEx)
             {
+                Log.Error(fnfEx);
                 m_MsgBoxMgr.ShowScriptNotFoundError(fnfEx.FileName);
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
                 m_MsgBoxMgr.ShowException(ex);
             }
         }
@@ -520,12 +561,14 @@ namespace GeNSIS
         #region Desing (Icons & Images)
         private void OnLoadIconClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked LoadIcon.");
             if (TryLoadIcon(out string fileName))
                 AppData.InstallerIcon = fileName;
         }
 
         private void OnLoadUninstallerIconClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked LoadUninstallerIcon.");
             if (TryLoadIcon(out string fileName))
                 AppData.UninstallerIcon = fileName;
         }
@@ -550,7 +593,7 @@ namespace GeNSIS
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.TraceError(ex.ToString());
+                    Log.Error(ex);
                 }
             }
             return false;
@@ -558,12 +601,14 @@ namespace GeNSIS
 
         private void OnLoadWizardClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked LoadWizard.");
             if (TryLoadWizardImage(out string fileName))
                 AppData.InstallerWizardImage = fileName;
         }
 
         private void OnLoadUninstallerWizardClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked LoadUninstallerWizard.");
             if (TryLoadWizardImage(out string fileName))
                 AppData.UninstallerWizardImage = fileName;
         }
@@ -592,7 +637,7 @@ namespace GeNSIS
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.TraceError(ex.ToString());
+                    Log.Error(ex);
                 }
             }
             return false;
@@ -600,12 +645,14 @@ namespace GeNSIS
 
         private void OnLoadHeaderClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked LoadHeader.");
             if (TryLoadHeaderImage(out string fileName))
                 AppData.InstallerHeaderImage = fileName;
         }
 
         private void OnLoadUninstallerHeaderClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked LoadUninstallerHeader.");
             if (TryLoadHeaderImage(out string fileName))
                 AppData.UninstallerHeaderImage = fileName;
         }
@@ -636,7 +683,7 @@ namespace GeNSIS
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.TraceError(ex.ToString());
+                    Log.Error(ex);
                 }
             }
             return false;
@@ -648,6 +695,7 @@ namespace GeNSIS
         private bool m_SortByName;
         private void OnSortByNameClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked SortByName.");
             if (!m_SortByName)
             {
                 var l = LangSrc.ToList();
@@ -671,6 +719,7 @@ namespace GeNSIS
         private bool m_SortByOrder;
         private void OnSortByOrderClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked SortByOrder.");
             if (!m_SortByOrder)
             {
                 var l = LangSrc.ToList();
@@ -696,6 +745,7 @@ namespace GeNSIS
         private bool m_SortDstByName;
         private void OnSortDstByNameClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked SortDstByName.");
             if (!m_SortDstByName)
             {
                 var l = LangDst.ToList();
@@ -719,6 +769,7 @@ namespace GeNSIS
         private bool m_SortDstByOrder;
         private void OnSortDstByOrderClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked SortDstByOrder.");
             if (!m_SortDstByOrder)
             {
                 var l = LangDst.ToList();
@@ -749,6 +800,7 @@ namespace GeNSIS
 
         private void OnAddSelectedLanguagesClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked AddSelectedLanguages.");
             var selectedLanguages = lsb_LangSrc.GetSelectedItems<Language>();
             LangSrc.RemoveRange(selectedLanguages);
             LangDst.AddRange(selectedLanguages);
@@ -756,12 +808,14 @@ namespace GeNSIS
 
         private void OnAddAllLanguagesClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked AddAllLanguages.");
             LangDst.AddRange(LangSrc);
             LangSrc.Clear();
         }
 
         private void OnRemoveSelectedLanguagesClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked RemoveSelectedLanguages.");
             var selectedLanguages = lsb_LangDst.GetSelectedItems<Language>();
             LangDst.RemoveRange(selectedLanguages);
             LangSrc.AddRange(selectedLanguages);
@@ -769,6 +823,7 @@ namespace GeNSIS
 
         private void OnResetLanguagesClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked ResetLanguages.");
             LangSrc.AddRange(LangDst);
             LangDst.Clear();
             var eng = LangSrc.Single(x => x.Name == "English");
@@ -798,6 +853,7 @@ namespace GeNSIS
 
         private void OnRemoveEmptyLinesAndCommentsClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked RemoveEmptyLinesAndComments.");
             var sb = new StringBuilder();
             foreach (string line in editor.Text.Split("\r\n", StringSplitOptions.RemoveEmptyEntries))
             {
@@ -810,6 +866,7 @@ namespace GeNSIS
 
         private void OnRemoveSelectedFilesClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked RemoveSelectedFiels.");
             if (lsb_Files.SelectedItems == null || lsb_Files.SelectedItems.Count == 0)
                 return;
 
@@ -822,6 +879,7 @@ namespace GeNSIS
 
         private void OnDirectoryDroped(object sender, DragEventArgs e)
         {
+            Log.Info("User has dropped directory.");
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 IEnumerable<string> files = e.Data.GetData(DataFormats.FileDrop) as IEnumerable<string>;
@@ -832,6 +890,7 @@ namespace GeNSIS
 
         private void OnScriptDropped(object sender, DragEventArgs e)
         {
+            Log.Info("User dropped nsis script.");
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] paths = e.Data.GetData(DataFormats.FileDrop) as string[];
@@ -848,6 +907,7 @@ namespace GeNSIS
 
         private void OnPrintScriptClicked(object sender, RoutedEventArgs e)
         {
+            Log.Info("User clicked PrintScript.");
             var printDialog = new System.Windows.Controls.PrintDialog();
             if (printDialog.ShowDialog() == true)
             {

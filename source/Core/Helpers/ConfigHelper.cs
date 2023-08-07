@@ -22,6 +22,7 @@ using GeNSIS.Core.Models;
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Windows;
 
 namespace GeNSIS.Core.Helpers
 {
@@ -36,35 +37,55 @@ namespace GeNSIS.Core.Helpers
         public static string GetNsisIconsFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_ICONS;
         public static string GetNsisWizardImagesFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_WIZARD_IMAGES;
         public static string GetNsisHeaderImagesFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_HEADER_IMAGES;
-        public static bool AppConfigFileExists() => File.Exists(GConst.GeNSIS.FILENAME_CONFIG);
+        public static bool AppConfigFileExists() => File.Exists(GetConfigPath());
+
+
+        private static string _configPath;
+        public static string GetConfigPath()
+        {
+            if (_configPath == null)
+            {
+                var appInstallDir = Path.GetDirectoryName(Environment.ProcessPath);
+                var currentDir = Directory.GetCurrentDirectory();
+                if (appInstallDir.Equals(currentDir, StringComparison.InvariantCultureIgnoreCase))
+                    _configPath = GConst.GeNSIS.FILENAME_CONFIG;
+                else
+                    _configPath = $"{appInstallDir}\\{GConst.GeNSIS.FILENAME_CONFIG}";
+            }
+            return _configPath;
+        }
 
         public static Config ReadConfigFile()
         {
-            var jsonString = File.ReadAllText(GConst.GeNSIS.FILENAME_CONFIG, System.Text.Encoding.UTF8);
+            Log.Debug($"Reading config file from:'{GetConfigPath()}'");
+            var jsonString = File.ReadAllText(GetConfigPath(), System.Text.Encoding.UTF8);
             s_AppConfig = JsonSerializer.Deserialize<Config>(jsonString);
             return s_AppConfig;
         }
 
         public static void WriteConfigFile(Config pAppConfig)
         {
+            Log.Debug($"Writing config file to:'{GetConfigPath()}'");
             string jsonString = JsonSerializer.Serialize<Config>(pAppConfig, new JsonSerializerOptions { WriteIndented = true});
-            File.WriteAllText(GConst.GeNSIS.FILENAME_CONFIG, jsonString, System.Text.Encoding.UTF8);
+            File.WriteAllText(GetConfigPath(), jsonString, System.Text.Encoding.UTF8);
         }
 
         public static Config CreateConfig()
         {
+            Log.Debug($"Creating application configuration...");
+
             var config = new Config();
             config.NsisInstallationDirectory = GetNsisInstallationDirectoryOrNull();
 
             CreateGeNSISDirectoriesIfNotExist();
 
             config.GeNSISProjectsDirectory = PathHelper.GetGeNSISProjectsDir();
-            config.ScriptsDirectory = PathHelper.GetGeNSISScriptsDir();
-            config.InstallersDirectory = PathHelper.GetGeNSISInstallerssDir();
+            config.ScriptsDirectory        = PathHelper.GetGeNSISScriptsDir();
+            config.InstallersDirectory     = PathHelper.GetGeNSISInstallerssDir();
 
             config.CompanyName = GConst.Default.COMPANY_NAME;
-            config.Publisher = Environment.UserName;
-            config.Website = GConst.Default.WEBSITE_URL;
+            config.Publisher   = Environment.UserName;
+            config.Website     = GConst.Default.WEBSITE_URL;
 
             s_AppConfig = config;
             return config;
@@ -112,7 +133,7 @@ namespace GeNSIS.Core.Helpers
         {
             if (!Directory.Exists(pPath))
             {
-                Log?.Debug($"Creating dir: {pPath}...");
+                Log.Debug($"Creating dir: {pPath}...");
                 Directory.CreateDirectory(pPath);
             }
         }

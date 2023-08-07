@@ -40,29 +40,29 @@ namespace GeNSIS
         private void SetupExceptionHandling()
         {
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-                LogUnhandledException((Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
+                LogUnhandledException(s, (Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
 
             DispatcherUnhandledException += (s, e) =>
             {
-                LogUnhandledException(e.Exception, "Application.Current.DispatcherUnhandledException");
+                LogUnhandledException(s, e.Exception, "Application.Current.DispatcherUnhandledException");
                 e.Handled = true;
             };
 
             TaskScheduler.UnobservedTaskException += (s, e) =>
             {
-                LogUnhandledException(e.Exception, "TaskScheduler.UnobservedTaskException");
+                LogUnhandledException(s, e.Exception, "TaskScheduler.UnobservedTaskException");
                 e.SetObserved();
             };
         }
 
-        private void LogUnhandledException(Exception exception, string source)
+        private void LogUnhandledException(object sender, Exception exception, string source)
         {
             string message = $"Unhandled exception ({source})";
             try
             {
                 System.Reflection.AssemblyName assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName();
                 message = string.Format("Unhandled exception in {0} v{1}", assemblyName.Name, assemblyName.Version);
-                Log.Fatal($"Unhandled exception ({source})");
+                Log.Fatal($"Unhandled exception sender:{sender} (source:{source})");
             }
             catch (Exception ex)
             {

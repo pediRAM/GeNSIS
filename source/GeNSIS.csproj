@@ -326,7 +326,7 @@
   <ItemGroup>
     <Content Include="Misc\GeNSIS_mini_icon_white.ico" />
     <Content Include="nlog.config">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

@@ -17,6 +17,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
+using GeNSIS.Core.ViewModels;
+using Microsoft.VisualBasic;
 using System;
 
 namespace GeNSIS.Core.Commands
@@ -26,11 +28,11 @@ namespace GeNSIS.Core.Commands
         public SetIconFileCommand(AppDataVM pAppDataViewModel) : base(pAppDataViewModel) { }
 
         public override bool CanExecute(object parameter)
-            => parameter != null && ((string)parameter).EndsWith(".ico", StringComparison.InvariantCultureIgnoreCase);
+            => parameter != null && /*(parameter as FileSystemItemVM).Name*/((string)parameter).EndsWith(".ico", StringComparison.InvariantCultureIgnoreCase);
 
         public override void Execute(object parameter)
         {
-            AppDataViewModel.InstallerIcon = (string)parameter;
+            AppDataViewModel.InstallerIcon = (parameter as FileSystemItemVM).Path;
         }
     }
 }
