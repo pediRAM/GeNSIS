@@ -60,7 +60,7 @@ namespace GeNSIS.Core.Helpers
             {
                 if (int.TryParse(pToken, out int pResult))
                 {
-                    pFirewallRule = new FirewallRuleVM { ProtocolType = pProtocolType, IP = pResult };
+                    pFirewallRule = new FirewallRuleVM { ProtocolType = pProtocolType, Port = pResult };
                     return true;
                 }
                 return false;
@@ -77,8 +77,8 @@ namespace GeNSIS.Core.Helpers
                 {
                     ProtocolType = pProtocolType,
                     IsRange = fromIP != toIP,
-                    IP = Math.Min(fromIP, toIP),
-                    ToIP = Math.Max(fromIP, toIP)                        
+                    Port = Math.Min(fromIP, toIP),
+                    ToPort = Math.Max(fromIP, toIP)                        
                 };
                 return true;
             }

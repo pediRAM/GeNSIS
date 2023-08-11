@@ -388,9 +388,9 @@ namespace GeNSIS.Core.TextGenerators
             }
             Add();
             AddComment("Function to show the language selection page:");
-            Add("Function .onInit");
+            AddFunction(".onInit");
             AddInsertMacro("MUI_LANGDLL_DISPLAY");
-            Add("FunctionEnd");
+            AddFunctionEnd();
         }
 
         private void AddInstallationDir()
@@ -425,12 +425,12 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("user cannot unselect this component/section (if there are two or more).");
             if (HasOptionalSections())
             {
-                Add($"Section !Required");
+                AddSection("!Required");
                 Add("SectionIn RO");
             }
             else
             {
-                Add($"Section \"Required\" SEC01");
+                AddSection($"\"Required\" SEC01");
             }
 
             Add("SetOutPath \"$INSTDIR\"");
@@ -467,13 +467,26 @@ namespace GeNSIS.Core.TextGenerators
 
             
             AddComment("Create shortcuts on Desktop and Programs menu.");
-            var endLabel = AddDialogYesNo("Create shortcuts on Desktop and Programs menu?", "createShortcuts");
+            var endLabel = AddDialogYesNo("Create shortcuts on Desktop and Programs menu?", "CreateShortcuts");
             Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add($"{endLabel}:");
-            Add("SectionEnd");
-        }
 
+            if (m_AppData.GetFirewallRules().Count() > 0)
+            {
+                AddStripline();
+                Add();
+
+                AddComment("Add firewall rules.");
+                var label = AddDialogYesNo("Add firewall rules?", "AddFWRules");
+                AddAllFirewallRules();
+                AddLabel(label);
+            }
+            else
+                Add();
+            
+            AddSectionEnd();
+        }
 
         private int m_SectionCounter = 1;
         private void AddSections()
@@ -481,7 +494,7 @@ namespace GeNSIS.Core.TextGenerators
             m_SectionCounter = 1;
             foreach (var dir in m_AppData.GetSections())
             {
-                Add($"Section \"{dir.Name}\" SEC{m_SectionCounter++:d2}");
+                AddSection($"\"{dir.Name}\" SEC{m_SectionCounter++:d2}");
                 if (string.IsNullOrEmpty(dir.TargetInstallDir))
                     Add($"SetOutPath \"$INSTDIR\"");
                 else
@@ -492,7 +505,7 @@ namespace GeNSIS.Core.TextGenerators
                 AddComment("Add files:");
                 foreach (var s in Directory.GetFiles(dir.SourcePath, "*", SearchOption.AllDirectories))
                     Add($"File \"{s}\"");
-                Add("SectionEnd");
+                AddSectionEnd();
                 AddStripline();
                 Add();
             }
@@ -500,16 +513,16 @@ namespace GeNSIS.Core.TextGenerators
 
         private void AddShortCutSection()
         {
-            Add($"Section \"Create Shortcuts\" SEC{m_SectionCounter:d2}");
+            AddSection($"\"Create Shortcuts\" SEC{m_SectionCounter:d2}");
             AddComment("Create shortcuts on Desktop and Programs menu.");
             Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
-            Add("SectionEnd");
+            AddSectionEnd();
         }
 
         private void AddPostSection()
         {
-            Add("Section -Post");
+            AddSection("-Post");
             Add("WriteUninstaller \"$INSTDIR\\uninst.exe\"");
             Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayName\" \"$(^Name)\"");
             Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayIcon\" \"$INSTDIR\\${APP_EXE_NAME}\"");
@@ -518,36 +531,35 @@ namespace GeNSIS.Core.TextGenerators
             Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"Publisher\" \"${APP_PUBLISHER}\"");
             Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"UninstallString\" \"$INSTDIR\\uninst.exe\"");
             Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"QuietUninstallString\" '\"$INSTDIR\\uninst.exe\" /S'");
-            Add("SectionEnd");
+            AddSectionEnd();
         }
 
         private void AddUninstallMessage()
         {
             AddComment("After application is sucessfully uninstalled:");
-            Add("Function un.onUninstSuccess");
+            AddFunction("un.onUninstSuccess");
             Add("HideWindow");
             AddComment("You can change the message to suite your needs:");
             Add("MessageBox MB_ICONINFORMATION|MB_OK \"Application successfully removed.\"");
-            Add("FunctionEnd");
+            AddFunctionEnd();
         }
 
         private void AddAskUserBeforeUninstall()
         {
             AddComment("Before starting to uninstall:");
-            Add("Function un.onInit");
+            AddFunction("un.onInit");
             AddComment("You can change the message to suite your needs:");
             Add("MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 \"Are you sure you want to remove ${APP_NAME}?\" IDYES +2");
             Add("Abort");
-            Add("FunctionEnd");
+            AddFunctionEnd();
         }
 
         private void AddUninstallSection()
         {
-            Add("Section Uninstall");
+            AddSection("Uninstall");
             AddComment("Delete shortcuts on Desktop and Programs menu:");
             Add("Delete \"$DESKTOP\\${APP_NAME}.lnk\"");
             Add("Delete \"$SMPROGRAMS\\${APP_NAME}.lnk\"");
-
 
             if (m_AppData.GetSections().Any())
             {
@@ -577,10 +589,23 @@ namespace GeNSIS.Core.TextGenerators
                 Add("DeleteRegKey ${UNINST_ROOT_KEY} \"SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727\\AssemblyFoldersEx\\${APP_NAME}\"");
 
             Add(@"DeleteRegKey ${UNINST_ROOT_KEY} ""${APP_NAME}""");
+            
+            // Any firewall rules?
+            if (m_AppData.GetFirewallRules().Count() > 0)
+            {
+                AddStripline();
+                Add();
 
-            Add();
+                AddComment("Remove firewall rules (closing ports).");
+                var label = AddDialogYesNo("Remove firewall rules?", "RemoveFWRules");
+                AddDeleteAllFirewallRules();
+                AddLabel(label);
+            }
+            else
+                Add();
+
             Add("SetAutoClose true");
-            Add("SectionEnd");
+            AddSectionEnd();
         }
 
         /// <summary>
@@ -595,15 +620,146 @@ namespace GeNSIS.Core.TextGenerators
             if (string.IsNullOrWhiteSpace(pLabelName))
                 throw new ArgumentNullException(nameof(pLabelName), $"Name of a Label cannot be NULL/empty/whitespace!");
 
-            var yesLabel = $"{pLabelName}YesLabel";
-            var noLabel = $"{pLabelName}NoLabel";
-            var endLabel = $"{pLabelName}endLabel";
+            var yesLabel = $"LabelYes_{pLabelName}";
+            //var noLabel = $"LabelNo_{pLabelName}";
+            var endLabel = $"LabelEnd_{pLabelName}";
             AddComment($"Ask user Yes/No question: {pQuestion}");
             Add($"MessageBox MB_YESNO \"{pQuestion}\" IDYES {yesLabel}");
             Add($"Goto {endLabel}");
-            Add($"{yesLabel}:");
+            AddLabel(yesLabel);
             return endLabel;
         }
+
+
+
+        #region Firewall Rules
+
+        #region Add FW Rule
+        private void AddAllFirewallRules()
+        {
+            foreach (IFirewallRule fwr in m_AppData.GetFirewallRules())
+            {
+                AddComment(GetCommentOpenFirewallRule(fwr));
+                AddFirewallRule(fwr);
+            }
+        }
+
+        private void AddFirewallRule(IFirewallRule fwr)
+        {
+            switch (fwr.ProtocolType)
+            {
+                case Enums.EProtocolType.TCP:
+                Add(GetCommandAddTcpFirewallRule(fwr));
+                break;
+
+                case Enums.EProtocolType.UDP:
+                Add(GetCommandAddUdpFirewallRule(fwr));
+                break;
+
+                case Enums.EProtocolType.Both:
+                Add(GetCommandAddTcpFirewallRule(fwr));
+                Add(GetCommandAddUdpFirewallRule(fwr));
+                break;
+            }
+        }
+
+        private string GetCommandAddTcpFirewallRule(IFirewallRule fwr)
+        {
+            if (fwr.IsRange)
+                return GetFirewallAddRule("TCP", fwr.Port, fwr.ToPort);
+            else
+                return GetFirewallAddRule("TCP", fwr.Port);
+        }
+
+        private string GetCommandAddUdpFirewallRule(IFirewallRule fwr)
+        {
+            if (fwr.IsRange)
+                return GetFirewallAddRule("UDP", fwr.Port, fwr.ToPort);
+            else
+                return GetFirewallAddRule("UDP", fwr.Port);
+        }
+
+        private string GetFirewallAddRule(string pProtocol, int pPortFrom, int pPortTo)
+            => $"ExecWait 'netsh advfirewall firewall add rule name=\"Open {pProtocol.ToUpper()} Ports {pPortFrom}-{pPortTo}\" dir=in action=allow protocol={pProtocol.ToUpper()} localport={pPortFrom}-{pPortTo}'";
+
+        private string GetFirewallAddRule(string pProtocol, int pPort)
+            => $"ExecWait 'netsh advfirewall firewall add rule name=\"Open {pProtocol.ToUpper()} Port {pPort}\" dir=in action=allow protocol={pProtocol.ToUpper()} localport={pPort}'";
+
+        private string GetCommentOpenFirewallRule(IFirewallRule fwr)
+        {
+            if (fwr.IsRange)
+                return $"Open {fwr.ProtocolType.GetDisplayName()} ports from {fwr.Port} to {fwr.ToPort}.";
+            else
+                return $"Open {fwr.ProtocolType.GetDisplayName()} port {fwr.Port}.";
+        }
+        #endregion Add FW Rule
+
+
+        #region Delete FW Rule
+        private void AddDeleteAllFirewallRules()
+        {
+            foreach (IFirewallRule fwr in m_AppData.GetFirewallRules())
+            {
+                AddComment(GetCommentCloseFirewallRule(fwr));
+                AddDeleteFirewallRule(fwr);
+            }
+        }
+
+        private void AddDeleteFirewallRule(IFirewallRule fwr)
+        {
+            switch (fwr.ProtocolType)
+            {
+                case Enums.EProtocolType.TCP:
+                Add(GetCommandDeleteTcpFirewallRule(fwr));
+                break;
+
+                case Enums.EProtocolType.UDP:
+                Add(GetCommandDeleteUdpFirewallRule(fwr));
+                break;
+
+                case Enums.EProtocolType.Both:
+                Add(GetCommandDeleteTcpFirewallRule(fwr));
+                Add(GetCommandDeleteUdpFirewallRule(fwr));
+                break;
+            }
+        }
+
+        private string GetCommandDeleteTcpFirewallRule(IFirewallRule fwr)
+        {
+            if (fwr.IsRange)
+                return GetFirewallDeleteRule("TCP", fwr.Port, fwr.ToPort);
+            else
+                return GetFirewallDeleteRule("TCP", fwr.Port);
+        }
+
+        private string GetCommandDeleteUdpFirewallRule(IFirewallRule fwr)
+        {
+            if (fwr.IsRange)
+                return GetFirewallDeleteRule("UDP", fwr.Port, fwr.ToPort);
+            else
+                return GetFirewallDeleteRule("UDP", fwr.Port);
+        }
+
+        private string GetFirewallDeleteRule(string pProtocol, int pPortFrom, int pPortTo)
+            => $"ExecWait 'netsh advfirewall firewall delete rule name=\"Open {pProtocol.ToUpper()} Ports {pPortFrom}-{pPortTo}\"'";
+
+        private string GetFirewallDeleteRule(string pProtocol, int pPort)
+            => $"ExecWait 'netsh advfirewall firewall delete rule name=\"Open {pProtocol.ToUpper()} Port {pPort}\"'";
+
+        private string GetCommentCloseFirewallRule(IFirewallRule fwr)
+        {
+            if (fwr.IsRange)
+                return $"Close {fwr.ProtocolType.GetDisplayName()} ports from {fwr.Port} to {fwr.ToPort}.";
+            else
+                return $"Close {fwr.ProtocolType.GetDisplayName()} port {fwr.Port}.";
+        }
+        #endregion Delete FW Rule
+
+        #endregion Firewall Rules
+
+
+
+
         #endregion NSIS Code Creation
 
         #region Code Line Adding Methods
@@ -615,33 +771,67 @@ namespace GeNSIS.Core.TextGenerators
 
         private void Add(string s)
         {
-            sb.AppendLine(s);
+            sb.AppendLine($"{Indent}{s}");
             ln++;
+        }
+
+        private bool HasSectionStarted { get; set; }
+        private string Indent => HasSectionStarted ? "    " : string.Empty;
+        private void AddSection(string pParameters)
+        {
+            Add($"Section {pParameters}");
+            HasSectionStarted = true;
+        }
+
+        private void AddFunction(string pParameters)
+        {
+            Add($"Function {pParameters}");
+            HasSectionStarted = true;
+        }
+
+        private void AddSection()
+        {
+            Add("Section");
+            HasSectionStarted = true;
+        }
+
+        private void AddFunction()
+        {
+            Add("Function");
+            HasSectionStarted = true;
+        }
+
+        private void AddSectionEnd()
+        {
+            HasSectionStarted = false;
+            Add($"SectionEnd");
+        }
+
+        private void AddFunctionEnd()
+        {
+            HasSectionStarted = false;
+            Add($"FunctionEnd");
         }
 
         private void AddComment(string pCommentLine)
         {
-            sb.AppendLine($"; {pCommentLine}");
+            sb.AppendLine($"{Indent}; {pCommentLine}");
             ln++;
         }
+
+        private void AddLabel(string pName) => Add($"{pName}:");
 
         private void AddCommentBlock(IEnumerable<string> pCommentLines)
         {
             foreach (var s in pCommentLines)
-                sb.AppendLine($"; {s}");
-            ln += pCommentLines.Count();
+                AddComment(s);
         }
 
-        private void AddEmptyComment()
-        {
-            sb.AppendLine(";");
-            ln++;
-        }
+        private void AddEmptyComment() => AddComment(string.Empty);
 
         private void AddStripline(int pPadRight = STRIPLINE_LENGTH)
         {
-            sb.AppendLine(";".PadRight(pPadRight, '-'));
-            ln++;
+            Add($";".PadRight(pPadRight, '-'));
         }
 
         private void AddDefine(string pVarName, string pValue)

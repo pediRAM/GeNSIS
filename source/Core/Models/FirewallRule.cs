@@ -30,15 +30,15 @@ namespace GeNSIS.Core.Models
 
         public EProtocolType ProtocolType { get; set; } = EProtocolType.TCP;
         public bool IsRange { get; set; }
-        public int IP { get; set; }
-        public int ToIP { get; set; }
+        public int Port { get; set; }
+        public int ToPort { get; set; }
 
         public void UpdateValues(IFirewallRule pFirewallRule)
         {
             ProtocolType = pFirewallRule.ProtocolType;
             IsRange      = pFirewallRule.IsRange;
-            IP           = pFirewallRule.IP;
-            ToIP         = pFirewallRule.ToIP;
+            Port           = pFirewallRule.Port;
+            ToPort         = pFirewallRule.ToPort;
         }
 
         public FirewallRuleVM ToViewModel()
@@ -47,8 +47,8 @@ namespace GeNSIS.Core.Models
             {
                 ProtocolType = ProtocolType,
                 IsRange      = IsRange,
-                IP           = IP,
-                ToIP         = ToIP,
+                Port           = Port,
+                ToPort         = ToPort,
             };
         }
     }

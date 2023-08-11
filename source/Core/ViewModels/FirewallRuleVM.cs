@@ -61,25 +61,25 @@ namespace GeNSIS.Core.ViewModels
             }
         }
 
-        public int IP
+        public int Port
         {
             get { return m_IP; }
             set
             {
                 if (value == m_IP) return;
                 m_IP = value;
-                NotifyPropertyChanged(nameof(IP));
+                NotifyPropertyChanged(nameof(Port));
             }
         }
 
-        public int ToIP
+        public int ToPort
         {
             get { return m_ToIP; }
             set
             {
                 if (value == m_ToIP) return;
                 m_ToIP = value;
-                NotifyPropertyChanged(nameof(ToIP));
+                NotifyPropertyChanged(nameof(ToPort));
             }
         }
 
@@ -87,8 +87,8 @@ namespace GeNSIS.Core.ViewModels
         {
             ProtocolType = pFirewallRule.ProtocolType;
             IsRange = pFirewallRule.IsRange;
-            IP = pFirewallRule.IP;
-            ToIP = pFirewallRule.ToIP;
+            Port = pFirewallRule.Port;
+            ToPort = pFirewallRule.ToPort;
         }
 
         public FirewallRule ToModel(IFirewallRule pFirewallRule)
@@ -97,17 +97,17 @@ namespace GeNSIS.Core.ViewModels
             {
                 ProtocolType = pFirewallRule.ProtocolType,
                 IsRange = pFirewallRule.IsRange,
-                IP = pFirewallRule.IP,
-                ToIP = pFirewallRule.ToIP,
+                Port = pFirewallRule.Port,
+                ToPort = pFirewallRule.ToPort,
             };
         }
 
         public override string ToString()
         {
             if (IsRange) 
-                return $"{IP}-{ToIP} {ProtocolType.GetDisplayName()}";
+                return $"{Port}-{ToPort} {ProtocolType.GetDisplayName()}";
 
-            return $"{IP} {ProtocolType.GetDisplayName()}";
+            return $"{Port} {ProtocolType.GetDisplayName()}";
         }
 
         private void NotifyPropertyChanged(string pPropertyName)

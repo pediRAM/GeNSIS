@@ -25,8 +25,7 @@ namespace GeNSIS.Core.Interfaces
     {
         EProtocolType ProtocolType { get; set; } 
         bool IsRange { get; set; }
-        int IP { get; set; }
-        int ToIP { get; set; }
-
+        int Port { get; set; }
+        int ToPort { get; set; }
     }
 }
