@@ -41,6 +41,8 @@ using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 using ICSharpCode.AvalonEdit.Utils;
 using System.Windows.Documents;
+using ExtendedXmlSerializer;
+using System.Windows.Input;
 
 namespace GeNSIS
 {
@@ -915,6 +917,28 @@ namespace GeNSIS
                 rtfBox.Document = DocumentPrinter.CreateFlowDocumentForEditor(editor);
                 printDialog.PrintDocument((((IDocumentPaginatorSource)rtfBox).DocumentPaginator), "printing as paginator");
             }
+        }
+
+        private void OnFilesKeyDown(object sender, KeyEventArgs e)
+        {
+            Log.Info($"Files: User pressed Key:{e.Key}.");
+            if (lsb_Files.SelectedItems.Count == 0) return;
+
+            if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) && (e.Key == Key.A)))
+                lsb_Files.SelectAll();
+            if (e.Key == Key.Subtract || e.Key == Key.OemMinus || e.Key == Key.Delete)
+                AppData.Files.RemoveRange(lsb_Files.GetSelectedItems<FileSystemItemVM>());
+        }
+
+        private void OnFirewallRulesKeyDown(object sender, KeyEventArgs e)
+        {
+            Log.Info($"FirewallRules: User pressed Key:{e.Key}.");
+            if (lsb_FirewallRules.SelectedItems.Count == 0) return;
+
+            if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) && (e.Key == Key.A)))
+                lsb_FirewallRules.SelectAll();
+            if (e.Key == Key.Subtract || e.Key == Key.OemMinus || e.Key == Key.Delete)
+                AppData.FirewallRules.RemoveRange(lsb_FirewallRules.GetSelectedItems<FirewallRuleVM>());
         }
     }
 

@@ -78,7 +78,7 @@
 
                     <!-- Files (List<string>) -->
                     <Label     Grid.Row="0" Grid.Column="0" Content="{StaticResource label_files}"    ToolTip="{StaticResource tt_files}" Style="{StaticResource label_input}" />
-                    <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files, UpdateSourceTrigger=PropertyChanged}" AllowDrop="True" Drop="OnDirectoryDroped" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}">
+                    <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files, UpdateSourceTrigger=PropertyChanged}" AllowDrop="True" Drop="OnDirectoryDroped" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}" KeyDown="OnFilesKeyDown">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -227,7 +227,7 @@
 
 
                     <Label     Grid.Row="2" Grid.Column="0" Content="{StaticResource label_firewall_rules}"    ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource label_input}" />
-                    <ListBox   Grid.Row="2" Grid.Column="1" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}" />
+                    <ListBox   Grid.Row="2" Grid.Column="1" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" KeyDown="OnFirewallRulesKeyDown" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}" />
 
 
                     <!-- Firewall Remove/Clear Buttons (right of FW ListBox) -->
