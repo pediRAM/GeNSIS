@@ -90,5 +90,8 @@ namespace GeNSIS.Core.Helpers
 
         internal MessageBoxResult ShowScriptNotFoundError(string pFilePath)
             => ShowError("File/Script not found!", $"Script/File: \"{pFilePath}\" was not found!");
+
+        internal MessageBoxResult ShowMissingFilesOrDirsWarning(string pListOfMissingDirsAndFiles)
+            => ShowWarn("Project content not found!", $"Some files/directories of project does not exist.\nRemove these files/directories from project?\n{pListOfMissingDirsAndFiles}" , MessageBoxButton.YesNo);
     }
 }

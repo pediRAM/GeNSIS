@@ -56,7 +56,7 @@ Leave empty (default) for dynamic auto-nameing in script</sys:String>
     <sys:String x:Key="label_NsisInstallationDirectory">Installation folder of NSIS:</sys:String>
     <sys:String x:Key="label_GeNSISProjectsDirectory">Projects folder of GeNSIS:</sys:String>
     <sys:String x:Key="label_ScriptsDirectory">Scripts folder for *.nsi files:</sys:String>
-    <sys:String x:Key="label_InstallersDirectory">Installers folder for *.exe setup files:</sys:String>
+    <sys:String x:Key="label_InstallersDirectory">Installers folder for Setup.exe files:</sys:String>
     <sys:String x:Key="label_CompanyName">Company:</sys:String>
     <sys:String x:Key="label_Publisher">Publisher:</sys:String>
     <sys:String x:Key="label_Website">Website:</sys:String>

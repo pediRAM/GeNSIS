@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeNSIS"
         mc:Ignorable="d"
-        Title="SettingsWindow" Height="350" Width="750">
+        Title="SettingsWindow" Height="350" Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,32 +35,32 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" x:Name="lbl_CompanyName" Content="{StaticResource label_CompanyName}" ToolTip="{StaticResource tt_CompanyName}" Style="{StaticResource label_input}" />
-        <TextBox Grid.Row="0" Grid.Column="1" x:Name="txb_CompanyName" Text="{Binding CompanyName}" ToolTip="{StaticResource tt_CompanyName}" Style="{StaticResource textbox_input}" />
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="txb_CompanyName" Text="{Binding CompanyName}" ToolTip="{StaticResource tt_CompanyName}" Style="{StaticResource textbox_input_settings}" />
         
 
         <Label Grid.Row="1" Grid.Column="0" x:Name="lbl_Publisher" Content="{StaticResource label_Publisher}" ToolTip="{StaticResource tt_Publisher}" Style="{StaticResource label_input}" />
-        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txb_Publisher" Text="{Binding Publisher}" ToolTip="{StaticResource tt_Publisher}" Style="{StaticResource textbox_input}" />
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txb_Publisher" Text="{Binding Publisher}" ToolTip="{StaticResource tt_Publisher}" Style="{StaticResource textbox_input_settings}" />
 
         <Label Grid.Row="2" Grid.Column="0" x:Name="lbl_Website" Content="{StaticResource label_Website}" ToolTip="{StaticResource tt_Website}" Style="{StaticResource label_input}" />
-        <TextBox Grid.Row="2" Grid.Column="1" x:Name="txb_Website" Text="{Binding Website}" ToolTip="{StaticResource tt_Website}" Style="{StaticResource textbox_input}" />
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="txb_Website" Text="{Binding Website}" ToolTip="{StaticResource tt_Website}" Style="{StaticResource textbox_input_settings}" />
 
         <Label Grid.Row="3" Grid.Column="0" x:Name="lbl_GeNSISProjectsDirectory" Content="{StaticResource label_GeNSISProjectsDirectory}" ToolTip="{StaticResource tt_GeNSISProjectsDirectory}" Style="{StaticResource label_input}" />
         <TextBox Grid.Row="3" Grid.Column="1" x:Name="txb_GeNSISProjectsDirectory" Text="{Binding GeNSISProjectsDirectory}" ToolTip="{StaticResource tt_GeNSISProjectsDirectory}" Style="{StaticResource textbox_input_readonly}" />
-        <Button Grid.Row="3" Grid.Column="2" Content="..." Style="{StaticResource button_command}" Click="OnSelectGeNsisProjectFolderClicked"/>
+        <Button Grid.Row="3" Grid.Column="2" Content="..." Style="{StaticResource button_openfiledialog}" Click="OnSelectGeNsisProjectFolderClicked"/>
         
         <Label Grid.Row="4" Grid.Column="0" x:Name="lbl_ScriptsDirectory" Content="{StaticResource label_ScriptsDirectory}" ToolTip="{StaticResource tt_ScriptsDirectory}" Style="{StaticResource label_input}" />
         <TextBox Grid.Row="4" Grid.Column="1" x:Name="txb_ScriptsDirectory" Text="{Binding ScriptsDirectory}" ToolTip="{StaticResource tt_ScriptsDirectory}" Style="{StaticResource textbox_input_readonly}" />
-        <Button Grid.Row="4" Grid.Column="2" Content="..." Style="{StaticResource button_command}" Click="OnSelectScriptsFolderClicked"/>
+        <Button Grid.Row="4" Grid.Column="2" Content="..." Style="{StaticResource button_openfiledialog}" Click="OnSelectScriptsFolderClicked"/>
 
         <Label Grid.Row="5" Grid.Column="0" x:Name="lbl_InstallersDirectory" Content="{StaticResource label_InstallersDirectory}" ToolTip="{StaticResource tt_InstallersDirectory}" Style="{StaticResource label_input}" />
         <TextBox Grid.Row="5" Grid.Column="1" x:Name="txb_InstallersDirectory" Text="{Binding InstallersDirectory}" ToolTip="{StaticResource tt_InstallersDirectory}" Style="{StaticResource textbox_input_readonly}" />
-        <Button Grid.Row="5" Grid.Column="2" Content="..." Style="{StaticResource button_command}" Click="OnSelectInstallersFolderClicked"/>
+        <Button Grid.Row="5" Grid.Column="2" Content="..." Style="{StaticResource button_openfiledialog}" Click="OnSelectInstallersFolderClicked"/>
 
         <Label Grid.Row="6" Grid.Column="0" x:Name="lbl_NsisInstallationDirectory" Content="{StaticResource label_NsisInstallationDirectory}" ToolTip="{StaticResource tt_NsisInstallationDirectory}" Style="{StaticResource label_input}" />
         <TextBox Grid.Row="6" Grid.Column="1" x:Name="txb_NsisInstallationDirectory" Text="{Binding NsisInstallationDirectory}" ToolTip="{StaticResource tt_NsisInstallationDirectory}" Style="{StaticResource textbox_input_readonly}" />
-        <Button Grid.Row="6" Grid.Column="2" Content="..." Style="{StaticResource button_command}" Click="OnSelectNsisFolderClicked"/>
+        <Button Grid.Row="6" Grid.Column="2" Content="..." Style="{StaticResource button_openfiledialog}" Click="OnSelectNsisFolderClicked"/>
 
-        <StackPanel  Grid.Row="7" Grid.ColumnSpan="10" HorizontalAlignment="Right" Orientation="Horizontal" Margin="10" >
+        <StackPanel  Grid.Row="7" Grid.ColumnSpan="10" HorizontalAlignment="Center" Orientation="Horizontal" Margin="10" >
             <Button x:Name="btn_Save" Content="{StaticResource label_Save}" Style="{StaticResource button_command}" Click="OnSaveClicked" />
             <Button x:Name="btn_Cancel" Content="{StaticResource label_Cancel}" Style="{StaticResource button_command}" Click="OnCancelClicked" />
         </StackPanel>

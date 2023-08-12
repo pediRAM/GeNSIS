@@ -474,6 +474,47 @@ namespace GeNSIS
                 return;
 
             LoadProject(m_OpenFilesDialog.FileName);
+            if (ContainsProjectMissingDirsOrFiles(out IEnumerable<FileSystemItemVM> files, out IEnumerable<FileSystemItemVM> dirs))
+            {
+                string msg = BuildMissingFilesWarnMsg(files, dirs);
+
+                if (m_MsgBoxMgr.ShowMissingFilesOrDirsWarning(msg) == MessageBoxResult.Yes)
+                    RemoveDirsAndFiles(files.ToArray(), dirs.ToArray());
+            }
+        }
+
+        private void RemoveDirsAndFiles(FileSystemItemVM[] files, FileSystemItemVM[] dirs)
+        {
+            foreach (var f in files) 
+                AppData.Files.Remove(f);
+
+            foreach (var d in dirs)
+                AppData.Files.Remove(d);
+        }
+        private string BuildMissingFilesWarnMsg(IEnumerable<FileSystemItemVM> files, IEnumerable<FileSystemItemVM> dirs)
+        {
+            var sb = new StringBuilder();
+
+            if (files.Any())
+                sb.AppendLine($"\nMissing {files.Count()} files:");
+
+            foreach (var f in files)
+                sb.AppendLine(f.Name);
+
+            if (dirs.Any())
+                sb.AppendLine($"\nMissing {dirs.Count()} directories:");
+
+            foreach (var d in dirs)
+                sb.AppendLine(d.Name);
+
+            return sb.ToString();
+        }
+
+        private bool ContainsProjectMissingDirsOrFiles(out IEnumerable<FileSystemItemVM> pMissingFiles, out IEnumerable<FileSystemItemVM> pMissingDirectories)
+        {
+            pMissingFiles       = AppData.Files.Where(x => x.FileSystemType == Core.Enums.EFileSystemType.File      && !File.Exists(x.Path)).Select(x => x);
+            pMissingDirectories = AppData.Files.Where(x => x.FileSystemType == Core.Enums.EFileSystemType.Directory && !Directory.Exists(x.Path)).Select(x => x);
+            return pMissingFiles.Any() || pMissingDirectories.Any();
         }
 
         private void LoadProject(string pPathToProjectFile)
