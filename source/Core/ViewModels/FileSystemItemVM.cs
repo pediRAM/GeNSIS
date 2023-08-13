@@ -40,6 +40,7 @@ namespace GeNSIS.Core.ViewModels
 
         #region Variables
         private EFileSystemType m_FileSystemType;
+        private bool m_IsRelative;
         private string m_Path;
         private string m_Name;
         #endregion Variables
@@ -54,16 +55,16 @@ namespace GeNSIS.Core.ViewModels
 
             if (File.Exists(pPath))
             {
-                FileSystemType = EFileSystemType.File;
+                FSType = EFileSystemType.File;
                 Name = System.IO.Path.GetFileName(pPath);
             }
             else if (Directory.Exists(pPath))
             {
-                FileSystemType = EFileSystemType.Directory;
+                FSType = EFileSystemType.Directory;
                 Name = System.IO.Path.GetFileName(pPath);
             }
             else
-                FileSystemType = EFileSystemType.None;
+                FSType = EFileSystemType.None;
         }
 
         public FileSystemItemVM(IFileSystemItem pFileSystemItem) :this()
@@ -75,14 +76,26 @@ namespace GeNSIS.Core.ViewModels
 
         #region Properties
         [XmlElement]
-        public EFileSystemType FileSystemType
+        public EFileSystemType FSType
         {
             get { return m_FileSystemType; }
             set
             {
                 if (value == m_FileSystemType) return;
                 m_FileSystemType = value;
-                NotifyPropertyChanged(nameof(FileSystemType));
+                NotifyPropertyChanged(nameof(FSType));
+            }
+        }
+
+        [XmlElement]
+        public bool IsRelative
+        {
+            get { return m_IsRelative; }
+            set
+            {
+                if (value == m_IsRelative) return;
+                m_IsRelative = value;
+                NotifyPropertyChanged(nameof(IsRelative));
             }
         }
 
@@ -117,7 +130,8 @@ namespace GeNSIS.Core.ViewModels
         {
             return new FileSystemItem
             {
-                FileSystemType = FileSystemType,
+                FSType = FSType,
+                IsRelative = IsRelative,
                 Path = Path,
                 Name = Name,
             };
@@ -125,7 +139,8 @@ namespace GeNSIS.Core.ViewModels
 
         public void UpdateValues(IFileSystemItem pFileSystemItem)
         {
-            FileSystemType = pFileSystemItem.FileSystemType;
+            FSType = pFileSystemItem.FSType;
+            IsRelative = pFileSystemItem.IsRelative;
             Path = pFileSystemItem.Path;
             Name = pFileSystemItem.Name;
         }

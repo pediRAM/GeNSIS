@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -115,6 +116,31 @@ namespace GeNSIS.Core.Extensions
 
             if (dispAttr == null) return enumValue.ToString();
             else return dispAttr.Name;
+        }
+    }
+
+    public static class DirectoryInfoExtensions
+    {
+        public static void CopyTo(this DirectoryInfo di, string destinationDir, bool recursive = true)
+        {
+            Directory.CreateDirectory(destinationDir);
+
+            // Get the files in the source directory and copy to the destination directory
+            foreach (FileInfo file in di.GetFiles())
+            {
+                string targetFilePath = Path.Combine(destinationDir, file.Name);
+                file.CopyTo(targetFilePath);
+            }
+
+            // If recursive and copying subdirectories, recursively call this method
+            if (recursive)
+            {
+                foreach (DirectoryInfo subDir in di.GetDirectories())
+                {
+                    string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+                    subDir.CopyTo(newDestinationDir, true);
+                }
+            }
         }
     }
 }

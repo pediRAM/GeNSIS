@@ -61,6 +61,9 @@ namespace GeNSIS.Core.TextGenerators
 
         public bool HasLicenseFile()
             => (m_AppData.License != null && !string.IsNullOrWhiteSpace(m_AppData.License.Path));
+
+        public bool HasRelativePath()
+            => !string.IsNullOrEmpty(m_AppData.RelativePath);
         #endregion Help Methods
 
 
@@ -73,11 +76,11 @@ namespace GeNSIS.Core.TextGenerators
             m_AppData = pAppData;
             m_Options = pOptions;
 
-            var totalFilesSizeMainSection = pAppData.GetFiles().Where(x => x.FileSystemType == Enums.EFileSystemType.File).Sum(x => new FileInfo(x.Path).Length);
-            var totalDirsSizeMainSection  = pAppData.GetFiles().Where(x => x.FileSystemType == Enums.EFileSystemType.Directory).Sum(x => new DirectoryInfo(x.Path).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
+            //var totalFilesSizeMainSection = pAppData.GetFiles().Where(x => x.FSType == Enums.EFileSystemType.File).Sum(x => new FileInfo(x.Path).Length);
+            //var totalDirsSizeMainSection  = pAppData.GetFiles().Where(x => x.FSType == Enums.EFileSystemType.Directory).Sum(x => new DirectoryInfo(x.Path).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
            
-            var totalDirSize = pAppData.GetSections().Sum(x => new DirectoryInfo(x.SourcePath).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
-            bool isOver16Mb = (totalDirSize + totalDirSize) > (ZLIB_SIZE_LIMIT);
+            //var totalDirSize = pAppData.GetSections().Sum(x => new DirectoryInfo(x.SourcePath).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
+            bool isOver16Mb = pAppData.GetTotalSize() > ZLIB_SIZE_LIMIT;
 
             // Does file extension (if any) start with '.'?
             if (!string.IsNullOrWhiteSpace(m_AppData.AssociatedExtension))
@@ -177,12 +180,23 @@ namespace GeNSIS.Core.TextGenerators
         private void AddVariableDeclarations()
         {
             AddComment("Variables:");
+            Add();
+
+            if (HasRelativePath())
+            {
+                AddComment("THIS VARIABLE DEFINITION IS FOR GeNSIS PROJECTS WHICH ARE EXPORTED AS PORTABLE ONLY!");
+                AddComment("Change this if you have moved or renamed the directory, which contains the content files.");
+                AddComment("Path to the directory containing the files and folders to install.");
+                AddDefine(GConst.Nsis.BASE_DIR, m_AppData.RelativePath);
+                Add();
+            }
+
             AddComment("Name of Application:");
             AddDefine("APP_NAME", m_AppData.AppName);
             Add();
 
             AddComment("Filename of Application EXE file (*.exe):");
-            AddDefine("APP_EXE_NAME", Path.GetFileName(m_AppData.ExeName.Path));
+            AddDefine("APP_EXE_NAME", m_AppData.ExeName.Name);
             Add();
 
             AddComment("Version of Application:");
@@ -293,16 +307,20 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Installer icons (*.ico):");
             if (string.IsNullOrWhiteSpace(m_AppData.InstallerIcon))
                 AddDefine("MUI_ICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-install.ico");
+            else if(HasRelativePath())
+                AddDefine("MUI_ICON", $"${{{GConst.Nsis.BASE_DIR}}}\\{m_AppData.InstallerIcon}");
             else
                 AddDefine("MUI_ICON", m_AppData.InstallerIcon);
             Add();
 
             // Uninstaller Icon
             AddComment("Uninstaller icon (*.ico):");
-            if (string.IsNullOrWhiteSpace(m_AppData.InstallerIcon))
+            if (string.IsNullOrWhiteSpace(m_AppData.UninstallerIcon))
                 AddDefine("MUI_UNICON", "${NSISDIR}\\Contrib\\Graphics\\Icons\\modern-uninstall.ico");
+            else if (HasRelativePath())
+                AddDefine("MUI_UNICON", $"${{{GConst.Nsis.BASE_DIR}}}\\{m_AppData.UninstallerIcon}");
             else
-                AddDefine("MUI_UNICON", m_AppData.InstallerIcon);
+                AddDefine("MUI_UNICON", m_AppData.UninstallerIcon);
 
             Add();
 
@@ -317,7 +335,10 @@ namespace GeNSIS.Core.TextGenerators
             if (!string.IsNullOrWhiteSpace(m_AppData.InstallerHeaderImage))
             {
                 AddComment("Installer Header Image:");
-                AddDefine("MUI_HEADERIMAGE_BITMAP", m_AppData.InstallerHeaderImage);
+                if (HasRelativePath())
+                    AddDefine("MUI_HEADERIMAGE_BITMAP", $"${{{GConst.Nsis.BASE_DIR}}}\\{m_AppData.InstallerHeaderImage}");
+                else
+                    AddDefine("MUI_HEADERIMAGE_BITMAP", m_AppData.InstallerHeaderImage);
                 AddDefine("MUI_HEADERIMAGE_BITMAP_NOSTRETCH");
                 Add();
             }
@@ -326,7 +347,10 @@ namespace GeNSIS.Core.TextGenerators
             if (!string.IsNullOrWhiteSpace(m_AppData.UninstallerHeaderImage))
             {
                 AddComment("Uninstaller Header Image:");
-                AddDefine("MUI_HEADERIMAGE_UNBITMAP", m_AppData.UninstallerHeaderImage);
+                if (HasRelativePath())
+                    AddDefine("MUI_HEADERIMAGE_UNBITMAP", $"${{{GConst.Nsis.BASE_DIR}}}\\{m_AppData.UninstallerHeaderImage}");
+                else
+                    AddDefine("MUI_HEADERIMAGE_UNBITMAP", m_AppData.UninstallerHeaderImage);
                 AddDefine("MUI_HEADERIMAGE_UNBITMAP_NOSTRETCH");
                 Add();
             }
@@ -335,7 +359,10 @@ namespace GeNSIS.Core.TextGenerators
             if (!string.IsNullOrWhiteSpace(m_AppData.InstallerWizardImage))
             {
                 AddComment("Installer Wizard Image:");
-                AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP", m_AppData.InstallerWizardImage);
+                if (HasRelativePath())
+                    AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP", $"${{{GConst.Nsis.BASE_DIR}}}\\{m_AppData.InstallerWizardImage}");
+                else
+                    AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP", m_AppData.InstallerWizardImage);
                 AddDefine("MUI_WELCOMEFINISHPAGE_BITMAP_NOSTRETCH");
                 Add();
             }
@@ -344,10 +371,14 @@ namespace GeNSIS.Core.TextGenerators
             if (!string.IsNullOrWhiteSpace(m_AppData.UninstallerWizardImage))
             {
                 AddComment("Uninstaller Wizard Image:");
-                AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP", m_AppData.InstallerWizardImage);
+                if (HasRelativePath())
+                    AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP", $"${{{GConst.Nsis.BASE_DIR}}}\\{m_AppData.InstallerWizardImage}");
+                else
+                    AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP", m_AppData.InstallerWizardImage);
                 AddDefine("MUI_UNWELCOMEFINISHPAGE_BITMAP_NOSTRETCH");
                 Add();
             }
+
             Add();
             Add("!define MUI_ABORTWARNING");
         }
@@ -360,7 +391,7 @@ namespace GeNSIS.Core.TextGenerators
             if (HasLicenseFile())
             {
                 AddComment("License file (*.txt|*.rtf):");
-                AddInsertMacro("MUI_PAGE_LICENSE", m_AppData.License.Path);
+                AddInsertMacro("MUI_PAGE_LICENSE", m_AppData.GetNsisPath(m_AppData.License));
             }
 
             AddInsertMacro("MUI_PAGE_DIRECTORY");
@@ -437,19 +468,19 @@ namespace GeNSIS.Core.TextGenerators
             Add("SetOverwrite ifnewer");
             Add();
 
-            if (m_AppData.GetFiles().Any(x => x.FileSystemType == Enums.EFileSystemType.Directory))
+            if (m_AppData.GetFiles().Any(x => x.FSType == Enums.EFileSystemType.Directory))
             {
                 AddComment("Add directories recursively (remove /r for non-recursively):");
-                foreach (var s in m_AppData.GetFiles().Where(s => s.FileSystemType == Enums.EFileSystemType.Directory))
-                    Add($"File /r \"{s.Path}\"");
+                foreach (var s in m_AppData.GetFiles().Where(s => s.FSType == Enums.EFileSystemType.Directory))
+                    Add($"File /r \"{m_AppData.GetNsisPath(s)}\"");
                 AddStripline();
                 Add();
             }
 
             AddComment("Add files:");
-            foreach (var s in m_AppData.GetFiles().Where(s => s.FileSystemType == Enums.EFileSystemType.File))
+            foreach (var s in m_AppData.GetFiles().Where(s => s.FSType == Enums.EFileSystemType.File))
             {
-                Add($"File \"{s.Path}\"");
+                Add($"File \"{m_AppData.GetNsisPath(s)}\"");
             }
             AddStripline();
             Add();
@@ -457,9 +488,9 @@ namespace GeNSIS.Core.TextGenerators
             if (m_FileExtension != null)
             {
                 AddComment("Create association of file extension to application:");
-                Add(@"WriteRegStr HKCR ""${FILE_EXTENSION}"" """" ""${APP_NAME}""");
-                Add(@"WriteRegStr HKCR ""${APP_NAME}"" """" ""${APP_NAME} File""");
-                Add(@"WriteRegStr HKCR ""${APP_NAME}\DefaultIcon"" """" ""$INSTDIR\${APP_EXE_NAME},0""");
+                Add(@"WriteRegStr HKCR ""${FILE_EXTENSION}""              """" ""${APP_NAME}""");
+                Add(@"WriteRegStr HKCR ""${APP_NAME}""                    """" ""${APP_NAME} File""");
+                Add(@"WriteRegStr HKCR ""${APP_NAME}\DefaultIcon""        """" ""$INSTDIR\${APP_EXE_NAME},0""");
                 Add(@"WriteRegStr HKCR ""${APP_NAME}\Shell\Open\Command"" """" ""$\""$INSTDIR\${APP_EXE_NAME}$\"" $\""%1$\""""");
                 AddStripline();
                 Add();

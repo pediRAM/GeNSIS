@@ -43,6 +43,7 @@ using ICSharpCode.AvalonEdit.Utils;
 using System.Windows.Documents;
 using ExtendedXmlSerializer;
 using System.Windows.Input;
+using GeNSIS.Core.Enums;
 
 namespace GeNSIS
 {
@@ -305,11 +306,14 @@ namespace GeNSIS
         private void OnGenerate(object sender, RoutedEventArgs e)
         {
             Log.Info("User clicked on OnGenerate.");
+            GenerateScript();
+        }
+
+        private void GenerateScript()
+        {
             try
             {
-                var validator = new Core.Validator();
-                ValidationError error = null;
-                if (!validator.IsValid(AppData, out error))
+                if (!IsInputDataValid(out ValidationError error))
                 {
                     _ = m_MsgBoxMgr.ShowInvalidDataError(error.ToString());
                     return;
@@ -338,6 +342,13 @@ namespace GeNSIS
                 Log.Error(ex);
                 m_MsgBoxMgr.ShowException(ex);
             }
+        }
+
+        private bool IsInputDataValid(out ValidationError pError)
+        {
+            var validator = new Validator();
+            pError = null;
+            return validator.IsValid(AppData, out pError);
         }
 
         private void SaveScript(string pFileName, string pNsiString)
@@ -381,7 +392,7 @@ namespace GeNSIS
             var makeNsisExePath = $@"{m_Config.NsisInstallationDirectory}\makensisw.exe";
             var pi = new ProcessStartInfo($"\"{makeNsisExePath}\"", $"/V4 /NOCD \"{PathToGeneratedNsisScript}\"");
             pi.UseShellExecute = false;
-
+            //pi.WorkingDirectory = Path.GetDirectoryName(m_PathToGeneratedNsisScript);
             var proc = new Process();
             proc.StartInfo = pi;
             _ = proc.Start();
@@ -474,47 +485,33 @@ namespace GeNSIS
                 return;
 
             LoadProject(m_OpenFilesDialog.FileName);
-            if (ContainsProjectMissingDirsOrFiles(out IEnumerable<FileSystemItemVM> files, out IEnumerable<FileSystemItemVM> dirs))
+            CheckAllFilesAndDirsExist();
+        }
+
+        /// <summary>
+        /// Returns TRUE when all files and folders in project exist, else FALSE.
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckAllFilesAndDirsExist()
+        {
+            var missingItems = FileSystemItemHelper.GetMissingItems(AppData);
+            if (missingItems.Any())
             {
-                string msg = BuildMissingFilesWarnMsg(files, dirs);
+                string msg = m_MsgBoxMgr.GetMissingFilesMessage(missingItems);
 
                 if (m_MsgBoxMgr.ShowMissingFilesOrDirsWarning(msg) == MessageBoxResult.Yes)
-                    RemoveDirsAndFiles(files.ToArray(), dirs.ToArray());
+                {
+                    RemoveDirsAndFiles(missingItems.ToArray());
+                    return true;
+                }
             }
+            return false;
         }
 
-        private void RemoveDirsAndFiles(FileSystemItemVM[] files, FileSystemItemVM[] dirs)
+        private void RemoveDirsAndFiles(IFileSystemItem[] pItems)
         {
-            foreach (var f in files) 
-                AppData.Files.Remove(f);
-
-            foreach (var d in dirs)
-                AppData.Files.Remove(d);
-        }
-        private string BuildMissingFilesWarnMsg(IEnumerable<FileSystemItemVM> files, IEnumerable<FileSystemItemVM> dirs)
-        {
-            var sb = new StringBuilder();
-
-            if (files.Any())
-                sb.AppendLine($"\nMissing {files.Count()} files:");
-
-            foreach (var f in files)
-                sb.AppendLine(f.Name);
-
-            if (dirs.Any())
-                sb.AppendLine($"\nMissing {dirs.Count()} directories:");
-
-            foreach (var d in dirs)
-                sb.AppendLine(d.Name);
-
-            return sb.ToString();
-        }
-
-        private bool ContainsProjectMissingDirsOrFiles(out IEnumerable<FileSystemItemVM> pMissingFiles, out IEnumerable<FileSystemItemVM> pMissingDirectories)
-        {
-            pMissingFiles       = AppData.Files.Where(x => x.FileSystemType == Core.Enums.EFileSystemType.File      && !File.Exists(x.Path)).Select(x => x);
-            pMissingDirectories = AppData.Files.Where(x => x.FileSystemType == Core.Enums.EFileSystemType.Directory && !Directory.Exists(x.Path)).Select(x => x);
-            return pMissingFiles.Any() || pMissingDirectories.Any();
+            foreach (var f in pItems) 
+                AppData.Files.Remove(f as FileSystemItemVM);
         }
 
         private void LoadProject(string pPathToProjectFile)
@@ -563,7 +560,7 @@ namespace GeNSIS
                 return;
             }
 
-            File.WriteAllText(PathToGeneratedNsisScript, editor.Text, System.Text.Encoding.UTF8);
+            File.WriteAllText(PathToGeneratedNsisScript, editor.Text, Encoding.UTF8);
             _ = m_MsgBoxMgr.ShowSavingScriptSucceededInfo();
         }
         #endregion Methods
@@ -974,13 +971,139 @@ namespace GeNSIS
         private void OnFirewallRulesKeyDown(object sender, KeyEventArgs e)
         {
             Log.Info($"FirewallRules: User pressed Key:{e.Key}.");
-            if (lsb_FirewallRules.SelectedItems.Count == 0) return;
+
+            if (lsb_FirewallRules.SelectedItems.Count == 0) 
+                return;
 
             if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) && (e.Key == Key.A)))
                 lsb_FirewallRules.SelectAll();
+
             if (e.Key == Key.Subtract || e.Key == Key.OemMinus || e.Key == Key.Delete)
                 AppData.FirewallRules.RemoveRange(lsb_FirewallRules.GetSelectedItems<FirewallRuleVM>());
         }
-    }
 
+        private void OnCheckProjectFilesClicked(object sender, RoutedEventArgs e)
+        {
+            Log.Info("User clicked CheckProjectFiles.");
+            CheckAllFilesAndDirsExist();
+        }
+
+        private void OnExportAsPortableProjectClicked(object sender, RoutedEventArgs e)
+        {
+            Log.Info("User clicked ExportAsPortableProject.");
+
+            // Do not continue if a single file/directory is missing!
+            if (CheckAllFilesAndDirsExist())
+            {
+                m_MsgBoxMgr.ShowInfo("Cannot export invalid project!", "Some files and/or folders are missing!\nCannot export project as portable project!");
+                return;
+            }
+
+            // Where should the portable project file be saved?
+            if (m_SaveProjectDialog.ShowDialog() != true)
+                return;
+
+            // The folder where the new portable *.gensys file should be saved.
+            string baseDir = Path.GetDirectoryName(m_SaveProjectDialog.FileName);
+
+            // The folder where all the content files/dirs of project should be saved (is in baseDir).
+            string destDir = $"{baseDir}\\{Path.GetFileNameWithoutExtension(m_SaveProjectDialog.FileName)}";
+
+            // Destination content folder exists? => delete?
+            if (Directory.Exists(destDir))
+            {
+                var res = m_MsgBoxMgr.ShowQuestion("Delete existing directory?",
+                    $"A directory named '{Path.GetFileNameWithoutExtension(m_SaveProjectDialog.FileName)}' already exists.\n" +
+                    "Do you wish to delete or overwrite it?\n" +
+                    "Click Yes to delete/overwrite the directory and continue,\n" +
+                    "or click No to cancel.\n" +
+                    "Delete directory and continue?", MessageBoxButton.YesNo);
+
+                if (res != MessageBoxResult.Yes)
+                    return;
+
+                Directory.Delete(destDir, true);
+            }
+
+            Directory.CreateDirectory(destDir);
+
+            AppData p = AppData.ToModel();
+            p.Files.Clear();
+            p.Sections.Clear();
+            p.RelativePath = destDir;
+
+            foreach(var f in AppData.Files)
+            {
+                string relPath = GetRelativePath(destDir, p, f);
+
+                if (f.FSType == EFileSystemType.Directory)
+                {
+                    if (p.ExeName != null && p.ExeName.Path.Equals(f.Path, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        p.ExeName.Path = relPath;
+                        p.ExeName.IsRelative = true;
+                    }
+                    else if (p.License != null && p.License.Path.Equals(f.Path, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        p.License.Path = relPath;
+                        p.License.IsRelative = true;
+                    }
+                }
+            }
+
+            p.InstallerIcon   = GetRelativeImagePathOrNull(destDir, p.InstallerIcon);
+            p.UninstallerIcon = GetRelativeImagePathOrNull(destDir, p.UninstallerIcon);
+
+            p.InstallerHeaderImage   = GetRelativeImagePathOrNull(destDir, p.InstallerHeaderImage);
+            p.UninstallerHeaderImage = GetRelativeImagePathOrNull(destDir, p.UninstallerHeaderImage);
+
+            p.InstallerWizardImage   = GetRelativeImagePathOrNull(destDir, p.InstallerWizardImage);
+            p.UninstallerWizardImage = GetRelativeImagePathOrNull(destDir, p.UninstallerWizardImage);
+
+            var project = new Project { AppData = p };
+            m_ProjectManager.Save(m_SaveProjectDialog.FileName, project);
+            m_MsgBoxMgr.ShowInfo("Exporting project succeeded.", "Exporting the project as portable project succeeded.");
+        }
+
+        /// <summary>
+        /// Creates and returns the relative path of copied image (to content dir, when exporting as portable project), or NULL.
+        /// If image file exists at destination, it will not copy the file (overstepping copy).
+        /// </summary>
+        /// <param name="destDir">Path of content directory (export as portable project).</param>
+        /// <param name="pImagePath">Path to image file (installer: icon, header, wizzard images).</param>
+        /// <returns>Relative path or NULL.</returns>
+        private string GetRelativeImagePathOrNull(string destDir, string pImagePath)
+        {
+            if (string.IsNullOrWhiteSpace(pImagePath) || !File.Exists(pImagePath))
+                return null;
+
+            FileInfo fi = new FileInfo(pImagePath);
+            string newPath = $"{destDir}\\{fi.Name}";
+
+            // Do not overwrite, because some images (like icon) could be used for installer and uninstaller!
+            if (!File.Exists(newPath))
+                File.Copy(fi.FullName, newPath);
+
+            return Path.GetRelativePath(destDir, newPath);
+        }
+
+        private static string GetRelativePath(string destDir, AppData p, FileSystemItemVM f)
+        {
+            string newPath = $"{destDir}\\{f.Name}";
+
+            if (f.FSType == EFileSystemType.File)
+                File.Copy(f.Path, newPath);
+            else if (f.FSType == EFileSystemType.Directory)
+            {
+                var di = new DirectoryInfo(f.Path);
+                di.CopyTo(newPath, true);
+            }
+            var fsi = new FileSystemItem(newPath);
+            var relPath = Path.GetRelativePath(destDir, newPath);
+            fsi.Path = relPath;
+            fsi.IsRelative = true;
+            p.Files.Add(fsi);
+            return relPath;
+        }
+    }
 }

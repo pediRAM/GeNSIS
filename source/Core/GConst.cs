@@ -34,6 +34,9 @@ namespace GeNSIS.Core
             public const string SUBDIR_NSIS_ICONS = "\\Contrib\\Graphics\\Icons";
             public const string SUBDIR_NSIS_HEADER_IMAGES = "\\Contrib\\Graphics\\Header";
             public const string SUBDIR_NSIS_WIZARD_IMAGES = "\\Contrib\\Graphics\\Wizard";
+
+            public const string BASE_DIR = @"BASE_DIR";
+
         }
 
         public static class GeNSIS

@@ -23,7 +23,8 @@ namespace GeNSIS.Core.Interfaces
 {
     public interface IFileSystemItem
     {
-        EFileSystemType FileSystemType { get; set; }
+        EFileSystemType FSType { get; set; }
+        bool IsRelative { get; set; }
         string Path { get; set; }
         string Name { get; set; }
     }

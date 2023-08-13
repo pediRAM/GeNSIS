@@ -18,11 +18,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace GeNSIS.Core.Interfaces
 {
     public interface IAppData
     {
+        string RelativePath { get; }
+
         string AppName { get; }
 
         bool Is64BitApplication { get; }
@@ -65,5 +69,17 @@ namespace GeNSIS.Core.Interfaces
         IEnumerable<IFirewallRule> GetFirewallRules();
 
         void UpdateValues(IAppData pAppData);
+
+        string GetFullPath(IFileSystemItem pItem) 
+            => pItem.IsRelative ? Path.Combine(RelativePath, pItem.Path) : pItem.Path;
+
+        string GetNsisPath(IFileSystemItem pItem)
+            => pItem.IsRelative ? $"${{{GConst.Nsis.BASE_DIR}}}\\{pItem.Name}" : pItem.Path;
+
+        long GetSize(IFileSystemItem pItem) => 
+            pItem.FSType == Enums.EFileSystemType.File? new FileInfo(GetFullPath(pItem)).Length :
+            GetFiles().Where(x => x.FSType == Enums.EFileSystemType.Directory).Sum(x => new DirectoryInfo(GetFullPath(x)).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
+
+        long GetTotalSize() => GetFiles().Sum(x => GetSize(x));
     }
 }

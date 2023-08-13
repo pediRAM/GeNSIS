@@ -27,9 +27,6 @@ namespace GeNSIS.Core.Models
         [XmlElement]
         public string Version { get; set; } = AsmConst.MODEL_VERSION;
 
-        //[XmlElement]
-        //public string Note { get; set; }
-
         [XmlElement]
         public AppData AppData { get; set; } = new AppData();
 
@@ -38,7 +35,6 @@ namespace GeNSIS.Core.Models
             return new ProjectVM
             {
                 Version = Version,
-                //Note = Note,
                 AppData = AppData.ToViewModel()
             };
         }

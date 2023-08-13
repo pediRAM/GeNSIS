@@ -17,7 +17,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
+using GeNSIS.Core.Interfaces;
+using GeNSIS.Core.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows;
 namespace GeNSIS.Core.Helpers
 {
@@ -93,5 +98,26 @@ namespace GeNSIS.Core.Helpers
 
         internal MessageBoxResult ShowMissingFilesOrDirsWarning(string pListOfMissingDirsAndFiles)
             => ShowWarn("Project content not found!", $"Some files/directories of project does not exist.\nRemove these files/directories from project?\n{pListOfMissingDirsAndFiles}" , MessageBoxButton.YesNo);
+
+        internal string GetMissingFilesMessage(IEnumerable<IFileSystemItem> pItems)
+        {
+            var sb = new StringBuilder();
+            var files = pItems.Where(x => x.FSType == Enums.EFileSystemType.File || x.FSType == Enums.EFileSystemType.None).OrderBy(x => x.Name);
+            var dirs = pItems.Where(x => x.FSType == Enums.EFileSystemType.Directory).OrderBy(x => x.Name);
+
+            if (files.Any())
+                sb.AppendLine($"\nMissing {files.Count()} files:");
+
+            foreach (var f in files)
+                sb.AppendLine(f.Name);
+
+            if (dirs.Any())
+                sb.AppendLine($"\nMissing {dirs.Count()} directories:");
+
+            foreach (var d in dirs)
+                sb.AppendLine(d.Name);
+
+            return sb.ToString();
+        }
     }
 }

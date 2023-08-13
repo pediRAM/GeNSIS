@@ -41,7 +41,7 @@ namespace GeNSIS.Core.Commands
                 return false;
 
             var fsi = (parameter as FileSystemItemVM);
-            if (fsi.FileSystemType != Enums.EFileSystemType.File)
+            if (fsi.FSType != Enums.EFileSystemType.File)
                 return false;
 
             var fileExtension = Path.GetExtension(fsi.Name);

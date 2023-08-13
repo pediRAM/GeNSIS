@@ -29,7 +29,6 @@ namespace GeNSIS.Core
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Diagnostics.Eventing.Reader;
     using System.IO;
     using System.Windows.Input;
     #endregion Usings
@@ -45,6 +44,7 @@ namespace GeNSIS.Core
 
 
         #region Variables
+        private string m_RelativePath;
         private bool m_Is64BitApplication;
         private bool m_CreateCompanyFolder;
         private string m_Arch;
@@ -89,6 +89,17 @@ namespace GeNSIS.Core
 
 
         #region Properties
+        public string RelativePath
+        {
+            get { return m_RelativePath; }
+            set
+            {
+                if (value == m_RelativePath) return;
+                m_RelativePath = value;
+                NotifyPropertyChanged(nameof(RelativePath));
+            }
+        }
+
         public bool Is64BitApplication
         {
             get { return m_Is64BitApplication; }
@@ -96,6 +107,7 @@ namespace GeNSIS.Core
             {
                 if (value == m_Is64BitApplication) return;
                 m_Is64BitApplication = value;
+                NotifyPropertyChanged(nameof(Is64BitApplication));
             }
         }
 
@@ -139,6 +151,7 @@ namespace GeNSIS.Core
             {
                 if (value == m_DoInstallPerUser) return;
                 m_DoInstallPerUser = value;
+                NotifyPropertyChanged(nameof(DoInstallPerUser));
             }
         }
 
@@ -149,6 +162,7 @@ namespace GeNSIS.Core
             {
                 if (value == m_DoAddFWRule) return;
                 m_DoAddFWRule = value;
+                NotifyPropertyChanged(nameof(DoAddFWRule));
             }
         }
 
@@ -374,6 +388,7 @@ namespace GeNSIS.Core
         {
             var clone = new AppData
             {
+                RelativePath = RelativePath,
                 AppBuild = AppBuild,
                 AppName = AppName,
                 AppVersion = AppVersion,
@@ -381,7 +396,7 @@ namespace GeNSIS.Core
                 Company = Company,
                 DoAddFWRule = DoAddFWRule,
                 DoInstallPerUser = DoInstallPerUser,
-                ExeName = ExeName,
+                ExeName = (ExeName as FileSystemItemVM).ToModel(),
                 InstallerHeaderImage = InstallerHeaderImage,
                 UninstallerHeaderImage = UninstallerHeaderImage,
                 InstallerFileName = InstallerFileName,
@@ -393,7 +408,7 @@ namespace GeNSIS.Core
                 DoCreateCompanyDir = DoCreateCompanyDir,
                 Arch = Arch,
                 MachineType = MachineType,
-                License = License,
+                License = (License as FileSystemItemVM).ToModel(),
                 Publisher = Publisher,
                 Url = Url,
             };
@@ -415,6 +430,7 @@ namespace GeNSIS.Core
 
         public void UpdateValues(IAppData pAppData)
         {
+            RelativePath = pAppData.RelativePath;
             AppBuild = pAppData.AppBuild;
             AppName = pAppData.AppName;
             AppVersion = pAppData.AppVersion;

@@ -29,6 +29,9 @@ namespace GeNSIS.Core.Models
     public class AppData : IAppData
     {
         [XmlElement]
+        public string RelativePath { get; set; }
+
+        [XmlElement]
         public bool Is64BitApplication { get; set; }
 
         [XmlElement]
@@ -115,6 +118,7 @@ namespace GeNSIS.Core.Models
         {
             var vm = new AppDataVM
             {
+                RelativePath = RelativePath,
                 AppBuild = AppBuild,
                 AppName = AppName,
                 AppVersion = AppVersion,
@@ -122,7 +126,7 @@ namespace GeNSIS.Core.Models
                 Company = Company,
                 DoAddFWRule = DoAddFWRule,
                 DoInstallPerUser = DoInstallPerUser,
-                ExeName = ExeName,
+                ExeName = (ExeName as FileSystemItem).ToViewModel(),
                 InstallerHeaderImage = InstallerHeaderImage,
                 UninstallerHeaderImage = UninstallerHeaderImage,
                 InstallerFileName = InstallerFileName,
@@ -134,7 +138,7 @@ namespace GeNSIS.Core.Models
                 DoCreateCompanyDir = DoCreateCompanyDir,
                 Arch = Arch,
                 MachineType = MachineType,
-                License = License,
+                License = (License as FileSystemItem).ToViewModel(),
                 Publisher = Publisher,
                 Url = Url,
             };
@@ -156,6 +160,7 @@ namespace GeNSIS.Core.Models
 
         public void UpdateValues(IAppData pAppData)
         {
+            RelativePath = pAppData.RelativePath;
             AppBuild = pAppData.AppBuild;
             AppName = pAppData.AppName;
             AppVersion = pAppData.AppVersion;

@@ -30,10 +30,14 @@
         <Menu Grid.Row="0">
             <MenuItem Header="File">
                 <MenuItem Header="Project" Icon="{StaticResource icon_project}">
-                    <MenuItem Header="New project" Icon="{StaticResource icon_new}"      Click="OnNewProjectClicked"/>
+                    <MenuItem Header="New"         Icon="{StaticResource icon_new}"      Click="OnNewProjectClicked"/>
                     <MenuItem Header="Open..."     Icon="{StaticResource icon_open}"     Click="OnOpenProjectClicked"/>
                     <MenuItem Header="Save"        Icon="{StaticResource icon_save}"     Click="OnSaveProjectClicked"/>
                     <MenuItem Header="Save as..."  Icon="{StaticResource icon_save_as}"  Click="OnSaveProjectAsClicked"/>
+                    <MenuItem Header="Check files" Icon="{StaticResource icon_save_as}"  Click="OnCheckProjectFilesClicked"/>
+                    <MenuItem Header="Export as portable..."  Icon="{StaticResource icon_save_as}"  Click="OnExportAsPortableProjectClicked"/>
+                    
+                    
                 </MenuItem>
                 <MenuItem Header="Open script..." Icon="{StaticResource icon_script}" Click="OnOpenScriptClicked"/>
                 <MenuItem Header="Settings..." Icon="{StaticResource icon_settings}" Click="OnOpenSettingsWindowClicked"/>
@@ -78,7 +82,7 @@
 
                     <!-- Files (List<string>) -->
                     <Label     Grid.Row="0" Grid.Column="0" Content="{StaticResource label_files}"    ToolTip="{StaticResource tt_files}" Style="{StaticResource label_input}" />
-                    <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files, UpdateSourceTrigger=PropertyChanged}" AllowDrop="True" Drop="OnDirectoryDroped" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}" KeyDown="OnFilesKeyDown">
+                    <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files}" AllowDrop="True" Drop="OnDirectoryDroped" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}" KeyDown="OnFilesKeyDown">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -91,7 +95,7 @@
                                                 <Style TargetType="{x:Type Image}">
                                                 <Setter Property="Source" Value="{Binding Path=Name, Converter={conv:FileExtensionToImageSourceConverter}}"/>
                                                     <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Path=FileSystemType}" Value="{x:Static enum:EFileSystemType.Directory}">
+                                                    <DataTrigger Binding="{Binding Path=FSType}" Value="{x:Static enum:EFileSystemType.Directory}">
                                                         <DataTrigger.Setters>
                                                             <Setter Property="Source" Value="Resources/Icons/nuvola/22x22/folder.png"/>
                                                         </DataTrigger.Setters>

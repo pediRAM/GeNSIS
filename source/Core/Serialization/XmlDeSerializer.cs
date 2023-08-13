@@ -22,6 +22,7 @@ namespace GeNSIS.Core.Serialization
     using ExtendedXmlSerializer;
     using ExtendedXmlSerializer.Configuration;
     using GeNSIS.Core.Models;
+    using GeNSIS.Core.ViewModels;
     using System.IO;
     using System.Xml;
 
@@ -35,14 +36,14 @@ namespace GeNSIS.Core.Serialization
             => GetExtendedSerializer().Deserialize<Project>(pModelString);
 
         public string ToString(Project project)
-            => GetExtendedSerializer().Serialize(new XmlWriterSettings { Indent = true }, project);
+            => GetExtendedSerializer().Serialize(new XmlWriterSettings { Indent = true, IndentChars = "\t", NewLineOnAttributes = true}, project);
 
         private IExtendedXmlSerializer GetExtendedSerializer()
         {
             return new ConfigurationContainer()
+                .EnableImplicitTyping(typeof(Project), typeof(AppData), typeof(FileSystemItem), typeof(FileSystemItemVM))
                 .UseAutoFormatting()
-                .UseOptimizedNamespaces()
-                .EnableImplicitTyping(typeof(Project))
+                .UseOptimizedNamespaces()                
                 .Create();
         }
     }

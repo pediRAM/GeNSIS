@@ -40,16 +40,16 @@ namespace GeNSIS.Core.Models
         {
             if (File.Exists(pPath))
             {
-                FileSystemType = EFileSystemType.File;
+                FSType = EFileSystemType.File;
                 Name = System.IO.Path.GetFileName(pPath);
             }
             else if (Directory.Exists(pPath))
             {
-                FileSystemType = EFileSystemType.Directory;
+                FSType = EFileSystemType.Directory;
                 Name = System.IO.Path.GetFileName(pPath);
             }
             else
-                FileSystemType = EFileSystemType.None;
+                FSType = EFileSystemType.None;
         }
 
         public FileSystemItem(IFileSystemItem pFileSystemItem) : this()
@@ -61,7 +61,10 @@ namespace GeNSIS.Core.Models
 
         #region Properties
         [XmlElement]
-        public EFileSystemType FileSystemType { get; set; }
+        public EFileSystemType FSType { get; set; }
+        
+        [XmlElement]
+        public bool IsRelative { get; set; }
 
         [XmlElement]
         public string Path { get; set; }
@@ -76,7 +79,8 @@ namespace GeNSIS.Core.Models
         {
             return new FileSystemItemVM
             {
-                FileSystemType = FileSystemType,
+                FSType = FSType,
+                IsRelative = IsRelative,
                 Path = Path,
                 Name = Name,
             };
@@ -85,7 +89,8 @@ namespace GeNSIS.Core.Models
         public void UpdateValues(IFileSystemItem pFileSystemItem)
         {
 
-            FileSystemType = pFileSystemItem.FileSystemType;
+            FSType = pFileSystemItem.FSType;
+            IsRelative = pFileSystemItem.IsRelative;
             Path = pFileSystemItem.Path;
             Name = pFileSystemItem.Name;
         }
