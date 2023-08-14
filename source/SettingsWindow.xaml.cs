@@ -19,8 +19,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS
 {
+    using GeNSIS.Core.Helpers;
     using GeNSIS.Core.Interfaces;
     using GeNSIS.Core.Models;
+    using System;
     using System.Windows;
     using System.Windows.Forms;
 
@@ -30,11 +32,12 @@ namespace GeNSIS
     public partial class SettingsWindow : Window
     {
         private FolderBrowserDialog m_FBD = new FolderBrowserDialog();
+        private OpenFileDialog m_OFD = new OpenFileDialog();
 
         public SettingsWindow()
         {
             InitializeComponent();
-            Title = "Settings";
+            Title = "Settings";            
         }
 
         public SettingsWindow(IConfig pAppConfig) : this()
@@ -69,6 +72,17 @@ namespace GeNSIS
         {
             if (m_FBD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 Config.NsisInstallationDirectory = m_FBD.SelectedPath;
+        }
+
+        private void OnSelectExternalEditorClicked(object sender, RoutedEventArgs e)
+        {
+            m_OFD.Multiselect = false;
+            m_OFD.Filter = FileDialogHelper.Filter.EXECUTABLE;
+            FileDialogHelper.InitDir(m_OFD, Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
+            if (m_OFD.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            Config.ExternalEditor = m_OFD.FileName;
         }
 
         private void OnSaveClicked(object sender, RoutedEventArgs e)

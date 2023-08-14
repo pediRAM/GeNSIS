@@ -38,6 +38,7 @@ namespace GeNSIS.Core.Models
         private string m_InstallersDirectory;
 
         private string m_NsisInstallationDirectory;
+        private string m_ExternalEditor = GConst.Default.EXTERNAL_EDITOR;
 
         public ConfigVM() { }
         public ConfigVM(bool pRegisterForChanges) : this() 
@@ -118,7 +119,7 @@ namespace GeNSIS.Core.Models
                 NotifyPropertyChanged(nameof(InstallersDirectory));
             }
         }
-
+        
         public string NsisInstallationDirectory
         {
             get { return m_NsisInstallationDirectory; }
@@ -127,6 +128,17 @@ namespace GeNSIS.Core.Models
                 if (value == m_NsisInstallationDirectory) return;
                 m_NsisInstallationDirectory = value;
                 NotifyPropertyChanged(nameof(NsisInstallationDirectory));
+            }
+        }
+
+        public string ExternalEditor
+        {
+            get { return m_ExternalEditor; }
+            set
+            {
+                if (value == m_ExternalEditor) return;
+                m_ExternalEditor = value;
+                NotifyPropertyChanged(nameof(ExternalEditor));
             }
         }
 
@@ -146,6 +158,7 @@ namespace GeNSIS.Core.Models
                 ScriptsDirectory = ScriptsDirectory,
                 InstallersDirectory = InstallersDirectory,
                 NsisInstallationDirectory = NsisInstallationDirectory,
+                ExternalEditor = ExternalEditor,
 
                 LastProjects = LastProjects.ToList(),
                 LastScripts = LastScripts.ToList(),
@@ -163,6 +176,7 @@ namespace GeNSIS.Core.Models
             InstallersDirectory = pIAppConfig.InstallersDirectory;
 
             NsisInstallationDirectory = pIAppConfig.NsisInstallationDirectory;
+            ExternalEditor = pIAppConfig.ExternalEditor;
 
             LastProjects.Clear();
             LastProjects.AddRange(pIAppConfig.GetLastProjects());

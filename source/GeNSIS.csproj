@@ -294,6 +294,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\document-new.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-save-as.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-save.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\editor.png" />
     <None Remove="Resources\Icons\nuvola\22x22\folder-orange.png" />
     <None Remove="Resources\Icons\nuvola\22x22\folder.png" />
     <None Remove="Resources\Icons\nuvola\22x22\help-about.png" />
@@ -603,6 +604,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\document-new.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-save-as.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-save.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\editor.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\folder-orange.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\folder.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\help-about.png" />

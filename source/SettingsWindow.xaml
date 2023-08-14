@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeNSIS"
-        mc:Ignorable="d"
-        Title="SettingsWindow" Height="350" Width="800">
+        mc:Ignorable="d" Icon="Resources/Icons/nuvola/22x22/kcontrol.png"
+        Title="SettingsWindow" Height="400" Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -60,7 +60,11 @@
         <TextBox Grid.Row="6" Grid.Column="1" x:Name="txb_NsisInstallationDirectory" Text="{Binding NsisInstallationDirectory}" ToolTip="{StaticResource tt_NsisInstallationDirectory}" Style="{StaticResource textbox_input_readonly}" />
         <Button Grid.Row="6" Grid.Column="2" Content="..." Style="{StaticResource button_openfiledialog}" Click="OnSelectNsisFolderClicked"/>
 
-        <StackPanel  Grid.Row="7" Grid.ColumnSpan="10" HorizontalAlignment="Center" Orientation="Horizontal" Margin="10" >
+        <Label   Grid.Row="7" Grid.Column="0" x:Name="lbl_ExternalEditor" Content="{StaticResource label_ExternalEditor}" ToolTip="{StaticResource tt_ExternalEditor}" Style="{StaticResource label_input}" />
+        <TextBox Grid.Row="7" Grid.Column="1" x:Name="txb_ExternalEditor" Text="{Binding ExternalEditor}"                 ToolTip="{StaticResource tt_ExternalEditor}" Style="{StaticResource textbox_input_settings}" />
+        <Button  Grid.Row="7" Grid.Column="2" Content="..." Click="OnSelectExternalEditorClicked" Style="{StaticResource button_openfiledialog}" />
+        
+        <StackPanel  Grid.Row="8" Grid.ColumnSpan="10" HorizontalAlignment="Center" Orientation="Horizontal" Margin="10" >
             <Button x:Name="btn_Save" Content="{StaticResource label_Save}" Style="{StaticResource button_command}" Click="OnSaveClicked" />
             <Button x:Name="btn_Cancel" Content="{StaticResource label_Cancel}" Style="{StaticResource button_command}" Click="OnCancelClicked" />
         </StackPanel>

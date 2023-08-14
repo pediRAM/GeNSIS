@@ -37,6 +37,7 @@ namespace GeNSIS.Core.Helpers
             public const string ICON       = "Icon files|*.ico";
             public const string SCRIPT     = "NSIS files|*.nsi";
             public const string PROJECT    = "GeNSIS files|*.gensis";
+            public const string EXECUTABLE = "Executable files|*.exe";
         }
 
         public static void InitDir(SaveFileDialog pSfd, string pPath)
@@ -46,6 +47,12 @@ namespace GeNSIS.Core.Helpers
         }
 
         public static void InitDir(OpenFileDialog pOfd, string pPath)
+        {
+            if (Directory.Exists(pPath))
+                pOfd.InitialDirectory = pPath;
+        }
+
+        public static void InitDir(System.Windows.Forms.OpenFileDialog pOfd, string pPath)
         {
             if (Directory.Exists(pPath))
                 pOfd.InitialDirectory = pPath;

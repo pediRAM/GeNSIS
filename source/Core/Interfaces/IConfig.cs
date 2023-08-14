@@ -30,7 +30,7 @@ namespace GeNSIS.Core.Interfaces
         string ScriptsDirectory { get; set; }
         string InstallersDirectory { get; set; }
         string NsisInstallationDirectory { get; set; }
-
+        string ExternalEditor { get; set; }
         List<string> GetLastProjects();
         List<string> GetLastScripts();
         void UpdateValues(IConfig pIAppConfig);

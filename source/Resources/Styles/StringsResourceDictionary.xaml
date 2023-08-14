@@ -8,6 +8,7 @@
     <sys:String x:Key="btn_installer_wizard">Wizard image&#x2026;</sys:String>
     <sys:String x:Key="btn_installer_header">Header image&#x2026;</sys:String>
     <sys:String x:Key="btn_generate_script">Generate script&#x2026;</sys:String>
+    <sys:String x:Key="btn_open_extern_editor">Open in extern editor</sys:String>
     <sys:String x:Key="btn_save_script">Save changes</sys:String>
     <sys:String x:Key="label_is64bitapplication">Is x64 app:</sys:String>
     <sys:String x:Key="label_appname">Application name:</sys:String>
@@ -54,6 +55,7 @@ Leave empty (default) for dynamic auto-nameing in script</sys:String>
 
     <!-- *** Begin of Content of Lables *** -->
     <sys:String x:Key="label_NsisInstallationDirectory">Installation folder of NSIS:</sys:String>
+    <sys:String x:Key="label_ExternalEditor">External Editor Path:</sys:String>
     <sys:String x:Key="label_GeNSISProjectsDirectory">Projects folder of GeNSIS:</sys:String>
     <sys:String x:Key="label_ScriptsDirectory">Scripts folder for *.nsi files:</sys:String>
     <sys:String x:Key="label_InstallersDirectory">Installers folder for Setup.exe files:</sys:String>
@@ -69,6 +71,7 @@ Leave empty (default) for dynamic auto-nameing in script</sys:String>
 
     <!-- *** Begin of Text of ToolTips *** -->
     <sys:String x:Key="tt_NsisInstallationDirectory">The path of the &quot;NSIS&quot; folder, where NSIS files are installed</sys:String>
+    <sys:String x:Key="tt_ExternalEditor">The path to an external editor</sys:String>
     <sys:String x:Key="tt_GeNSISProjectsDirectory">The path of the folder, where GeNSIS project files are saved</sys:String>
     <sys:String x:Key="tt_ScriptsDirectory">The path of the folder, where generated NSIS scripts (*.nsi files) are saved</sys:String>
     <sys:String x:Key="tt_InstallersDirectory">The path of the folder, where generated installers (*.exe setup files) are saved</sys:String>

@@ -26,18 +26,14 @@ namespace GeNSIS.Core.Models
     public class Config : IConfig
     {
         public string CompanyName { get; set; }
-
         public string Publisher { get; set; }
         public string Website { get; set; }
-
         public string GeNSISProjectsDirectory { get; set; }
-
         public string ScriptsDirectory { get; set; }
         public string InstallersDirectory { get; set; }
-
         public string NsisInstallationDirectory { get; set; }
+        public string ExternalEditor { get; set; } = GConst.Default.EXTERNAL_EDITOR;
 
-  
         public List<string> LastProjects { get; set; } = new List<string>();
         public List<string> LastScripts { get; set; } = new List<string>();
 
@@ -55,6 +51,7 @@ namespace GeNSIS.Core.Models
                 ScriptsDirectory = ScriptsDirectory,
                 InstallersDirectory = InstallersDirectory,
                 NsisInstallationDirectory = NsisInstallationDirectory,
+                ExternalEditor = ExternalEditor,
 
                 LastScripts = new System.Collections.ObjectModel.ObservableCollection<string>(LastScripts),
                 LastProjects = new System.Collections.ObjectModel.ObservableCollection<string>(LastProjects),
@@ -72,6 +69,7 @@ namespace GeNSIS.Core.Models
             InstallersDirectory = pIAppConfig.InstallersDirectory;
 
             NsisInstallationDirectory = pIAppConfig.NsisInstallationDirectory;
+            ExternalEditor = pIAppConfig.ExternalEditor;
 
             LastProjects = pIAppConfig.GetLastProjects();
             LastScripts = pIAppConfig.GetLastScripts();

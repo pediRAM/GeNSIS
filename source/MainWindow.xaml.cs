@@ -388,11 +388,24 @@ namespace GeNSIS
         private void StartMakensiswProcess()
         {
             Log.Info("Starting makensisw process...");
+            var currentDirectory = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(m_Config.InstallersDirectory);
             var makeNsisExePath = $@"{m_Config.NsisInstallationDirectory}\makensisw.exe";
             var pi = new ProcessStartInfo($"\"{makeNsisExePath}\"", $"/V4 /NOCD \"{PathToGeneratedNsisScript}\"");
             pi.UseShellExecute = false;
-            //pi.WorkingDirectory = Path.GetDirectoryName(m_PathToGeneratedNsisScript);
+            var proc = new Process();
+            proc.StartInfo = pi;
+            _ = proc.Start();
+            Directory.SetCurrentDirectory(currentDirectory);
+        }
+
+        private void OpenScriptInExternalEditor()
+        {
+            Log.Info("Opening script in external editor...");
+            string extEditorPath = string.IsNullOrWhiteSpace(m_Config.ExternalEditor) ? GConst.Default.EXTERNAL_EDITOR : m_Config.ExternalEditor;
+
+            var pi = new ProcessStartInfo($"\"{extEditorPath}\"", $"\"{PathToGeneratedNsisScript}\"");
+            pi.UseShellExecute = false;
             var proc = new Process();
             proc.StartInfo = pi;
             _ = proc.Start();
@@ -1104,6 +1117,12 @@ namespace GeNSIS
             fsi.IsRelative = true;
             p.Files.Add(fsi);
             return relPath;
+        }
+
+        private void OnOpenScriptInExternEditor(object sender, RoutedEventArgs e)
+        {
+            Log.Info("User clicked OpenScriptInExternEditor.");
+            OpenScriptInExternalEditor();
         }
     }
 }

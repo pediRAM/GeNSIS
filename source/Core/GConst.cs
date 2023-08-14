@@ -51,6 +51,7 @@ namespace GeNSIS.Core
 
         public static class Default
         {
+            public const string EXTERNAL_EDITOR = "notepad.exe";
             public const string COMPANY_NAME = "ACME";
             public const string WEBSITE_URL = "https://example.com/";
             public const string INSTALLER_FILENAME = @"Setup_${APP_NAME}_${APP_VERSION}_${APP_BUILD}_${APP_MACHINE_TYPE}_${APP_ARCH}.exe";

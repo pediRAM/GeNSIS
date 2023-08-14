@@ -499,7 +499,7 @@ namespace GeNSIS.Core.TextGenerators
             
             AddComment("Create shortcuts on Desktop and Programs menu.");
             var endLabel = AddDialogYesNo("Create shortcuts on Desktop and Programs menu?", "CreateShortcuts");
-            Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
+            Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\"    \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add($"{endLabel}:");
 
@@ -546,7 +546,7 @@ namespace GeNSIS.Core.TextGenerators
         {
             AddSection($"\"Create Shortcuts\" SEC{m_SectionCounter:d2}");
             AddComment("Create shortcuts on Desktop and Programs menu.");
-            Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
+            Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\"    \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
             AddSectionEnd();
         }
@@ -555,12 +555,12 @@ namespace GeNSIS.Core.TextGenerators
         {
             AddSection("-Post");
             Add("WriteUninstaller \"$INSTDIR\\uninst.exe\"");
-            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayName\" \"$(^Name)\"");
-            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayIcon\" \"$INSTDIR\\${APP_EXE_NAME}\"");
-            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayVersion\" \"${APP_VERSION}\"");
-            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"URLInfoAbout\" \"${APP_URL}\"");
-            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"Publisher\" \"${APP_PUBLISHER}\"");
-            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"UninstallString\" \"$INSTDIR\\uninst.exe\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayName\"          \"$(^Name)\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayIcon\"          \"$INSTDIR\\${APP_EXE_NAME}\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"DisplayVersion\"       \"${APP_VERSION}\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"URLInfoAbout\"         \"${APP_URL}\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"Publisher\"            \"${APP_PUBLISHER}\"");
+            Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"UninstallString\"      \"$INSTDIR\\uninst.exe\"");
             Add("WriteRegStr ${UNINST_ROOT_KEY} \"${UNINST_KEY}\" \"QuietUninstallString\" '\"$INSTDIR\\uninst.exe\" /S'");
             AddSectionEnd();
         }

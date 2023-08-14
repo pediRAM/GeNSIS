@@ -24,6 +24,7 @@
     <Image x:Key="icon_info" Source="../Icons/nuvola/22x22/dialog-information.png" />
     <Image x:Key="icon_settings" Source="../Icons/nuvola/22x22/kcontrol.png" />
     <Image x:Key="icon_script" Source="../Icons/nuvola/22x22/source.png" />
+    <Image x:Key="icon_editor" Source="../Icons/nuvola/22x22/editor.png" />
 
     <Image x:Key="icon_nsis" Source="../Icons/Installer/modern-install.ico" />
     <Image x:Key="icon_project" Source="../Icons/nuvola/22x22/project-open.png" />
