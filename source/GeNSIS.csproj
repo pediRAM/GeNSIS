@@ -289,12 +289,14 @@
     <None Remove="Resources\Icons\nuvola\22x22\application-x-zip.png" />
     <None Remove="Resources\Icons\nuvola\22x22\application-xhtml+xml.png" />
     <None Remove="Resources\Icons\nuvola\22x22\applications-internet.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\check-spelling.png" />
     <None Remove="Resources\Icons\nuvola\22x22\dialog-information.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-multiple.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-new.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-save-as.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-save.png" />
     <None Remove="Resources\Icons\nuvola\22x22\editor.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\export.png" />
     <None Remove="Resources\Icons\nuvola\22x22\folder-orange.png" />
     <None Remove="Resources\Icons\nuvola\22x22\folder.png" />
     <None Remove="Resources\Icons\nuvola\22x22\help-about.png" />
@@ -314,6 +316,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\tool_delete.png" />
     <None Remove="Resources\Icons\nuvola\22x22\txt.png" />
     <None Remove="Resources\Icons\nuvola\22x22\unknown.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\usb.png" />
     <None Remove="Resources\Icons\nuvola\22x22\zoom-in.png" />
     <None Remove="Resources\Icons\nuvola\22x22\zoom-out.png" />
     <None Remove="Resources\Icons\nuvola\22x22\zoom.png" />
@@ -599,12 +602,14 @@
     <Resource Include="Resources\Icons\nuvola\22x22\application-x-zip.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\application-xhtml+xml.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\applications-internet.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\check-spelling.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\dialog-information.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-multiple.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-new.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-save-as.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-save.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\editor.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\export.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\folder-orange.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\folder.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\help-about.png" />
@@ -624,6 +629,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\tool_delete.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\txt.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\unknown.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\usb.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\zoom-in.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\zoom-out.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\zoom.png" />

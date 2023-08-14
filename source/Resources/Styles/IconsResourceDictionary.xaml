@@ -4,9 +4,14 @@
     <!-- Icons -->
     <Image x:Key="icon_new" Source="../Icons/nuvola/22x22/document-new.png" />
     <Image x:Key="icon_open" Source="../Icons/nuvola/22x22/folder-orange.png" />
+    <Image x:Key="icon_open_script" Source="../Icons/nuvola/22x22/folder-orange.png" />
+    <Image x:Key="icon_open_project" Source="../Icons/nuvola/22x22/folder-orange.png" />
     <Image x:Key="icon_save" Source="../Icons/nuvola/22x22/document-save.png" />
     <Image x:Key="icon_save_as" Source="../Icons/nuvola/22x22/document-save-as.png" />
+    <Image x:Key="icon_check" Source="../Icons/nuvola/22x22/check-spelling.png" />
+    
     <Image x:Key="icon_exit" Source="../Icons/nuvola/22x22/application-exit.png" />
+    <Image x:Key="icon_export" Source="../Icons/nuvola/22x22/export.png" />
     <Image x:Key="icon_generate" Source="../Icons/nuvola/22x22/tools-wizard.png" />
     <Image x:Key="icon_manuals" Source="../Icons/nuvola/22x22/help-about.png" />
     <Image x:Key="icon_about" Source="../Icons/nuvola/22x22/dialog-information.png" />
