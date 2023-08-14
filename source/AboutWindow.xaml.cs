@@ -19,19 +19,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using GeNSIS.Core;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GeNSIS
 {
@@ -44,7 +34,7 @@ namespace GeNSIS
         {
             InitializeComponent();
             Title = $"GeNSIS {AsmConst.FULL_VERSION}";
-            this.MouseDown += OnMouseDown;
+            MouseDown += OnMouseDown;
             DataContext = this;
         }
 
