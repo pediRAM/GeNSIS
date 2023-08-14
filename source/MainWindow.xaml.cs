@@ -555,7 +555,11 @@ namespace GeNSIS
         }
 
         private void OnAboutClicked(object sender, RoutedEventArgs e)
-            => OpenWebsiteInDefaultBrowser(@"https://github.com/pediRAM/GeNSIS/");
+        {
+            //=> OpenWebsiteInDefaultBrowser(@"https://github.com/pediRAM/GeNSIS/");
+            var about = new AboutWindow { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+            _ = about.ShowDialog();
+        }
 
         private void OnManualClicked(object sender, RoutedEventArgs e)
             => OpenWebsiteInDefaultBrowser(@"https://github.com/pediRAM/GeNSIS/blob/main/README.md");

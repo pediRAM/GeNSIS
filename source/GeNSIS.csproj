@@ -281,6 +281,8 @@
     <None Remove="Resources\Icons\Flags\za.png" />
     <None Remove="Resources\Icons\Flags\zm.png" />
     <None Remove="Resources\Icons\Flags\zw.png" />
+    <None Remove="Resources\Icons\GeNSIS\icon128px.png" />
+    <None Remove="Resources\Icons\GeNSIS\icon48px.png" />
     <None Remove="Resources\Icons\Installer\modern-install.ico" />
     <None Remove="Resources\Icons\nuvola\22x22\application-exit.png" />
     <None Remove="Resources\Icons\nuvola\22x22\application-pdf.png" />
@@ -320,11 +322,16 @@
     <None Remove="Resources\Icons\nuvola\22x22\zoom-in.png" />
     <None Remove="Resources\Icons\nuvola\22x22\zoom-out.png" />
     <None Remove="Resources\Icons\nuvola\22x22\zoom.png" />
+    <None Remove="Resources\Icons\nuvola\48x48\info.png" />
     <None Remove="Resources\Images\Installer\Custom\license.png" />
     <None Remove="Resources\Images\Installer\finish.png" />
     <None Remove="Resources\Images\Installer\license.png" />
     <None Remove="Resources\Images\Installer\Original\installation.png" />
     <None Remove="Resources\Images\Installer\welcome.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\GeNSIS\icon128px.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -594,6 +601,7 @@
     <Resource Include="Resources\Icons\Flags\za.png" />
     <Resource Include="Resources\Icons\Flags\zm.png" />
     <Resource Include="Resources\Icons\Flags\zw.png" />
+    <Resource Include="Resources\Icons\GeNSIS\icon48px.png" />
     <Resource Include="Resources\Icons\Installer\modern-install.ico" />
     <Resource Include="Resources\Icons\nuvola\22x22\application-exit.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\application-pdf.png" />
@@ -633,6 +641,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\zoom-in.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\zoom-out.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\zoom.png" />
+    <Resource Include="Resources\Icons\nuvola\48x48\info.png" />
     <Resource Include="Resources\Images\Installer\Custom\license.png" />
     <Resource Include="Resources\Images\Installer\Original\finish.png" />
     <Resource Include="Resources\Images\Installer\Original\installation.png" />

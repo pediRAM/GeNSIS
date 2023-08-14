@@ -31,6 +31,29 @@
         <Setter Property="FontWeight" Value="DemiBold"/>
     </Style>
 
+    <Style x:Key="label_about_title" TargetType="Label" BasedOn="{StaticResource label_input}">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="label_about_subtitle" TargetType="Label" BasedOn="{StaticResource label_input}">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+    </Style>
+
+    <Style x:Key="label_about" TargetType="Label" BasedOn="{StaticResource label_input}">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Margin" Value="2"/>
+    </Style>
+
     <Style x:Key="label_statusbar" TargetType="Label">
         <Setter Property="FontSize" Value="10"/>
         <Setter Property="Margin" Value="0" />
