@@ -30,24 +30,22 @@
         <Menu Grid.Row="0">
             <MenuItem Header="File">
                 <MenuItem Header="Project"         Icon="{StaticResource icon_project}">
-                    <MenuItem Header="New"         Icon="{StaticResource icon_new}"      Click="OnNewProjectClicked"/>
-                    <MenuItem Header="Open..."     Icon="{StaticResource icon_open_project}"     Click="OnOpenProjectClicked"/>
-                    <MenuItem Header="Save"        Icon="{StaticResource icon_save}"     Click="OnSaveProjectClicked"/>
-                    <MenuItem Header="Save as..."  Icon="{StaticResource icon_save_as}"  Click="OnSaveProjectAsClicked"/>
-                    <MenuItem Header="Check files" Icon="{StaticResource icon_check}"    Click="OnCheckProjectFilesClicked"/>
-                    <MenuItem Header="Export portable..."   Icon="{StaticResource icon_export}"   Click="OnExportAsPortableProjectClicked"/>
+                    <MenuItem Header="New"         Icon="{StaticResource icon_new}"             Click="OnNewProjectClicked"/>
+                    <MenuItem Header="Open..."     Icon="{StaticResource icon_open_project}"    Click="OnOpenProjectClicked"/>
+                    <MenuItem Header="Save"        Icon="{StaticResource icon_save}"            Click="OnSaveProjectClicked"/>
+                    <MenuItem Header="Save as..."  Icon="{StaticResource icon_save_as}"         Click="OnSaveProjectAsClicked"/>
+                    <MenuItem Header="Check files" Icon="{StaticResource icon_check}"           Click="OnCheckProjectFilesClicked"/>
+                    <MenuItem Header="Export portable..."   Icon="{StaticResource icon_export}" Click="OnExportAsPortableProjectClicked"/>
                 </MenuItem>
 
                 <MenuItem Header="Script"                    Icon="{StaticResource icon_script}">
-                    <MenuItem Header="Open..."               Icon="{StaticResource icon_open_script}"   Click="OnOpenScriptClicked"/>
-                    <MenuItem Header="Open in extern editor" Icon="{StaticResource icon_editor}" Click="OnOpenScriptInExternEditor"/>
+                    <MenuItem Header="Open..."               Icon="{StaticResource icon_open_script}" Click="OnOpenScriptClicked"/>
+                    <MenuItem Header="Open in extern editor" Icon="{StaticResource icon_editor}"      Click="OnOpenScriptInExternEditor"/>
                 </MenuItem>
                 
                 <MenuItem Header="Settings..." Icon="{StaticResource icon_settings}" Click="OnOpenSettingsWindowClicked"/>
                 <MenuItem Header="Close"       Icon="{StaticResource icon_exit}"     Click="OnCloseClicked"/>
             </MenuItem>
-
-
 
             <MenuItem Header="Build">
                 <MenuItem Header="Generate script" Icon="{StaticResource icon_generate}" Click="OnGenerate"/>
@@ -55,7 +53,7 @@
 
             <MenuItem Header="Help">
                 <MenuItem Header="Manuals"      Icon="{StaticResource icon_manuals}" Click="OnManualClicked"/>
-                <MenuItem Header="About GeNSIS" Icon="{StaticResource icon_about}" Click="OnAboutClicked"/>
+                <MenuItem Header="About GeNSIS" Icon="{StaticResource icon_about}"   Click="OnAboutClicked"/>
             </MenuItem>
         </Menu>
 

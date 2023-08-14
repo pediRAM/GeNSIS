@@ -105,7 +105,6 @@ namespace GeNSIS.Core.TextGenerators
             Add();
 
             AddInstallerExecutionAsAdmin();
-            Add();
 
             AddAppName();
             Add();
@@ -145,8 +144,8 @@ namespace GeNSIS.Core.TextGenerators
             AddSections();
             //Add();
             //AddShortCutSection();
-            AddStripline();
-            Add();
+            //AddStripline();
+            //Add();
 
             AddPostSection();
             AddStripline();
@@ -266,7 +265,10 @@ namespace GeNSIS.Core.TextGenerators
         private void AddInstallerExecutionAsAdmin()
         {
             if (!m_AppData.DoInstallPerUser)
+            {
                 Add("RequestExecutionLevel admin");
+                Add();
+            }
         }
         private void AddAppName()
         {
