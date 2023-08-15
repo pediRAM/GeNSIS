@@ -205,7 +205,7 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="{StaticResource label_doaddfirewallrule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource label_input}" />
                     <CheckBox  Grid.Row="0" Grid.Column="1" x:Name="chb_DoAddFWRule" IsChecked="{Binding DoAddFWRule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource checkbox_input}" />
 
-                    <Grid Grid.Row="1" Grid.ColumnSpan="5" Visibility="{Binding ElementName=chb_DoAddFWRule,Path=IsChecked, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenFalse=Collapsed, VisibilityWhenTrue=Visible}}">
+                    <Grid Grid.Row="1" Grid.ColumnSpan="5" Visibility="{Binding ElementName=chb_DoAddFWRule, Path=IsChecked, Mode=OneWay, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenFalse=Collapsed, VisibilityWhenTrue=Visible}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>

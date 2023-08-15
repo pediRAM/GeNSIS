@@ -436,6 +436,7 @@ namespace GeNSIS.Core
             AppVersion = pAppData.AppVersion;
             AssociatedExtension = pAppData.AssociatedExtension;
             Company = pAppData.Company;
+            DoAddFWRule = pAppData.DoAddFWRule;
             DoInstallPerUser = pAppData.DoInstallPerUser;
             ExeName = (pAppData.ExeName == null) ? new FileSystemItemVM() : new FileSystemItemVM(pAppData.ExeName);
             InstallerHeaderImage = pAppData.InstallerHeaderImage;

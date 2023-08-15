@@ -166,6 +166,7 @@ namespace GeNSIS.Core.Models
             AppVersion = pAppData.AppVersion;
             AssociatedExtension = pAppData.AssociatedExtension;
             Company = pAppData.Company;
+            DoAddFWRule = pAppData.DoAddFWRule;
             DoInstallPerUser = pAppData.DoInstallPerUser;
             ExeName = pAppData.ExeName;
             InstallerFileName = pAppData.InstallerFileName;
