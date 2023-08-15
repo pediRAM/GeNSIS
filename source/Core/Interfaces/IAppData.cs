@@ -28,7 +28,7 @@ namespace GeNSIS.Core.Interfaces
         string RelativePath { get; }
 
         string AppName { get; }
-
+        bool IsService { get; }
         bool Is64BitApplication { get; }
 
         bool DoInstallPerUser { get; }
