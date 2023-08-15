@@ -23,6 +23,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
+using GeNSIS.Core.Interfaces;
 
 namespace GeNSIS.Core.Helpers
 {
@@ -135,6 +136,47 @@ namespace GeNSIS.Core.Helpers
             {
                 Log.Debug($"Creating dir: {pPath}...");
                 Directory.CreateDirectory(pPath);
+            }
+        }
+
+        /// <summary>
+        /// Loads the configuration file of application if found, else creates it.
+        /// </summary>
+        /// <returns>TRUE if succeeded, else FALSE.</returns>
+        public static bool ProcessAppConfig()
+        {
+            if (AppConfigFileExists())
+            {
+                try
+                {
+                    Log.Debug("Reading config file...");
+                    s_AppConfig = ReadConfigFile();
+                    Log.Debug("Reading config file suceeded.");
+
+                    Log.Debug("Creating GeNSIS directories if not exist...");
+                    CreateGeNSISDirectoriesIfNotExist();
+                    Log.Debug("Creating GeNSIS directories succeeded.");
+                    IocContainer.Instance.Put(s_AppConfig);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex);
+                    var msgBoxMgr = IocContainer.Instance.Get<MessageBoxManager>();
+                    _ = msgBoxMgr.ShowLoadConfigError(ex);
+                    return false;
+                }
+            }
+            else
+            {
+                Log.Warn("Config file not found!");
+                Log.Debug("Creating default configuration...");
+                s_AppConfig = CreateConfig();
+                Log.Info("Writing default config file...");
+                WriteConfigFile(s_AppConfig);
+                Log.Info("Writing default config file succeeded.");
+                IocContainer.Instance.Put(s_AppConfig);
+                return true;
             }
         }
     }

@@ -56,7 +56,6 @@ namespace GeNSIS
 
         #region Variables
         private readonly Logger Log = LogManager.GetCurrentClassLogger();
-        private SingletonStorage m_Storage = new SingletonStorage();
         private Config m_Config;
         private AppDataVM m_AppDataViewModel;
 
@@ -84,8 +83,9 @@ namespace GeNSIS
         #region Ctor
         public MainWindow()
         {
+            m_Config = IocContainer.Instance.Get<Config>();
             AppData = new AppDataVM(true);
-            m_Storage.Put<IAppData>(AppData);
+            IocContainer.Instance.Put<IAppData>(AppData);
 
             InitializeComponent();
             Loaded += OnMainWindowLoaded;
@@ -99,7 +99,7 @@ namespace GeNSIS
             m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
 
             InitLanguages();
-            m_Storage.Put<ObservableCollection<Language>>(LangDst);
+            IocContainer.Instance.Put<ObservableCollection<Language>>(LangDst);
             DataContext = AppData;
         }
 
@@ -185,18 +185,6 @@ namespace GeNSIS
         private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
             Log.Info("Main window has loaded.");
-
-            ProcessAppConfig();
-            if (!NsisInstallationDirectoryExists())
-            {
-                if (m_MsgBoxMgr.ShowContinueWithoutNsisWarning() != MessageBoxResult.Yes)
-                {
-                    Log.Debug("User decided to quit due to missing NSIS installation.");
-                    Close();
-                    return;
-                }
-            }
-
             CheckAndLoadProjectPathFromArguments();
         }
 
@@ -211,74 +199,6 @@ namespace GeNSIS
                 }
             }
             base.OnClosing(e);
-        }
-
-        private bool NsisInstallationDirectoryExists()
-        {
-            if (string.IsNullOrEmpty(m_Config.NsisInstallationDirectory))
-            {
-                if (m_MsgBoxMgr.ShowDoYouWantToSelectNsisInstallDirManuallyQuestion() != MessageBoxResult.Yes)
-                {
-                    Log?.Debug("User denied manual nsis install dir selection!");
-                    return false;
-                }
-
-                FileDialogHelper.InitDir(m_FolderBrowserDialog, PathHelper.GetProgramFilesX86NsisDir());
-                if (m_FolderBrowserDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-                {
-                    Log?.Debug("User canceled searching for nsis install dir!");
-                    return false;
-                }
-
-                if (Directory.GetFiles(m_FolderBrowserDialog.SelectedPath, "*.exe").Any(f => f.EndsWith(" \\nsis.exe", StringComparison.OrdinalIgnoreCase)))
-                {
-                    Log?.Debug("NSIS install dir chosen by user seems to be ok.");
-                    m_Config.NsisInstallationDirectory = m_FolderBrowserDialog.SelectedPath;
-
-                    Log?.Debug("Saving changes to config file...");
-                    ConfigHelper.WriteConfigFile(m_Config);
-                }
-                else
-                {
-                    Log?.Warn("NSIS install dir chosen by user was not ok!");
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private void ProcessAppConfig()
-        {
-            if (ConfigHelper.AppConfigFileExists())
-            {
-                try
-                {
-                    Log.Debug("Reading config file...");
-                    m_Config = ConfigHelper.ReadConfigFile();
-                    Log.Debug("Reading config file suceeded.");
-
-                    Log.Debug("Creating GeNSIS directories if not exist...");
-                    ConfigHelper.CreateGeNSISDirectoriesIfNotExist();
-                    Log.Debug("Creating GeNSIS directories succeeded.");
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex);
-                    _ = m_MsgBoxMgr.ShowLoadConfigError(ex);
-                    Close();
-                    return;
-                }
-            }
-            else
-            {
-                Log.Warn("Config file not found!");
-                Log.Debug("Creating default configuration...");
-                m_Config = ConfigHelper.CreateConfig();
-                Log.Info("Writing default config file...");
-                ConfigHelper.WriteConfigFile(m_Config);
-                Log.Info("Writing default config file succeeded.");
-            }
         }
 
         private void OnAddFilesClicked(object sender, RoutedEventArgs e)
