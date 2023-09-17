@@ -41,7 +41,7 @@ namespace GeNSIS.Core.Serialization
         private IExtendedXmlSerializer GetExtendedSerializer()
         {
             return new ConfigurationContainer()
-                .EnableImplicitTyping(typeof(Project), typeof(AppData), typeof(FileSystemItem), typeof(FileSystemItemVM))
+                .EnableImplicitTyping(typeof(Project), typeof(AppData), typeof(FileSystemItem), typeof(FileSystemItemVM), typeof(ServiceData), typeof(ServiceDataVM))
                 .UseAutoFormatting()
                 .UseOptimizedNamespaces()                
                 .Create();

@@ -35,6 +35,12 @@ namespace GeNSIS.Core.Models
         public bool Is64BitApplication { get; set; }
 
         [XmlElement]
+        public bool IsService { get; set; }
+
+        [XmlElement]
+        public IServiceData Service { get; set; } = new ServiceData();
+
+        [XmlElement]
         public bool DoInstallPerUser { get; set; }
         
         [XmlElement]
@@ -135,6 +141,8 @@ namespace GeNSIS.Core.Models
                 InstallerWizardImage = InstallerWizardImage,
                 UninstallerWizardImage = UninstallerWizardImage,
                 Is64BitApplication = Is64BitApplication,
+                IsService = IsService,
+                Service = new ServiceDataVM(Service),
                 DoCreateCompanyDir = DoCreateCompanyDir,
                 Arch = Arch,
                 MachineType = MachineType,
@@ -174,6 +182,8 @@ namespace GeNSIS.Core.Models
             InstallerIcon = pAppData.InstallerIcon;
             InstallerWizardImage = pAppData.InstallerWizardImage;
             Is64BitApplication = pAppData.Is64BitApplication;
+            IsService = pAppData.IsService;
+            Service.UpdateValues(pAppData.Service);
             DoCreateCompanyDir = pAppData.DoCreateCompanyDir;
             Arch = pAppData.Arch;
             MachineType = pAppData.MachineType;

@@ -1,0 +1,3 @@
+﻿- ADDED ChangeLog.txt
+- ADDED IService
+- ADDED ServiceData and ServiceDataVM to xml serializer (as known-types)

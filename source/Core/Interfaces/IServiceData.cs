@@ -18,20 +18,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core.Interfaces
 {
-    using GeNSIS.Core.Enums;
-
     public interface IServiceData
     {
         string ServiceName { get; set; }
 
         string DisplayName { get; set; }
 
-        EServiceStartType StartType { get; set; }
+        bool IsAutoStart { get; set; }
 
         string User { get; set; }
 
         string Password { get; set; }
 
         string Dependencies { get; set; }
+
+        void UpdateValues(IServiceData pServiceData);
     }
 }

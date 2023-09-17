@@ -45,6 +45,8 @@ namespace GeNSIS.Core
 
         #region Variables
         private string m_RelativePath;
+        private bool m_IsService;
+        private ServiceDataVM m_Service = new ServiceDataVM();
         private bool m_Is64BitApplication;
         private bool m_CreateCompanyFolder;
         private string m_Arch;
@@ -97,6 +99,28 @@ namespace GeNSIS.Core
                 if (value == m_RelativePath) return;
                 m_RelativePath = value;
                 NotifyPropertyChanged(nameof(RelativePath));
+            }
+        }
+
+        public bool IsService
+        {
+            get { return m_IsService; }
+            set
+            {
+                if (value == m_IsService) return;
+                m_IsService = value;
+                NotifyPropertyChanged(nameof(IsService));
+            }
+        }
+
+        public IServiceData Service
+        {
+            get { return m_Service; }
+            set
+            {
+                if (value == m_Service) return;
+                m_Service = value as ServiceDataVM;
+                NotifyPropertyChanged(nameof(Service));
             }
         }
 
@@ -405,6 +429,8 @@ namespace GeNSIS.Core
                 InstallerWizardImage = InstallerWizardImage,
                 UninstallerWizardImage = UninstallerWizardImage,
                 Is64BitApplication = Is64BitApplication,
+                IsService = IsService,
+                Service = new ServiceData(Service),
                 DoCreateCompanyDir = DoCreateCompanyDir,
                 Arch = Arch,
                 MachineType = MachineType,
@@ -447,6 +473,11 @@ namespace GeNSIS.Core
             InstallerWizardImage = pAppData.InstallerWizardImage;
             UninstallerWizardImage = pAppData.UninstallerWizardImage;
             Is64BitApplication = pAppData.Is64BitApplication;
+            IsService = pAppData.IsService;
+            if (pAppData.Service == null)
+                Service = new ServiceDataVM();
+            else
+                Service.UpdateValues(pAppData.Service);
             DoCreateCompanyDir = pAppData.DoCreateCompanyDir;
             Arch = pAppData.Arch;
             MachineType = pAppData.MachineType;

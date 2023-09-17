@@ -18,13 +18,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core.Models
 {
-    using GeNSIS.Core.Enums;
     using GeNSIS.Core.Interfaces;
     using GeNSIS.Core.ViewModels;
     using System;
 
 
-    public class ServiceData : ICloneable
+    public class ServiceData : IServiceData, ICloneable
     {
         public ServiceData() { }
 
@@ -35,7 +34,7 @@ namespace GeNSIS.Core.Models
 
         public string DisplayName { get; set; }
 
-        public EServiceStartType StartType { get; set; }
+        public bool IsAutoStart { get; set; }
 
         public string User { get; set; }
 
@@ -50,7 +49,7 @@ namespace GeNSIS.Core.Models
             {
                 ServiceName = ServiceName,
                 DisplayName = DisplayName,
-                StartType = StartType,
+                IsAutoStart = IsAutoStart,
                 User = User,
                 Password = Password,
                 Dependencies = Dependencies,
@@ -63,7 +62,7 @@ namespace GeNSIS.Core.Models
             {
                 ServiceName = pServiceData.ServiceName,
                 DisplayName = pServiceData.DisplayName,
-                StartType = pServiceData.StartType,
+                IsAutoStart = pServiceData.IsAutoStart,
                 User = pServiceData.User,
                 Password = pServiceData.Password,
                 Dependencies = pServiceData.Dependencies,
@@ -74,7 +73,7 @@ namespace GeNSIS.Core.Models
         {
             ServiceName = pServiceData.ServiceName;
             DisplayName = pServiceData.DisplayName;
-            StartType = pServiceData.StartType;
+            IsAutoStart = pServiceData.IsAutoStart;
             User = pServiceData.User;
             Password = pServiceData.Password;
             Dependencies = pServiceData.Dependencies;

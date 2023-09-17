@@ -61,7 +61,7 @@
         <TabControl Grid.Row="1">
 
             <!-- Tab: Files and Folders -->
-            <TabItem Header="❶ Application Files and Folders" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❶ Files" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -182,9 +182,70 @@
 
                 </Grid>
             </TabItem>
+
+            <!-- Tab: Service -->
+            <TabItem Header="❷ Service" Style="{StaticResource label_tabitem}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- IsService (bool) -->
+                    <Label    Grid.Row="0" Grid.Column="0" Content="Is Service"  Style="{StaticResource label_input}" />
+                    <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsService}" Style="{StaticResource checkbox_input}" />
+
+                    <!-- ServiceName (string) -->
+                    <Label   Grid.Row="1" Grid.Column="0" Content="Service name:"  Style="{StaticResource label_input}" IsEnabled="{Binding IsService}" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Service.ServiceName}"       Style="{StaticResource textbox_input}" IsEnabled="{Binding IsService}"  />
+
+                    <!-- DisplayName (string) -->
+                    <Label   Grid.Row="2" Grid.Column="0" Content="Display name:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Service.DisplayName}"       Style="{StaticResource textbox_input}"  IsEnabled="{Binding IsService}" />
+
+                    <!-- User (string) -->
+                    <Label   Grid.Row="3" Grid.Column="0" Content="User:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Service.User}"      Style="{StaticResource textbox_input}"  IsEnabled="{Binding IsService}" />
+
+                    <!-- Password (string) -->
+                    <Label   Grid.Row="4" Grid.Column="0" Content="Password:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Service.Password}"  Style="{StaticResource textbox_input}"  IsEnabled="{Binding IsService}" />
+
+                    <!-- Dependencies (string) -->
+                    <Label   Grid.Row="5" Grid.Column="0" Content="Dependencies:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
+                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Service.Dependencies}"  Style="{StaticResource textbox_input}"  IsEnabled="{Binding IsService}" />
+
+                    <!-- IsAutoStart (bool) -->
+                    <Label    Grid.Row="6" Grid.Column="0" Content="Autostart:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
+                    <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Service.IsAutoStart}"  Style="{StaticResource checkbox_input}"  IsEnabled="{Binding IsService}" />
+
+                </Grid>
+            </TabItem>
             
-            <!-- Tab: Service and Firewall -->
-            <TabItem Header="❷ Firewall and Service" Style="{StaticResource label_tabitem}">
+            
+            <!-- Tab: Firewall -->
+            <TabItem Header="❸ Firewall" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -205,7 +266,7 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="{StaticResource label_doaddfirewallrule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource label_input}" />
                     <CheckBox  Grid.Row="0" Grid.Column="1" x:Name="chb_DoAddFWRule" IsChecked="{Binding DoAddFWRule}" ToolTip="{StaticResource tt_doaddfirewallrule}" Style="{StaticResource checkbox_input}" />
 
-                    <Grid Grid.Row="1" Grid.ColumnSpan="5" Visibility="{Binding ElementName=chb_DoAddFWRule, Path=IsChecked, Mode=OneWay, Converter={conv:NullableBoolToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenFalse=Collapsed, VisibilityWhenTrue=Visible}}">
+                    <Grid Grid.Row="1" Grid.ColumnSpan="5" IsEnabled="{Binding DoAddFWRule}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -249,7 +310,7 @@
                             </StackPanel>
                         </Grid>
                     </Grid>
-                    <Rectangle Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
+                    
 
                     <!-- Directories (List<Directory>) -->
                     <Label   Visibility="Collapsed"   Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
@@ -288,10 +349,13 @@
 
                 </Grid>
             </TabItem>
-            <!-- END: Service & Firewall -->
+            <!-- END: Firewall -->
             
+
+            
+            <!-- END: Service -->
             <!-- Tab: App and Publisher -->
-            <TabItem Header="❸ Application and Publisher" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❹ About App &amp; Publisher" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -359,7 +423,7 @@
 
 
 
-            <TabItem Header="❹ Installer" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❺ Installer" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -480,7 +544,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="❺ Design" x:Name="tabItem_Design" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❻ Design" x:Name="tabItem_Design" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -604,7 +668,7 @@
             </TabItem>
 
 
-            <TabItem Header="❻ Script" x:Name="tabItem_Editor" Style="{StaticResource label_tabitem}">
+            <TabItem Header="❼ Script" x:Name="tabItem_Editor" Style="{StaticResource label_tabitem}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

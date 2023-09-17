@@ -29,6 +29,7 @@ namespace GeNSIS.Core.Interfaces
 
         string AppName { get; }
         bool IsService { get; }
+        IServiceData Service { get; }
         bool Is64BitApplication { get; }
 
         bool DoInstallPerUser { get; }

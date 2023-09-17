@@ -18,7 +18,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core.ViewModels
 {
-    using GeNSIS.Core.Enums;
     using GeNSIS.Core.Interfaces;
     using GeNSIS.Core.Models;
     using System;
@@ -29,12 +28,13 @@ namespace GeNSIS.Core.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private EServiceStartType m_StartType;
+        private bool m_IsAutoStart;
         private string m_ServiceName;
         private string m_DisplayName;
         private string m_User;
         private string m_Password;
         private string m_Dependencies;
+
         public ServiceDataVM() { }
 
         public ServiceDataVM(IServiceData pServiceData) : this()
@@ -62,14 +62,14 @@ namespace GeNSIS.Core.ViewModels
             }
         }
 
-        public EServiceStartType StartType
+        public bool IsAutoStart
         {
-            get { return m_StartType; }
+            get { return m_IsAutoStart; }
             set
             {
-                if (value == m_StartType) return;
-                m_StartType = value;
-                NotifyPropertyChanged(nameof(StartType));
+                if (value == m_IsAutoStart) return;
+                m_IsAutoStart = value;
+                NotifyPropertyChanged(nameof(IsAutoStart));
             }
         }
 
@@ -113,7 +113,7 @@ namespace GeNSIS.Core.ViewModels
             {
                 ServiceName = ServiceName,
                 DisplayName = DisplayName,
-                StartType = StartType,
+                IsAutoStart = IsAutoStart,
                 User = User,
                 Password = Password,
                 Dependencies = Dependencies,
@@ -126,7 +126,7 @@ namespace GeNSIS.Core.ViewModels
             {
                 ServiceName = pServiceData.ServiceName,
                 DisplayName = pServiceData.DisplayName,
-                StartType = pServiceData.StartType,
+                IsAutoStart = pServiceData.IsAutoStart,
                 User = pServiceData.User,
                 Password = pServiceData.Password,
                 Dependencies = pServiceData.Dependencies,
@@ -137,7 +137,7 @@ namespace GeNSIS.Core.ViewModels
         {
             ServiceName = pServiceData.ServiceName;
             DisplayName = pServiceData.DisplayName;
-            StartType = pServiceData.StartType;
+            IsAutoStart = pServiceData.IsAutoStart;
             User = pServiceData.User;
             Password = pServiceData.Password;
             Dependencies = pServiceData.Dependencies;

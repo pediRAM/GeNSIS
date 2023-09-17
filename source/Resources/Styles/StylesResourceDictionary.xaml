@@ -13,6 +13,7 @@
     <Style x:Key="label_tabitem" TargetType="TabItem">
         <Setter Property="Padding" Value="15,5,25,5" />
         <Setter Property="Margin" Value="-20,0,0,0"/>
+        <Setter Property="FontStyle" Value="Normal"/>
         <Style.Resources>
             <Style TargetType="Border">
                 <Setter Property="CornerRadius" Value="7.5,7.5,0,0"/>
