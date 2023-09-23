@@ -20,6 +20,7 @@
             </Style>
         </Style.Resources>
     </Style>
+   
 
     <Style x:Key="grid_main" TargetType="Grid">
         <Setter Property="Margin" Value="15,10,10,15"/>
@@ -81,6 +82,21 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+
+
+    <Style x:Key="textbox_input_max_len" TargetType="TextBox">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Style.Resources>
             <Style TargetType="Border">
                 <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
@@ -220,6 +236,144 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="Fill" Value="DarkGray"/>
+    </Style>
+
+
+
+
+
+    <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="24" />
+                        </Grid.ColumnDefinitions>
+                        <Border
+                      x:Name="Border"
+                      Grid.ColumnSpan="2"
+                      CornerRadius="{StaticResource RoundCorner}"
+                      Background="{TemplateBinding Background}"
+                      BorderBrush="#D0D1D4"
+                      BorderThickness="1" 
+                    />
+
+                        <Path
+                        x:Name="Arrow"
+                        Grid.Column="1"    
+                        Fill="{TemplateBinding Foreground}"
+                        Stroke="{TemplateBinding Foreground}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Data="M 0 0 L 3 3 L 6 0 Z"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <ControlTemplate x:Key="ComboBoxTextBox" TargetType="TextBox">
+        <Border x:Name="PART_ContentHost" Focusable="True" />
+    </ControlTemplate>
+
+    <Style x:Key="combobox_base" TargetType="{x:Type ComboBox}">
+        <Setter Property="Foreground" Value="#333" />
+        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton
+                        Cursor="Hand"
+                        Name="ToggleButton"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        Background="{TemplateBinding Background}"
+                        Foreground="{TemplateBinding Foreground}"
+                        Style="{StaticResource ComboBoxToggleButton}"
+                        Grid.Column="2"
+                        Focusable="false"
+                        IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                        ClickMode="Press"/>
+
+                        <ContentPresenter
+                        Name="ContentSite"
+                        IsHitTestVisible="False"
+                        Content="{TemplateBinding SelectionBoxItem}"
+                        ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                        ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                        Margin="10,3,30,3"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left" />
+                        <TextBox x:Name="PART_EditableTextBox"
+                        Style="{x:Null}"
+                        Template="{StaticResource ComboBoxTextBox}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="3,3,23,3"
+                        Focusable="True"                               
+                        Visibility="Hidden"
+                        IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                        <Popup
+                        Name="Popup"
+                        Placement="Bottom"
+                        IsOpen="{TemplateBinding IsDropDownOpen}"
+                        AllowsTransparency="True"
+                        Focusable="False"
+                        PopupAnimation="Slide">
+                            <Grid
+                          Name="DropDown"
+                          SnapsToDevicePixels="True"               
+                          MinWidth="{TemplateBinding ActualWidth}"
+                          MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border
+                                CornerRadius="0,0,3,4"
+                                x:Name="DropDownBorder"
+                                Background="White"
+                                BorderThickness="1"
+                                BorderBrush="#D0D1D4"
+                                />
+                                <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                        </Trigger>
+                        <Trigger Property="IsEditable" Value="true">
+                            <Setter Property="IsTabStop" Value="false"/>
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="combobox_input" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource combobox_base}">
+        <Setter Property="Margin"  Value="5" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Width"   Value="200" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment"        Value="Center" />
+        <Setter Property="HorizontalAlignment"      Value="Stretch"/>
     </Style>
 
 </ResourceDictionary>

@@ -34,7 +34,7 @@ namespace GeNSIS.Core.Models
 
         public string DisplayName { get; set; }
 
-        public bool IsAutoStart { get; set; }
+        public bool IsAutoStart { get; set; } = true;
 
         public string User { get; set; }
 

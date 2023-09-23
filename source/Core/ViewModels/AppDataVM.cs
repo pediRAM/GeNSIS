@@ -434,7 +434,7 @@ namespace GeNSIS.Core
                 DoAddFWRule = DoAddFWRule,
                 InstallationTarget = InstallationTarget,
                 CustomInstallDir = CustomInstallDir,
-                ExeName = (ExeName as FileSystemItemVM).ToModel(),
+                
                 InstallerHeaderImage = InstallerHeaderImage,
                 UninstallerHeaderImage = UninstallerHeaderImage,
                 InstallerFileName = InstallerFileName,
@@ -448,10 +448,13 @@ namespace GeNSIS.Core
                 DoCreateCompanyDir = DoCreateCompanyDir,
                 Arch = Arch,
                 MachineType = MachineType,
-                License = (License as FileSystemItemVM).ToModel(),
+                
                 Publisher = Publisher,
                 Url = Url,
             };
+
+            ExeName = (ExeName as FileSystemItemVM)?.ToModel();
+            clone.License = (License as FileSystemItemVM)?.ToModel();
 
             clone.Sections = new List<Section>();
             foreach (var s in Sections)
