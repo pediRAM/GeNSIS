@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core.TextGenerators
 {
+    using GeNSIS.Core.Enums;
     using GeNSIS.Core.Extensions;
     using GeNSIS.Core.Interfaces;
     using System;
@@ -264,7 +265,7 @@ namespace GeNSIS.Core.TextGenerators
 
         private void AddInstallerExecutionAsAdmin()
         {
-            if (!m_AppData.DoInstallPerUser)
+            if (m_AppData.InstallationTarget == Enums.EInstallTargetType.AllUsers)
             {
                 Add("RequestExecutionLevel admin");
                 Add();
@@ -292,10 +293,14 @@ namespace GeNSIS.Core.TextGenerators
             // Installation mode:
             //  - Per User
             //  - Shared (for all users)
-            if (m_AppData.DoInstallPerUser)
-                AddDefine("UNINST_ROOT_KEY", "HKCU");
-            else
-                AddDefine("UNINST_ROOT_KEY", "HKLM");
+            //  - Custom
+            switch (m_AppData.InstallationTarget)
+            {
+                case EInstallTargetType.Custom:
+                case EInstallTargetType.PerUser: AddDefine("UNINST_ROOT_KEY", "HKCU"); break;
+                
+                case EInstallTargetType.AllUsers: AddDefine("UNINST_ROOT_KEY", "HKLM"); break;
+            }
         }
 
         private void AddModernGuiWithIconAndImages()
@@ -429,19 +434,23 @@ namespace GeNSIS.Core.TextGenerators
         private void AddInstallationDir()
         {
             AddComment("Installation folder (Programs\\Company\\Application):");
-            if (m_AppData.DoInstallPerUser)
+            if (m_AppData.InstallationTarget == EInstallTargetType.PerUser)
             {
                 if (m_AppData.DoCreateCompanyDir && !string.IsNullOrWhiteSpace(m_AppData.Company))
                     Add("InstallDir \"$LocalAppData\\Programs\\${COMPANY_NAME}\\${APP_NAME}\"");
                 else
                     Add("InstallDir \"$LocalAppData\\Programs\\${APP_NAME}\"");
             }
-            else
+            else if (m_AppData.InstallationTarget == EInstallTargetType.AllUsers)
             {
                 if (m_AppData.DoCreateCompanyDir && !string.IsNullOrWhiteSpace(m_AppData.Company))
                     Add("InstallDir \"$ProgramFiles\\${COMPANY_NAME}\\${APP_NAME}\"");
                 else
                     Add("InstallDir \"$ProgramFiles\\${APP_NAME}\"");
+            }
+            else // EInstallTargetType.Custom:
+            {
+                    Add($"InstallDir \"{m_AppData.CustomInstallDir}\"");
             }
         }
 
@@ -472,11 +481,33 @@ namespace GeNSIS.Core.TextGenerators
 
             if (m_AppData.GetFiles().Any(x => x.FSType == Enums.EFileSystemType.Directory))
             {
-                AddComment("Add directories recursively (remove /r for non-recursively):");
+                var emptyDirs = new List<string>();
+                AddCommentBlock(
+                "Add directories recursively (or remove '/r' for non-recursively).",
+                "ATTENTION:",
+                "   Copying empty directories causes error during compilation!",
+                "   Replace 'File /r' for empty directories, with 'CreateDirectory '$INSTDIR\\DirectoryName' to",
+                "   create the empty directories during installation and avoid compiler error!");
+                
                 foreach (var s in m_AppData.GetFiles().Where(s => s.FSType == Enums.EFileSystemType.Directory))
-                    Add($"File /r \"{m_AppData.GetNsisPath(s)}\"");
+                {
+                    string fullPath = m_AppData.GetFullPath(s);
+                    if (!Directory.EnumerateFileSystemEntries(fullPath).Any())
+                        emptyDirs.Add(fullPath);
+                    else
+                        Add($"File /r \"{m_AppData.GetNsisPath(s)}\"");
+                }
                 AddStripline();
                 Add();
+
+                if (emptyDirs.Any())
+                {
+                    AddComment("Creating empty directories:");
+                    foreach (var dir in emptyDirs)
+                        Add($"CreateDirectory \"$INSTDIR\\{Path.GetFileName(dir)}\"");
+                    AddStripline();
+                    Add();
+                }
             }
 
             AddComment("Add files:");
@@ -854,7 +885,7 @@ namespace GeNSIS.Core.TextGenerators
 
         private void AddLabel(string pName) => Add($"{pName}:");
 
-        private void AddCommentBlock(IEnumerable<string> pCommentLines)
+        private void AddCommentBlock(params string[] pCommentLines)
         {
             foreach (var s in pCommentLines)
                 AddComment(s);

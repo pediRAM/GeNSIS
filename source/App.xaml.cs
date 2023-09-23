@@ -145,6 +145,7 @@ namespace GeNSIS
         {
             try
             {
+                Log.Fatal(exception);
                 System.Reflection.AssemblyName assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName();
                 var message = string.Format("Unhandled exception in {0} v{1}", assemblyName.Name, assemblyName.Version);
                 Log.Fatal($"Unhandled exception sender:{sender} (source:{source}), Message:{message}");
@@ -153,11 +154,6 @@ namespace GeNSIS
             {
                 Log.Fatal(ex);
                 m_MsgBoxMgr.ShowException(ex);
-            }
-            finally
-            {
-                Log.Fatal(exception);
-                m_MsgBoxMgr.ShowException(exception);
             }
         }
     }

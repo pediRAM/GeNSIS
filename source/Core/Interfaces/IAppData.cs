@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
+using GeNSIS.Core.Enums;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,7 +33,8 @@ namespace GeNSIS.Core.Interfaces
         IServiceData Service { get; }
         bool Is64BitApplication { get; }
 
-        bool DoInstallPerUser { get; }
+        EInstallTargetType InstallationTarget { get; }
+        string CustomInstallDir { get; }
         bool DoAddFWRule { get; }
 
         IFileSystemItem ExeName { get; }       

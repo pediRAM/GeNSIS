@@ -21,6 +21,7 @@ namespace GeNSIS.Core
 {
     #region Usings
     using GeNSIS.Core.Commands;
+    using GeNSIS.Core.Enums;
     using GeNSIS.Core.Helpers;
     using GeNSIS.Core.Interfaces;
     using GeNSIS.Core.Models;
@@ -51,7 +52,8 @@ namespace GeNSIS.Core
         private bool m_CreateCompanyFolder;
         private string m_Arch;
         private string m_MachineType;
-        private bool m_DoInstallPerUser;
+        private EInstallTargetType m_DoInstallPerUser;
+        private string m_CustomInstallDir;
         private bool m_DoAddFWRule;
         private string m_AppName;
         private FileSystemItemVM m_ExeName;
@@ -168,14 +170,25 @@ namespace GeNSIS.Core
             }
         }
 
-        public bool DoInstallPerUser
+        public EInstallTargetType InstallationTarget
         {
             get { return m_DoInstallPerUser; }
             set
             {
                 if (value == m_DoInstallPerUser) return;
                 m_DoInstallPerUser = value;
-                NotifyPropertyChanged(nameof(DoInstallPerUser));
+                NotifyPropertyChanged(nameof(InstallationTarget));
+            }
+        }
+
+        public string CustomInstallDir
+        {
+            get => m_CustomInstallDir;
+            set
+            {
+                if (value == m_CustomInstallDir) return;
+                m_CustomInstallDir = value;
+                NotifyPropertyChanged(nameof(CustomInstallDir));
             }
         }
 
@@ -419,7 +432,8 @@ namespace GeNSIS.Core
                 AssociatedExtension = AssociatedExtension,
                 Company = Company,
                 DoAddFWRule = DoAddFWRule,
-                DoInstallPerUser = DoInstallPerUser,
+                InstallationTarget = InstallationTarget,
+                CustomInstallDir = CustomInstallDir,
                 ExeName = (ExeName as FileSystemItemVM).ToModel(),
                 InstallerHeaderImage = InstallerHeaderImage,
                 UninstallerHeaderImage = UninstallerHeaderImage,
@@ -463,7 +477,8 @@ namespace GeNSIS.Core
             AssociatedExtension = pAppData.AssociatedExtension;
             Company = pAppData.Company;
             DoAddFWRule = pAppData.DoAddFWRule;
-            DoInstallPerUser = pAppData.DoInstallPerUser;
+            InstallationTarget = pAppData.InstallationTarget;
+            CustomInstallDir = pAppData.CustomInstallDir;
             ExeName = (pAppData.ExeName == null) ? new FileSystemItemVM() : new FileSystemItemVM(pAppData.ExeName);
             InstallerHeaderImage = pAppData.InstallerHeaderImage;
             UninstallerHeaderImage = pAppData.UninstallerHeaderImage;

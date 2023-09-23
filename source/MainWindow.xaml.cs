@@ -937,6 +937,8 @@ namespace GeNSIS
             }
 
             // Where should the portable project file be saved?
+            m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
+            FileDialogHelper.InitDir(m_SaveProjectDialog, m_Config.GeNSISProjectsDirectory);
             if (m_SaveProjectDialog.ShowDialog() != true)
                 return;
 
@@ -987,6 +989,9 @@ namespace GeNSIS
                     }
                 }
             }
+
+            p.License.Path = GetRelativeImagePathOrNull(destDir, p.License.Path);
+            p.License.IsRelative = true;
 
             p.InstallerIcon   = GetRelativeImagePathOrNull(destDir, p.InstallerIcon);
             p.UninstallerIcon = GetRelativeImagePathOrNull(destDir, p.UninstallerIcon);

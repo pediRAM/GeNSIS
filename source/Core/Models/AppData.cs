@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core.Models
 {
+    using GeNSIS.Core.Enums;
     using GeNSIS.Core.Interfaces;
     using GeNSIS.Core.ViewModels;
     using System;
@@ -41,7 +42,10 @@ namespace GeNSIS.Core.Models
         public IServiceData Service { get; set; } = new ServiceData();
 
         [XmlElement]
-        public bool DoInstallPerUser { get; set; }
+        public EInstallTargetType InstallationTarget { get; set; } = EInstallTargetType.PerUser;
+
+        [XmlElement]
+        public string CustomInstallDir { get; set; }
         
         [XmlElement]
         public bool DoAddFWRule { get; set; }
@@ -131,7 +135,8 @@ namespace GeNSIS.Core.Models
                 AssociatedExtension = AssociatedExtension,
                 Company = Company,
                 DoAddFWRule = DoAddFWRule,
-                DoInstallPerUser = DoInstallPerUser,
+                InstallationTarget = InstallationTarget,
+                CustomInstallDir = CustomInstallDir,
                 ExeName = (ExeName as FileSystemItem).ToViewModel(),
                 InstallerHeaderImage = InstallerHeaderImage,
                 UninstallerHeaderImage = UninstallerHeaderImage,
@@ -175,7 +180,8 @@ namespace GeNSIS.Core.Models
             AssociatedExtension = pAppData.AssociatedExtension;
             Company = pAppData.Company;
             DoAddFWRule = pAppData.DoAddFWRule;
-            DoInstallPerUser = pAppData.DoInstallPerUser;
+            InstallationTarget = pAppData.InstallationTarget;
+            CustomInstallDir = pAppData.CustomInstallDir;
             ExeName = pAppData.ExeName;
             InstallerFileName = pAppData.InstallerFileName;
             InstallerHeaderImage = pAppData.InstallerHeaderImage;

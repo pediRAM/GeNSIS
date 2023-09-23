@@ -8,15 +8,16 @@
         xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
         xmlns:enum="clr-namespace:GeNSIS.Core.Enums"
         mc:Ignorable="d"
-        Height="680" Width="900">
+        Height="768" Width="1024" MinHeight="700" MinWidth="900">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/IconsResourceDictionary.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/StringsResourceDictionary.xaml"/>
-                <ResourceDictionary Source="Resources/Styles/StylesResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/StylesResourceDictionary.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+            <conv:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+        </ResourceDictionary>        
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -62,7 +63,7 @@
 
             <!-- Tab: Files and Folders -->
             <TabItem Header="❶ Files" Style="{StaticResource label_tabitem}">
-                <Grid>
+                <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -70,15 +71,15 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="3*"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="5"/>
                     </Grid.RowDefinitions>
 
                     <!-- Files (List<string>) -->
@@ -146,8 +147,8 @@
                     <Rectangle Grid.Row="1" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
 
                     <!-- Directories (List<Directory>) -->
-                    <Label   Visibility="Collapsed"   Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
-                    <ListBox   Visibility="Collapsed"   x:Name="lsb_Directories"  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
+                    <Label   Visibility="Visible"   Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
+                    <ListBox   Visibility="Visible"   x:Name="lsb_Directories"  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -162,7 +163,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <StackPanel   Visibility="Collapsed"   Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left">
+                    <StackPanel   Visibility="Visible"   Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left">
                         <Button x:Name="btn_AddDirectory"    Style="{StaticResource button_command}" Click="OnAddDirectoryClicked" Content="Add..."/>
                         <Button x:Name="btn_RemoveDirectory" Style="{StaticResource button_command}" Content="Remove selected" Command="{Binding Path=RemoveSelectedDirectoryCommand}" CommandParameter="{Binding ElementName=lsb_Directories, Path=SelectedItem}"/>
                     </StackPanel>
@@ -185,7 +186,7 @@
 
             <!-- Tab: Service -->
             <TabItem Header="❷ Service" Style="{StaticResource label_tabitem}">
-                <Grid>
+                <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -246,7 +247,7 @@
             
             <!-- Tab: Firewall -->
             <TabItem Header="❸ Firewall" Style="{StaticResource label_tabitem}">
-                <Grid>
+                <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -285,19 +286,20 @@
                     <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_ports}"                 ToolTip="{StaticResource tt_ports}" Style="{StaticResource label_input}" />
                     <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="Example: 1000 2000 3000-3099" ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}" Width="300" />
                     
-                    <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button Content="Add TCP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddTcpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
                         <Button Content="Add UDP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddUdpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
                         <Button Content="Add Both" Style="{StaticResource button_sort}" Command="{Binding Path=AddBothFWRulesCommand}" CommandParameter="{Binding ElementName=txb_Ports, Path=Text}" />
                     </StackPanel>
 
+                        <Rectangle   Visibility="Visible"   Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
 
-                    <Label     Grid.Row="2" Grid.Column="0" Content="{StaticResource label_firewall_rules}"    ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource label_input}" />
-                    <ListBox   Grid.Row="2" Grid.Column="1" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" KeyDown="OnFirewallRulesKeyDown" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}" />
+                    <Label     Grid.Row="4" Grid.Column="0" Content="{StaticResource label_firewall_rules}"    ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource label_input}" />
+                    <ListBox   Grid.Row="4" Grid.Column="1" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" KeyDown="OnFirewallRulesKeyDown" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}" />
 
 
                     <!-- Firewall Remove/Clear Buttons (right of FW ListBox) -->
-                    <Grid Grid.Row="2" Grid.Column="2">
+                    <Grid Grid.Row="4" Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
@@ -356,7 +358,7 @@
             <!-- END: Service -->
             <!-- Tab: App and Publisher -->
             <TabItem Header="❹ About App &amp; Publisher" Style="{StaticResource label_tabitem}">
-                <Grid>
+                <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -424,7 +426,7 @@
 
 
             <TabItem Header="❺ Installer" Style="{StaticResource label_tabitem}">
-                <Grid>
+                <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -448,31 +450,41 @@
 
                     <!-- DoInstallPerUser (bool) -->
                     <Label Grid.Row="1" Grid.Column="0" Content="{StaticResource label_doinstallperuser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource label_input}" />
-                    <CheckBox  Grid.Row="1" Grid.Column="1" IsChecked="{Binding DoInstallPerUser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource checkbox_input}" />
-
+                    <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" Orientation="Vertical">
+                        <RadioButton GroupName="InstallTarget" Content="Per user"   IsChecked="{Binding SelectedOption, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.PerUser}}"  ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
+                        <RadioButton GroupName="InstallTarget" Content="All users"  IsChecked="{Binding SelectedOption, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.AllUsers}}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Grid.Column="0" x:Name="rdbCustom" GroupName="InstallTarget" Content="Custom"     IsChecked="{Binding SelectedOption, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.Custom}}"   ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
+                            <TextBox Grid.Column="1" Text="{Binding CustomInstallDir}" IsEnabled="{Binding ElementName=rdbCustom, Path=IsChecked}" Style="{StaticResource textbox_input}"  />
+                        </Grid>
+                    </StackPanel>
+                    
                     <!-- DoCreateCompanyDir (bool) -->
                     <Label    Grid.Row="2" Grid.Column="0" Content="Nest in company directory:" Style="{StaticResource label_input}" />
                     <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding DoCreateCompanyDir}" Style="{StaticResource checkbox_input}" />
-                    
-                    
+
+                    <Rectangle Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
+
                     <!-- Installer Filename (string) -->
                     <Label      Grid.Row="6" Grid.Column="0" Content="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource label_input}" />
-                    <TextBox    Grid.Row="6" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" Width="300" />
-                    <StackPanel Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBox    Grid.Row="6" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" HorizontalAlignment="Center" Width="300" />
+                    <StackPanel Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Content="Reset"  Command="{Binding ResetInstallerNameCommand}"      Style="{StaticResource button_sort}"/>
                         <Button Content="Static" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_sort}"/>
                         <Button Content="Clear" Command="{Binding ClearInstallerNameCommand}"       Style="{StaticResource button_sort}"/>
                     </StackPanel>
                     
-                    <Rectangle Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
+                    <Rectangle Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
                     
                     <!-- Languages -->
-                    <Label Grid.Row="8" Grid.ColumnSpan="2" Content="Languages:" Style="{StaticResource label_input}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0" />
+                    <Label Grid.Row="9" Grid.ColumnSpan="2" Content="Languages:" Style="{StaticResource label_input}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0" />
                     
-                    <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Width="480">
+                    <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" >
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -486,7 +498,7 @@
 
                         <Label Grid.Row="0" Grid.Column="0" Content="Available languages:" Style="{StaticResource label_input}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5" />
 
-                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" >
                             <Button Content="A→Z" Click="OnSortByNameClicked" Style="{StaticResource button_sort}"/>
                             <Button Content="N→1" Click="OnSortByOrderClicked" Style="{StaticResource button_sort}"/>
                         </StackPanel>
@@ -506,7 +518,7 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
 
-                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" >
                             <Button Content="Add ▶"      Style="{StaticResource button_sort}" Click="OnAddSelectedLanguagesClicked" />
                             <Button Content="Add all ▶"  Style="{StaticResource button_sort}" Click="OnAddAllLanguagesClicked" />
                             <Button Content="◀ Remove"   Style="{StaticResource button_sort}" Click="OnRemoveSelectedLanguagesClicked" />
@@ -515,7 +527,7 @@
 
                         <Label Grid.Row="0" Grid.Column="2" Content="Added to Installer:" Style="{StaticResource label_input}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5"/>
 
-                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" >
                             <Button Content="A→Z" Click="OnSortDstByNameClicked" Style="{StaticResource button_sort}"/>
                             <Button Content="N→1" Click="OnSortDstByOrderClicked" Style="{StaticResource button_sort}"/>
                         </StackPanel>
@@ -534,7 +546,7 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" >
                             <Button Content="⤒" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToBeginClicked" />
                             <Button Content="↑" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToPrevClicked" />
                             <Button Content="↓" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToNextClicked" />
@@ -545,7 +557,7 @@
             </TabItem>
 
             <TabItem Header="❻ Design" x:Name="tabItem_Design" Style="{StaticResource label_tabitem}">
-                <Grid>
+                <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -564,8 +576,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Rectangle Grid.Row="4" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
-                    <ScrollViewer Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Padding="5" Width="420">
+                    <ScrollViewer Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Padding="10" Width="420">
                         <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -650,14 +661,14 @@
                         </Viewbox>
                     </ScrollViewer>
 
-                    <StackPanel Grid.Row="5" Grid.Column="3" Orientation="Vertical">
+                    <StackPanel Grid.Row="5" Grid.Column="3" Orientation="Vertical" Margin="10,5,5,5">
                         <Label Content="{StaticResource label_design_installer}" Style="{StaticResource label_input}"/>
                         <Button Content="{StaticResource btn_installer_icon}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadIconClicked" />
                         <Button Grid.Column="2" Content="{StaticResource btn_installer_wizard}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadWizardClicked" />
                         <Button Grid.Column="2" Content="{StaticResource btn_installer_header}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadHeaderClicked" />
                     </StackPanel>
 
-                    <StackPanel Grid.Row="6" Grid.Column="3" Orientation="Vertical">
+                    <StackPanel Grid.Row="6" Grid.Column="3" Orientation="Vertical" Margin="10,15,5,5">
                         <Label Content="{StaticResource label_design_uninstaller}" Style="{StaticResource label_input}"/>
                         <Button Content="{StaticResource btn_installer_icon}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerIconClicked" />
                         <Button Grid.Column="2" Content="{StaticResource btn_installer_wizard}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerWizardClicked" />

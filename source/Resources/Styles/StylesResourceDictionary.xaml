@@ -3,7 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit">
 
-    <sys:Double x:Key="Radius">2.5</sys:Double>
+    <sys:Double x:Key="Radius">3</sys:Double>
     <CornerRadius x:Key="RoundCorner" 
                   TopLeft="{StaticResource ResourceKey=Radius}"
                   TopRight="{StaticResource ResourceKey=Radius}"
@@ -19,6 +19,10 @@
                 <Setter Property="CornerRadius" Value="7.5,7.5,0,0"/>
             </Style>
         </Style.Resources>
+    </Style>
+
+    <Style x:Key="grid_main" TargetType="Grid">
+        <Setter Property="Margin" Value="15,10,10,15"/>
     </Style>
 
     <Style x:Key="textblock_label" TargetType="TextBlock">
@@ -104,9 +108,19 @@
         </Style.Resources>
     </Style>
 
-    <Style x:Key="listbox_files" TargetType="ListBox">
+    <Style x:Key="radiobutton_input" TargetType="RadioButton">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="10,5,10,5" />
+        <Setter Property="IsThreeState" Value="False" />
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="listbox_base" TargetType="ListBox">
         <Setter Property="SelectionMode" Value="Multiple"/>
-        <Setter Property="Height" Value="300"/>
         <Setter Property="Margin" Value="5" />
         <Style.Resources>
             <Style TargetType="Border">
@@ -115,9 +129,12 @@
         </Style.Resources>
     </Style>
 
-    <Style x:Key="listbox_languages" TargetType="ListBox" BasedOn="{StaticResource listbox_files}">
+    <Style x:Key="listbox_files" TargetType="ListBox" BasedOn="{StaticResource listbox_base}">
+        <Setter Property="MaxWidth" Value="300"/>
+    </Style>
+
+    <Style x:Key="listbox_languages" TargetType="ListBox" BasedOn="{StaticResource listbox_base}">
         <Setter Property="Background" Value="#fcfcfc"/>
-        <Setter Property="Width" Value="160"/>
     </Style>
 
     <Style x:Key="listbox_firewall_rules" TargetType="ListBox" BasedOn="{StaticResource listbox_files}">
@@ -125,7 +142,7 @@
     </Style>
 
     <Style x:Key="listbox_directories" TargetType="ListBox">
-        <Setter Property="Height" Value="100"/>
+        <!--<Setter Property="Height" Value="100"/>-->
         <Setter Property="Margin" Value="5" />
         <Style.Resources>
             <Style TargetType="Border">
