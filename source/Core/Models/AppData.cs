@@ -156,8 +156,8 @@ namespace GeNSIS.Core.Models
                 Url = Url,
             };
 
-            ExeName = (ExeName as FileSystemItem)?.ToViewModel();
-            License = (License as FileSystemItem)?.ToViewModel();
+            vm.ExeName = (ExeName as FileSystemItem)?.ToViewModel();
+            vm.License = (License as FileSystemItem)?.ToViewModel();
 
             vm.Files = new System.Collections.ObjectModel.ObservableCollection<FileSystemItemVM>();
             foreach (var f in Files)

@@ -453,7 +453,7 @@ namespace GeNSIS.Core
                 Url = Url,
             };
 
-            ExeName = (ExeName as FileSystemItemVM)?.ToModel();
+            clone.ExeName = (ExeName as FileSystemItemVM)?.ToModel();
             clone.License = (License as FileSystemItemVM)?.ToModel();
 
             clone.Sections = new List<Section>();
