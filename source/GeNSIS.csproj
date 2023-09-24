@@ -284,6 +284,7 @@
     <None Remove="Resources\Icons\GeNSIS\icon128px.png" />
     <None Remove="Resources\Icons\GeNSIS\icon48px.png" />
     <None Remove="Resources\Icons\Installer\modern-install.ico" />
+    <None Remove="Resources\Icons\nuvola\22x22\alert.png" />
     <None Remove="Resources\Icons\nuvola\22x22\application-exit.png" />
     <None Remove="Resources\Icons\nuvola\22x22\application-pdf.png" />
     <None Remove="Resources\Icons\nuvola\22x22\application-x-abiword.png" />
@@ -308,6 +309,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\knotes.png" />
     <None Remove="Resources\Icons\nuvola\22x22\krec_fileempty.png" />
     <None Remove="Resources\Icons\nuvola\22x22\kuser.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\messagebox_warning.png" />
     <None Remove="Resources\Icons\nuvola\22x22\preferences-desktop-user.png" />
     <None Remove="Resources\Icons\nuvola\22x22\preferences-system-windows.png" />
     <None Remove="Resources\Icons\nuvola\22x22\project-open.png" />
@@ -603,6 +605,7 @@
     <Resource Include="Resources\Icons\Flags\zw.png" />
     <Resource Include="Resources\Icons\GeNSIS\icon48px.png" />
     <Resource Include="Resources\Icons\Installer\modern-install.ico" />
+    <Resource Include="Resources\Icons\nuvola\22x22\alert.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\application-exit.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\application-pdf.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\application-x-abiword.png" />
@@ -627,6 +630,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\knotes.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\krec_fileempty.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\kuser.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\messagebox_warning.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\preferences-desktop-user.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\preferences-system-windows.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\project-open.png" />

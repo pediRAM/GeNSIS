@@ -29,34 +29,122 @@
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
+            <!-- Menu: File -->
             <MenuItem Header="File">
-                <MenuItem Header="Project"         Icon="{StaticResource icon_project}">
-                    <MenuItem Header="New"         Icon="{StaticResource icon_new}"             Click="OnNewProjectClicked"/>
-                    <MenuItem Header="Open..."     Icon="{StaticResource icon_open_project}"    Click="OnOpenProjectClicked"/>
-                    <MenuItem Header="Save"        Icon="{StaticResource icon_save}"            Click="OnSaveProjectClicked"/>
-                    <MenuItem Header="Save as..."  Icon="{StaticResource icon_save_as}"         Click="OnSaveProjectAsClicked"/>
-                    <MenuItem Header="Check files" Icon="{StaticResource icon_check}"           Click="OnCheckProjectFilesClicked"/>
-                    <MenuItem Header="Export portable..."   Icon="{StaticResource icon_export}" Click="OnExportAsPortableProjectClicked"/>
+                <MenuItem Header="Open">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource icon_folder}" />
+                    </MenuItem.Icon>
+                    <MenuItem Header="Installers folder" Click="OnOpenInstallersFolderClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_folder}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Projects folder" Click="OnOpenProjectsFolderClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_folder}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Scripts folder" Click="OnOpenScriptsFolderClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_folder}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
 
-                <MenuItem Header="Script"                    Icon="{StaticResource icon_script}">
-                    <MenuItem Header="Open..."               Icon="{StaticResource icon_open_script}" Click="OnOpenScriptClicked"/>
-                    <MenuItem Header="Open in extern editor" Icon="{StaticResource icon_editor}"      Click="OnOpenScriptInExternEditor"/>
+                <!-- Menu: Project -->
+                <MenuItem Header="Project">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource icon_project}" />
+                    </MenuItem.Icon>
+                    <MenuItem Header="New" Click="OnNewProjectClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_new}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Open..." Click="OnOpenProjectClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_open_project}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Save" Click="OnSaveProjectClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_save}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Save as..." Click="OnSaveProjectAsClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_save_as}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Check files" Click="OnCheckProjectFilesClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_check}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Export portable..." Click="OnExportAsPortableProjectClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_export}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
-                
-                <MenuItem Header="Settings..." Icon="{StaticResource icon_settings}" Click="OnOpenSettingsWindowClicked"/>
-                <MenuItem Header="Close"       Icon="{StaticResource icon_exit}"     Click="OnCloseClicked"/>
+
+                <!-- Menu: Script -->
+                <MenuItem Header="Script">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource icon_script}" />
+                    </MenuItem.Icon>
+                    <MenuItem Header="Open..." Click="OnOpenScriptClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_open_script}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Open in extern editor" Click="OnOpenScriptInExternEditor">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_editor}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+
+                <!-- MenuItem: Settings -->
+                <MenuItem Header="Settings..." Click="OnOpenSettingsWindowClicked">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource icon_settings}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <!-- MenuItem: Close -->
+                <MenuItem Header="Close" Click="OnCloseClicked">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource icon_exit}" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
 
+            <!-- Menu: Build -->
             <MenuItem Header="Build">
-                <MenuItem Header="Generate script" Icon="{StaticResource icon_generate}" Click="OnGenerate"/>
+                <MenuItem Header="Generate script" Click="OnGenerate">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource icon_generate}" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
 
+            <!-- Menu: Help -->
             <MenuItem Header="Help">
-                <MenuItem Header="Manuals"      Icon="{StaticResource icon_manuals}" Click="OnManualClicked"/>
-                <MenuItem Header="About GeNSIS" Icon="{StaticResource icon_about}"   Click="OnAboutClicked"/>
+                <MenuItem Header="Manuals" Click="OnManualClicked">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource icon_manuals}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="About GeNSIS" Click="OnAboutClicked">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource icon_about}" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
+
 
 
         <TabControl Grid.Row="1">
@@ -173,13 +261,14 @@
                     <!-- ExeName (string) -->
                     <Label   Grid.Row="4" Grid.Column="0" Content="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource label_input}" />
                     <TextBox Grid.Row="4" Grid.Column="1" x:Name="txb_ExeName" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
+                    <Image   Grid.Row="4" Grid.Column="1" Style="{StaticResource image_warn_empty}" Visibility="{Binding ExeName, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}" />
 
                     <Rectangle Grid.Row="5" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
 
                     <!-- License (string) -->
                     <Label   Grid.Row="6" Grid.Column="0" Content="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource label_input}" />
-                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
-
+                    <TextBox Grid.Row="6" Grid.Column="1" x:Name="txb_License" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
+                    <Image   Grid.Row="6" Grid.Column="1" Style="{StaticResource image_warn_empty}" Visibility="{Binding License, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}"/>
 
                 </Grid>
             </TabItem>
@@ -457,14 +546,14 @@
                     <!-- DoInstallPerUser (bool) -->
                     <Label Grid.Row="1" Grid.Column="0" Content="{StaticResource label_doinstallperuser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource label_input}" />
                     <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Vertical">
-                        <RadioButton GroupName="InstallTarget" Content="Per user"   IsChecked="{Binding SelectedOption, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.PerUser}}"  ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
-                        <RadioButton GroupName="InstallTarget" Content="All users"  IsChecked="{Binding SelectedOption, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.AllUsers}}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
+                        <RadioButton GroupName="InstallTarget" Content="Per user"   IsChecked="{Binding InstallationTarget, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.PerUser}}"  ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
+                        <RadioButton GroupName="InstallTarget" Content="All users"  IsChecked="{Binding InstallationTarget, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.AllUsers}}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <RadioButton Grid.Column="0" x:Name="rdbCustom" GroupName="InstallTarget" Content="Custom"     IsChecked="{Binding SelectedOption, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.Custom}}"   ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
+                            <RadioButton Grid.Column="0" x:Name="rdbCustom" GroupName="InstallTarget" Content="Custom"     IsChecked="{Binding InstallationTarget, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.Custom}}"   ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
                             <TextBox Grid.Column="1" Text="{Binding CustomInstallDir}" IsEnabled="{Binding ElementName=rdbCustom, Path=IsChecked}" Style="{StaticResource textbox_input_max_len}"  />
                         </Grid>
                     </StackPanel>

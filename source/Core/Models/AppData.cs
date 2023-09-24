@@ -137,7 +137,7 @@ namespace GeNSIS.Core.Models
                 DoAddFWRule = DoAddFWRule,
                 InstallationTarget = InstallationTarget,
                 CustomInstallDir = CustomInstallDir,
-                ExeName = (ExeName as FileSystemItem).ToViewModel(),
+                
                 InstallerHeaderImage = InstallerHeaderImage,
                 UninstallerHeaderImage = UninstallerHeaderImage,
                 InstallerFileName = InstallerFileName,
@@ -151,10 +151,13 @@ namespace GeNSIS.Core.Models
                 DoCreateCompanyDir = DoCreateCompanyDir,
                 Arch = Arch,
                 MachineType = MachineType,
-                License = (License as FileSystemItem).ToViewModel(),
+                
                 Publisher = Publisher,
                 Url = Url,
             };
+
+            ExeName = (ExeName as FileSystemItem)?.ToViewModel();
+            License = (License as FileSystemItem)?.ToViewModel();
 
             vm.Files = new System.Collections.ObjectModel.ObservableCollection<FileSystemItemVM>();
             foreach (var f in Files)
@@ -182,7 +185,7 @@ namespace GeNSIS.Core.Models
             DoAddFWRule = pAppData.DoAddFWRule;
             InstallationTarget = pAppData.InstallationTarget;
             CustomInstallDir = pAppData.CustomInstallDir;
-            ExeName = pAppData.ExeName;
+            ExeName = (pAppData.ExeName == null) ? new FileSystemItem() : new FileSystemItem(pAppData.ExeName);
             InstallerFileName = pAppData.InstallerFileName;
             InstallerHeaderImage = pAppData.InstallerHeaderImage;
             InstallerIcon = pAppData.InstallerIcon;
@@ -193,7 +196,7 @@ namespace GeNSIS.Core.Models
             DoCreateCompanyDir = pAppData.DoCreateCompanyDir;
             Arch = pAppData.Arch;
             MachineType = pAppData.MachineType;
-            License = pAppData.License;
+            License = (pAppData.License == null) ? new FileSystemItem() : new FileSystemItem(pAppData.License);
             Publisher = pAppData.Publisher;
             UninstallerHeaderImage = pAppData.UninstallerHeaderImage;
             UninstallerIcon = pAppData.UninstallerIcon;

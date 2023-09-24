@@ -26,7 +26,7 @@ namespace GeNSIS.Core.Interfaces
         string CompanyName { get; set; }
         string Publisher { get; set; }
         string Website { get; set; }
-        string GeNSISProjectsDirectory { get; set; }
+        string ProjectsDirectory { get; set; }
         string ScriptsDirectory { get; set; }
         string InstallersDirectory { get; set; }
         string NsisInstallationDirectory { get; set; }

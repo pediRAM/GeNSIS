@@ -80,7 +80,7 @@ namespace GeNSIS.Core.Helpers
 
             CreateGeNSISDirectoriesIfNotExist();
 
-            config.GeNSISProjectsDirectory = PathHelper.GetGeNSISProjectsDir();
+            config.ProjectsDirectory = PathHelper.GetGeNSISProjectsDir();
             config.ScriptsDirectory        = PathHelper.GetGeNSISScriptsDir();
             config.InstallersDirectory     = PathHelper.GetGeNSISInstallerssDir();
 

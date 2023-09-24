@@ -53,7 +53,7 @@ namespace GeNSIS
         private void OnSelectGeNsisProjectFolderClicked(object sender, RoutedEventArgs e)
         {
             if (m_FBD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                Config.GeNSISProjectsDirectory = m_FBD.SelectedPath;
+                Config.ProjectsDirectory = m_FBD.SelectedPath;
         }
 
         private void OnSelectScriptsFolderClicked(object sender, RoutedEventArgs e)

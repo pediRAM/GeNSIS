@@ -27,7 +27,7 @@ namespace GeNSIS.Core.Models
         public string CompanyName { get; set; }
         public string Publisher { get; set; }
         public string Website { get; set; }
-        public string GeNSISProjectsDirectory { get; set; }
+        public string ProjectsDirectory { get; set; }
         public string ScriptsDirectory { get; set; }
         public string InstallersDirectory { get; set; }
         public string NsisInstallationDirectory { get; set; }
@@ -46,7 +46,7 @@ namespace GeNSIS.Core.Models
                 CompanyName = CompanyName,
                 Publisher = Publisher,
                 Website = Website,
-                GeNSISProjectsDirectory = GeNSISProjectsDirectory,
+                ProjectsDirectory = ProjectsDirectory,
                 ScriptsDirectory = ScriptsDirectory,
                 InstallersDirectory = InstallersDirectory,
                 NsisInstallationDirectory = NsisInstallationDirectory,
@@ -63,7 +63,7 @@ namespace GeNSIS.Core.Models
             Publisher = pIAppConfig.Publisher;
             Website = pIAppConfig.Website;
 
-            GeNSISProjectsDirectory = pIAppConfig.GeNSISProjectsDirectory;
+            ProjectsDirectory = pIAppConfig.ProjectsDirectory;
             ScriptsDirectory = pIAppConfig.ScriptsDirectory;
             InstallersDirectory = pIAppConfig.InstallersDirectory;
 

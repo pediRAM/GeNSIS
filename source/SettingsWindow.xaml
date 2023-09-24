@@ -45,7 +45,7 @@
         <TextBox Grid.Row="2" Grid.Column="1" x:Name="txb_Website" Text="{Binding Website}" ToolTip="{StaticResource tt_Website}" Style="{StaticResource textbox_input_settings}" />
 
         <Label Grid.Row="3" Grid.Column="0" x:Name="lbl_GeNSISProjectsDirectory" Content="{StaticResource label_GeNSISProjectsDirectory}" ToolTip="{StaticResource tt_GeNSISProjectsDirectory}" Style="{StaticResource label_input}" />
-        <TextBox Grid.Row="3" Grid.Column="1" x:Name="txb_GeNSISProjectsDirectory" Text="{Binding GeNSISProjectsDirectory}" ToolTip="{StaticResource tt_GeNSISProjectsDirectory}" Style="{StaticResource textbox_input_readonly}" />
+        <TextBox Grid.Row="3" Grid.Column="1" x:Name="txb_GeNSISProjectsDirectory" Text="{Binding ProjectsDirectory}" ToolTip="{StaticResource tt_GeNSISProjectsDirectory}" Style="{StaticResource textbox_input_readonly}" />
         <Button Grid.Row="3" Grid.Column="2" Content="..." Style="{StaticResource button_openfiledialog}" Click="OnSelectGeNsisProjectFolderClicked"/>
         
         <Label Grid.Row="4" Grid.Column="0" x:Name="lbl_ScriptsDirectory" Content="{StaticResource label_ScriptsDirectory}" ToolTip="{StaticResource tt_ScriptsDirectory}" Style="{StaticResource label_input}" />

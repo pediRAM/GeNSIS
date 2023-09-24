@@ -87,14 +87,14 @@ namespace GeNSIS.Core.Models
             }
         }
 
-        public string GeNSISProjectsDirectory
+        public string ProjectsDirectory
         {
             get { return m_GeNSISProjectsDirectory; }
             set
             {
                 if (value == m_GeNSISProjectsDirectory) return;
                 m_GeNSISProjectsDirectory = value;
-                NotifyPropertyChanged(nameof(GeNSISProjectsDirectory));
+                NotifyPropertyChanged(nameof(ProjectsDirectory));
             }
         }
 
@@ -154,7 +154,7 @@ namespace GeNSIS.Core.Models
                 CompanyName = CompanyName,
                 Publisher = Publisher,
                 Website = Website,
-                GeNSISProjectsDirectory = GeNSISProjectsDirectory,
+                ProjectsDirectory = ProjectsDirectory,
                 ScriptsDirectory = ScriptsDirectory,
                 InstallersDirectory = InstallersDirectory,
                 NsisInstallationDirectory = NsisInstallationDirectory,
@@ -171,7 +171,7 @@ namespace GeNSIS.Core.Models
             Publisher = pIAppConfig.Publisher;
             Website = pIAppConfig.Website;
 
-            GeNSISProjectsDirectory = pIAppConfig.GeNSISProjectsDirectory;
+            ProjectsDirectory = pIAppConfig.ProjectsDirectory;
             ScriptsDirectory = pIAppConfig.ScriptsDirectory;
             InstallersDirectory = pIAppConfig.InstallersDirectory;
 

@@ -376,7 +376,7 @@ namespace GeNSIS
         {
             Log.Info("User clicked SaveProjectAs.");
             m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
-            FileDialogHelper.InitDir(m_SaveProjectDialog, m_Config.GeNSISProjectsDirectory);
+            FileDialogHelper.InitDir(m_SaveProjectDialog, m_Config.ProjectsDirectory);
             m_SaveProjectDialog.FileName = PathHelper.GetNewProjectName(AppData);
             if (m_SaveProjectDialog.ShowDialog() != true)
                 return;
@@ -413,7 +413,7 @@ namespace GeNSIS
             }
 
             m_OpenFilesDialog.Filter = FileDialogHelper.Filter.PROJECT;
-            m_OpenFilesDialog.InitialDirectory = m_Config.GeNSISProjectsDirectory;
+            m_OpenFilesDialog.InitialDirectory = m_Config.ProjectsDirectory;
             if (m_OpenFilesDialog.ShowDialog() != true)
                 return;
 
@@ -938,7 +938,7 @@ namespace GeNSIS
 
             // Where should the portable project file be saved?
             m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
-            FileDialogHelper.InitDir(m_SaveProjectDialog, m_Config.GeNSISProjectsDirectory);
+            FileDialogHelper.InitDir(m_SaveProjectDialog, m_Config.ProjectsDirectory);
             if (m_SaveProjectDialog.ShowDialog() != true)
                 return;
 
@@ -1053,5 +1053,19 @@ namespace GeNSIS
             Log.Info("User clicked OpenScriptInExternEditor.");
             OpenScriptInExternalEditor();
         }
+
+        private void OpenFolderInExplorer(string pPath)
+        {
+             _ = Process.Start("explorer", $"\"{pPath}\"");
+        }
+
+        private void OnOpenInstallersFolderClicked(object sender, RoutedEventArgs e)
+            => OpenFolderInExplorer(m_Config.InstallersDirectory);
+
+        private void OnOpenProjectsFolderClicked(object sender, RoutedEventArgs e)
+            => OpenFolderInExplorer(m_Config.ProjectsDirectory);
+
+        private void OnOpenScriptsFolderClicked(object sender, RoutedEventArgs e)
+            => OpenFolderInExplorer(m_Config.ScriptsDirectory);
     }
 }

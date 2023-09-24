@@ -2,40 +2,41 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Icons -->
-    <Image x:Key="icon_about48" Source="../Icons/nuvola/48x48/info.png" />
-    <Image x:Key="icon_new" Source="../Icons/nuvola/22x22/document-new.png" />
-    <Image x:Key="icon_open" Source="../Icons/nuvola/22x22/folder-orange.png" />
-    <Image x:Key="icon_open_script" Source="../Icons/nuvola/22x22/folder-orange.png" />
-    <Image x:Key="icon_open_project" Source="../Icons/nuvola/22x22/folder-orange.png" />
-    <Image x:Key="icon_save" Source="../Icons/nuvola/22x22/document-save.png" />
-    <Image x:Key="icon_save_as" Source="../Icons/nuvola/22x22/document-save-as.png" />
-    <Image x:Key="icon_check" Source="../Icons/nuvola/22x22/check-spelling.png" />
+    <BitmapImage x:Key="icon_about48" UriSource="../Icons/nuvola/48x48/info.png" />
+    <BitmapImage x:Key="icon_new" UriSource="../Icons/nuvola/22x22/document-new.png" />
+    <BitmapImage x:Key="icon_open" UriSource="../Icons/nuvola/22x22/folder-orange.png" />
+    <BitmapImage x:Key="icon_open_script" UriSource="../Icons/nuvola/22x22/folder-orange.png" />
+    <BitmapImage x:Key="icon_open_project" UriSource="../Icons/nuvola/22x22/folder-orange.png" />
+    <BitmapImage x:Key="icon_save" UriSource="../Icons/nuvola/22x22/document-save.png" />
+    <BitmapImage x:Key="icon_save_as" UriSource="../Icons/nuvola/22x22/document-save-as.png" />
+    <BitmapImage x:Key="icon_check" UriSource="../Icons/nuvola/22x22/check-spelling.png" />
     
-    <Image x:Key="icon_exit" Source="../Icons/nuvola/22x22/application-exit.png" />
-    <Image x:Key="icon_export" Source="../Icons/nuvola/22x22/export.png" />
-    <Image x:Key="icon_generate" Source="../Icons/nuvola/22x22/tools-wizard.png" />
-    <Image x:Key="icon_manuals" Source="../Icons/nuvola/22x22/help-about.png" />
-    <Image x:Key="icon_about" Source="../Icons/nuvola/22x22/dialog-information.png" />
-    <Image x:Key="icon_search" Source="../Icons/nuvola/22x22/zoom.png" />
-    <Image x:Key="icon_add" Source="../Icons/nuvola/22x22/zoom-in.png" />
-    <Image x:Key="icon_remove" Source="../Icons/nuvola/22x22/zoom-out.png" />
-    <Image x:Key="icon_clear" Source="../Icons/nuvola/22x22/tool_delete.png" />
-    <Image x:Key="icon_note" Source="../Icons/nuvola/22x22/knotes.png" />
-    <Image x:Key="icon_users" Source="../Icons/nuvola/22x22/kuser.png" />
-    <Image x:Key="icon_user" Source="../Icons/nuvola/22x22/preferences-desktop-user.png" />
-    <Image x:Key="icon_browser" Source="../Icons/nuvola/22x22/applications-internet.png" />
-    <Image x:Key="icon_folder" Source="../Icons/nuvola/22x22/folder-orange.png" />
-    <Image x:Key="icon_file" Source="../Icons/nuvola/22x22/krec_fileempty.png" />
-    <Image x:Key="icon_files" Source="../Icons/nuvola/22x22/document-multiple.png" />
-    <Image x:Key="icon_info" Source="../Icons/nuvola/22x22/dialog-information.png" />
-    <Image x:Key="icon_settings" Source="../Icons/nuvola/22x22/kcontrol.png" />
-    <Image x:Key="icon_script" Source="../Icons/nuvola/22x22/source.png" />
-    <Image x:Key="icon_editor" Source="../Icons/nuvola/22x22/editor.png" />
+    <BitmapImage x:Key="icon_exit" UriSource="../Icons/nuvola/22x22/application-exit.png" />
+    <BitmapImage x:Key="icon_export" UriSource="../Icons/nuvola/22x22/export.png" />
+    <BitmapImage x:Key="icon_generate" UriSource="../Icons/nuvola/22x22/tools-wizard.png" />
+    <BitmapImage x:Key="icon_manuals" UriSource="../Icons/nuvola/22x22/help-about.png" />
+    <BitmapImage x:Key="icon_about" UriSource="../Icons/nuvola/22x22/dialog-information.png" />
+    <BitmapImage x:Key="icon_search" UriSource="../Icons/nuvola/22x22/zoom.png" />
+    <BitmapImage x:Key="icon_add" UriSource="../Icons/nuvola/22x22/zoom-in.png" />
+    <BitmapImage x:Key="icon_remove" UriSource="../Icons/nuvola/22x22/zoom-out.png" />
+    <BitmapImage x:Key="icon_clear" UriSource="../Icons/nuvola/22x22/tool_delete.png" />
+    <BitmapImage x:Key="icon_note" UriSource="../Icons/nuvola/22x22/knotes.png" />
+    <BitmapImage x:Key="icon_users" UriSource="../Icons/nuvola/22x22/kuser.png" />
+    <BitmapImage x:Key="icon_user" UriSource="../Icons/nuvola/22x22/preferences-desktop-user.png" />
+    <BitmapImage x:Key="icon_browser" UriSource="../Icons/nuvola/22x22/applications-internet.png" />
+    <BitmapImage x:Key="icon_folder" UriSource="../Icons/nuvola/22x22/folder-orange.png" />
+    <BitmapImage x:Key="icon_file" UriSource="../Icons/nuvola/22x22/krec_fileempty.png" />
+    <BitmapImage x:Key="icon_files" UriSource="../Icons/nuvola/22x22/document-multiple.png" />
+    <BitmapImage x:Key="icon_info" UriSource="../Icons/nuvola/22x22/dialog-information.png" />
+    <BitmapImage x:Key="icon_settings" UriSource="../Icons/nuvola/22x22/kcontrol.png" />
+    <BitmapImage x:Key="icon_script" UriSource="../Icons/nuvola/22x22/source.png" />
+    <BitmapImage x:Key="icon_editor" UriSource="../Icons/nuvola/22x22/editor.png" />
+    <BitmapImage x:Key="icon_warning" UriSource="../Icons/nuvola/22x22/messagebox_warning.png" />
 
-    <Image x:Key="icon_nsis" Source="../Icons/Installer/modern-install.ico" />
-    <Image x:Key="icon_project" Source="../Icons/nuvola/22x22/project-open.png" />
+    <BitmapImage x:Key="icon_nsis" UriSource="../Icons/Installer/modern-install.ico" />
+    <BitmapImage x:Key="icon_project" UriSource="../Icons/nuvola/22x22/project-open.png" />
 
     <!-- Images -->
-    <Image x:Key="image_installer_welcome_page" Source="../Images/Installer/welcome_page.png" />
+    <BitmapImage x:Key="image_installer_welcome_page" UriSource="../Images/Installer/welcome_page.png" />
 
 </ResourceDictionary>
