@@ -16,11 +16,16 @@
 
         private void AddServiceInstall()
         {
-            if (!m_AppData.IsService) return;
+            if (!m_AppData.IsService) return; // m_AppData.Service.UserType
 
             AddComment("Stop service if installed and running:");
-            Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Stop_Service.bat\"'"); // todo: add ServiceName parameter!
-            Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Install_Service.bat\"'"); // todo: add service-data paramerters!
+            Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Stop_Service.bat\" \"{m_AppData.Service.ServiceName}\"'"); // todo: add ServiceName parameter!
+
+            if (m_AppData.Service.UserType == Enums.EServiceUserType.SpecificUser)
+                Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Install_Service.bat\" \"{m_AppData.Service.ServiceName}\" \"{m_AppData.Service.UserType}\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"{m_AppData.Service.User}\" \"{m_AppData.Service.Password}\"'");
+            else
+                Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Install_Service.bat\" \"{m_AppData.Service.ServiceName}\" \"{m_AppData.Service.UserType}\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"NT AUTHORITY\\{m_AppData.Service.UserType}\"'");
+            
             AddStripline();
             Add();
         }
@@ -30,7 +35,7 @@
             if (!m_AppData.IsService) return;
 
             AddComment("Stop service if installed and running:");
-            Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Stop_Service.bat\"'"); // todo: add ServiceName parameter!
+            Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Stop_Service.bat\" \"{m_AppData.Service.ServiceName}\"'"); // todo: add ServiceName parameter!
             Add($"ExecWait '\"$SYSDIR\\sc.exe\" delete {m_AppData.Service.ServiceName}'");
             AddStripline();
             Add();
