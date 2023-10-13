@@ -44,6 +44,7 @@ using System.Windows.Documents;
 using ExtendedXmlSerializer;
 using System.Windows.Input;
 using GeNSIS.Core.Enums;
+//using System.Windows.Forms;
 
 namespace GeNSIS
 {
@@ -355,15 +356,20 @@ namespace GeNSIS
         {
             Log.Info("User clicked AddFilesFromFolder.");
 #if DEBUG
-            m_FolderBrowserDialog.InitialDirectory = @"H:\MyTemp\__Install Files for MyApp 1.2.3\MyApp 1.2.3"; // todo: <-- remove!
+            m_FolderBrowserDialog.InitialDirectory = @"C:\Users\pedra\source\repos\MyApp\Source\bin\Debug"; // todo: <-- remove!
 #else
             FileDialogHelper.InitDir(m_FolderBrowserDialog, PathHelper.GetMyDocuments());
 #endif
             if (m_FolderBrowserDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
 
-            AppData.AddFiles(Directory.GetDirectories(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly));
-            AppData.AddFiles(Directory.GetFiles(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly));
+            AddDirectoryContent(m_FolderBrowserDialog.SelectedPath, "*", SearchOption.TopDirectoryOnly);
+        }
+
+        private void AddDirectoryContent(string pDirPath, string pPattern = "*", SearchOption pSearchOption = SearchOption.TopDirectoryOnly)
+        {
+            AppData.AddFiles(Directory.GetDirectories(pDirPath, pPattern, pSearchOption));
+            AppData.AddFiles(Directory.GetFiles(pDirPath, pPattern, pSearchOption));
         }
 
         private void OnCloseClicked(object sender, RoutedEventArgs e)
@@ -861,7 +867,29 @@ namespace GeNSIS
             {
                 IEnumerable<string> files = e.Data.GetData(DataFormats.FileDrop) as IEnumerable<string>;
                 if (files != null)
-                    AppData.AddFiles(files);
+                {
+                    if (files.Count() == 1 && Directory.Exists(files.First()))
+                    {
+                        var result = m_MsgBoxMgr.ShowQuestion("Content or Directory?", 
+                            "Do you want to add the content in the directory\n" +
+                            " or to add the directory (including the content)?\n\n" +
+
+                            "Click 'Yes' to add the content, or\n" +
+                            "click 'No' to add the whole directory, or\n" +
+                            "click 'Cancel' to abort.", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+                        if (result == MessageBoxResult.Yes) 
+                        {
+                            AddDirectoryContent(files.First());
+                        }
+                        else if (result == MessageBoxResult.No)
+                        {
+                            AppData.AddFiles(files);
+                        }
+                        else return;
+                    }
+                    
+                }
             }
         }
 
