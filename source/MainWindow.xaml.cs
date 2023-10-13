@@ -1067,5 +1067,8 @@ namespace GeNSIS
 
         private void OnOpenScriptsFolderClicked(object sender, RoutedEventArgs e)
             => OpenFolderInExplorer(m_Config.ScriptsDirectory);
+
+        private void OnOpenMyComputerFolderClicked(object sender, RoutedEventArgs e)
+            => OpenFolderInExplorer(Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
     }
 }

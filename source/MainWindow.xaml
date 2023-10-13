@@ -31,7 +31,7 @@
         <Menu Grid.Row="0">
             <!-- Menu: File -->
             <MenuItem Header="File">
-                <MenuItem Header="Open">
+                <MenuItem Header="Folders">
                     <MenuItem.Icon>
                         <Image Source="{StaticResource icon_folder}" />
                     </MenuItem.Icon>
@@ -46,6 +46,11 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Scripts folder" Click="OnOpenScriptsFolderClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_folder}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Scripts folder" Click="OnOpenMyComputerFolderClicked">
                         <MenuItem.Icon>
                             <Image Source="{StaticResource icon_folder}" />
                         </MenuItem.Icon>
