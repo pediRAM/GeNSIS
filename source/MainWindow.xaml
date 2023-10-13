@@ -17,6 +17,11 @@
                 <ResourceDictionary Source="Resources/Styles/StylesResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <conv:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+            <ObjectDataProvider x:Key="EnumUserType" MethodName="GetValues" ObjectType="{x:Type enum:EServiceUserType}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enum:EServiceUserType"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
         </ResourceDictionary>        
     </Window.Resources>
     <Grid>
@@ -320,26 +325,23 @@
                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Service.DisplayName}"       Style="{StaticResource textbox_input}"  IsEnabled="{Binding IsService}" />
 
                     <!-- User (string) -->
-                    <Label   Grid.Row="3" Grid.Column="0" Content="User:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
-                    <ComboBox Style="{DynamicResource combobox_input}" Grid.Row="3" Grid.Column="1" IsEnabled="{Binding IsService}">
-                        <ComboBoxItem Content="LocalSystem" />
-                        <ComboBoxItem Content="NetworkService" />
-                        <ComboBoxItem Content="LocalService" />
-                        <ComboBoxItem Content="Specific User" />
-                    </ComboBox>
-                    <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding Service.User}" x:Name="tbxServiceUser"     Style="{StaticResource textbox_input}"  IsEnabled="{Binding IsService}" />
+                    <Label    Grid.Row="3" Grid.Column="0" Content="User type:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
+                    <ComboBox Grid.Row="3" Grid.Column="1" x:Name="cbx_ServiceUserType" ItemsSource="{Binding Source={StaticResource EnumUserType}}" SelectedItem="{Binding Service.UserType}" Style="{DynamicResource combobox_input}" IsEnabled="{Binding IsService}" />
+
+                    <Label   Grid.Row="4" Grid.Column="0" Content="Username:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Service.User}" x:Name="tbxServiceUser"     Style="{StaticResource textbox_input}"  IsEnabled="{Binding ElementName=cbx_ServiceUserType, Path=SelectedItem, Converter={conv:SpecificUserToBoolConverter}}" />
 
                     <!-- Password (string) -->
-                    <Label   Grid.Row="4" Grid.Column="0" Content="Password:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
-                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Service.Password}"  Style="{StaticResource textbox_input}"  IsEnabled="{Binding IsService}" />
+                    <Label   Grid.Row="5" Grid.Column="0" Content="Password:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
+                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Service.Password}"  Style="{StaticResource textbox_input}"  IsEnabled="{Binding ElementName=cbx_ServiceUserType, Path=SelectedItem, Converter={conv:SpecificUserToBoolConverter}}"  />
 
                     <!-- Dependencies (string) -->
-                    <Label   Grid.Row="5" Grid.Column="0" Content="Dependencies:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
-                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Service.Dependencies}"  Style="{StaticResource textbox_input}"  IsEnabled="{Binding IsService}" />
+                    <Label   Grid.Row="6" Grid.Column="0" Content="Dependencies:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
+                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Service.Dependencies}"  Style="{StaticResource textbox_input}"  IsEnabled="{Binding IsService}" />
 
                     <!-- IsAutoStart (bool) -->
-                    <Label    Grid.Row="6" Grid.Column="0" Content="Autostart:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
-                    <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Service.IsAutoStart}"  Style="{StaticResource checkbox_input}"  IsEnabled="{Binding IsService}" />
+                    <Label    Grid.Row="7" Grid.Column="0" Content="Autostart:"  Style="{StaticResource label_input}"  IsEnabled="{Binding IsService}" />
+                    <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding Service.IsAutoStart}"  Style="{StaticResource checkbox_input}"  IsEnabled="{Binding IsService}" />
 
                 </Grid>
             </TabItem>

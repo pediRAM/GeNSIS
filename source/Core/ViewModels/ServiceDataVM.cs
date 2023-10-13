@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core.ViewModels
 {
+    using GeNSIS.Core.Enums;
     using GeNSIS.Core.Interfaces;
     using GeNSIS.Core.Models;
     using System;
@@ -28,9 +29,10 @@ namespace GeNSIS.Core.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool m_IsAutoStart;
+        private bool m_IsAutoStart = true;
         private string m_ServiceName;
         private string m_DisplayName;
+        private EServiceUserType m_UserType = EServiceUserType.LocalService;
         private string m_User;
         private string m_Password;
         private string m_Dependencies;
@@ -70,6 +72,17 @@ namespace GeNSIS.Core.ViewModels
                 if (value == m_IsAutoStart) return;
                 m_IsAutoStart = value;
                 NotifyPropertyChanged(nameof(IsAutoStart));
+            }
+        }
+
+        public EServiceUserType UserType
+        {
+            get { return m_UserType; }
+            set
+            {
+                if (value == m_UserType) return;
+                m_UserType = value;
+                NotifyPropertyChanged(nameof(UserType));
             }
         }
 
@@ -114,6 +127,7 @@ namespace GeNSIS.Core.ViewModels
                 ServiceName = ServiceName,
                 DisplayName = DisplayName,
                 IsAutoStart = IsAutoStart,
+                UserType = UserType,
                 User = User,
                 Password = Password,
                 Dependencies = Dependencies,
@@ -127,6 +141,7 @@ namespace GeNSIS.Core.ViewModels
                 ServiceName = pServiceData.ServiceName,
                 DisplayName = pServiceData.DisplayName,
                 IsAutoStart = pServiceData.IsAutoStart,
+                UserType = pServiceData.UserType,   
                 User = pServiceData.User,
                 Password = pServiceData.Password,
                 Dependencies = pServiceData.Dependencies,
@@ -138,6 +153,7 @@ namespace GeNSIS.Core.ViewModels
             ServiceName = pServiceData.ServiceName;
             DisplayName = pServiceData.DisplayName;
             IsAutoStart = pServiceData.IsAutoStart;
+            UserType = pServiceData.UserType;   
             User = pServiceData.User;
             Password = pServiceData.Password;
             Dependencies = pServiceData.Dependencies;

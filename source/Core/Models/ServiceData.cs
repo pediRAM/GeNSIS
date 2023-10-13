@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core.Models
 {
+    using GeNSIS.Core.Enums;
     using GeNSIS.Core.Interfaces;
     using GeNSIS.Core.ViewModels;
     using System;
@@ -35,7 +36,7 @@ namespace GeNSIS.Core.Models
         public string DisplayName { get; set; }
 
         public bool IsAutoStart { get; set; } = true;
-
+        public EServiceUserType UserType { get; set; } = EServiceUserType.LocalService;
         public string User { get; set; }
 
         public string Password { get; set; }
@@ -50,6 +51,7 @@ namespace GeNSIS.Core.Models
                 ServiceName = ServiceName,
                 DisplayName = DisplayName,
                 IsAutoStart = IsAutoStart,
+                UserType = UserType,
                 User = User,
                 Password = Password,
                 Dependencies = Dependencies,
@@ -63,6 +65,7 @@ namespace GeNSIS.Core.Models
                 ServiceName = pServiceData.ServiceName,
                 DisplayName = pServiceData.DisplayName,
                 IsAutoStart = pServiceData.IsAutoStart,
+                UserType = pServiceData.UserType,
                 User = pServiceData.User,
                 Password = pServiceData.Password,
                 Dependencies = pServiceData.Dependencies,
@@ -74,6 +77,7 @@ namespace GeNSIS.Core.Models
             ServiceName = pServiceData.ServiceName;
             DisplayName = pServiceData.DisplayName;
             IsAutoStart = pServiceData.IsAutoStart;
+            UserType = pServiceData.UserType;
             User = pServiceData.User;
             Password = pServiceData.Password;
             Dependencies = pServiceData.Dependencies;

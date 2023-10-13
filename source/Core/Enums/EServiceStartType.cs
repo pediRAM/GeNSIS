@@ -22,10 +22,10 @@ namespace GeNSIS.Core.Enums
 {
     public enum EServiceStartType
     {
-        [Display(Name ="Auto")]
-        Auto = 0,
-
         [Display(Name = "Manual")]
-        Manual = 1,
+        Manual = 0,
+
+        [Display(Name = "Auto")]
+        Auto = 1,
     }
 }

@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using GeNSIS.Core.Enums;
+
 namespace GeNSIS.Core.Interfaces
 {
     public interface IServiceData
@@ -26,6 +28,7 @@ namespace GeNSIS.Core.Interfaces
 
         bool IsAutoStart { get; set; }
 
+        EServiceUserType UserType { get; set; }
         string User { get; set; }
 
         string Password { get; set; }
