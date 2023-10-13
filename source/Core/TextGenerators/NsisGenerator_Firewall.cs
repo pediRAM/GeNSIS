@@ -78,53 +78,54 @@
         #region Delete FW Rule
         private void AddDeleteAllFirewallRules()
         {
+            string filename = Path.GetFileNameWithoutExtension(m_AppData.ExeName.Name);
             foreach (IFirewallRule fwr in m_AppData.GetFirewallRules())
             {
                 AddComment(GetCommentCloseFirewallRule(fwr));
-                AddDeleteFirewallRule(fwr);
+                AddDeleteFirewallRule(filename, fwr);
             }
         }
 
-        private void AddDeleteFirewallRule(IFirewallRule fwr)
+        private void AddDeleteFirewallRule(string pName, IFirewallRule fwr)
         {
             switch (fwr.ProtocolType)
             {
                 case Enums.EProtocolType.TCP:
-                Add(GetCommandDeleteTcpFirewallRule(fwr));
+                Add(GetCommandDeleteTcpFirewallRule(pName, fwr));
                 break;
 
                 case Enums.EProtocolType.UDP:
-                Add(GetCommandDeleteUdpFirewallRule(fwr));
+                Add(GetCommandDeleteUdpFirewallRule(pName, fwr));
                 break;
 
                 case Enums.EProtocolType.Both:
-                Add(GetCommandDeleteTcpFirewallRule(fwr));
-                Add(GetCommandDeleteUdpFirewallRule(fwr));
+                Add(GetCommandDeleteTcpFirewallRule(pName, fwr));
+                Add(GetCommandDeleteUdpFirewallRule(pName, fwr));
                 break;
             }
         }
 
-        private string GetCommandDeleteTcpFirewallRule(IFirewallRule fwr)
+        private string GetCommandDeleteTcpFirewallRule(string pName, IFirewallRule fwr)
         {
             if (fwr.IsRange)
-                return GetFirewallDeleteRule("TCP", fwr.Port, fwr.ToPort);
+                return GetFirewallDeleteRule(pName, "TCP", fwr.Port, fwr.ToPort);
             else
-                return GetFirewallDeleteRule("TCP", fwr.Port);
+                return GetFirewallDeleteRule(pName, "TCP", fwr.Port);
         }
 
-        private string GetCommandDeleteUdpFirewallRule(IFirewallRule fwr)
+        private string GetCommandDeleteUdpFirewallRule(string pName, IFirewallRule fwr)
         {
             if (fwr.IsRange)
-                return GetFirewallDeleteRule("UDP", fwr.Port, fwr.ToPort);
+                return GetFirewallDeleteRule(pName, "UDP", fwr.Port, fwr.ToPort);
             else
-                return GetFirewallDeleteRule("UDP", fwr.Port);
+                return GetFirewallDeleteRule(pName, "UDP", fwr.Port);
         }
 
-        private string GetFirewallDeleteRule(string pProtocol, int pPortFrom, int pPortTo)
-            => $"ExecWait 'netsh advfirewall firewall delete rule name=\"Open {pProtocol.ToUpper()} Ports {pPortFrom}-{pPortTo}\"'";
+        private string GetFirewallDeleteRule(string pName, string pProtocol, int pPortFrom, int pPortTo)
+            => $"ExecWait 'netsh advfirewall firewall delete rule name=\"{pName}: Open {pProtocol.ToUpper()} Ports {pPortFrom}-{pPortTo}\"'";
 
-        private string GetFirewallDeleteRule(string pProtocol, int pPort)
-            => $"ExecWait 'netsh advfirewall firewall delete rule name=\"Open {pProtocol.ToUpper()} Port {pPort}\"'";
+        private string GetFirewallDeleteRule(string pName, string pProtocol, int pPort)
+            => $"ExecWait 'netsh advfirewall firewall delete rule name=\"{pName}: Open {pProtocol.ToUpper()} Port {pPort}\"'";
 
         private string GetCommentCloseFirewallRule(IFirewallRule fwr)
         {

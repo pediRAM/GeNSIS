@@ -529,18 +529,24 @@ namespace GeNSIS.Core.TextGenerators
                 Add();
             }
 
+            // Add Shortcuts only for desktop application (never for services)!
+            if (!m_AppData.IsService)
+            {
+                AddComment("Create shortcut in Program menu.");
+                Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
+
+                AddComment("Asking user whether to create shortcut on desktop or not:");
+                var endLabel = AddDialogYesNo("Create shortcuts on Desktop?", "CreateShortcut");
+                Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
+                Add($"{endLabel}:");
+                AddStripline();
+                Add();
+            }
+
             
-            AddComment("Create shortcuts on Desktop and Programs menu.");
-            var endLabel = AddDialogYesNo("Create shortcuts on Desktop and Programs menu?", "CreateShortcuts");
-            Add($"CreateShortcut \"$DESKTOP\\${{APP_NAME}}.lnk\"    \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
-            Add($"CreateShortcut \"$SMPROGRAMS\\${{APP_NAME}}.lnk\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"\"");
-            Add($"{endLabel}:");
 
             if (m_AppData.GetFirewallRules().Count() > 0)
             {
-                AddStripline();
-                Add();
-
                 AddComment("Add firewall rules.");
                 var label = AddDialogYesNo("Add firewall rules?", "AddFWRules");
                 AddAllFirewallRules();
@@ -621,9 +627,14 @@ namespace GeNSIS.Core.TextGenerators
         private void AddUninstallSection()
         {
             AddSection("Uninstall");
-            AddComment("Delete shortcuts on Desktop and Programs menu:");
-            Add("Delete \"$DESKTOP\\${APP_NAME}.lnk\"");
-            Add("Delete \"$SMPROGRAMS\\${APP_NAME}.lnk\"");
+
+            // Services have no shortcuts!
+            if (!m_AppData.IsService)
+            {
+                AddComment("Delete shortcuts on Desktop and Programs menu:");
+                Add("Delete \"$DESKTOP\\${APP_NAME}.lnk\"");
+                Add("Delete \"$SMPROGRAMS\\${APP_NAME}.lnk\"");
+            }
 
             if (m_AppData.GetSections().Any())
             {
@@ -684,26 +695,17 @@ namespace GeNSIS.Core.TextGenerators
             if (string.IsNullOrWhiteSpace(pLabelName))
                 throw new ArgumentNullException(nameof(pLabelName), $"Name of a Label cannot be NULL/empty/whitespace!");
 
-            var yesLabel = $"LabelYes_{pLabelName}";
-            //var noLabel = $"LabelNo_{pLabelName}";
-            var endLabel = $"LabelEnd_{pLabelName}";
-            AddComment($"Ask user Yes/No question: {pQuestion}");
-            Add($"MessageBox MB_YESNO \"{pQuestion}\" IDYES {yesLabel}");
-            Add($"Goto {endLabel}");
-            AddLabel(yesLabel);
-            return endLabel;
+            AddComment($"Ask user Yes-No question: {pQuestion}");
+            Add($"MessageBox MB_YESNO \"{pQuestion}\" IDYES {GetLabelYes(pLabelName)}");
+            Add($"Goto {GetLabelEnd(pLabelName)}");
+            AddLabel(GetLabelYes(pLabelName));
+            return GetLabelEnd(pLabelName);
         }
 
-
-
-        
-
-
-
-
+        private string GetLabelYes(string pName) => $"L_{pName}_Yes";
+        private string GetLabelNo(string pName) => $"L_{pName}_No";
+        private string GetLabelEnd(string pName) => $"L_{pName}_End";
         #endregion NSIS Code Creation
-
-        
 
         #endregion Methods
     }
