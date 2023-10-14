@@ -50,7 +50,7 @@ namespace GeNSIS.Core
             var fileInfo = new FileInfo(pPath);
             var deserializer = provider.GetDeSerializerByExtension(fileInfo.Extension);
             m_ProjectFilePath = pPath;
-            return deserializer.ToProject(File.ReadAllText(pPath, encoding: System.Text.Encoding.UTF8));
+            return deserializer.Deserialize<Project>(File.ReadAllText(pPath, encoding: System.Text.Encoding.UTF8));
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace GeNSIS.Core
         {
             var provider = new DeSerializationProvider();
             var deserializer = provider.GetDeSerializerByExtension(Path.GetExtension(pPath));
-            File.WriteAllText(pPath, deserializer.ToString(pProject), encoding: System.Text.Encoding.UTF8);
+            File.WriteAllText(pPath, deserializer.Serialize<Project>(pProject), encoding: System.Text.Encoding.UTF8);
         }
     }
 }

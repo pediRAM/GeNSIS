@@ -19,12 +19,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core.Models
 {
-    using GeNSIS.Core.Extensions;
     using GeNSIS.Core.Interfaces;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Linq;
 
     public class ConfigVM : IConfig
     {
@@ -142,11 +138,7 @@ namespace GeNSIS.Core.Models
             }
         }
 
-        public ObservableCollection<string> LastProjects { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> LastScripts { get; set; } = new ObservableCollection<string>();
 
-        public List<string> GetLastProjects() => LastProjects.ToList();
-        public List<string> GetLastScripts() => LastScripts.ToList();
         public Config ToModel()
         {
             return new Config
@@ -159,9 +151,6 @@ namespace GeNSIS.Core.Models
                 InstallersDirectory = InstallersDirectory,
                 NsisInstallationDirectory = NsisInstallationDirectory,
                 ExternalEditor = ExternalEditor,
-
-                LastProjects = LastProjects.ToList(),
-                LastScripts = LastScripts.ToList(),
             };
         }
 
@@ -177,35 +166,11 @@ namespace GeNSIS.Core.Models
 
             NsisInstallationDirectory = pIAppConfig.NsisInstallationDirectory;
             ExternalEditor = pIAppConfig.ExternalEditor;
-
-            LastProjects.Clear();
-            LastProjects.AddRange(pIAppConfig.GetLastProjects());
-
-            LastScripts.Clear();
-            LastScripts.AddRange(pIAppConfig.GetLastScripts());
         }
 
         private void NotifyPropertyChanged(string pPropertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pPropertyName));
-        }
-
-        public void AddProjectPath(string pProjectPath)
-        {
-            if (!LastProjects.Any(p => p.Equals(pProjectPath, System.StringComparison.OrdinalIgnoreCase)))
-                LastProjects.Insert(0, pProjectPath);
-
-            if (LastProjects.Count > GConst.MAX_LAST_FILES)
-                LastProjects.RemoveAt(LastProjects.Count - 1);
-        }
-
-        public void AddScriptPath(string pScriptPath)
-        {
-            if (!LastScripts.Any(p => p.Equals(pScriptPath, System.StringComparison.OrdinalIgnoreCase)))
-                LastScripts.Insert(0, pScriptPath);
-
-            if (LastScripts.Count > GConst.MAX_LAST_FILES)
-                LastScripts.RemoveAt(LastScripts.Count - 1);
         }
     }
 }

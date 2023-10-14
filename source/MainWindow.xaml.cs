@@ -44,7 +44,8 @@ using System.Windows.Documents;
 using ExtendedXmlSerializer;
 using System.Windows.Input;
 using GeNSIS.Core.Enums;
-//using System.Windows.Forms;
+using System.Threading.Tasks;
+
 
 namespace GeNSIS
 {
@@ -79,6 +80,9 @@ namespace GeNSIS
         private MessageBoxManager m_MsgBoxMgr = new MessageBoxManager();
 
         private NsisGenerator m_NsisCodeGenerator = new NsisGenerator();
+
+        private FileHistoryVM m_ProjectHistory;
+        private FileHistoryVM m_ScriptHistory;
         #endregion Variables
 
         #region Ctor
@@ -102,10 +106,25 @@ namespace GeNSIS
             InitLanguages();
             IocContainer.Instance.Put<ObservableCollection<Language>>(LangDst);
             DataContext = AppData;
-            cbx_LastProjects.DataContext = m_Config;
-            cbx_LastScripts.DataContext = m_Config;
+
+            _ = InitFileHistoriesAsync();
         }
 
+        private async Task InitFileHistoriesAsync()
+        {
+            string dir = ConfigHelper.GetInstallationFolder();
+            var projects = $"{dir}\\ProjectsHistory.json";
+            var scripts = $"{dir}\\ScriptstsHistory.json";
+
+            m_ProjectHistory = new FileHistoryVM(projects);
+            m_ScriptHistory = new FileHistoryVM(scripts);
+
+            await Task.Run(() => m_ProjectHistory.Load());
+            await Task.Run(() => m_ScriptHistory.Load());
+
+            cbx_LastProjects.DataContext = m_ProjectHistory;
+            cbx_LastScripts.DataContext = m_ScriptHistory;
+        }
         private void CheckAndLoadProjectPathFromArguments()
         {
             try
@@ -232,7 +251,7 @@ namespace GeNSIS
             var res = m_MsgBoxMgr.ShowQuestion("User confirmation needed", "Generating script will overwrite your script and throw away changes!\nAre you sure you want to generate script (again)?");
             if (res != MessageBoxResult.Yes)
                 return;
-            GenerateScript();
+            Dispatcher.Invoke(() => GenerateScript());
         }
 
         private void GenerateScript()
@@ -413,14 +432,14 @@ namespace GeNSIS
 
         private void AddAndSaveLastProject(string pFileName)
         {
-            m_Config.AddProjectPath(pFileName);
-            ConfigHelper.WriteConfigFile(m_Config);
+            m_ProjectHistory.Add(pFileName);
+            _ = Task.Run(() => m_ProjectHistory.Save());
         }
 
         private void AddAndSaveLastScript(string pFileName)
         {
-            m_Config.AddScriptPath(pFileName);
-            ConfigHelper.WriteConfigFile(m_Config);
+            m_ScriptHistory.Add(pFileName);
+            _ = Task.Run(() => m_ScriptHistory.Save());
         }
 
         private void OnSaveProjectClicked(object sender, RoutedEventArgs e)
@@ -948,7 +967,7 @@ namespace GeNSIS
             }
         }
 
-        private void OnScriptDropped(object sender, DragEventArgs e)
+        private async void OnScriptDropped(object sender, DragEventArgs e)
         {
             Log.Info("User dropped nsis script.");
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -958,7 +977,7 @@ namespace GeNSIS
                 {
                     if (Path.GetExtension(paths[0]).Equals(".nsi", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        LoadScriptFromFile(path);
+                        await Dispatcher.BeginInvoke(() => LoadScriptFromFile(path));
                         return;
                     }
                 }
@@ -1153,5 +1172,35 @@ namespace GeNSIS
 
         private void OnOpenMyComputerFolderClicked(object sender, RoutedEventArgs e)
             => OpenFolderInExplorer(Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
+
+        private async void OnProjectHistoryClicked(object sender, RoutedEventArgs e)
+        {
+            var x = sender as System.Windows.Controls.MenuItem;
+            if (x != null)
+            {
+                if (AppData.HasUnsavedChanges)
+                {
+                    if (m_MsgBoxMgr.ShowUnsavedChangesByOpenProjectWarning() != MessageBoxResult.Yes)
+                        return;
+                }
+
+                await Dispatcher.BeginInvoke(() => LoadProject(x.Tag as string));
+            }
+        }
+
+        private async void OnScriptHistoryClicked(object sender, RoutedEventArgs e)
+        {
+            var x = sender as System.Windows.Controls.MenuItem;
+            if (x != null)
+            {
+                if (AppData.HasUnsavedChanges)
+                {
+                    if (m_MsgBoxMgr.ShowUnsavedChangesByOpenProjectWarning() != MessageBoxResult.Yes)
+                        return;
+                }
+
+                await Dispatcher.BeginInvoke(() => LoadScriptFromFile(x.Tag as string));
+            }
+        }
     }
 }

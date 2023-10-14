@@ -32,11 +32,11 @@ namespace GeNSIS.Core.Serialization
 
         public string Extension => ".xml";
 
-        public Project ToProject(string pModelString)
-            => GetExtendedSerializer().Deserialize<Project>(pModelString);
+        public T Deserialize<T>(string pSerializedModelAsString)
+            => GetExtendedSerializer().Deserialize<T>(pSerializedModelAsString);
 
-        public string ToString(Project project)
-            => GetExtendedSerializer().Serialize(new XmlWriterSettings { Indent = true, IndentChars = "\t", NewLineOnAttributes = true}, project);
+        public string Serialize<T>(T pModel)
+            => GetExtendedSerializer().Serialize(new XmlWriterSettings { Indent = true, IndentChars = "\t", NewLineOnAttributes = true}, pModel);
 
         private IExtendedXmlSerializer GetExtendedSerializer()
         {

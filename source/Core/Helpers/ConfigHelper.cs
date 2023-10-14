@@ -17,13 +17,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
-using NLog;
 using GeNSIS.Core.Models;
+using NLog;
 using System;
 using System.IO;
 using System.Text.Json;
-using System.Windows;
-using GeNSIS.Core.Interfaces;
 
 namespace GeNSIS.Core.Helpers
 {
@@ -42,12 +40,18 @@ namespace GeNSIS.Core.Helpers
         public static void SetLastImageFolder(string pPath) => s_LastImagePath = pPath;
         public static string GetLastImageFolder() => s_LastImagePath;
 
+        /// <summary>
+        /// Returns the path to folder where GeNSIS has been installed.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetInstallationFolder() =>  Path.GetDirectoryName(Environment.ProcessPath);
+
         private static string _configPath;
         public static string GetConfigPath()
         {
             if (_configPath == null)
             {
-                var appInstallDir = Path.GetDirectoryName(Environment.ProcessPath);
+                var appInstallDir = GetInstallationFolder();
                 var currentDir = Directory.GetCurrentDirectory();
                 if (appInstallDir.Equals(currentDir, StringComparison.InvariantCultureIgnoreCase))
                     _configPath = GConst.GeNSIS.FILENAME_CONFIG;

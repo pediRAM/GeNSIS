@@ -55,7 +55,7 @@
                             <Image Source="{StaticResource icon_folder}" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Scripts folder" Click="OnOpenMyComputerFolderClicked">
+                    <MenuItem Header="This PC" Click="OnOpenMyComputerFolderClicked">
                         <MenuItem.Icon>
                             <Image Source="{StaticResource icon_folder}" />
                         </MenuItem.Icon>
@@ -78,6 +78,10 @@
                             <Image Source="{StaticResource icon_open_project}" />
                         </MenuItem.Icon>
                     </MenuItem>
+
+                    <Separator />
+
+
                     <MenuItem Header="Save" Click="OnSaveProjectClicked">
                         <MenuItem.Icon>
                             <Image Source="{StaticResource icon_save}" />
@@ -88,6 +92,10 @@
                             <Image Source="{StaticResource icon_save_as}" />
                         </MenuItem.Icon>
                     </MenuItem>
+
+                    <Separator />
+
+
                     <MenuItem Header="Check files" Click="OnCheckProjectFilesClicked">
                         <MenuItem.Icon>
                             <Image Source="{StaticResource icon_check}" />
@@ -98,8 +106,19 @@
                             <Image Source="{StaticResource icon_export}" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <ComboBox x:Name="cbx_LastProjects" ItemsSource="{Binding LasProjects}" Width="250"/>
-                    <ComboBox x:Name="cbx_LastScripts" ItemsSource="{Binding LastScripts}" Width="250"/>
+
+                    <Separator />
+
+                    <!-- History Projects -->
+                    <MenuItem Header="History">
+                        <ItemsControl x:Name="cbx_LastProjects" ItemsSource="{Binding Files}" >
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="String">
+                                    <MenuItem Header="{Binding Converter={conv:FilePathToNameConverter}}" Tag="{Binding}" Click="OnProjectHistoryClicked" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </MenuItem>
                 </MenuItem>
 
                 <!-- Menu: Script -->
@@ -116,6 +135,19 @@
                         <MenuItem.Icon>
                             <Image Source="{StaticResource icon_editor}" />
                         </MenuItem.Icon>
+                    </MenuItem>
+                    
+                    <Separator />
+                    
+                    <!-- History Scripts -->
+                    <MenuItem Header="History">
+                        <ItemsControl x:Name="cbx_LastScripts" ItemsSource="{Binding Files}" >
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="String">
+                                    <MenuItem Header="{Binding Converter={conv:FilePathToNameConverter}}" Tag="{Binding}" Click="OnScriptHistoryClicked"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </MenuItem>
                 </MenuItem>
 

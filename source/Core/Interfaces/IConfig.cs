@@ -17,8 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
-using System.Collections.Generic;
-
 namespace GeNSIS.Core.Interfaces
 {
     public interface IConfig
@@ -31,10 +29,7 @@ namespace GeNSIS.Core.Interfaces
         string InstallersDirectory { get; set; }
         string NsisInstallationDirectory { get; set; }
         string ExternalEditor { get; set; }
-        List<string> GetLastProjects();
-        List<string> GetLastScripts();
         void UpdateValues(IConfig pIAppConfig);
-        void AddProjectPath(string pProjectPath);
-        void AddScriptPath(string pScriptPath);
+
     }
 }

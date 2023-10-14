@@ -28,10 +28,11 @@ namespace GeNSIS.Core.Serialization
 
         public string Extension => ".json";
 
-        public Project ToProject(string pModelString)
-            => JsonSerializer.Deserialize<Project>(pModelString);
+        public T Deserialize<T>(string pSerializedModelAsString)
+            => JsonSerializer.Deserialize<T>(pSerializedModelAsString) ?? default;
 
-        public string ToString(Project project)
-            => JsonSerializer.Serialize(project, new JsonSerializerOptions { WriteIndented = true });
+        public string Serialize<T>(T pModel)
+        => JsonSerializer.Serialize(pModel, new JsonSerializerOptions { WriteIndented = true });
+
     }
 }

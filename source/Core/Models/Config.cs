@@ -20,8 +20,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace GeNSIS.Core.Models
 {
     using GeNSIS.Core.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class Config : IConfig
     {
@@ -34,11 +32,8 @@ namespace GeNSIS.Core.Models
         public string NsisInstallationDirectory { get; set; }
         public string ExternalEditor { get; set; } = GConst.Default.EXTERNAL_EDITOR;
 
-        public List<string> LastProjects { get; set; } = new List<string>();
-        public List<string> LastScripts { get; set; } = new List<string>();
 
-        public List<string> GetLastProjects() => LastProjects;
-        public List<string> GetLastScripts() => LastScripts;
+       
 
         public ConfigVM Clone()
         {
@@ -52,9 +47,6 @@ namespace GeNSIS.Core.Models
                 InstallersDirectory = InstallersDirectory,
                 NsisInstallationDirectory = NsisInstallationDirectory,
                 ExternalEditor = ExternalEditor,
-
-                LastScripts = new System.Collections.ObjectModel.ObservableCollection<string>(LastScripts),
-                LastProjects = new System.Collections.ObjectModel.ObservableCollection<string>(LastProjects),
             };
         }
 
@@ -70,27 +62,6 @@ namespace GeNSIS.Core.Models
 
             NsisInstallationDirectory = pIAppConfig.NsisInstallationDirectory;
             ExternalEditor = pIAppConfig.ExternalEditor;
-
-            LastProjects = pIAppConfig.GetLastProjects();
-            LastScripts = pIAppConfig.GetLastScripts();
-        }
-
-        public void AddProjectPath(string pProjectPath)
-        {
-            if (!LastProjects.Any(p => p.Equals(pProjectPath, System.StringComparison.OrdinalIgnoreCase)))
-                LastProjects.Insert(0, pProjectPath);
-
-            if (LastProjects.Count > GConst.MAX_LAST_FILES)
-                LastProjects.RemoveAt(LastProjects.Count - 1);
-        }
-
-        public void AddScriptPath(string pScriptPath)
-        {
-            if (!LastScripts.Any(p => p.Equals(pScriptPath, System.StringComparison.OrdinalIgnoreCase)))
-                LastScripts.Insert(0, pScriptPath);
-
-            if (LastScripts.Count > GConst.MAX_LAST_FILES)
-                LastScripts.RemoveAt(LastScripts.Count - 1);
         }
     }
 }

@@ -3,7 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit">
 
-    <sys:Double x:Key="Radius">3</sys:Double>
+    <sys:Double x:Key="Radius">5</sys:Double>
     <CornerRadius x:Key="RoundCorner" 
                   TopLeft="{StaticResource ResourceKey=Radius}"
                   TopRight="{StaticResource ResourceKey=Radius}"
@@ -16,11 +16,20 @@
         <Setter Property="FontStyle" Value="Normal"/>
         <Style.Resources>
             <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="7.5,7.5,0,0"/>
+                <Setter Property="CornerRadius" Value="7.5,15,0,0"/>
             </Style>
         </Style.Resources>
     </Style>
-   
+
+    <Style  TargetType="ToolTip">
+        <Setter Property="FontSize" Value="14"/>
+
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
+            </Style>
+        </Style.Resources>
+    </Style>
 
     <Style x:Key="grid_main" TargetType="Grid">
         <Setter Property="Margin" Value="15,10,10,15"/>

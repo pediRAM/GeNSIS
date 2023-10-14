@@ -19,15 +19,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core.Serialization
 {
-    using GeNSIS.Core.Models;
+    using System.Text.Json;
 
     public interface IDeSerializer
     {
         string DisplayName { get; }
         string Extension { get; }
 
-        Project ToProject(string pModelString);
-        string ToString(Project project);
+        public T Deserialize<T>(string pSerializedModelAsString)
+            => JsonSerializer.Deserialize<T>(pSerializedModelAsString) ?? default;
+
+        public string Serialize<T>(T pModel)
+        => JsonSerializer.Serialize(pModel, new JsonSerializerOptions { WriteIndented = true });
 
     }
 }
