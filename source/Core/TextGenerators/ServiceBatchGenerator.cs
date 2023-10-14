@@ -11,7 +11,7 @@ namespace GeNSIS.Core.TextGenerators
     {
         public string Generate(IAppData pAppData, TextGeneratorOptions pOptions)
         {
-            
+            return string.Empty;
         }
 
     }

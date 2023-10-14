@@ -29,6 +29,13 @@
             HasSectionStarted = true;
         }
 
+        private void AddSection(bool pIsHidden, string pName)
+        {
+            string opt = pIsHidden ? "/o " : null;
+            Add($"Section {opt}\"{pName}\"");
+            HasSectionStarted = true;
+        }
+
         private void AddFunction(string pParameters)
         {
             Add($"Function {pParameters}");
@@ -107,6 +114,12 @@
         private void AddInsertMacro(string pMacro)
         {
             sb.AppendLine($"!insertmacro {pMacro}");
+            ln++;
+        }
+
+        private void AddInclude(string pLibName)
+        {
+            sb.AppendLine($"!include \"{pLibName}\"");
             ln++;
         }
         #endregion Code Line Adding Methods

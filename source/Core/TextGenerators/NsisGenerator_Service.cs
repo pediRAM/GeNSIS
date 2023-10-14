@@ -25,9 +25,6 @@
                 Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Install_Service.bat\" \"{m_AppData.Service.ServiceName}\" \"{m_AppData.Service.UserType}\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"{m_AppData.Service.User}\" \"{m_AppData.Service.Password}\"'");
             else
                 Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Install_Service.bat\" \"{m_AppData.Service.ServiceName}\" \"{m_AppData.Service.UserType}\" \"$INSTDIR\\${{APP_EXE_NAME}}\" \"NT AUTHORITY\\{m_AppData.Service.UserType}\"'");
-            
-            AddStripline();
-            Add();
         }
 
         private void AddServiceUninstall()
@@ -35,10 +32,16 @@
             if (!m_AppData.IsService) return;
 
             AddComment("Stop service if installed and running:");
-            Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Stop_Service.bat\" \"{m_AppData.Service.ServiceName}\"'"); // todo: add ServiceName parameter!
+            Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Stop_Service.bat\" \"{m_AppData.Service.ServiceName}\"'");
             Add($"ExecWait '\"$SYSDIR\\sc.exe\" delete {m_AppData.Service.ServiceName}'");
-            AddStripline();
-            Add();
+        }
+
+        private void AddStopService()
+        {
+            if (!m_AppData.IsService) return;
+
+            AddComment("Stop service if installed and running:");
+            Add($"ExecWait '\"$SYSDIR\\cmd.exe\" /c \"$INSTDIR\\Stop_Service.bat\" \"{m_AppData.Service.ServiceName}\"'");
         }
     }
 }
