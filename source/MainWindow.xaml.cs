@@ -45,7 +45,7 @@ using ExtendedXmlSerializer;
 using System.Windows.Input;
 using GeNSIS.Core.Enums;
 using System.Threading.Tasks;
-
+using MdXaml;
 
 namespace GeNSIS
 {
@@ -999,12 +999,35 @@ namespace GeNSIS
         private void OnFilesKeyDown(object sender, KeyEventArgs e)
         {
             Log.Info($"Files: User pressed Key:{e.Key}.");
-            if (lsb_Files.SelectedItems.Count == 0) return;
+            if (lsb_Files.SelectedItems.Count == 0) 
+                return;
 
-            if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) && (e.Key == Key.A)))
-                lsb_Files.SelectAll();
-            if (e.Key == Key.Subtract || e.Key == Key.OemMinus || e.Key == Key.Delete)
-                AppData.Files.RemoveRange(lsb_Files.GetSelectedItems<FileSystemItemVM>());
+            switch(e.Key)
+            {
+                case Key.A: // All (Select All).
+                    lsb_Files.SelectAll();
+                break;
+
+                case Key.C: // Clear (Remove All).
+                lsb_Files.UnselectAll();
+                break;
+
+                case Key.N: // None (Select None / Unselect All).
+                    AppData.Files.Clear();
+                break;
+
+                case Key.S: // Sort.
+                    AppData.Files.Sort(AppData.Files.OrderBy(x => x.FSType).ThenBy(x => Path.GetExtension(x.Path)).ThenBy(x => x.Name));
+                break;
+
+                // Remove / Delete.
+                case Key.R:
+                case Key.Subtract:
+                case Key.OemMinus:
+                case Key.Delete:
+                    AppData.Files.RemoveRange(lsb_Files.GetSelectedItems<FileSystemItemVM>());
+                break;
+            }  
         }
 
         private void OnFirewallRulesKeyDown(object sender, KeyEventArgs e)
@@ -1201,6 +1224,30 @@ namespace GeNSIS
 
                 await Dispatcher.BeginInvoke(() => LoadScriptFromFile(x.Tag as string));
             }
+        }
+
+        private void OnTestMarkdownClicked(object sender, RoutedEventArgs e)
+        {
+            mdxaml_ScrollViewer.Markdown = @"
+# Title
+Some text.
+
+## Subtitle
+An unordered list:
+- one
+- two
+- thre
+
+An ordered list:
+1. one
+1. two
+1. three
+1. four
+
+*Links* **with** ***image*** [![faviicon](https://www.google.com/favicon.ico)](https://www.google.com ""google favicon"")
+
+![attrnm](C:\Users\pedra\Pictures\2023-09-17 10_46_56-VirtualBoxVM.png)
+";
         }
     }
 }

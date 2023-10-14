@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
+using ExtendedXmlSerializer.Core.Sources;
 using GeNSIS.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace GeNSIS.Core.Extensions
 {
@@ -81,6 +83,18 @@ namespace GeNSIS.Core.Extensions
                 if (oldIndex >= pObservableCollection.Count - 1) 
                     continue;
                 pObservableCollection.Move(oldIndex, oldIndex + 1);
+            }
+        }
+
+        public static void Sort<T>(this ObservableCollection<T> pObservableCollection, IOrderedEnumerable<T> pOrderedEnumerable)
+        {
+            var list = pOrderedEnumerable.ToList();
+            foreach (var item in list)
+            {
+                int oldIndex = pObservableCollection.IndexOf(item);
+                int newIndex = list.IndexOf(item);
+                if (oldIndex != newIndex)
+                    pObservableCollection.Move(oldIndex, newIndex);
             }
         }
     }

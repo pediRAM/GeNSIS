@@ -7,6 +7,7 @@
         xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
         xmlns:enum="clr-namespace:GeNSIS.Core.Enums"
+        xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml"
         mc:Ignorable="d"
         Height="768" Width="1024" MinHeight="700" MinWidth="900">
     <Window.Resources>
@@ -289,7 +290,7 @@
                                         <ColumnDefinition Width="16"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Width="16" Source="Resources/Icons/nuvola/22x22/kblackbox.png" />
+                                    <Image Grid.Column="0" Width="16" Source="{StaticResource icon_folder}" />
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=Name}" Margin="5,2,2,2"/>
                                 </Grid>
                                 
@@ -851,6 +852,33 @@
                         <Button Content="{StaticResource btn_save_script}"        Click="OnSaveScriptClicked"        Style="{StaticResource button_command}" IsEnabled="{Binding Files.Count, Converter={conv:ZeroToBooleanConverter}}"/>
                         <Button Content="{StaticResource btn_compile}"            Click="OnCompileScript"            Style="{StaticResource button_command}" />
                     </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="TEST!" Visibility="Collapsed">
+                <Grid>
+                    <mdxaml:MarkdownScrollViewer x:Name="mdxaml_ScrollViewer" xml:space="preserve" Style="{StaticResource mdxaml_scrollviewer}" MarkdownStyleName="GithubLike" >
+# Title
+Some text.
+                        
+
+## Subtitle
+An unordered list:
+- one
+- two
+- thre
+
+An ordered list:
+1. one
+1. two
+1. three
+1. four
+
+*Links* **with** ***image*** [![faviicon](https://www.google.com/favicon.ico)](https://www.google.com ""google favicon"")
+
+![attrnm](C:\Users\pedra\Pictures\2023-09-17 10_46_56-VirtualBoxVM.png)
+                    </mdxaml:MarkdownScrollViewer>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Click="OnTestMarkdownClicked" >Test Markdown!</Button>
                 </Grid>
             </TabItem>
 

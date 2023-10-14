@@ -28,6 +28,9 @@
 
         public virtual void Add(string pFilePath)
         {
+            if (string.IsNullOrWhiteSpace(pFilePath))
+                return;
+
             var foundPath = Files.FirstOrDefault(p => p.Equals(pFilePath, System.StringComparison.OrdinalIgnoreCase));
             if (foundPath == null)
             {
@@ -58,7 +61,7 @@
         {
             Clear();
             if (File.Exists(m_Path))
-                AddRange(m_DeSerializer.Deserialize<string[]>(File.ReadAllText(m_Path, encoding: System.Text.Encoding.UTF8)));
+                AddRange(m_DeSerializer.Deserialize<string[]>(File.ReadAllText(m_Path, encoding: System.Text.Encoding.UTF8)).Where(x => !string.IsNullOrWhiteSpace(x)));
         }
 
         public void Save()
