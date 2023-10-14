@@ -21,6 +21,8 @@ namespace GeNSIS.Core
 {
     internal static class GConst
     {
+        public const int MAX_LAST_FILES = 5;
+
         public const string FLAG_PATH = "Resources/Icons/Flags";
         
         public static class Nsis

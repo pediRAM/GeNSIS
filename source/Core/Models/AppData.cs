@@ -39,6 +39,7 @@ namespace GeNSIS.Core.Models
         public bool IsService { get; set; }
 
         [XmlElement]
+        [XmlElement(typeof(ServiceData))]
         public IServiceData Service { get; set; } = new ServiceData();
 
         [XmlElement]

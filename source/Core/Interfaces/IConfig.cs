@@ -34,5 +34,7 @@ namespace GeNSIS.Core.Interfaces
         List<string> GetLastProjects();
         List<string> GetLastScripts();
         void UpdateValues(IConfig pIAppConfig);
+        void AddProjectPath(string pProjectPath);
+        void AddScriptPath(string pScriptPath);
     }
 }

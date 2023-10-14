@@ -61,6 +61,7 @@
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
+               
 
                 <!-- Menu: Project -->
                 <MenuItem Header="Project">
@@ -97,6 +98,8 @@
                             <Image Source="{StaticResource icon_export}" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <ComboBox x:Name="cbx_LastProjects" ItemsSource="{Binding LasProjects}" Width="250"/>
+                    <ComboBox x:Name="cbx_LastScripts" ItemsSource="{Binding LastScripts}" Width="250"/>
                 </MenuItem>
 
                 <!-- Menu: Script -->

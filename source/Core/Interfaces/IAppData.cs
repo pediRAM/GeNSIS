@@ -57,6 +57,7 @@ namespace GeNSIS.Core.Interfaces
         string Url { get; }
 
         string InstallerFileName { get; }
+
         string InstallerIcon { get; }
         string InstallerHeaderImage { get; }
         string InstallerWizardImage { get; }

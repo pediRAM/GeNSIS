@@ -21,6 +21,7 @@ namespace GeNSIS.Core.Models
 {
     using GeNSIS.Core.Interfaces;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class Config : IConfig
     {
@@ -72,6 +73,24 @@ namespace GeNSIS.Core.Models
 
             LastProjects = pIAppConfig.GetLastProjects();
             LastScripts = pIAppConfig.GetLastScripts();
+        }
+
+        public void AddProjectPath(string pProjectPath)
+        {
+            if (!LastProjects.Any(p => p.Equals(pProjectPath, System.StringComparison.OrdinalIgnoreCase)))
+                LastProjects.Insert(0, pProjectPath);
+
+            if (LastProjects.Count > GConst.MAX_LAST_FILES)
+                LastProjects.RemoveAt(LastProjects.Count - 1);
+        }
+
+        public void AddScriptPath(string pScriptPath)
+        {
+            if (!LastScripts.Any(p => p.Equals(pScriptPath, System.StringComparison.OrdinalIgnoreCase)))
+                LastScripts.Insert(0, pScriptPath);
+
+            if (LastScripts.Count > GConst.MAX_LAST_FILES)
+                LastScripts.RemoveAt(LastScripts.Count - 1);
         }
     }
 }

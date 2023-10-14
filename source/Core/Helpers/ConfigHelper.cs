@@ -32,14 +32,15 @@ namespace GeNSIS.Core.Helpers
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         private static Config s_AppConfig;
-
+        private static string s_LastImagePath;
         public static Config GetAppConfig() => s_AppConfig;
         public static string GetNsisInstallationFoler() => s_AppConfig?.NsisInstallationDirectory;
         public static string GetNsisIconsFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_ICONS;
         public static string GetNsisWizardImagesFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_WIZARD_IMAGES;
         public static string GetNsisHeaderImagesFolder() => s_AppConfig?.NsisInstallationDirectory + GConst.Nsis.SUBDIR_NSIS_HEADER_IMAGES;
         public static bool AppConfigFileExists() => File.Exists(GetConfigPath());
-
+        public static void SetLastImageFolder(string pPath) => s_LastImagePath = pPath;
+        public static string GetLastImageFolder() => s_LastImagePath;
 
         private static string _configPath;
         public static string GetConfigPath()

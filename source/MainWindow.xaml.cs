@@ -102,6 +102,8 @@ namespace GeNSIS
             InitLanguages();
             IocContainer.Instance.Put<ObservableCollection<Language>>(LangDst);
             DataContext = AppData;
+            cbx_LastProjects.DataContext = m_Config;
+            cbx_LastScripts.DataContext = m_Config;
         }
 
         private void CheckAndLoadProjectPathFromArguments()
@@ -227,6 +229,9 @@ namespace GeNSIS
         private void OnGenerate(object sender, RoutedEventArgs e)
         {
             Log.Info("User clicked on OnGenerate.");
+            var res = m_MsgBoxMgr.ShowQuestion("User confirmation needed", "Generating script will overwrite your script and throw away changes!\nAre you sure you want to generate script (again)?");
+            if (res != MessageBoxResult.Yes)
+                return;
             GenerateScript();
         }
 
@@ -252,6 +257,8 @@ namespace GeNSIS
                 SaveScript(m_SaveScriptDialog.FileName, nsisCode);
                 editor.Text = nsisCode;
                 tabItem_Editor.IsSelected = true;
+
+                AddAndSaveLastScript(m_SaveScriptDialog.FileName);
             }
             catch (FileNotFoundException fnfEx)
             {
@@ -345,6 +352,16 @@ namespace GeNSIS
             ResetScriptAndPath();
         }
 
+        private AppData CreateNewProject()
+        {
+            return new AppData
+            {
+                Publisher = m_Config.Publisher,
+                Url = m_Config.Website,
+                Company = m_Config.CompanyName
+            };
+        }
+
         private void ResetScriptAndPath()
         {
             Log.Debug("Resetting script and path...");
@@ -390,6 +407,20 @@ namespace GeNSIS
             var project = new Project { AppData = AppData.ToModel() };
             m_ProjectManager.Save(m_SaveProjectDialog.FileName, project);
             AppData.ResetHasUnsavedChanges();
+
+            AddAndSaveLastProject(m_SaveProjectDialog.FileName);
+        }
+
+        private void AddAndSaveLastProject(string pFileName)
+        {
+            m_Config.AddProjectPath(pFileName);
+            ConfigHelper.WriteConfigFile(m_Config);
+        }
+
+        private void AddAndSaveLastScript(string pFileName)
+        {
+            m_Config.AddScriptPath(pFileName);
+            ConfigHelper.WriteConfigFile(m_Config);
         }
 
         private void OnSaveProjectClicked(object sender, RoutedEventArgs e)
@@ -407,6 +438,8 @@ namespace GeNSIS
             var project = new Project() { AppData = AppData.ToModel() };
             m_ProjectManager.Save(pathOfSavedProject, project);
             AppData.ResetHasUnsavedChanges();
+
+            AddAndSaveLastProject(m_SaveProjectDialog.FileName);
         }
 
         private void OnOpenProjectClicked(object sender, RoutedEventArgs e)
@@ -425,6 +458,8 @@ namespace GeNSIS
 
             LoadProject(m_OpenFilesDialog.FileName);
             CheckAllFilesAndDirsExist();
+
+            AddAndSaveLastProject(m_OpenFilesDialog.FileName);
         }
 
         /// <summary>
@@ -517,6 +552,8 @@ namespace GeNSIS
                 return;
 
             LoadScriptFromFile(m_OpenScriptDialog.FileName);
+
+            AddAndSaveLastScript(m_OpenScriptDialog.FileName);
         }
 
         private void LoadScriptFromFile(string pScriptPath)
@@ -560,9 +597,15 @@ namespace GeNSIS
         {
             pFileName = null;
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
-            FileDialogHelper.InitDir(m_OpenImageDialog, ConfigHelper.GetNsisIconsFolder());
+
+            if (ConfigHelper.GetLastImageFolder() == null)
+                FileDialogHelper.InitDir(m_OpenImageDialog, ConfigHelper.GetNsisIconsFolder());
+            else
+                FileDialogHelper.InitDir(m_OpenImageDialog, ConfigHelper.GetLastImageFolder());
+
             if (m_OpenImageDialog.ShowDialog() == true)
             {
+                ConfigHelper.SetLastImageFolder(Path.GetDirectoryName(m_OpenImageDialog.FileName));
                 try
                 {
                     var fi = new FileInfo(m_OpenImageDialog.FileName);
@@ -600,9 +643,15 @@ namespace GeNSIS
         {
             pFileName = null;
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.BITMAP;
-            m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisWizardImagesFolder();
+
+            if (ConfigHelper.GetLastImageFolder() == null)
+                m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisWizardImagesFolder();
+            else
+                m_OpenImageDialog.InitialDirectory = ConfigHelper.GetLastImageFolder();
+
             if (m_OpenImageDialog.ShowDialog() == true)
             {
+                ConfigHelper.SetLastImageFolder(Path.GetDirectoryName(m_OpenImageDialog.FileName));
                 try
                 {
                     var fi = new FileInfo(m_OpenImageDialog.FileName);
@@ -644,9 +693,15 @@ namespace GeNSIS
         {
             pFileName = null;
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.BITMAP;
-            m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisHeaderImagesFolder();
+
+            if (ConfigHelper.GetLastImageFolder() == null)
+                m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisHeaderImagesFolder();
+            else 
+                m_OpenImageDialog.InitialDirectory = ConfigHelper.GetLastImageFolder();
+
             if (m_OpenImageDialog.ShowDialog() == true)
             {
+                ConfigHelper.SetLastImageFolder(Path.GetDirectoryName(m_OpenImageDialog.FileName));
                 try
                 {
                     var fi = new FileInfo(m_OpenImageDialog.FileName);
