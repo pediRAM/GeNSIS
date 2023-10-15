@@ -553,12 +553,29 @@ namespace GeNSIS
             Log.Info("User clicked SaveScript.");
             if (string.IsNullOrWhiteSpace(PathToGeneratedNsisScript))
             {
-                _ = m_MsgBoxMgr.ShowNoGeneratedScriptFileError();
+                //_ = m_MsgBoxMgr.ShowNoGeneratedScriptFileError();
+                OnSaveScriptAsClicked(sender, e);
                 return;
             }
 
             File.WriteAllText(PathToGeneratedNsisScript, editor.Text, Encoding.UTF8);
             _ = m_MsgBoxMgr.ShowSavingScriptSucceededInfo();
+        }
+
+        private void OnSaveScriptAsClicked(object sender, RoutedEventArgs e)
+        {
+            Log.Info("User clicked SaveScriptAs.");
+
+            FileDialogHelper.InitDir(m_SaveScriptDialog, m_Config.ScriptsDirectory);
+            m_SaveScriptDialog.FileName = PathHelper.GetNewScriptName(AppData);
+            m_SaveScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
+
+            if (m_SaveScriptDialog.ShowDialog() != true)
+                return;
+
+            PathToGeneratedNsisScript = m_SaveScriptDialog.FileName;
+            File.WriteAllText(PathToGeneratedNsisScript, editor.Text, Encoding.UTF8);
+            AddAndSaveLastScript(m_SaveScriptDialog.FileName);
         }
         #endregion Methods
 
@@ -1248,6 +1265,20 @@ An ordered list:
 
 ![attrnm](C:\Users\pedra\Pictures\2023-09-17 10_46_56-VirtualBoxVM.png)
 ";
+        }
+
+        private async void OnTextEditorKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                switch(e.Key)
+                {
+                    case Key.S: // Save / Save as...
+                    e.Handled = false;
+                    await Dispatcher.BeginInvoke(() => OnSaveScriptClicked(sender, e));
+                    return;
+                }
+            }
         }
     }
 }

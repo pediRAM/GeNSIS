@@ -132,6 +132,16 @@
                             <Image Source="{StaticResource icon_open_script}" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <MenuItem Header="Save" Click="OnSaveScriptClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_save}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Save as ..." Click="OnSaveScriptAsClicked">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource icon_save_as}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="Open in extern editor" Click="OnOpenScriptInExternEditor">
                         <MenuItem.Icon>
                             <Image Source="{StaticResource icon_editor}" />
@@ -836,7 +846,7 @@
                         </MenuItem>
                     </Menu>-->
                     <!-- Editor -->
-                    <avl:TextEditor x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource editor}" AllowDrop="True" Drop="OnScriptDropped">
+                    <avl:TextEditor x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource editor}" AllowDrop="True" Drop="OnScriptDropped" Keyboard.KeyDown="OnTextEditorKeyDown" >
                         <avl:TextEditor.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Remove empty or comment lines" Click="OnRemoveEmptyLinesAndCommentsClicked" />
