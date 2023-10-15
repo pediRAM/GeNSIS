@@ -256,10 +256,26 @@
                         </ListBox.ItemTemplate>
                         <ListBox.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Add folder..."    Icon="{StaticResource icon_files}"  Click="OnAddFilesFromFolderClicked" />
-                                <MenuItem Header="Add files..."     Icon="{StaticResource icon_files}"  Click="OnAddFilesClicked" />
-                                <MenuItem Header="Remove selected"  Icon="{StaticResource icon_remove}" Click="OnRemoveSelectedFilesClicked" />
-                                <MenuItem Header="Clear"            Icon="{StaticResource icon_clear}"  Click="OnClearFilesClicked" />
+                                <MenuItem Header="Add folder..." Click="OnAddFilesFromFolderClicked" >
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource icon_files}"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Add files..." Click="OnAddFilesClicked"  >
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource icon_files}"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Remove selected" Click="OnRemoveSelectedFilesClicked"  >
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource icon_remove}"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Clear" Click="OnClearFilesClicked"  >
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource icon_clear}"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </ContextMenu>
                         </ListBox.ContextMenu>
                     </ListBox>
