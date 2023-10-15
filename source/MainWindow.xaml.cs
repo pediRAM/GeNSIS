@@ -1274,7 +1274,7 @@ An ordered list:
                 switch(e.Key)
                 {
                     case Key.S: // Save / Save as...
-                    e.Handled = false;
+                    e.Handled = true;
                     await Dispatcher.BeginInvoke(() => OnSaveScriptClicked(sender, e));
                     return;
                 }
