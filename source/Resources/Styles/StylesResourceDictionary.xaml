@@ -5,11 +5,18 @@
                     xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml">
 
     <sys:Double x:Key="Radius">5</sys:Double>
+    <sys:Double x:Key="RadiusCheckBox">2</sys:Double>
     <CornerRadius x:Key="RoundCorner" 
                   TopLeft="{StaticResource ResourceKey=Radius}"
                   TopRight="{StaticResource ResourceKey=Radius}"
                   BottomLeft="{StaticResource ResourceKey=Radius}"
                   BottomRight="{StaticResource ResourceKey=Radius}"/>
+
+    <CornerRadius x:Key="RoundCornerCheckBox" 
+                  TopLeft="{StaticResource ResourceKey=RadiusCheckBox}"
+                  TopRight="{StaticResource ResourceKey=RadiusCheckBox}"
+                  BottomLeft="{StaticResource ResourceKey=RadiusCheckBox}"
+                  BottomRight="{StaticResource ResourceKey=RadiusCheckBox}"/>
 
     <Style TargetType="Menu">
         <Setter Property="Padding" Value="15,0,0,5"/>
@@ -137,7 +144,7 @@
         <Setter Property="IsThreeState" Value="False" />
         <Style.Resources>
             <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCornerCheckBox}"/>
             </Style>
         </Style.Resources>
     </Style>
