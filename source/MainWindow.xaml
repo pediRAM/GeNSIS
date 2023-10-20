@@ -217,11 +217,13 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="7*"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="3*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+
+                        
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="5"/>
                     </Grid.RowDefinitions>
@@ -304,11 +306,23 @@
                         </StackPanel>
                     </Grid>
 
-                    <Rectangle Grid.Row="1" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
+                    <!-- ExeName (string) -->
+                    <Label   Grid.Row="3" Grid.Column="0" Content="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource label_input}" />
+                    <TextBox Grid.Row="3" Grid.Column="1" x:Name="txb_ExeName" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
+                    <Image   Grid.Row="3" Grid.Column="1" Style="{StaticResource image_warn_empty}" Visibility="{Binding ExeName, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}" />
+
+
+                    <!-- License (string) -->
+                    <Label   Grid.Row="4" Grid.Column="0" Content="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource label_input}" />
+                    <TextBox Grid.Row="4" Grid.Column="1" x:Name="txb_License" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
+                    <Image   Grid.Row="4" Grid.Column="1" Style="{StaticResource image_warn_empty}" Visibility="{Binding License, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}"/>
+
+
+                    <Rectangle Grid.Row="5" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
 
                     <!-- Directories (List<Directory>) -->
-                    <Label   Visibility="Visible"   Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
-                    <ListBox   Visibility="Visible"   x:Name="lsb_Directories"  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
+                    <Label   Visibility="Visible"   Grid.Row="6" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
+                    <ListBox   Visibility="Visible"   x:Name="lsb_Directories"  Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -323,24 +337,13 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <StackPanel   Visibility="Visible"   Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left">
+                    <StackPanel   Visibility="Visible"   Grid.Row="6" Grid.Column="2" HorizontalAlignment="Left">
                         <Button x:Name="btn_AddDirectory"    Style="{StaticResource button_command}" Click="OnAddDirectoryClicked" Content="Add..."/>
                         <Button x:Name="btn_RemoveDirectory" Style="{StaticResource button_command}" Content="Remove selected" Command="{Binding Path=RemoveSelectedDirectoryCommand}" CommandParameter="{Binding ElementName=lsb_Directories, Path=SelectedItem}"/>
                     </StackPanel>
 
                     <Rectangle   Visibility="Collapsed"   Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
 
-                    <!-- ExeName (string) -->
-                    <Label   Grid.Row="4" Grid.Column="0" Content="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource label_input}" />
-                    <TextBox Grid.Row="4" Grid.Column="1" x:Name="txb_ExeName" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
-                    <Image   Grid.Row="4" Grid.Column="1" Style="{StaticResource image_warn_empty}" Visibility="{Binding ExeName, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}" />
-
-                    <Rectangle Grid.Row="5" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
-
-                    <!-- License (string) -->
-                    <Label   Grid.Row="6" Grid.Column="0" Content="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource label_input}" />
-                    <TextBox Grid.Row="6" Grid.Column="1" x:Name="txb_License" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
-                    <Image   Grid.Row="6" Grid.Column="1" Style="{StaticResource image_warn_empty}" Visibility="{Binding License, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}"/>
 
                 </Grid>
             </TabItem>
