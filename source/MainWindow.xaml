@@ -230,13 +230,14 @@
 
                     <!-- Files (List<string>) -->
                     <Label     Grid.Row="0" Grid.Column="0" Content="{StaticResource label_files}"    ToolTip="{StaticResource tt_files}" Style="{StaticResource label_input}" />
-                    <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files}" AllowDrop="True" Drop="OnDirectoryDroped" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}" KeyDown="OnFilesKeyDown">
+                    <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files}" HorizontalContentAlignment="Stretch" AllowDrop="True" Drop="OnDirectoryDroped" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}" KeyDown="OnFilesKeyDown">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="16"/>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="18"/>
                                     </Grid.ColumnDefinitions>
                                         <Image Grid.Column="0">
                                             <Image.Style>
@@ -252,7 +253,10 @@
                                                 </Style>
                                             </Image.Style>
                                         </Image>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=Name}" Margin="5,2,2,2"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=Name}" Margin="5,2,2,2"/>
+                                    <Button Grid.Column="2" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding}" Tag="{Binding}" Click="OnRemoveThisFile" >
+                                        <Image Source="{StaticResource icon_clear}"/>
+                                    </Button>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -322,16 +326,20 @@
 
                     <!-- Directories (List<Directory>) -->
                     <Label   Visibility="Visible"   Grid.Row="6" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
-                    <ListBox   Visibility="Visible"   x:Name="lsb_Directories"  Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
+                    <ListBox   Visibility="Visible"   x:Name="lsb_Directories" HorizontalContentAlignment="Stretch"  Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="16"/>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="18"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" Width="16" Source="{StaticResource icon_folder}" />
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=Name}" Margin="5,2,2,2"/>
+                                    <Button Grid.Column="2" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding}" Tag="{Binding}" Click="OnRemoveThisComponent" >
+                                        <Image Source="{StaticResource icon_clear}"/>
+                                    </Button>
                                 </Grid>
                                 
                             </DataTemplate>
@@ -451,7 +459,7 @@
                     
 
                     <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_ports}"                 ToolTip="{StaticResource tt_ports}" Style="{StaticResource label_input}" />
-                    <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="Example: 1000 2000 3000-3099" ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}" Width="300" />
+                    <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="Example: 1000 2000 3000-3099" ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}"  />
                     
                     <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button Content="Add TCP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddTcpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
@@ -459,10 +467,26 @@
                         <Button Content="Add Both" Style="{StaticResource button_sort}" Command="{Binding Path=AddBothFWRulesCommand}" CommandParameter="{Binding ElementName=txb_Ports, Path=Text}" />
                     </StackPanel>
 
-                        <Rectangle   Visibility="Visible"   Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
+                        <Rectangle   Visibility="Collapsed"   Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
 
                     <Label     Grid.Row="4" Grid.Column="0" Content="{StaticResource label_firewall_rules}"    ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource label_input}" />
-                    <ListBox   Grid.Row="4" Grid.Column="1" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" KeyDown="OnFirewallRulesKeyDown" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}" />
+                        <ListBox   Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Stretch" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" KeyDown="OnFirewallRulesKeyDown" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="18"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding}" Margin="5,2,2,2"/>
+                                        <Button Grid.Column="1" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding}" Tag="{Binding}" Click="OnRemoveThisFWRule" >
+                                            <Image Source="{StaticResource icon_clear}"/>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
 
 
                     <!-- Firewall Remove/Clear Buttons (right of FW ListBox) -->
@@ -626,7 +650,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <RadioButton Grid.Column="0" x:Name="rdbCustom" GroupName="InstallTarget" Content="Custom"     IsChecked="{Binding InstallationTarget, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.Custom}}"   ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
-                            <TextBox Grid.Column="1" Text="{Binding CustomInstallDir}" IsEnabled="{Binding ElementName=rdbCustom, Path=IsChecked}" Style="{StaticResource textbox_input_max_len}"  />
+                            <TextBox Grid.Column="1" Text="{Binding CustomInstallDir}" IsEnabled="{Binding ElementName=rdbCustom, Path=IsChecked}" Style="{StaticResource textbox_input_max_len}" HorizontalAlignment="Left" Width="500" />
                         </Grid>
                     </StackPanel>
                     
@@ -637,11 +661,11 @@
                     <Rectangle Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
 
                     <!-- Installer Filename (string) -->
-                    <Label      Grid.Row="6" Grid.Column="0" Content="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource label_input}" />
-                    <TextBox    Grid.Row="6" Grid.Column="1" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" HorizontalAlignment="Center" Width="300" />
-                    <StackPanel Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" >
-                        <Button Content="Reset"  Command="{Binding ResetInstallerNameCommand}"      Style="{StaticResource button_sort}"/>
-                        <Button Content="Static" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_sort}"/>
+                    <Label      Grid.Row="7" Grid.Column="0" Content="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource label_input}" />
+                    <TextBox    Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" HorizontalAlignment="Left" Width="600" />
+                    <StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" >
+                        <Button Content="Automatic"  Command="{Binding ResetInstallerNameCommand}"      Style="{StaticResource button_sort}"/>
+                        <Button Content="Custom" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_sort}"/>
                         <Button Content="Clear" Command="{Binding ClearInstallerNameCommand}"       Style="{StaticResource button_sort}"/>
                     </StackPanel>
                     
@@ -677,10 +701,16 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="18"/>
                                             </Grid.ColumnDefinitions>
                                             <Image Grid.Column="0" Source="{Binding Path=Flag}" Height="16" Width="24" Stretch="Uniform"/>
                                             <Label Grid.Column="1" Content="{Binding Path=DisplayName}"/>
-                                        </Grid>
+                                       
+                                            <Button Grid.Column="3" Style="{StaticResource button_remove_listitem}" ToolTip="Add"  Tag="{Binding}" Click="OnAddThisLanguage" >
+                                                <Image Source="{StaticResource icon_add}"/>
+                                            </Button>
+
+                                    </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
@@ -706,9 +736,13 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="18"/>
                                         </Grid.ColumnDefinitions>
                                         <Image Grid.Column="0" Source="{Binding Path=Flag}" Height="16" Width="24" Stretch="Uniform"/>
                                         <Label Grid.Column="1" Content="{Binding Path=DisplayName}"/>
+                                        <Button Grid.Column="3" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding}" Tag="{Binding}" Click="OnRemoveThisLanguage" >
+                                            <Image Source="{StaticResource icon_remove}"/>
+                                        </Button>
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

@@ -4,6 +4,8 @@
                     xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
                     xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml">
 
+    <sys:Double x:Key="input_ui_width">250</sys:Double>
+    
     <sys:Double x:Key="Radius">5</sys:Double>
     <sys:Double x:Key="RadiusCheckBox">2</sys:Double>
     <CornerRadius x:Key="RoundCorner" 
@@ -103,7 +105,7 @@
     <Style x:Key="textbox_input" TargetType="TextBox">
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="2" />
-        <Setter Property="Width" Value="200" />
+        <Setter Property="Width" Value="{StaticResource input_ui_width}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -170,16 +172,26 @@
         </Style.Resources>
     </Style>
 
+    <Style x:Key="button_remove_listitem" TargetType="Button">
+        <Setter Property="Width" Value="18"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
     <Style x:Key="listbox_files" TargetType="ListBox" BasedOn="{StaticResource listbox_base}">
-        <Setter Property="Width" Value="200"/>
+        <Setter Property="Width" Value="{StaticResource input_ui_width}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
     </Style>
 
     <Style x:Key="listbox_languages" TargetType="ListBox" BasedOn="{StaticResource listbox_base}">
         <Setter Property="Background" Value="#fcfcfc"/>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     </Style>
 
     <Style x:Key="listbox_firewall_rules" TargetType="ListBox" BasedOn="{StaticResource listbox_files}">
         <Setter Property="Height" Value="100"/>
+        <Setter Property="Width" Value="{StaticResource input_ui_width}"/>
     </Style>
 
     <Style x:Key="listbox_directories" TargetType="ListBox">
@@ -395,7 +407,7 @@
     <Style x:Key="combobox_input" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource combobox_base}">
         <Setter Property="Margin"  Value="5" />
         <Setter Property="Padding" Value="5" />
-        <Setter Property="Width"   Value="200" />
+        <Setter Property="Width"   Value="{StaticResource input_ui_width}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment"        Value="Center" />
         <Setter Property="HorizontalAlignment"      Value="Stretch"/>

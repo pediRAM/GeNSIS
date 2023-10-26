@@ -18,12 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace GeNSIS.Core.Converters
 {
@@ -56,7 +51,22 @@ namespace GeNSIS.Core.Converters
                 case ".bat":
                 case ".cmd": return CreateImage("application-x-shellscript.png");
 
-                case ".dll": return CreateImage("kcmsystem.png");
+                case ".bin":
+                case ".cso":
+                case ".cue":
+                case ".dd":
+                case ".dll":
+                case ".exe":
+                case ".gho":
+                case ".img":
+                case ".iso":
+                case ".mdf":
+                case ".mds":
+                case ".nrg":
+                case ".rom":
+                case ".vhd":
+                case ".vmdk":
+                case ".xiso": return CreateImage("binary.png");
 
                 case ".doc":
                 case ".docx":
@@ -79,7 +89,7 @@ namespace GeNSIS.Core.Converters
 
                 case ".txt": return CreateImage("txt.png");
 
-                case ".exe": return CreateImage("preferences-system-windows.png");
+                //case ".exe": return CreateImage("preferences-system-windows.png");
 
                 default: return CreateImage("unknown.png");
             }

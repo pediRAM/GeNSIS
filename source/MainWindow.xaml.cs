@@ -47,6 +47,7 @@ using GeNSIS.Core.Enums;
 using System.Threading.Tasks;
 using MdXaml;
 
+
 namespace GeNSIS
 {
     /// <summary>
@@ -1279,6 +1280,48 @@ An ordered list:
                     return;
                 }
             }
+        }
+
+        private void OnRemoveThisFile(object sender, RoutedEventArgs e)
+        {
+            FileSystemItemVM model = (sender as System.Windows.Controls.Button).Tag as FileSystemItemVM;
+            if (m_MsgBoxMgr.ShowQuestion("User confirmation", $"Are you sure to remove \"{model.Name}\"?") == MessageBoxResult.Yes)
+            {
+                AppData.Files.Remove(model);
+            }
+        }
+
+        private void OnRemoveThisFWRule(object sender, RoutedEventArgs e)
+        {
+            FirewallRuleVM model = (sender as System.Windows.Controls.Button).Tag as FirewallRuleVM;
+            if (m_MsgBoxMgr.ShowQuestion("User confirmation", $"Are you sure to remove firewall-rule \"{model}\"?") == MessageBoxResult.Yes)
+            {
+                AppData.FirewallRules.Remove(model);
+            }
+        }
+
+        private void OnRemoveThisComponent(object sender, RoutedEventArgs e)
+        {
+            SectionVM model = (sender as System.Windows.Controls.Button).Tag as SectionVM;
+            if (m_MsgBoxMgr.ShowQuestion("User confirmation", $"Are you sure to remove component \"{model.Name}\"?") == MessageBoxResult.Yes)
+            {
+                AppData.Sections.Remove(model);
+            }
+        }
+
+        private void OnAddThisLanguage(object sender, RoutedEventArgs e)
+        {
+            var selectedLanguage = (sender as System.Windows.Controls.Button).Tag as Language;
+            LangSrc.Remove(selectedLanguage);
+            LangDst.Add(selectedLanguage);
+        }
+
+        private void OnRemoveThisLanguage(object sender, RoutedEventArgs e)
+        {
+            var selectedLanguage = (sender as System.Windows.Controls.Button).Tag as Language;
+            LangDst.Remove(selectedLanguage);
+            LangSrc.Add(selectedLanguage);
+            
         }
     }
 }
