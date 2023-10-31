@@ -190,12 +190,12 @@
     </Style>
 
     <Style x:Key="listbox_firewall_rules" TargetType="ListBox" BasedOn="{StaticResource listbox_files}">
-        <Setter Property="Height" Value="100"/>
+        <Setter Property="MinHeight" Value="300"/>
         <Setter Property="Width" Value="{StaticResource input_ui_width}"/>
     </Style>
 
     <Style x:Key="listbox_directories" TargetType="ListBox">
-        <!--<Setter Property="Height" Value="100"/>-->
+        <Setter Property="Width" Value="250"/>
         <Setter Property="Margin" Value="5" />
         <Style.Resources>
             <Style TargetType="Border">

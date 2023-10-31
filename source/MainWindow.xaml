@@ -8,7 +8,7 @@
         xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
         xmlns:enum="clr-namespace:GeNSIS.Core.Enums"
         xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml"
-        mc:Ignorable="d"
+        mc:Ignorable="d" 
         Height="768" Width="1024" MinHeight="700" MinWidth="900">
     <Window.Resources>
         <ResourceDictionary>
@@ -221,7 +221,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="3*"/>
+                        
 
                         
                         <RowDefinition Height="Auto"/>
@@ -237,6 +237,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="16"/>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="18"/>
                                         <ColumnDefinition Width="18"/>
                                     </Grid.ColumnDefinitions>
                                         <Image Grid.Column="0">
@@ -254,8 +255,14 @@
                                             </Image.Style>
                                         </Image>
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=Name}" Margin="5,2,2,2"/>
-                                    <Button Grid.Column="2" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding}" Tag="{Binding}" Click="OnRemoveThisFile" >
-                                        <Image Source="{StaticResource icon_clear}"/>
+                                    <Button Grid.Column="2" Style="{StaticResource button_remove_listitem}" ToolTip="Click here to set this file as the application executable file" Tag="{Binding}" Click="OnSetThisFileAsExe" Visibility="{Binding Path=Path, Converter={conv:ExeToVisibilityConverter}}" >
+                                        <Image Source="{StaticResource icon_exe}"/>
+                                    </Button>
+                                    <Button Grid.Column="2" Style="{StaticResource button_remove_listitem}" ToolTip="Click here to set this file as the license file" Tag="{Binding}" Click="OnSetThisFileAsLicense" Visibility="{Binding Path=Path, Converter={conv:LicToVisibilityConverter}}" >
+                                        <Image Source="{StaticResource icon_license}"/>
+                                    </Button>
+                                    <Button Grid.Column="3" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Tag="{Binding}" Click="OnRemoveThisFile" >
+                                        <Image Source="{StaticResource icon_remove}"/>
                                     </Button>
                                 </Grid>
                             </DataTemplate>
@@ -321,9 +328,21 @@
                     <TextBox Grid.Row="4" Grid.Column="1" x:Name="txb_License" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
                     <Image   Grid.Row="4" Grid.Column="1" Style="{StaticResource image_warn_empty}" Visibility="{Binding License, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}"/>
 
+                </Grid>
+            </TabItem>
+            
+            <!-- Tab: Components -->
+            <TabItem Header=" Components" Style="{StaticResource label_tabitem}">
+                <Grid Style="{StaticResource grid_main}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
 
-                    <Rectangle Grid.Row="5" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
-
+                    </Grid.RowDefinitions>
                     <!-- Directories (List<Directory>) -->
                     <Label   Visibility="Visible"   Grid.Row="6" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
                     <ListBox   Visibility="Visible"   x:Name="lsb_Directories" HorizontalContentAlignment="Stretch"  Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
@@ -338,10 +357,10 @@
                                     <Image Grid.Column="0" Width="16" Source="{StaticResource icon_folder}" />
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Path=Name}" Margin="5,2,2,2"/>
                                     <Button Grid.Column="2" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding}" Tag="{Binding}" Click="OnRemoveThisComponent" >
-                                        <Image Source="{StaticResource icon_clear}"/>
+                                        <Image Source="{StaticResource icon_remove}"/>
                                     </Button>
                                 </Grid>
-                                
+
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -349,9 +368,6 @@
                         <Button x:Name="btn_AddDirectory"    Style="{StaticResource button_command}" Click="OnAddDirectoryClicked" Content="Add..."/>
                         <Button x:Name="btn_RemoveDirectory" Style="{StaticResource button_command}" Content="Remove selected" Command="{Binding Path=RemoveSelectedDirectoryCommand}" CommandParameter="{Binding ElementName=lsb_Directories, Path=SelectedItem}"/>
                     </StackPanel>
-
-                    <Rectangle   Visibility="Collapsed"   Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
-
 
                 </Grid>
             </TabItem>
@@ -459,7 +475,7 @@
                     
 
                     <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_ports}"                 ToolTip="{StaticResource tt_ports}" Style="{StaticResource label_input}" />
-                    <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="Example: 1000 2000 3000-3099" ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}"  />
+                    <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="Example: 1000 2000 3000-3099" ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}" GotFocus="OnTextBoxPortsGotFocused" />
                     
                     <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button Content="Add TCP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddTcpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
@@ -481,7 +497,7 @@
                                         
                                         <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding}" Margin="5,2,2,2"/>
                                         <Button Grid.Column="1" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding}" Tag="{Binding}" Click="OnRemoveThisFWRule" >
-                                            <Image Source="{StaticResource icon_clear}"/>
+                                            <Image Source="{StaticResource icon_remove}"/>
                                         </Button>
                                     </Grid>
                                 </DataTemplate>
@@ -668,92 +684,93 @@
                         <Button Content="Custom" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_sort}"/>
                         <Button Content="Clear" Command="{Binding ClearInstallerNameCommand}"       Style="{StaticResource button_sort}"/>
                     </StackPanel>
-                    
+
                     <Rectangle Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
-                    
-                    <!-- Languages -->
-                    <Label Grid.Row="9" Grid.ColumnSpan="2" Content="Languages:" Style="{StaticResource label_input}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0" />
-                    
-                    <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
 
-                        <Label Grid.Row="0" Grid.Column="0" Content="Available languages:" Style="{StaticResource label_input}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5" />
+            <TabItem Header=" Languages" Style="{StaticResource label_tabitem}">
+                <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
 
-                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" >
-                            <Button Content="A→Z" Click="OnSortByNameClicked" Style="{StaticResource button_sort}"/>
-                            <Button Content="N→1" Click="OnSortByOrderClicked" Style="{StaticResource button_sort}"/>
-                        </StackPanel>
-                        <ListBox Grid.Row="2" Grid.Column="0" x:Name="lsb_LangSrc" Style="{StaticResource listbox_languages}" KeyDown="OnListBoxKeyDown">
-                            <ListBox.ItemTemplate>
-                                    <DataTemplate DataType="local:GeNSIS.Core.Models.Language">
-                                        <Grid Margin="0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="18"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Image Grid.Column="0" Source="{Binding Path=Flag}" Height="16" Width="24" Stretch="Uniform"/>
-                                            <Label Grid.Column="1" Content="{Binding Path=DisplayName}"/>
-                                       
-                                            <Button Grid.Column="3" Style="{StaticResource button_remove_listitem}" ToolTip="Add"  Tag="{Binding}" Click="OnAddThisLanguage" >
-                                                <Image Source="{StaticResource icon_add}"/>
-                                            </Button>
+                    </Grid.ColumnDefinitions>
 
-                                    </Grid>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Available languages:" Style="{StaticResource label_input}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5" />
 
-                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" >
-                            <Button Content="Add ▶"      Style="{StaticResource button_sort}" Click="OnAddSelectedLanguagesClicked" />
-                            <Button Content="Add all ▶"  Style="{StaticResource button_sort}" Click="OnAddAllLanguagesClicked" />
-                            <Button Content="◀ Remove"   Style="{StaticResource button_sort}" Click="OnRemoveSelectedLanguagesClicked" />
-                            <Button Content="◀ Reset"    Style="{StaticResource button_sort}" Click="OnResetLanguagesClicked" />
-                        </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button Content="A→Z" Click="OnSortByNameClicked" Style="{StaticResource button_sort}"/>
+                        <Button Content="N→1" Click="OnSortByOrderClicked" Style="{StaticResource button_sort}"/>
+                    </StackPanel>
+                    <ListBox Grid.Row="2" Grid.Column="0" x:Name="lsb_LangSrc" Style="{StaticResource listbox_languages}" KeyDown="OnListBoxKeyDown">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="local:GeNSIS.Core.Models.Language">
+                                <Grid Margin="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="18"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding Path=Flag}" Height="16" Width="24" Stretch="Uniform"/>
+                                    <Label Grid.Column="1" Content="{Binding Path=DisplayName}"/>
 
-                        <Label Grid.Row="0" Grid.Column="2" Content="Added to Installer:" Style="{StaticResource label_input}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5"/>
+                                    <Button Grid.Column="3" Style="{StaticResource button_remove_listitem}" ToolTip="Add"  Tag="{Binding}" Click="OnAddThisLanguage" >
+                                        <Image Source="{StaticResource icon_add}"/>
+                                    </Button>
 
-                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" >
-                            <Button Content="A→Z" Click="OnSortDstByNameClicked" Style="{StaticResource button_sort}"/>
-                            <Button Content="N→1" Click="OnSortDstByOrderClicked" Style="{StaticResource button_sort}"/>
-                        </StackPanel>
-                        <ListBox Grid.Row="2" Grid.Column="2" x:Name="lsb_LangDst" Style="{StaticResource listbox_languages}" >
-                            <ListBox.ItemTemplate>
-                                <DataTemplate DataType="local:GeNSIS.Core.Models.Language">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="18"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Source="{Binding Path=Flag}" Height="16" Width="24" Stretch="Uniform"/>
-                                        <Label Grid.Column="1" Content="{Binding Path=DisplayName}"/>
-                                        <Button Grid.Column="3" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding}" Tag="{Binding}" Click="OnRemoveThisLanguage" >
-                                            <Image Source="{StaticResource icon_remove}"/>
-                                        </Button>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" >
-                            <Button Content="⤒" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToBeginClicked" />
-                            <Button Content="↑" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToPrevClicked" />
-                            <Button Content="↓" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToNextClicked" />
-                            <Button Content="⤓" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToEndClicked"  />
-                        </StackPanel>
-                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" >
+                        <Button Content="Add ▶"      Style="{StaticResource button_sort}" Click="OnAddSelectedLanguagesClicked" />
+                        <Button Content="Add all ▶"  Style="{StaticResource button_sort}" Click="OnAddAllLanguagesClicked" />
+                        <Button Content="◀ Remove"   Style="{StaticResource button_sort}" Click="OnRemoveSelectedLanguagesClicked" />
+                        <Button Content="◀ Reset"    Style="{StaticResource button_sort}" Click="OnResetLanguagesClicked" />
+                    </StackPanel>
+
+                    <Label Grid.Row="0" Grid.Column="2" Content="Added to Installer:" Style="{StaticResource label_input}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5"/>
+
+                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button Content="A→Z" Click="OnSortDstByNameClicked" Style="{StaticResource button_sort}"/>
+                        <Button Content="N→1" Click="OnSortDstByOrderClicked" Style="{StaticResource button_sort}"/>
+                    </StackPanel>
+                    <ListBox Grid.Row="2" Grid.Column="2" x:Name="lsb_LangDst" Style="{StaticResource listbox_languages}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="local:GeNSIS.Core.Models.Language">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="18"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding Path=Flag}" Height="16" Width="24" Stretch="Uniform"/>
+                                    <Label Grid.Column="1" Content="{Binding Path=DisplayName}"/>
+                                    <Button Grid.Column="3" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding}" Tag="{Binding}" Click="OnRemoveThisLanguage" >
+                                        <Image Source="{StaticResource icon_remove}"/>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                        <Button Content="⤒" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToBeginClicked" />
+                        <Button Content="↑" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToPrevClicked" />
+                        <Button Content="↓" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToNextClicked" />
+                        <Button Content="⤓" Style="{StaticResource button_up_down_sel_elem}" Click="OnMoveSelectedLanguagesToEndClicked"  />
+                    </StackPanel>
                 </Grid>
             </TabItem>
 

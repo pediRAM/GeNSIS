@@ -50,12 +50,16 @@ namespace GeNSIS.Core.Helpers
                 pAppData.Url = ConfigHelper.GetAppConfig().Website;
 
             // Simplify and set AppDataVM.AppVersion:
-            if (info.Version.EndsWith(".0.0"))
-                pAppData.AppVersion = info.Version.Substring(0, info.Version.Length - 4);
-            else if (info.Version.EndsWith(".0"))
-                pAppData.AppVersion = info.Version.Substring(0, info.Version.Length - 2);
-            else
-                pAppData.AppVersion = info.Version;
+            if (info.Version != null)
+            {
+                if (info.Version.EndsWith(".0.0"))
+                    pAppData.AppVersion = info.Version.Substring(0, info.Version.Length - 4);
+                else if (info.Version.EndsWith(".0"))
+                    pAppData.AppVersion = info.Version.Substring(0, info.Version.Length - 2);
+                else
+                    pAppData.AppVersion = info.Version;
+            }
+            
 
             // Simplify and set AppDataVM.Company and Publisher:
             var fvi = FileVersionInfo.GetVersionInfo(pAppData.ExeName.Path);

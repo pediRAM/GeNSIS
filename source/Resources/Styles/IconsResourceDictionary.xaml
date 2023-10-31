@@ -10,15 +10,16 @@
     <BitmapImage x:Key="icon_save" UriSource="../Icons/nuvola/22x22/document-save.png" />
     <BitmapImage x:Key="icon_save_as" UriSource="../Icons/nuvola/22x22/document-save-as.png" />
     <BitmapImage x:Key="icon_check" UriSource="../Icons/nuvola/22x22/check-spelling.png" />
-    
+
     <BitmapImage x:Key="icon_exit" UriSource="../Icons/nuvola/22x22/application-exit.png" />
+    <BitmapImage x:Key="icon_exe" UriSource="../Icons/nuvola/22x22/preferences-system-windows.png" />
     <BitmapImage x:Key="icon_export" UriSource="../Icons/nuvola/22x22/export.png" />
     <BitmapImage x:Key="icon_generate" UriSource="../Icons/nuvola/22x22/tools-wizard.png" />
     <BitmapImage x:Key="icon_manuals" UriSource="../Icons/nuvola/22x22/help-about.png" />
     <BitmapImage x:Key="icon_about" UriSource="../Icons/nuvola/22x22/dialog-information.png" />
     <BitmapImage x:Key="icon_search" UriSource="../Icons/nuvola/22x22/zoom.png" />
     <BitmapImage x:Key="icon_add" UriSource="../Icons/nuvola/22x22/zoom-in.png" />
-    <BitmapImage x:Key="icon_remove" UriSource="../Icons/nuvola/22x22/zoom-out.png" />
+    <BitmapImage x:Key="icon_remove" UriSource="../Icons/nuvola/22x22/cancel.png" />
     <BitmapImage x:Key="icon_clear" UriSource="../Icons/nuvola/22x22/tool_delete.png" />
     <BitmapImage x:Key="icon_note" UriSource="../Icons/nuvola/22x22/knotes.png" />
     <BitmapImage x:Key="icon_users" UriSource="../Icons/nuvola/22x22/kuser.png" />
@@ -32,6 +33,7 @@
     <BitmapImage x:Key="icon_script" UriSource="../Icons/nuvola/22x22/source.png" />
     <BitmapImage x:Key="icon_editor" UriSource="../Icons/nuvola/22x22/editor.png" />
     <BitmapImage x:Key="icon_warning" UriSource="../Icons/nuvola/22x22/messagebox_warning.png" />
+    <BitmapImage x:Key="icon_license" UriSource="../Icons/nuvola/22x22/paragraph.png" />
 
     <BitmapImage x:Key="icon_nsis" UriSource="../Icons/Installer/modern-install.ico" />
     <BitmapImage x:Key="icon_project" UriSource="../Icons/nuvola/22x22/project-open.png" />

@@ -293,6 +293,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\application-xhtml+xml.png" />
     <None Remove="Resources\Icons\nuvola\22x22\applications-internet.png" />
     <None Remove="Resources\Icons\nuvola\22x22\binary.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\cancel.png" />
     <None Remove="Resources\Icons\nuvola\22x22\check-spelling.png" />
     <None Remove="Resources\Icons\nuvola\22x22\dialog-information.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-multiple.png" />
@@ -300,6 +301,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\document-save-as.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document-save.png" />
     <None Remove="Resources\Icons\nuvola\22x22\document.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\editdelete.png" />
     <None Remove="Resources\Icons\nuvola\22x22\editor.png" />
     <None Remove="Resources\Icons\nuvola\22x22\export.png" />
     <None Remove="Resources\Icons\nuvola\22x22\folder-orange.png" />
@@ -313,6 +315,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\krec_fileempty.png" />
     <None Remove="Resources\Icons\nuvola\22x22\kuser.png" />
     <None Remove="Resources\Icons\nuvola\22x22\messagebox_warning.png" />
+    <None Remove="Resources\Icons\nuvola\22x22\paragraph.png" />
     <None Remove="Resources\Icons\nuvola\22x22\pdf.png" />
     <None Remove="Resources\Icons\nuvola\22x22\preferences-desktop-user.png" />
     <None Remove="Resources\Icons\nuvola\22x22\preferences-system-windows.png" />
@@ -618,6 +621,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\application-xhtml+xml.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\applications-internet.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\binary.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\cancel.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\check-spelling.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\dialog-information.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-multiple.png" />
@@ -625,6 +629,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\document-save-as.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document-save.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\document.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\editdelete.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\editor.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\export.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\folder-orange.png" />
@@ -638,6 +643,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\krec_fileempty.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\kuser.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\messagebox_warning.png" />
+    <Resource Include="Resources\Icons\nuvola\22x22\paragraph.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\pdf.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\preferences-desktop-user.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\preferences-system-windows.png" />

@@ -1323,5 +1323,20 @@ An ordered list:
             LangSrc.Add(selectedLanguage);
             
         }
+
+        private void OnSetThisFileAsExe(object sender, RoutedEventArgs e)
+        {
+            AppData.ExeName = (sender as System.Windows.Controls.Button).Tag as FileSystemItemVM;
+        }
+
+        private void OnSetThisFileAsLicense(object sender, RoutedEventArgs e)
+        {
+            AppData.License = (sender as System.Windows.Controls.Button).Tag as FileSystemItemVM;
+        }
+
+        private void OnTextBoxPortsGotFocused(object sender, RoutedEventArgs e)
+        {
+            txb_Ports.SelectAll();
+        }
     }
 }
