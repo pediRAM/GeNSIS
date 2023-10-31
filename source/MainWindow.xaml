@@ -475,7 +475,7 @@
                     
 
                     <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_ports}"                 ToolTip="{StaticResource tt_ports}" Style="{StaticResource label_input}" />
-                    <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="Example: 1000 2000 3000-3099" ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}" GotFocus="OnTextBoxPortsGotFocused" />
+                        <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="Example: 1000 2000 3000-3099" ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}" />
                     
                     <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button Content="Add TCP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddTcpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
@@ -483,7 +483,7 @@
                         <Button Content="Add Both" Style="{StaticResource button_sort}" Command="{Binding Path=AddBothFWRulesCommand}" CommandParameter="{Binding ElementName=txb_Ports, Path=Text}" />
                     </StackPanel>
 
-                        <Rectangle   Visibility="Collapsed"   Grid.Row="3" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}"/>
+                        <Rectangle   Visibility="Visible"   Grid.Row="3" Grid.ColumnSpan="10" Height="25"/>
 
                     <Label     Grid.Row="4" Grid.Column="0" Content="{StaticResource label_firewall_rules}"    ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource label_input}" />
                         <ListBox   Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Stretch" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" KeyDown="OnFirewallRulesKeyDown" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}">
@@ -655,9 +655,22 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
+                    <!-- Installer Filename (string) -->
+                    <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" >
+                        <Button Content="Automatic"  Command="{Binding ResetInstallerNameCommand}"      Style="{StaticResource button_sort}"/>
+                        <Button Content="Custom" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_sort}"/>
+                        <Button Content="Clear" Command="{Binding ClearInstallerNameCommand}"       Style="{StaticResource button_sort}"/>
+                    </StackPanel>
+                    
+                    <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource label_input}" />
+                    <TextBox    Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" HorizontalAlignment="Left" Width="600" />
+
+                    <Rectangle Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
+
+
                     <!-- DoInstallPerUser (bool) -->
-                    <Label Grid.Row="1" Grid.Column="0" Content="{StaticResource label_doinstallperuser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource label_input}" />
-                    <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Vertical">
+                    <Label Grid.Row="3" Grid.Column="0" Content="{StaticResource label_doinstallperuser}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource label_input}" />
+                    <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Vertical">
                         <RadioButton GroupName="InstallTarget" Content="Per user"   IsChecked="{Binding InstallationTarget, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.PerUser}}"  ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
                         <RadioButton GroupName="InstallTarget" Content="All users"  IsChecked="{Binding InstallationTarget, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enum:EInstallTargetType.AllUsers}}" ToolTip="{StaticResource tt_doinstallperuser}" Style="{StaticResource radiobutton_input}" />
                         <Grid>
@@ -669,23 +682,17 @@
                             <TextBox Grid.Column="1" Text="{Binding CustomInstallDir}" IsEnabled="{Binding ElementName=rdbCustom, Path=IsChecked}" Style="{StaticResource textbox_input_max_len}" HorizontalAlignment="Left" Width="500" />
                         </Grid>
                     </StackPanel>
+
+                    <Rectangle Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
+
                     
                     <!-- DoCreateCompanyDir (bool) -->
-                    <Label    Grid.Row="2" Grid.Column="0" Content="Nest in company directory:" Style="{StaticResource label_input}" />
-                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding DoCreateCompanyDir}" Style="{StaticResource checkbox_input}" />
+                    <Label    Grid.Row="5" Grid.Column="0" Content="Nest in company directory:" Style="{StaticResource label_input}" />
+                    <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding DoCreateCompanyDir}" Style="{StaticResource checkbox_input}" />
 
-                    <Rectangle Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
 
-                    <!-- Installer Filename (string) -->
-                    <Label      Grid.Row="7" Grid.Column="0" Content="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource label_input}" />
-                    <TextBox    Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" HorizontalAlignment="Left" Width="600" />
-                    <StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" >
-                        <Button Content="Automatic"  Command="{Binding ResetInstallerNameCommand}"      Style="{StaticResource button_sort}"/>
-                        <Button Content="Custom" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_sort}"/>
-                        <Button Content="Clear" Command="{Binding ClearInstallerNameCommand}"       Style="{StaticResource button_sort}"/>
-                    </StackPanel>
 
-                    <Rectangle Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
+
                 </Grid>
             </TabItem>
 

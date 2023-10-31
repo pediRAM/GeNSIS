@@ -1333,10 +1333,5 @@ An ordered list:
         {
             AppData.License = (sender as System.Windows.Controls.Button).Tag as FileSystemItemVM;
         }
-
-        private void OnTextBoxPortsGotFocused(object sender, RoutedEventArgs e)
-        {
-            txb_Ports.SelectAll();
-        }
     }
 }
