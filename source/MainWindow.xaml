@@ -301,7 +301,7 @@
                         </ListBox.ContextMenu>
                     </ListBox>
                     <!-- Files (Buttons) -->
-                    <Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="4" >
+                    <Grid Grid.Row="2" Grid.Column="2" Grid.RowSpan="4" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -821,7 +821,7 @@
                                 </Grid.RowDefinitions>
                                 
                                 <!-- Welcome Page -->
-                                <Border Grid.Row="0" Margin="10,10,10,25" BorderBrush="Black" BorderThickness="3" ToolTip="Welcome Page">
+                                <Border Grid.Row="0" ToolTip="Welcome Page" Style="{StaticResource border_design_page}" >
                                     <Grid >
                                         <!-- NSIS Installer Welcome Page -->
                                         <Image Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/welcome.png" />
@@ -837,7 +837,7 @@
                                 </Border>
                                 
                                 <!-- License Page -->
-                                <Border Grid.Row="1" Margin="10,25,10,25" BorderBrush="Black" BorderThickness="3" ToolTip="License Page">
+                                <Border Grid.Row="1" ToolTip="License Page" Style="{StaticResource border_design_page}">
                                     <Grid >
                                         <!-- NSIS Installer License Page -->
                                         <Image x:Name="img_License" Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/license.png" />
@@ -857,7 +857,7 @@
                                 </Border>
                                 
                                 <!-- Installing Page -->
-                                <Border Grid.Row="2" Margin="10,25,10,25" BorderBrush="Black" BorderThickness="3" ToolTip="Installing Progress Page">
+                                <Border Grid.Row="2" ToolTip="Installing Progress Page" Style="{StaticResource border_design_page}">
                                     <Grid>
                                         <!-- NSIS Installer License Page -->
                                         <Image x:Name="img_License2" Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/installation.png" />
@@ -877,7 +877,7 @@
                                 </Border>
                                 
                                 <!-- Finish Page -->
-                                <Border Grid.Row="3" Margin="10,25,10,25" BorderBrush="Black" BorderThickness="3" ToolTip="Installation Completion Page">
+                                <Border Grid.Row="3" ToolTip="Installation Completion Page" Style="{StaticResource border_design_page}">
                                     <Grid >
                                         <!-- NSIS Installer Welcome Page -->
                                         <Image Width="747" Height="581" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Source="Resources/Images/Installer/Original/finish.png" />

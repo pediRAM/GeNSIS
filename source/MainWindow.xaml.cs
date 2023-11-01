@@ -46,7 +46,7 @@ using System.Windows.Input;
 using GeNSIS.Core.Enums;
 using System.Threading.Tasks;
 using MdXaml;
-
+using System.Text.RegularExpressions;
 
 namespace GeNSIS
 {
@@ -925,7 +925,7 @@ namespace GeNSIS
             var items = lsb_LangDst.GetSelectedItems<Language>();
             pAction(items);
         }
-
+        private static readonly Regex m_RegexCommentLine = new Regex(@"^\s*;.*$", RegexOptions.Compiled);
         private void OnRemoveEmptyLinesAndCommentsClicked(object sender, RoutedEventArgs e)
         {
             Log.Info("User clicked RemoveEmptyLinesAndComments.");
@@ -933,7 +933,7 @@ namespace GeNSIS
             foreach (string line in editor.Text.Split("\r\n", StringSplitOptions.RemoveEmptyEntries))
             {
                 if (string.IsNullOrWhiteSpace(line)) continue;
-                if (line.StartsWith(";")) continue;
+                if (m_RegexCommentLine.IsMatch(line)) continue;
                 sb.AppendLine(line);
             }
             Dispatcher.Invoke(() => editor.Text = sb.ToString());
@@ -996,6 +996,7 @@ namespace GeNSIS
                     if (Path.GetExtension(paths[0]).Equals(".nsi", StringComparison.InvariantCultureIgnoreCase))
                     {
                         await Dispatcher.BeginInvoke(() => LoadScriptFromFile(path));
+                        AddAndSaveLastScript(path);
                         return;
                     }
                 }

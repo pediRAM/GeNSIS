@@ -11,13 +11,18 @@
 
 	<!-- This is the main ruleset. -->
 	<RuleSet>
-		<Span color="Comment" begin=";" />
+    <Span color="Comment" begin=";" />
+    <Span color="Comment" begin="#" />
     <Span color="Comment" multiline="true" begin="/\*" end="\*/" />
 		<Span color="String">
 			<Begin>"</Begin>
 			<End>"</End>
 		</Span>
 
+    <Rule color="KeyWord">
+      \$\{\w+\}
+    </Rule>
+    
     <Keywords color="GeNsisVars">
       <Word>APP_ARCH</Word>
       <Word>APP_BUILD</Word>
@@ -178,6 +183,7 @@
       <Word>MessageBox</Word>
       <Word>MiscButtonText</Word>
       <Word>Name</Word>
+      <Word>nsExec</Word>
       <Word>Nop</Word>
       <Word>OutFile</Word>
       <Word>Page</Word>
@@ -554,6 +560,8 @@
     </Keywords>
     
     <Keywords color="Const">
+      <Word>/GLOBAL</Word>
+      <Word>/r</Word>
       <Word>ARCHIVE</Word>
       <Word>CUR</Word>
       <Word>END</Word>
@@ -667,6 +675,6 @@
 			([eE][+-]?[0-9]+)? # optional exponent
 		</Rule>
 
-    <Rule foreground="Red" background="Yellow" fontWeight="bold">Label\w+:?</Rule>
+    <Rule foreground="Red" background="Yellow" fontWeight="bold">L(abel|ABEL)_\w+:?</Rule>
 	</RuleSet>
 </SyntaxDefinition>
