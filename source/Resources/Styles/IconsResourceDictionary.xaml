@@ -34,6 +34,7 @@
     <BitmapImage x:Key="icon_editor" UriSource="../Icons/nuvola/22x22/editor.png" />
     <BitmapImage x:Key="icon_warning" UriSource="../Icons/nuvola/22x22/messagebox_warning.png" />
     <BitmapImage x:Key="icon_license" UriSource="../Icons/nuvola/22x22/paragraph.png" />
+    <BitmapImage x:Key="icon_magnifier" UriSource="../Icons/Misc/magnifier.png" />
 
     <BitmapImage x:Key="icon_nsis" UriSource="../Icons/Installer/modern-install.ico" />
     <BitmapImage x:Key="icon_project" UriSource="../Icons/nuvola/22x22/project-open.png" />

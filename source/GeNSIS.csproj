@@ -284,6 +284,7 @@
     <None Remove="Resources\Icons\GeNSIS\icon128px.png" />
     <None Remove="Resources\Icons\GeNSIS\icon48px.png" />
     <None Remove="Resources\Icons\Installer\modern-install.ico" />
+    <None Remove="Resources\Icons\Misc\magnifier.png" />
     <None Remove="Resources\Icons\nuvola\22x22\alert.png" />
     <None Remove="Resources\Icons\nuvola\22x22\application-exit.png" />
     <None Remove="Resources\Icons\nuvola\22x22\application-pdf.png" />
@@ -612,6 +613,7 @@
     <Resource Include="Resources\Icons\Flags\zw.png" />
     <Resource Include="Resources\Icons\GeNSIS\icon48px.png" />
     <Resource Include="Resources\Icons\Installer\modern-install.ico" />
+    <Resource Include="Resources\Icons\Misc\magnifier.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\alert.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\application-exit.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\application-pdf.png" />

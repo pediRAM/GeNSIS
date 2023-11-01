@@ -7,7 +7,7 @@
         xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
         xmlns:enum="clr-namespace:GeNSIS.Core.Enums"
-        xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml"
+        xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml" xmlns:userinterfaces="clr-namespace:GeNSIS.Core.UserInterfaces"
         mc:Ignorable="d" 
         Height="768" Width="1024" MinHeight="700" MinWidth="900">
     <Window.Resources>
@@ -940,6 +940,9 @@
                             </ContextMenu>
                         </avl:TextEditor.ContextMenu>
                     </avl:TextEditor>
+
+                    <TextBox Grid.Row="1" Grid.ColumnSpan="3" x:Name="tbxScriptSearchbox"  Style="{StaticResource search_textbox}" KeyDown="OnScriptSearchBoxClicked" TextChanged="OnScriptSearchBoxTextChanged"/>
+                    <Image Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource search_image}"/>
 
                     <!-- Buttons -->
                     <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">

@@ -54,25 +54,25 @@ namespace GeNSIS.Core
         public const string HINT_URL = "";
         #endregion Constants
 
-        public bool IsValid(AppDataVM p, out ValidationError pError)
+        public bool IsValid(AppDataVM p, out ValidationData pError)
         {
             pError = null;
             try
             {
                 // At least 1 file for installing needed.
-                if (p.Files.Count == 0) { pError = new ValidationError(nameof(AppData.Files), ERR_EMPTY_FILES, HINT_FILES); return false; }
+                if (p.Files.Count == 0) { pError = new ValidationData(nameof(AppData.Files), ERR_EMPTY_FILES, HINT_FILES); return false; }
 
                 // There must be an exe file.
-                if (string.IsNullOrWhiteSpace(p.ExeName.Path)) { pError = new ValidationError(nameof(AppData.ExeName), ERR_EMPTY_EXENAME, HINT_EXENAME); return false; }
+                if (string.IsNullOrWhiteSpace(p.ExeName.Path)) { pError = new ValidationData(nameof(AppData.ExeName), ERR_EMPTY_EXENAME, HINT_EXENAME); return false; }
 
                 // We need an application-name for installation.
-                if (string.IsNullOrWhiteSpace(p.AppName)) { pError = new ValidationError(nameof(AppData.AppName), ERR_EMPTY_APPNAME, HINT_APPNAME); return false; }
+                if (string.IsNullOrWhiteSpace(p.AppName)) { pError = new ValidationData(nameof(AppData.AppName), ERR_EMPTY_APPNAME, HINT_APPNAME); return false; }
 
                 // We need an icon to register for app while installation.
                 //if (string.IsNullOrWhiteSpace(p.InstallerIcon)) { pError = new ValidationError(nameof(AppData.InstallerIcon), ERR_EMPTY_APPICON, HINT_APPICON); return false; }
 
                 // We need a publisher (also for company if null) for creating a direcotry in program folder.
-                if (string.IsNullOrWhiteSpace(p.Publisher)) { pError = new ValidationError(nameof(AppData.Publisher), ERR_EMPTY_PUBLISHER, HINT_PUBLISHER); return false; }
+                if (string.IsNullOrWhiteSpace(p.Publisher)) { pError = new ValidationData(nameof(AppData.Publisher), ERR_EMPTY_PUBLISHER, HINT_PUBLISHER); return false; }
 
                 // Optional (for now).
                 // todo: extend!
@@ -85,7 +85,7 @@ namespace GeNSIS.Core
             }
             catch(Exception ex)
             {
-                pError = new ValidationError("Runtime", "Exception occured!", "Inform software developer of GeNSIS please!");
+                pError = new ValidationData("Runtime", "Exception occured!", "Inform software developer of GeNSIS please!");
                 return false;
             }
             return true;

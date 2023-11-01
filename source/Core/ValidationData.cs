@@ -19,11 +19,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core
 {
-    public class ValidationError
+    public class ValidationData
     {
 
         #region Constructors
-        public ValidationError(string pName, string pError, string pHint)
+        public ValidationData(string pName, string pError, string pHint)
         {
             Name = pName;
             Error = pError;

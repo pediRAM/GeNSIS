@@ -57,6 +57,14 @@ namespace GeNSIS.Core
             public const string COMPANY_NAME = "ACME";
             public const string WEBSITE_URL = "https://example.com/";
             public const string INSTALLER_FILENAME = @"Setup_${APP_NAME}_${APP_VERSION}_${APP_BUILD}_${APP_MACHINE_TYPE}_${APP_ARCH}.exe";
+
+            public const int EDITOR_FONT_SIZE = 12;
+        }
+
+        public static class Editor
+        {
+            public const int MIN_FONT_SIZE = 8;
+            public const int MAX_FONT_SIZE = 64;
         }
     }
 }

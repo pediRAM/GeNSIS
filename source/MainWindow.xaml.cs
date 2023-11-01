@@ -47,6 +47,13 @@ using GeNSIS.Core.Enums;
 using System.Threading.Tasks;
 using MdXaml;
 using System.Text.RegularExpressions;
+using System.Windows.Controls;
+using Image = System.Drawing.Image;
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Editing;
+using ICSharpCode.AvalonEdit;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using System.Printing;
 
 namespace GeNSIS
 {
@@ -259,7 +266,7 @@ namespace GeNSIS
         {
             try
             {
-                if (!IsInputDataValid(out ValidationError error))
+                if (!IsInputDataValid(out ValidationData error))
                 {
                     _ = m_MsgBoxMgr.ShowInvalidDataError(error.ToString());
                     return;
@@ -292,7 +299,7 @@ namespace GeNSIS
             }
         }
 
-        private bool IsInputDataValid(out ValidationError pError)
+        private bool IsInputDataValid(out ValidationData pError)
         {
             var validator = new Validator();
             pError = null;
@@ -1006,12 +1013,101 @@ namespace GeNSIS
         private void OnPrintScriptClicked(object sender, RoutedEventArgs e)
         {
             Log.Info("User clicked PrintScript.");
-            var printDialog = new System.Windows.Controls.PrintDialog();
-            if (printDialog.ShowDialog() == true)
+            /*
+            try
             {
-                var rtfBox = new System.Windows.Controls.RichTextBox();
-                rtfBox.Document = DocumentPrinter.CreateFlowDocumentForEditor(editor);
-                printDialog.PrintDocument((((IDocumentPaginatorSource)rtfBox).DocumentPaginator), "printing as paginator");
+                // Create a PrintDialog
+                PrintDialog printDialog = new PrintDialog();
+
+                if (printDialog.ShowDialog() == true)
+                {
+                    // Create a MemoryStream to hold the text from the TextEditor
+                    MemoryStream stream = new MemoryStream();
+                    StreamWriter writer = new StreamWriter(stream);
+                    writer.Write(editor.Text);
+
+                    // Create a FixedDocument with a PageContent containing the TextEditor content
+                    FixedDocument document = new FixedDocument();
+                    PageContent pageContent = new PageContent();
+                    FixedPage fixedPage = new FixedPage();
+                    TextBlock textBlock = new TextBlock();
+
+                    // Configure the TextBlock to display the content with syntax highlighting
+                    textBlock.FontFamily = editor.FontFamily;
+                    textBlock.FontSize = editor.FontSize;
+                    textBlock.TextWrapping = TextWrapping.Wrap;
+                    textBlock.Text = editor.Text;
+
+                    // Add the TextBlock to the FixedPage
+                    fixedPage.Children.Add(textBlock);
+                    pageContent.Child = fixedPage;
+                    document.Pages.Add(pageContent);
+
+                    // Send the FixedDocument to the printer
+                    printDialog.PrintDocument(document.DocumentPaginator, "Print with Syntax Highlighting");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }*/
+            /*
+            try
+            {
+                // Create a PrintDialog
+                PrintDialog printDialog = new PrintDialog();
+
+                if (printDialog.ShowDialog() == true)
+                {
+                    // Create a FlowDocument with the content from the TextEditor
+                    FlowDocument flowDocument = new FlowDocument(new Paragraph(new Run(editor.Text)));
+                    
+
+                    // Create a DocumentPaginator for printing
+                    DocumentPaginator paginator = ((IDocumentPaginatorSource)flowDocument).DocumentPaginator;
+              
+
+                    // Configure the printer to print in color
+                    printDialog.PrintTicket.OutputColor = OutputColor.Color;
+
+                    // Set up the printing process
+                    printDialog.PrintDocument(paginator, "Print with Syntax Highlighting");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+            */
+            try
+            {
+                // Create a PrintDialog
+                PrintDialog printDialog = new PrintDialog();
+
+                if (printDialog.ShowDialog() == true)
+                {
+                    // Create a FlowDocument with the content from the TextEditor
+                    FlowDocument flowDocument = new FlowDocument(new Paragraph(new Run(editor.Text)));
+                    flowDocument.PageWidth = 8.27 * 96; // A4 width in pixels (96 pixels per inch)
+                    flowDocument.PageHeight = 11.69 * 96; // A4 height in pixels (96 pixels per inch)
+                    flowDocument.ColumnWidth = double.PositiveInfinity;
+                    flowDocument.TextAlignment = TextAlignment.Left;
+                    flowDocument.FontFamily = new System.Windows.Media.FontFamily("Consolas");
+                    flowDocument.FontSize = 12;
+                    flowDocument.PagePadding = new Thickness(50);
+                    // Create a PrintDocumentPaginator for printing
+                    DocumentPaginator paginator = ((IDocumentPaginatorSource)flowDocument).DocumentPaginator;
+
+                    // Configure the printer to print in color
+                    printDialog.PrintTicket.OutputColor = OutputColor.Color;
+
+                    // Set up the printing process
+                    printDialog.PrintDocument(paginator, "Print with Syntax Highlighting");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
             }
         }
 
@@ -1273,7 +1369,7 @@ An ordered list:
 ![attrnm](C:\Users\pedra\Pictures\2023-09-17 10_46_56-VirtualBoxVM.png)
 ";
         }
-
+        private string m_LastSearchString;
         private async void OnTextEditorKeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
@@ -1281,9 +1377,60 @@ An ordered list:
                 switch(e.Key)
                 {
                     case Key.S: // Save / Save as...
-                    e.Handled = true;
-                    await Dispatcher.BeginInvoke(() => OnSaveScriptClicked(sender, e));
+                        {
+                            e.Handled = true;
+                            await Dispatcher.BeginInvoke(() => OnSaveScriptClicked(sender, e));
+                        }
                     return;
+
+                    case Key.F:
+                        {
+                            e.Handled = true;
+                            if (editor.SelectionLength == 0)
+                                return;
+                            m_LastSearchString = editor.SelectedText;
+                            SearchText(editor.SelectedText);
+                        }
+                    return;
+
+                    case Key.Add:
+                    case Key.OemPlus:
+                        {
+                            e.Handled = true;
+                            editor.FontSize = editor.FontSize + 2;
+                            if (editor.FontSize > GConst.Editor.MAX_FONT_SIZE) editor.FontSize = GConst.Editor.MAX_FONT_SIZE;
+                        }
+                        return;
+
+                    case Key.Subtract:
+                    case Key.OemMinus:
+                        {
+                            e.Handled = true;
+                            editor.FontSize = editor.FontSize - 2;
+                            if (editor.FontSize < GConst.Editor.MIN_FONT_SIZE) editor.FontSize = GConst.Editor.MIN_FONT_SIZE;
+                        }
+                        return;
+
+                    case Key.D0:
+                        {
+                            e.Handled = true;
+                            editor.FontSize = GConst.Default.EDITOR_FONT_SIZE;
+                        }
+                        return;
+                }
+            }
+            else
+            {
+                switch(e.Key)
+                {
+                    case Key.F3:
+                        {
+                            e.Handled = true;
+                            if (string.IsNullOrEmpty(m_LastSearchString))
+                                return;
+                            SearchText(m_LastSearchString);
+                        }
+                        return;
                 }
             }
         }
@@ -1353,6 +1500,53 @@ An ordered list:
             {
                 ShowFileInExplorer((AppData as IAppData).GetFullPath(fsItem));
             }
+        }
+
+        private int m_LastSearchIndex = 0;
+        private void OnScriptSearchBoxClicked(object sender, KeyEventArgs e)
+        {
+            var tbx = (TextBox)sender;
+            SearchText(tbx.Text);
+        }
+
+        private void SearchText(string pNeedle)
+        {
+            if (pNeedle == null || string.IsNullOrEmpty(pNeedle) || string.IsNullOrEmpty(editor.Text))
+            {
+                m_LastSearchIndex = 0;
+                return;
+            }
+
+            int index = editor.Text.IndexOf(pNeedle, m_LastSearchIndex, StringComparison.OrdinalIgnoreCase);
+            if (index == -1)
+            {
+                m_LastSearchIndex = 0;
+                return;
+            }
+
+            editor.SelectionStart = index;
+            editor.SelectionLength = pNeedle.Length;
+            ScrollToSelectedText(index);
+            m_LastSearchIndex = index + 1;
+        }
+
+
+
+        private void ScrollToSelectedText(int offset)
+        {
+            TextArea textArea = editor.TextArea;
+            if (textArea.Selection.IsEmpty)
+                return;
+
+            TextLocation startLocation = editor.Document.GetLocation(offset);
+            textArea.Caret.BringCaretToView();
+            editor.ScrollTo(startLocation.Line, startLocation.Column);
+        }
+
+        private void OnScriptSearchBoxTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var tbx = (TextBox)sender;
+            SearchText(tbx.Text);
         }
     }
 }
