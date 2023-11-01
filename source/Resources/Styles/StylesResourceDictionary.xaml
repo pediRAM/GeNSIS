@@ -2,9 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
+                    xmlns:uis="clr-namespace:GeNSIS.Core.UserInterfaces"
                     xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml">
 
-    <sys:Double x:Key="input_ui_width">250</sys:Double>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="IconsResourceDictionary.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <sys:Double x:Key="input_ui_width">300</sys:Double>
     
     <sys:Double x:Key="Radius">5</sys:Double>
     <sys:Double x:Key="RadiusCheckBox">2</sys:Double>
@@ -163,13 +168,24 @@
     </Style>
 
     <Style x:Key="listbox_base" TargetType="ListBox">
-        <Setter Property="SelectionMode" Value="Multiple"/>
+        <Setter Property="SelectionMode" Value="Multiple"/>        
         <Setter Property="Margin" Value="5" />
         <Style.Resources>
             <Style TargetType="Border">
                 <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
             </Style>
         </Style.Resources>
+    </Style>
+
+    <Style x:Key="listboxitem_alternate" TargetType="{x:Type ListBoxItem}">        
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Style.Triggers>
+            <Trigger Property="ListBox.AlternationIndex" Value="1">
+                <Setter Property="Background" Value="#eeeeee"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="button_remove_listitem" TargetType="Button">
@@ -179,6 +195,8 @@
     </Style>
 
     <Style x:Key="listbox_files" TargetType="ListBox" BasedOn="{StaticResource listbox_base}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="AlternationCount" Value="3"/>
         <Setter Property="Width" Value="{StaticResource input_ui_width}"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
     </Style>
@@ -195,7 +213,10 @@
     </Style>
 
     <Style x:Key="listbox_directories" TargetType="ListBox">
-        <Setter Property="Width" Value="250"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="AlternationCount" Value="3"/>
+        <Setter Property="Width" Value="{StaticResource input_ui_width}"/>
+        <!--<Setter Property="Width" Value="250"/>-->
         <Setter Property="Margin" Value="5" />
         <Style.Resources>
             <Style TargetType="Border">
@@ -241,6 +262,10 @@
                 <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
             </Style>
         </Style.Resources>
+    </Style>
+
+    <Style x:Key="imgagebutton_command" TargetType="Button" BasedOn="{StaticResource button_command}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     </Style>
 
     <Style x:Key="button_openfiledialog" TargetType="Button" BasedOn="{StaticResource button_command}">
@@ -418,7 +443,7 @@
         <Setter Property="Width" Value="12"/>
         <Setter Property="Height" Value="22"/>
         <Setter Property="Margin" Value="5"/>
-        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 

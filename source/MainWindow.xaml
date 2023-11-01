@@ -215,32 +215,38 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="7*"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        
-
-                        
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="5"/>
                     </Grid.RowDefinitions>
 
+                    <!-- ExeName (string) -->
+                    <Label   Grid.Row="0" Grid.Column="0" Content="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource label_input}" />
+                    <TextBox Grid.Row="0" Grid.Column="1" x:Name="txb_ExeName" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" BorderThickness="0" />
+                    <Image   Grid.Row="0" Grid.Column="1" Style="{StaticResource image_warn_empty}" ToolTip="No executable file (*.exe) selected!" Visibility="{Binding ExeName, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}" />
+
+
+                    <!-- License (string) -->
+                    <Label   Grid.Row="1" Grid.Column="0" Content="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource label_input}" />
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="txb_License" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" BorderThickness="0"/>
+                    <Image   Grid.Row="1" Grid.Column="1" Style="{StaticResource image_warn_empty}" ToolTip="No license file (*.txt/*.rtf) selected!" Visibility="{Binding License, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}"/>
+
+                    
                     <!-- Files (List<string>) -->
-                    <Label     Grid.Row="0" Grid.Column="0" Content="{StaticResource label_files}"    ToolTip="{StaticResource tt_files}" Style="{StaticResource label_input}" />
-                    <ListBox   Grid.Row="0" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files}" HorizontalContentAlignment="Stretch" AllowDrop="True" Drop="OnDirectoryDroped" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}" KeyDown="OnFilesKeyDown">
+                    <Label     Grid.Row="2" Grid.Column="0" Content="{StaticResource label_files}"    ToolTip="{StaticResource tt_files}" Style="{StaticResource label_input}" />
+                    <ListBox   Grid.Row="2" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files}" AllowDrop="True" Drop="OnDirectoryDroped" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}" KeyDown="OnFilesKeyDown" ItemContainerStyle="{StaticResource listboxitem_alternate}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="16"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*" MaxWidth="215"/>
                                         <ColumnDefinition Width="18"/>
                                         <ColumnDefinition Width="18"/>
                                     </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0">
+                                    <Button Grid.Column="0" Style="{StaticResource button_remove_listitem}" ToolTip="Doubleclick to open in explorer" Tag="{Binding}" MouseDoubleClick="OnOpenInBrowserDoubleClicked">
+                                        <Image >
                                             <Image.Style>
                                                 <Style TargetType="{x:Type Image}">
                                                 <Setter Property="Source" Value="{Binding Path=Name, Converter={conv:FileExtensionToImageSourceConverter}}"/>
@@ -254,6 +260,7 @@
                                                 </Style>
                                             </Image.Style>
                                         </Image>
+                                    </Button>
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=Name}" Margin="5,2,2,2"/>
                                     <Button Grid.Column="2" Style="{StaticResource button_remove_listitem}" ToolTip="Click here to set this file as the application executable file" Tag="{Binding}" Click="OnSetThisFileAsExe" Visibility="{Binding Path=Path, Converter={conv:ExeToVisibilityConverter}}" >
                                         <Image Source="{StaticResource icon_exe}"/>
@@ -264,6 +271,7 @@
                                     <Button Grid.Column="3" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Tag="{Binding}" Click="OnRemoveThisFile" >
                                         <Image Source="{StaticResource icon_remove}"/>
                                     </Button>
+
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -293,9 +301,10 @@
                         </ListBox.ContextMenu>
                     </ListBox>
                     <!-- Files (Buttons) -->
-                    <Grid Grid.Row="0" Grid.Column="2">
+                    <Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="4" >
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
@@ -317,16 +326,6 @@
                         </StackPanel>
                     </Grid>
 
-                    <!-- ExeName (string) -->
-                    <Label   Grid.Row="3" Grid.Column="0" Content="{StaticResource label_exename}" ToolTip="{StaticResource tt_exename}" Style="{StaticResource label_input}" />
-                    <TextBox Grid.Row="3" Grid.Column="1" x:Name="txb_ExeName" Text="{Binding ExeName, Converter={conv:FilePathToNameConverter}}" IsReadOnly="True" ToolTip="{StaticResource tt_exename}" Style="{StaticResource textbox_input}" />
-                    <Image   Grid.Row="3" Grid.Column="1" Style="{StaticResource image_warn_empty}" Visibility="{Binding ExeName, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}" />
-
-
-                    <!-- License (string) -->
-                    <Label   Grid.Row="4" Grid.Column="0" Content="{StaticResource label_license}" ToolTip="{StaticResource tt_license}" Style="{StaticResource label_input}" />
-                    <TextBox Grid.Row="4" Grid.Column="1" x:Name="txb_License" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" />
-                    <Image   Grid.Row="4" Grid.Column="1" Style="{StaticResource image_warn_empty}" Visibility="{Binding License, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}"/>
 
                 </Grid>
             </TabItem>
@@ -345,7 +344,7 @@
                     </Grid.RowDefinitions>
                     <!-- Directories (List<Directory>) -->
                     <Label   Visibility="Visible"   Grid.Row="6" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
-                    <ListBox   Visibility="Visible"   x:Name="lsb_Directories" HorizontalContentAlignment="Stretch"  Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}">
+                    <ListBox   Visibility="Visible"   x:Name="lsb_Directories" HorizontalContentAlignment="Stretch"  Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Sections}"  ToolTip="{StaticResource tt_directories}" Style="{StaticResource listbox_directories}" ItemContainerStyle="{StaticResource listboxitem_alternate}" >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -366,7 +365,17 @@
                     </ListBox>
                     <StackPanel   Visibility="Visible"   Grid.Row="6" Grid.Column="2" HorizontalAlignment="Left">
                         <Button x:Name="btn_AddDirectory"    Style="{StaticResource button_command}" Click="OnAddDirectoryClicked" Content="Add..."/>
-                        <Button x:Name="btn_RemoveDirectory" Style="{StaticResource button_command}" Content="Remove selected" Command="{Binding Path=RemoveSelectedDirectoryCommand}" CommandParameter="{Binding ElementName=lsb_Directories, Path=SelectedItem}"/>
+                        <!--<Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="18"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="{StaticResource icon_add}"/>
+                                <TextBlock Grid.ColumnSpan="2" Text="Add..." HorizontalAlignment="Center" />
+                            </Grid>
+                        </Button>-->
+                        <Button x:Name="btn_RemoveDirectory" Style="{StaticResource button_command}" Content="Remove" Command="{Binding Path=RemoveSelectedDirectoryCommand}" CommandParameter="{Binding ElementName=lsb_Directories, Path=SelectedItem}"/>
+                        <Button x:Name="btn_ClearDirectory" Style="{StaticResource button_command}" Content="Clear" Command="{Binding Path=ClearDirectoriesCommand}" />
                     </StackPanel>
 
                 </Grid>
@@ -801,7 +810,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <ScrollViewer Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Padding="10" Width="420">
+                    <ScrollViewer Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Padding="10" >
                         <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill">
                             <Grid>
                                 <Grid.RowDefinitions>

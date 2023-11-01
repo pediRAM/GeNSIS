@@ -686,7 +686,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\UserInterfaces\" />
     <Folder Include="Misc\Images\" />
     <Folder Include="UI\" />
   </ItemGroup>

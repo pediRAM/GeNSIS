@@ -242,7 +242,7 @@ namespace GeNSIS
             Log.Info("User clicked on AddDirectory.");
             if (m_FolderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                AppData.Sections.Add(new SectionVM(m_FolderBrowserDialog.SelectedPath));
+                _ = Dispatcher.BeginInvoke(() => AppData.Sections.Add(new SectionVM(m_FolderBrowserDialog.SelectedPath)));
             }
         }
 
@@ -1202,6 +1202,11 @@ namespace GeNSIS
              _ = Process.Start("explorer", $"\"{pPath}\"");
         }
 
+        private void ShowFileInExplorer(string pPath)
+        {
+            _ = Process.Start("explorer", $"/select, \"{pPath}\"");
+        }
+
         private void OnOpenInstallersFolderClicked(object sender, RoutedEventArgs e)
             => OpenFolderInExplorer(m_Config.InstallersDirectory);
 
@@ -1332,6 +1337,21 @@ An ordered list:
         private void OnSetThisFileAsLicense(object sender, RoutedEventArgs e)
         {
             AppData.License = (sender as System.Windows.Controls.Button).Tag as FileSystemItemVM;
+        }
+
+        private void OnOpenInBrowserDoubleClicked(object sender, MouseButtonEventArgs e)
+        {
+            var fsItem = (sender as System.Windows.Controls.Button).Tag as FileSystemItemVM;
+            if (fsItem == null) return;
+
+            if (fsItem.FSType == EFileSystemType.Directory)
+            {
+                OpenFolderInExplorer((AppData as IAppData).GetFullPath(fsItem));
+            }
+            else
+            {
+                ShowFileInExplorer((AppData as IAppData).GetFullPath(fsItem));
+            }
         }
     }
 }

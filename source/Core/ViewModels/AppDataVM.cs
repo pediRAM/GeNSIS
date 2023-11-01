@@ -595,7 +595,7 @@ namespace GeNSIS.Core
             set => m_RemoveSelectedFileCommand = value;
         }
 
-
+        
         private ICommand m_RemoveSelectedDirectoryCommand;
         public ICommand RemoveSelectedDirectoryCommand
         {
@@ -605,6 +605,18 @@ namespace GeNSIS.Core
                 return m_RemoveSelectedDirectoryCommand;
             }
             set => m_RemoveSelectedDirectoryCommand = value;
+        }
+
+
+        private ICommand m_ClearDirectoriesCommand;
+        public ICommand ClearDirectoriesCommand
+        {
+            get
+            {
+                m_ClearDirectoriesCommand ??= new ClearDirectoriesCommand(this);
+                return m_ClearDirectoriesCommand;
+            }
+            set => m_ClearDirectoriesCommand = value;
         }
 
 
