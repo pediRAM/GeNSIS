@@ -1318,7 +1318,7 @@ An ordered list:
         private string m_LastSearchString;
         private async void OnTextEditorKeyDown(object sender, KeyEventArgs e)
         {
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && (!Keyboard.IsKeyDown(Key.LeftAlt) && !Keyboard.IsKeyDown(Key.RightAlt)))
             {
                 switch(e.Key)
                 {
@@ -1493,6 +1493,12 @@ An ordered list:
         {
             var tbx = (TextBox)sender;
             SearchText(tbx.Text);
+        }
+
+        private void OnDevTestClicked(object sender, RoutedEventArgs e)
+        {
+            var fg = new CustomPageGenerator();
+            editor.Text = fg.Generate(new TextGeneratorOptions { EnableComments = true, EnableLogs = false, Languages = LangDst.ToList()});
         }
     }
 }
