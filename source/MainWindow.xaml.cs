@@ -54,6 +54,11 @@ using ICSharpCode.AvalonEdit.Editing;
 using ICSharpCode.AvalonEdit;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.Printing;
+using ICSharpCode.AvalonEdit.Highlighting;
+using System.Windows.Media;
+using System.Windows.Xps.Packaging;
+using System.Windows.Xps;
+using System.Xml;
 
 namespace GeNSIS
 {
@@ -596,8 +601,8 @@ namespace GeNSIS
                 return;
 
             LoadScriptFromFile(m_OpenScriptDialog.FileName);
-
             AddAndSaveLastScript(m_OpenScriptDialog.FileName);
+            PathToGeneratedNsisScript = m_OpenScriptDialog.FileName;
         }
 
         private void LoadScriptFromFile(string pScriptPath)
@@ -1013,81 +1018,21 @@ namespace GeNSIS
         private void OnPrintScriptClicked(object sender, RoutedEventArgs e)
         {
             Log.Info("User clicked PrintScript.");
-            /*
+
             try
             {
+                //var printer = 
                 // Create a PrintDialog
                 PrintDialog printDialog = new PrintDialog();
-
-                if (printDialog.ShowDialog() == true)
-                {
-                    // Create a MemoryStream to hold the text from the TextEditor
-                    MemoryStream stream = new MemoryStream();
-                    StreamWriter writer = new StreamWriter(stream);
-                    writer.Write(editor.Text);
-
-                    // Create a FixedDocument with a PageContent containing the TextEditor content
-                    FixedDocument document = new FixedDocument();
-                    PageContent pageContent = new PageContent();
-                    FixedPage fixedPage = new FixedPage();
-                    TextBlock textBlock = new TextBlock();
-
-                    // Configure the TextBlock to display the content with syntax highlighting
-                    textBlock.FontFamily = editor.FontFamily;
-                    textBlock.FontSize = editor.FontSize;
-                    textBlock.TextWrapping = TextWrapping.Wrap;
-                    textBlock.Text = editor.Text;
-
-                    // Add the TextBlock to the FixedPage
-                    fixedPage.Children.Add(textBlock);
-                    pageContent.Child = fixedPage;
-                    document.Pages.Add(pageContent);
-
-                    // Send the FixedDocument to the printer
-                    printDialog.PrintDocument(document.DocumentPaginator, "Print with Syntax Highlighting");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred: " + ex.Message);
-            }*/
-            /*
-            try
-            {
-                // Create a PrintDialog
-                PrintDialog printDialog = new PrintDialog();
+                printDialog.CurrentPageEnabled = true;
+                printDialog.SelectedPagesEnabled = true;
+                printDialog.UserPageRangeEnabled = true;
+                printDialog.PageRangeSelection = PageRangeSelection.AllPages;
 
                 if (printDialog.ShowDialog() == true)
                 {
                     // Create a FlowDocument with the content from the TextEditor
-                    FlowDocument flowDocument = new FlowDocument(new Paragraph(new Run(editor.Text)));
-                    
-
-                    // Create a DocumentPaginator for printing
-                    DocumentPaginator paginator = ((IDocumentPaginatorSource)flowDocument).DocumentPaginator;
-              
-
-                    // Configure the printer to print in color
-                    printDialog.PrintTicket.OutputColor = OutputColor.Color;
-
-                    // Set up the printing process
-                    printDialog.PrintDocument(paginator, "Print with Syntax Highlighting");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred: " + ex.Message);
-            }
-            */
-            try
-            {
-                // Create a PrintDialog
-                PrintDialog printDialog = new PrintDialog();
-
-                if (printDialog.ShowDialog() == true)
-                {
-                    // Create a FlowDocument with the content from the TextEditor
-                    FlowDocument flowDocument = new FlowDocument(new Paragraph(new Run(editor.Text)));
+                    FlowDocument flowDocument = ICSharpCode.AvalonEdit.Utils.DocumentPrinter.CreateFlowDocumentForEditor(editor);
                     flowDocument.PageWidth = 8.27 * 96; // A4 width in pixels (96 pixels per inch)
                     flowDocument.PageHeight = 11.69 * 96; // A4 height in pixels (96 pixels per inch)
                     flowDocument.ColumnWidth = double.PositiveInfinity;
@@ -1102,7 +1047,7 @@ namespace GeNSIS
                     printDialog.PrintTicket.OutputColor = OutputColor.Color;
 
                     // Set up the printing process
-                    printDialog.PrintDocument(paginator, "Print with Syntax Highlighting");
+                    printDialog.PrintDocument(paginator, "NSIS script");
                 }
             }
             catch (Exception ex)
@@ -1110,6 +1055,7 @@ namespace GeNSIS
                 MessageBox.Show("An error occurred: " + ex.Message);
             }
         }
+
 
         private void OnFilesKeyDown(object sender, KeyEventArgs e)
         {
