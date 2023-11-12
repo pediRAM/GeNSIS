@@ -7,9 +7,9 @@
         xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
         xmlns:enum="clr-namespace:GeNSIS.Core.Enums"
-        xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml" xmlns:userinterfaces="clr-namespace:GeNSIS.Core.UserInterfaces"
+        xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml"
         mc:Ignorable="d" 
-        Height="768" Width="1024" MinHeight="700" MinWidth="900">
+        Height="800" Width="1200" MinHeight="700" MinWidth="900">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -932,7 +932,7 @@
                         </MenuItem>
                     </Menu>-->
                     <!-- Editor -->
-                    <avl:TextEditor x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource editor}" AllowDrop="True" Drop="OnScriptDropped" Keyboard.KeyDown="OnTextEditorKeyDown" >
+                    <avl:TextEditor x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource editor}" AllowDrop="True" Drop="OnScriptDropped" Keyboard.KeyDown="OnTextEditorKeyDown" PreviewMouseWheel="OnPreviewMouseWheelMoved" >
                         <avl:TextEditor.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Remove empty or comment lines" Click="OnRemoveEmptyLinesAndCommentsClicked" />
@@ -952,6 +952,66 @@
                         <Button Content="{StaticResource btn_compile}"            Click="OnCompileScript"            Style="{StaticResource button_command}" />
                         <Button Content="Test!"            Click="OnDevTestClicked"            Style="{StaticResource button_command}" Background="Red" Foreground="White" FontWeight="Black" />
                     </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Form" Style="{StaticResource label_tabitem}">
+                <Grid Style="{StaticResource grid_main}">
+                    <Grid.RowDefinitions>
+                        
+                        <!-- Forms-Menu -->
+                        <RowDefinition Height="Auto"/>
+                        
+                        <!-- Forms Main -->
+                        <RowDefinition Height="*"/>
+                        
+                        <!-- Forms-ButtonStack -->
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Menu Grid.Row="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch">
+                        <MenuItem Header="Menu1"></MenuItem>
+                        <MenuItem Header="Menu2"></MenuItem>
+                        <MenuItem Header="Menu3"></MenuItem>
+                    </Menu>
+
+                    <Grid Grid.Row="1" Grid.Column="0" Background="Yellow" MinWidth="25">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <ItemsControl Grid.Row="0" Margin="5" Background="Red">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Content="{Binding SettingType}" />
+                                        <Label Grid.Row="0" Content="{Binding Name}" />
+                                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Parameters}" >
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <VirtualizingStackPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5" Background="Green">
+
+                        </StackPanel>
+                    </Grid>
                 </Grid>
             </TabItem>
 

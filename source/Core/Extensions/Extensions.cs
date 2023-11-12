@@ -24,6 +24,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows.Controls;
 
 namespace GeNSIS.Core.Extensions
@@ -152,5 +153,100 @@ namespace GeNSIS.Core.Extensions
                 }
             }
         }
+    }
+
+    public static class StringExtensions
+    {
+        /// <summary>
+        /// Returns the string without given number of characters at the end.
+        /// </summary>
+        /// <param name="pNumberOfCharsToRemove">Number of characters to remove from the end of string.</param>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public static string RemoveFromEnd(this string str, int pNumberOfCharsToRemove)
+        {
+            if (pNumberOfCharsToRemove < 0)
+                throw new ArgumentException("Number of chars to remove from end cannot be less than zero!", nameof(pNumberOfCharsToRemove));
+
+            if (string.IsNullOrEmpty(str))
+                return string.Empty;
+
+            if (str.Length < pNumberOfCharsToRemove)
+                return "";
+
+            return str.Substring(0, str.Length - pNumberOfCharsToRemove);
+        }
+
+        public static string ReplaceSymbols(this string str, char? replacement = ' ')
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return string.Empty;
+
+            var sb = new StringBuilder();
+            foreach (char c in str)
+            {
+                if (char.IsLetterOrDigit(c) || c == ' ')
+                    sb.Append(c);
+                else if (replacement != null)
+                    sb.Append(replacement);
+            }
+            return sb.ToString();
+        }
+
+        public static string UpperCamelCase(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return string.Empty;
+            
+            var sb = new StringBuilder();
+            bool isFirst = true;
+
+            foreach(char c in str.ReplaceSymbols(' ').ToLower())
+            {
+                if (c == ' ')
+                {
+                    isFirst = true;
+                    continue;
+                }
+
+                if (isFirst)
+                {
+                    sb.Append(char.ToUpper(c));
+                    isFirst = false;
+                }
+                else
+                    sb.Append(c);
+            }
+            return sb.ToString();
+        }
+
+        public static string CamelCase(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return string.Empty;
+
+            string ucc = str.UpperCamelCase();
+            return char.ToLower(ucc[0]) + ucc.Substring(1);
+        }
+
+        public static string ALL_UPPER_CASE(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return string.Empty;
+
+            do
+            {
+                str = str.Replace("  ", " ");
+            }
+            while (str.Contains("  ")) ;
+
+            return str.ToUpper().Replace(" ", "_");
+        }
+    }
+
+    public static class BooleanExtensions
+    {
+        public static int To01(this bool value)
+            => value ? 1 : 0;
     }
 }

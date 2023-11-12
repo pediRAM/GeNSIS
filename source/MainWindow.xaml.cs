@@ -110,6 +110,7 @@ namespace GeNSIS
 
             Title = $"GeNSIS {AsmConst.FULL_VERSION}";
             editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");
+            editor.TextArea.TextView.Margin = new Thickness(5, 0, 0, 0);
 
             FileDialogHelper.InitDir(m_OpenFilesDialog, PathHelper.GetMyDocuments());
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
@@ -516,7 +517,7 @@ namespace GeNSIS
 
         private void RemoveDirsAndFiles(IFileSystemItem[] pItems)
         {
-            foreach (var f in pItems) 
+            foreach (var f in pItems)
                 AppData.Files.Remove(f as FileSystemItemVM);
         }
 
@@ -745,7 +746,7 @@ namespace GeNSIS
 
             if (ConfigHelper.GetLastImageFolder() == null)
                 m_OpenImageDialog.InitialDirectory = ConfigHelper.GetNsisHeaderImagesFolder();
-            else 
+            else
                 m_OpenImageDialog.InitialDirectory = ConfigHelper.GetLastImageFolder();
 
             if (m_OpenImageDialog.ShowDialog() == true)
@@ -974,7 +975,7 @@ namespace GeNSIS
                 {
                     if (files.Count() == 1 && Directory.Exists(files.First()))
                     {
-                        var result = m_MsgBoxMgr.ShowQuestion("Content or Directory?", 
+                        var result = m_MsgBoxMgr.ShowQuestion("Content or Directory?",
                             "Do you want to add the content in the directory\n" +
                             " or to add the directory (including the content)?\n\n" +
 
@@ -982,7 +983,7 @@ namespace GeNSIS
                             "click 'No' to add the whole directory, or\n" +
                             "click 'Cancel' to abort.", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
-                        if (result == MessageBoxResult.Yes) 
+                        if (result == MessageBoxResult.Yes)
                         {
                             AddDirectoryContent(files.First());
                         }
@@ -992,7 +993,7 @@ namespace GeNSIS
                         }
                         else return;
                     }
-                    
+
                 }
             }
         }
@@ -1060,13 +1061,13 @@ namespace GeNSIS
         private void OnFilesKeyDown(object sender, KeyEventArgs e)
         {
             Log.Info($"Files: User pressed Key:{e.Key}.");
-            if (lsb_Files.SelectedItems.Count == 0) 
+            if (lsb_Files.SelectedItems.Count == 0)
                 return;
 
-            switch(e.Key)
+            switch (e.Key)
             {
                 case Key.A: // All (Select All).
-                    lsb_Files.SelectAll();
+                lsb_Files.SelectAll();
                 break;
 
                 case Key.C: // Clear (Remove All).
@@ -1074,11 +1075,11 @@ namespace GeNSIS
                 break;
 
                 case Key.N: // None (Select None / Unselect All).
-                    AppData.Files.Clear();
+                AppData.Files.Clear();
                 break;
 
                 case Key.S: // Sort.
-                    AppData.Files.Sort(AppData.Files.OrderBy(x => x.FSType).ThenBy(x => Path.GetExtension(x.Path)).ThenBy(x => x.Name));
+                AppData.Files.Sort(AppData.Files.OrderBy(x => x.FSType).ThenBy(x => Path.GetExtension(x.Path)).ThenBy(x => x.Name));
                 break;
 
                 // Remove / Delete.
@@ -1086,16 +1087,16 @@ namespace GeNSIS
                 case Key.Subtract:
                 case Key.OemMinus:
                 case Key.Delete:
-                    AppData.Files.RemoveRange(lsb_Files.GetSelectedItems<FileSystemItemVM>());
+                AppData.Files.RemoveRange(lsb_Files.GetSelectedItems<FileSystemItemVM>());
                 break;
-            }  
+            }
         }
 
         private void OnFirewallRulesKeyDown(object sender, KeyEventArgs e)
         {
             Log.Info($"FirewallRules: User pressed Key:{e.Key}.");
 
-            if (lsb_FirewallRules.SelectedItems.Count == 0) 
+            if (lsb_FirewallRules.SelectedItems.Count == 0)
                 return;
 
             if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) && (e.Key == Key.A)))
@@ -1157,7 +1158,7 @@ namespace GeNSIS
             p.Sections.Clear();
             p.RelativePath = destDir;
 
-            foreach(var f in AppData.Files)
+            foreach (var f in AppData.Files)
             {
                 string relPath = GetRelativePath(destDir, p, f);
 
@@ -1179,13 +1180,13 @@ namespace GeNSIS
             p.License.Path = GetRelativeImagePathOrNull(destDir, p.License.Path);
             p.License.IsRelative = true;
 
-            p.InstallerIcon   = GetRelativeImagePathOrNull(destDir, p.InstallerIcon);
+            p.InstallerIcon = GetRelativeImagePathOrNull(destDir, p.InstallerIcon);
             p.UninstallerIcon = GetRelativeImagePathOrNull(destDir, p.UninstallerIcon);
 
-            p.InstallerHeaderImage   = GetRelativeImagePathOrNull(destDir, p.InstallerHeaderImage);
+            p.InstallerHeaderImage = GetRelativeImagePathOrNull(destDir, p.InstallerHeaderImage);
             p.UninstallerHeaderImage = GetRelativeImagePathOrNull(destDir, p.UninstallerHeaderImage);
 
-            p.InstallerWizardImage   = GetRelativeImagePathOrNull(destDir, p.InstallerWizardImage);
+            p.InstallerWizardImage = GetRelativeImagePathOrNull(destDir, p.InstallerWizardImage);
             p.UninstallerWizardImage = GetRelativeImagePathOrNull(destDir, p.UninstallerWizardImage);
 
             var project = new Project { AppData = p };
@@ -1242,7 +1243,7 @@ namespace GeNSIS
 
         private void OpenFolderInExplorer(string pPath)
         {
-             _ = Process.Start("explorer", $"\"{pPath}\"");
+            _ = Process.Start("explorer", $"\"{pPath}\"");
         }
 
         private void ShowFileInExplorer(string pPath)
@@ -1320,24 +1321,29 @@ An ordered list:
         {
             if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && (!Keyboard.IsKeyDown(Key.LeftAlt) && !Keyboard.IsKeyDown(Key.RightAlt)))
             {
-                switch(e.Key)
+                switch (e.Key)
                 {
                     case Key.S: // Save / Save as...
                         {
                             e.Handled = true;
                             await Dispatcher.BeginInvoke(() => OnSaveScriptClicked(sender, e));
                         }
-                    return;
+                        return;
 
                     case Key.F:
                         {
                             e.Handled = true;
                             if (editor.SelectionLength == 0)
+                            {
+                                tbxScriptSearchbox.SelectAll();
+                                tbxScriptSearchbox.Focus();
                                 return;
+                            }
                             m_LastSearchString = editor.SelectedText;
+                            tbxScriptSearchbox.Text = m_LastSearchString;
                             SearchText(editor.SelectedText);
                         }
-                    return;
+                        return;
 
                     case Key.Add:
                     case Key.OemPlus:
@@ -1367,13 +1373,16 @@ An ordered list:
             }
             else
             {
-                switch(e.Key)
+                switch (e.Key)
                 {
                     case Key.F3:
                         {
                             e.Handled = true;
                             if (string.IsNullOrEmpty(m_LastSearchString))
+                            {
+                                tbxScriptSearchbox.Focus();
                                 return;
+                            }
                             SearchText(m_LastSearchString);
                         }
                         return;
@@ -1420,7 +1429,7 @@ An ordered list:
             var selectedLanguage = (sender as System.Windows.Controls.Button).Tag as Language;
             LangDst.Remove(selectedLanguage);
             LangSrc.Add(selectedLanguage);
-            
+
         }
 
         private void OnSetThisFileAsExe(object sender, RoutedEventArgs e)
@@ -1460,6 +1469,7 @@ An ordered list:
             if (pNeedle == null || string.IsNullOrEmpty(pNeedle) || string.IsNullOrEmpty(editor.Text))
             {
                 m_LastSearchIndex = 0;
+                editor.SelectionLength = 0;
                 return;
             }
 
@@ -1467,6 +1477,7 @@ An ordered list:
             if (index == -1)
             {
                 m_LastSearchIndex = 0;
+                editor.SelectionLength = 0;
                 return;
             }
 
@@ -1498,7 +1509,30 @@ An ordered list:
         private void OnDevTestClicked(object sender, RoutedEventArgs e)
         {
             var fg = new CustomPageGenerator();
-            editor.Text = fg.Generate(new TextGeneratorOptions { EnableComments = true, EnableLogs = false, Languages = LangDst.ToList()});
+            editor.Text = fg.Generate(new TextGeneratorOptions { EnableComments = true, EnableLogs = false, Languages = LangDst.ToList() });
+        }
+
+        private void OnPreviewMouseWheelMoved(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                if (e.Delta > 0)
+                {
+                    e.Handled = true;
+                    editor.FontSize = editor.FontSize + 2;
+                    if (editor.FontSize > GConst.Editor.MAX_FONT_SIZE)
+                        editor.FontSize = GConst.Editor.MAX_FONT_SIZE;
+                    return;
+                }
+                else if (e.Delta < 0)
+                {
+                    e.Handled = true;
+                    editor.FontSize = editor.FontSize - 2;
+                    if (editor.FontSize < GConst.Editor.MIN_FONT_SIZE)
+                        editor.FontSize = GConst.Editor.MIN_FONT_SIZE;
+                    return;
+                }
+            }
         }
     }
 }
