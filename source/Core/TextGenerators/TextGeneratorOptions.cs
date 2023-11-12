@@ -27,5 +27,7 @@ namespace GeNSIS.Core.TextGenerators
         public bool EnableLogs { get; set; }
         public bool EnableComments { get; set; }
         public List<Language> Languages { get; set; }
+
+        public IEnumerable<SettingGroup> SettingGroups { get; set; }
     }
 }

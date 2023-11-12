@@ -946,11 +946,11 @@
 
                     <!-- Buttons -->
                     <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                        <Button Content="{StaticResource btn_generate_script}"    Click="OnGenerate"                 Style="{StaticResource button_command}" IsEnabled="{Binding ExeName, Converter={conv:NullEmptyOrWhitespaceToBoolConverter}}"/>
+                        <Button Content="{StaticResource btn_generate_script}"    Click="OnGenerate"                 Style="{StaticResource button_dangerous_command}" IsEnabled="{Binding ExeName, Converter={conv:NullEmptyOrWhitespaceToBoolConverter}}"/>
                         <Button Content="{StaticResource btn_open_extern_editor}" Click="OnOpenScriptInExternEditor" Style="{StaticResource button_command}" />
                         <Button Content="{StaticResource btn_save_script}"        Click="OnSaveScriptClicked"        Style="{StaticResource button_command}" IsEnabled="{Binding Files.Count, Converter={conv:ZeroToBooleanConverter}}"/>
                         <Button Content="{StaticResource btn_compile}"            Click="OnCompileScript"            Style="{StaticResource button_command}" />
-                        <Button Content="Test!"            Click="OnDevTestClicked"            Style="{StaticResource button_command}" Background="Red" Foreground="White" FontWeight="Black" />
+                        <!--<Button Content="Test!"            Click="OnDevTestClicked"            Style="{StaticResource button_command}" Background="Red" Foreground="White" FontWeight="Black" />-->
                     </StackPanel>
                 </Grid>
             </TabItem>

@@ -284,8 +284,11 @@ namespace GeNSIS
 
                 if (m_SaveScriptDialog.ShowDialog() != true)
                     return;
-
-                var nsisCode = m_NsisCodeGenerator.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true, Languages = LangDst.ToList() });
+#if DEBUG
+                // todo: REMOVE!
+                var fg = new CustomPageGenerator();
+#endif
+                var nsisCode = m_NsisCodeGenerator.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true, Languages = LangDst.ToList(), SettingGroups = fg.GetSettingGroups() });
                 FileDialogHelper.InitDir(m_SaveScriptDialog, PathHelper.GetGeNSISScriptsDir());
                 SaveScript(m_SaveScriptDialog.FileName, nsisCode);
                 editor.Text = nsisCode;
@@ -1508,8 +1511,7 @@ An ordered list:
 
         private void OnDevTestClicked(object sender, RoutedEventArgs e)
         {
-            var fg = new CustomPageGenerator();
-            editor.Text = fg.Generate(new TextGeneratorOptions { EnableComments = true, EnableLogs = false, Languages = LangDst.ToList() });
+            
         }
 
         private void OnPreviewMouseWheelMoved(object sender, MouseWheelEventArgs e)

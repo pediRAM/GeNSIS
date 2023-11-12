@@ -69,7 +69,7 @@
         public string GetCreateFormEnterName() => $"OnCreateForm{Name.UpperCamelCase()}_Entered";
         public string GetCreateFormLeaveName() => $"OnCreateForm{Name.UpperCamelCase()}_Leaved";
 
-        public string GetCreateFormEnteredString()
+        public string GetCreateFormFunction()
         {
             var sb = new StringBuilder();
             PDC pdc = new PDC(0, HasLongUIs);

@@ -22,6 +22,7 @@ namespace GeNSIS.Core.TextGenerators
     using GeNSIS.Core.Enums;
     using GeNSIS.Core.Extensions;
     using GeNSIS.Core.Interfaces;
+    using GeNSIS.Core.Models;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -48,6 +49,7 @@ namespace GeNSIS.Core.TextGenerators
         private TextGeneratorOptions m_Options = null;
         private int ln = 0;
         private string m_FileExtension = null;
+        private CustomPageGenerator cpg = new CustomPageGenerator();
         #endregion Variables
 
 
@@ -77,6 +79,8 @@ namespace GeNSIS.Core.TextGenerators
             m_AppData = pAppData;
             m_Options = pOptions;
 
+            cpg.SetSettingGroups(pOptions.SettingGroups);
+
             //var totalFilesSizeMainSection = pAppData.GetFiles().Where(x => x.FSType == Enums.EFileSystemType.File).Sum(x => new FileInfo(x.Path).Length);
             //var totalDirsSizeMainSection  = pAppData.GetFiles().Where(x => x.FSType == Enums.EFileSystemType.Directory).Sum(x => new DirectoryInfo(x.Path).GetFiles("*", SearchOption.AllDirectories).Sum(y => y.Length));
 
@@ -99,8 +103,11 @@ namespace GeNSIS.Core.TextGenerators
             AddStripline();
             Add();
 
-            AddVariableDeclarations();
+            AddConstantsDefinitions();
             AddStripline();
+            Add();
+
+            AddRequestExecutionLevel();
             Add();
 
             AddCompressionSelection(isOver16Mb);
@@ -113,6 +120,16 @@ namespace GeNSIS.Core.TextGenerators
 
             AddAppName();
             Add();
+
+            AddVariableDeclarations();
+            AddStripline();
+            Add();
+
+            AddFunctions();
+            AddStripline();
+            Add();
+
+
 
             AddInstallerExeFilename();
             AddStripline();
@@ -170,15 +187,35 @@ namespace GeNSIS.Core.TextGenerators
             return sb.ToString();
         }
 
+        private void AddRequestExecutionLevel()
+        {
+            Add("RequestExecutionLevel user");
+        }
+
+        private void AddFunctions()
+        {
+            Add(cpg.GetVariableInitialisationFunctions());
+            Add(cpg.GetPageCreationFunctions());
+        }
+
+        private void AddVariableDeclarations()
+        {
+            Add("Var TargetHostname");
+            Add();
+            if (m_Options.SettingGroups.Any())
+                Add(cpg.GetVariablesDeclarations());
+        }
+
         private void AddIncludeDirectives()
         {
-            // todo: only when used!
-            //AddInclude("StrFunc.nsh");
-            //AddInclude("LogicLib.nsh");
-            //AddInclude("EnvVarUpdate.nsh");
-            //AddInclude("");
+            Add(@"; Included libraries:
+!include nsDialogs.nsh
+!include LogicLib.nsh
+!include MUI2.nsh
+!include FileFunc.nsh
+!insertmacro GetTime
+"); // !include EnvVarUpdate.nsh
 
-            AddInclude("MUI.nsh");
         }
 
         private void AddCommentHeader()
@@ -193,11 +230,12 @@ namespace GeNSIS.Core.TextGenerators
             AddStripline();
         }
 
-        private void AddVariableDeclarations()
+        private void AddConstantsDefinitions()
         {
-            AddComment("Variables:");
+            AddComment("Constants:");
             Add();
-
+            Add(@"; Timestamp of installer compilation:
+!define /date COMPILED_AT ""%Y-%m-%d %H:%M:%S""");
             if (HasRelativePath())
             {
                 AddComment("THIS VARIABLE DEFINITION IS FOR GeNSIS PROJECTS WHICH IS EXPORTED AS PORTABLE ONLY!");
@@ -206,6 +244,8 @@ namespace GeNSIS.Core.TextGenerators
                 AddDefine(GConst.Nsis.BASE_DIR, m_AppData.RelativePath);
                 Add();
             }
+
+            //Add(@"EnvVarUpdate.nsh");
 
             AddComment("Name of Application:");
             AddDefine("APP_NAME", m_AppData.AppName);
@@ -326,6 +366,9 @@ namespace GeNSIS.Core.TextGenerators
             //Add("!include \"MUI.nsh\"");
             //Add();
 
+            Add("BrandingText \"${COMPILED_AT}\"");
+            Add();
+
             // Installer Icon
             AddComment("Installer icons (*.ico):");
             if (string.IsNullOrWhiteSpace(m_AppData.InstallerIcon))
@@ -415,9 +458,13 @@ namespace GeNSIS.Core.TextGenerators
             {
                 AddComment("License file (*.txt|*.rtf):");
                 AddInsertMacro("MUI_PAGE_LICENSE", m_AppData.GetNsisPath(m_AppData.License));
+                Add("LicenseForceSelection checkbox \"I accept the terms of the license.\"");
             }
 
             AddInsertMacro("MUI_PAGE_DIRECTORY");
+
+            if (m_Options.SettingGroups.Any())
+                Add(cpg.GetPages());
 
             if (HasOptionalSections())
                 AddInsertMacro("MUI_PAGE_COMPONENTS");
@@ -448,6 +495,7 @@ namespace GeNSIS.Core.TextGenerators
             AddComment("Function to show the language selection page:");
             AddFunction(".onInit");
             AddInsertMacro("MUI_LANGDLL_DISPLAY");
+            Add(cpg.GetOnInitFunctionLines());
             AddFunctionEnd();
         }
 

@@ -271,6 +271,12 @@
         </Style.Resources>
     </Style>
 
+    <Style x:Key="button_dangerous_command" TargetType="Button" BasedOn="{StaticResource button_command}">
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Black"/>
+    </Style>
+
     <Style x:Key="imgagebutton_command" TargetType="Button" BasedOn="{StaticResource button_command}">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     </Style>
