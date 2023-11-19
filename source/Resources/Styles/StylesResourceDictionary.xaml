@@ -588,7 +588,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ui:SettingPreviewUI">
-                    <Grid  AllowDrop="True" Background="{TemplateBinding Background}" >
+                    <Grid  AllowDrop="True" Background="{TemplateBinding Background}" Margin="1">
                         <Grid.RenderTransform>
                             <TranslateTransform/>
                         </Grid.RenderTransform>
@@ -600,15 +600,9 @@
 
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Column="0" Content="{TemplateBinding Label}" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center">
-                            <!--<Label.Style>
-                                <Style TargetType="Label">
-                                    <EventSetter Event="MouseDoubleClick" Handler="OnDoubleClicked"/>
-                                </Style>
-                            </Label.Style>-->
-                        </Label>
+                        <Label Grid.Column="0" Content="{TemplateBinding Label}" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                         <ContentPresenter Grid.Column="1" x:Name="PART_ContentPresenter"  HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <Button Grid.Column="2" Content="..." VerticalContentAlignment="Center" MinWidth="32" Height="20"  />
+                        <Button Grid.Column="2" Content="..." VerticalContentAlignment="Center" MinWidth="32" Height="24" Visibility="{TemplateBinding ButtonVisibility}" />
                         <Border x:Name="border" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" />
                     </Grid>
 

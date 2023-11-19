@@ -16,7 +16,7 @@ namespace GeNSIS.UI
         {
             char c = e.ToAlphaNumericChar();
 
-            if (char.IsLetterOrDigit(c) || c == '_')
+            if (char.IsLetterOrDigit(c) || c == '_' || c == '\t')
                 e.Handled = false;
             else
                 e.Handled = true;

@@ -6,7 +6,7 @@
              xmlns:ui="clr-namespace:GeNSIS.UI"
              xmlns:enum="clr-namespace:GeNSIS.Core.Enums"
              xmlns:ip="clr-namespace:IPUserControls;assembly=IPUserControls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" FontSize="16"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -18,32 +18,32 @@
     <Grid>
         <StackPanel Orientation="Vertical" Margin="5" Background="Green">
 
-            <ui:SettingPreviewUI x:Name="boolean" Label="Boolean:" SettingType="{x:Static enum:ESettingType.Boolean}" MouseMove="OnBooleanMouseMoved" >
+            <ui:SettingPreviewUI x:Name="boolean" Label="Boolean:" SettingType="{x:Static enum:ESettingType.Boolean}" ButtonVisibility="Hidden" ui:DraggableBehavior.IsDraggable="True" ToolTip="{Binding DisplayName}" >
                 <CheckBox />
             </ui:SettingPreviewUI>
 
-            <ui:SettingPreviewUI x:Name="text" Label="Text:" SettingType="{x:Static enum:ESettingType.String}" MouseMove="OnStringMouseMoved"  >
+            <ui:SettingPreviewUI x:Name="text" Label="Text:" SettingType="{x:Static enum:ESettingType.String}" ButtonVisibility="Hidden" ui:DraggableBehavior.IsDraggable="True" >
                 <TextBox  Text="Some text" HorizontalAlignment="Left" Width="150"/>
             </ui:SettingPreviewUI>
 
-            <ui:SettingPreviewUI x:Name="password" Label="Password:" SettingType="{x:Static enum:ESettingType.Password}" MouseMove="OnPasswordMouseMoved"  >
+            <ui:SettingPreviewUI x:Name="password" Label="Password:" SettingType="{x:Static enum:ESettingType.Password}" ButtonVisibility="Hidden" ui:DraggableBehavior.IsDraggable="True" >
                 <PasswordBox Password="Default Password (if any!)" HorizontalAlignment="Left" Width="150"/>
             </ui:SettingPreviewUI>
 
-            <ui:SettingPreviewUI x:Name="file" Label="File path:" SettingType="{x:Static enum:ESettingType.File}" MouseMove="OnFileMouseMoved"  >
-                <TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="C:\Path\To\Some\File.txt" IsReadOnly="True" Width="270" />
+            <ui:SettingPreviewUI x:Name="file" Label="File path:" SettingType="{x:Static enum:ESettingType.File}" ButtonVisibility="Visible" ui:DraggableBehavior.IsDraggable="True"  >
+                <TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="C:\Path\To\Some\File.txt" IsReadOnly="True" Width="300" />
             </ui:SettingPreviewUI>
 
-            <ui:SettingPreviewUI x:Name="directory" Label="Directory:" SettingType="{x:Static enum:ESettingType.Directory}" MouseMove="OnDirectoryMouseMoved"  >
-                <TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="C:\Path\To\Some\Directory" IsReadOnly="True" Width="270" />
+            <ui:SettingPreviewUI x:Name="directory" Label="Directory:" SettingType="{x:Static enum:ESettingType.Directory}" ButtonVisibility="Visible" ui:DraggableBehavior.IsDraggable="True" >
+                <TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="C:\Path\To\Some\Directory" IsReadOnly="True" Width="300" />
             </ui:SettingPreviewUI>
 
-            <ui:SettingPreviewUI x:Name="number" Label="Number:" SettingType="{x:Static enum:ESettingType.Integer}" MouseMove="OnIntegerMouseMoved"  >
+            <ui:SettingPreviewUI x:Name="number" Label="Number:" SettingType="{x:Static enum:ESettingType.Integer}" ButtonVisibility="Hidden" ui:DraggableBehavior.IsDraggable="True"  >
                 <ui:NumberBox  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="1234567890" IsReadOnly="True" Width="100" />
             </ui:SettingPreviewUI>
 
-            <ui:SettingPreviewUI x:Name="ip"  Label="IP address:" SettingType="{x:Static enum:ESettingType.Integer}" MouseMove="OnNumberMouseMoved"  >
-                <ip:IpField IpAddress="192.168.123.234" Width="120" Height="18"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <ui:SettingPreviewUI x:Name="ip"  Label="IP address:" SettingType="{x:Static enum:ESettingType.Integer}" ButtonVisibility="Hidden" ui:DraggableBehavior.IsDraggable="True"  >
+                <ip:IpField IpAddress="192.168.123.234" Width="150" Height="22"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
             </ui:SettingPreviewUI>
 
 

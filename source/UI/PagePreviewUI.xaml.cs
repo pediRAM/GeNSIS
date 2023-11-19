@@ -39,15 +39,25 @@ namespace GeNSIS.UI
                 try
                 {
                     // Retrieve the dropped data as a string
-                    SettingPreviewUI droppedData = (SettingPreviewUI)e.Data.GetData(typeof(SettingPreviewUI));
-
-                    ESettingType settingType = droppedData.SettingType;
+                    SettingPreviewUI dropObj = (SettingPreviewUI)e.Data.GetData(typeof(SettingPreviewUI));
+                    if (dropObj == null)
+                        return;
+                    
+                    
                     var dlg = new EntityWindow();
-                    dlg.SettingType = settingType;
+                    //dlg.EntityName = dropObj.SettingType.ToString();
+                    dlg.Label = dropObj.Label;
+                    dlg.SettingType = dropObj.SettingType;
+
                     if (dlg.ShowDialog() != true)
                         return;
 
                     var setting = dlg.GetSetting();
+                    dropObj.Label = setting.Label;
+                    dropObj.EntityName = dlg.EntityName;
+                    dropObj.SetDefaultValue(setting.Default);
+                    stackpanel.Children.Add(dropObj);
+                    stackpanel.UpdateLayout();
                 }
                 catch (Exception ex)
                 {

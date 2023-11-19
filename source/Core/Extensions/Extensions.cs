@@ -278,6 +278,8 @@ namespace GeNSIS.Core.Extensions
             switch (key)
             {
                 case Key.Enter: return '\n';
+                case Key.Tab: return '\t';
+
                 case Key.A: return (iscap ? 'A' : 'a');
                 case Key.B: return (iscap ? 'B' : 'b');
                 case Key.C: return (iscap ? 'C' : 'c');
@@ -326,7 +328,7 @@ namespace GeNSIS.Core.Extensions
                 case Key.Oem3: return (shift ? nil  : '`');
                 case Key.Oem5: return (shift ? nil  : '\\');
                 case Key.Oem6: return (shift ? nil  : ']');
-                case Key.Tab: return '\t';
+                
                 case Key.Space: return ' ';
                 */
                 case Key.OemMinus: return (shift ? '_' : nil);

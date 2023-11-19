@@ -28,12 +28,12 @@ namespace GeNSIS.UI
         private bool m_BoolValue;
         private ESettingType m_SettingType = ESettingType.Page;
         private int m_IntegerValue;
-        private string m_Name;
-        private string m_Title;
-        private string m_Description;
-        private string m_Label;
-        private string m_StringValue;
-        private string m_PasswordValue;
+        private string m_EntityName = string.Empty;
+        private string m_Title = string.Empty;
+        private string m_Description = string.Empty;
+        private string m_Label = string.Empty;
+        private string m_StringValue = string.Empty;
+        private string m_PasswordValue = string.Empty;
         private string m_IpValue = "192.168.12.34";
 
         public EntityWindow()
@@ -63,7 +63,7 @@ namespace GeNSIS.UI
         public SettingVM GetSetting()
         {
             var s = new SettingVM();
-            s.Name = EntityName;
+            s.Name = tbx_Name.Text;
             s.Group = null;
             s.Label = Label;
             s.Default = GetDefaultValue(SettingType);
@@ -76,11 +76,15 @@ namespace GeNSIS.UI
             switch (pSettingType)
             {
                 case ESettingType.Boolean: return BoolValue;
+
                 case ESettingType.File:
                 case ESettingType.Directory:
                 case ESettingType.String: return StringValue;
-                case ESettingType.Password: return PasswordValue;
-                case ESettingType.Integer: return IntegerValue;
+
+                case ESettingType.Password: return pbx_Password.Password;
+
+                case ESettingType.Integer: return nbx_Integer.Text;
+
                 case ESettingType.IPAddress: return IpValue;
             }
             return null;
@@ -97,11 +101,11 @@ namespace GeNSIS.UI
 
         public string EntityName
         {
-            get { return m_Name; }
+            get { return m_EntityName; }
             set
             {
-                if (value == m_Name) return;
-                m_Name = value;
+                if (value == m_EntityName) return;
+                m_EntityName = value;
                 NotifyPropertyChanged(nameof(EntityName));
             }
         }

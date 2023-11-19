@@ -42,7 +42,7 @@
         <Label Grid.Row="4" Grid.Column="0" x:Name="lbl_Label" Content="Label:"          Style="{StaticResource label_input}" />
         <Label Grid.Row="5" Grid.Column="0" x:Name="lbl_Value" Content="Default value:"  Style="{StaticResource label_input}" />
 
-        <local:AlphaNumericBox Grid.Row="1" Grid.Column="1" x:Name="tbx_Name"  Text="{Binding EntityName}"  Style="{StaticResource textbox_input_short}" />
+        <local:AlphaNumericBox     Grid.Row="1" Grid.Column="1" x:Name="tbx_Name"  Text="{Binding EntityName}"  Style="{StaticResource textbox_input_short}" />
         <TextBox                   Grid.Row="2" Grid.Column="1" x:Name="tbx_Title" Text="{Binding PageTitle}"   Style="{StaticResource textbox_input_short}" />
         <TextBox                   Grid.Row="3" Grid.Column="1" x:Name="tbx_Desc"  Text="{Binding Description}" Style="{StaticResource textbox_input_midi}"  />
         <TextBox                   Grid.Row="4" Grid.Column="1" x:Name="tbx_Label" Text="{Binding Label}"       Style="{StaticResource textbox_input_short}" MaxLength="25"/>

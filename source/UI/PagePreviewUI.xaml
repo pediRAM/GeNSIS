@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GeNSIS.UI"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" FontSize="16" FontFamily="Arial"
              d:DesignHeight="485" Height="485" d:DesignWidth="623" Width="623">
 
         <Grid>
@@ -26,11 +26,11 @@
             <GroupBox x:Name="groupBox" BorderBrush="DarkGray" BorderThickness="1.5"   Header="Doublelick to insert header!" MouseDoubleClick="OnGroupBoxDoubleClicked" Width="550" Height="287" Canvas.Left="36" Canvas.Top="123" HorizontalAlignment="Center" VerticalAlignment="Top">
                 
                 
-                <Canvas x:Name="canvas_UIs" Margin="5,15,5,5" AllowDrop="True" Drop="OnDropped" Background="Red">
-                    <Label Canvas.Left="150" Canvas.Top="100" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Drag UIs from the toolbox left &#x0a;and drop them here!" Foreground="Gray" FontSize="18"/>
-
-                                                                            <!-- Height="{Binding ElementName=canvas_UIs, Path=ActualHeight}" -->
-                        <!--<StackPanel x:Name="stackpanel" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="{Binding ElementName=canvas_UIs, Path=ActualWidth}"  Background="#1f0000ff"></StackPanel>-->
+                <Canvas x:Name="canvas_UIs" Margin="5,15,5,5" AllowDrop="True" Drop="OnDropped" >
+                    <Label Canvas.Left="150" Canvas.Top="100" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="Drag UIs from the toolbox left &#x0a;and drop them here!" Foreground="Gray" FontSize="18"/>
+                    <Rectangle Width="{Binding ElementName=canvas_UIs, Path=ActualWidth}" Height="{Binding ElementName=canvas_UIs, Path=ActualHeight}" Fill="Transparent" />
+                    <!--  -->
+                        <StackPanel x:Name="stackpanel" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="{Binding ElementName=canvas_UIs, Path=ActualWidth}"  Background="#1f0000ff"></StackPanel>
                 </Canvas>
             </GroupBox>
         </Canvas>
