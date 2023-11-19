@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="GeNSIS.UI.UiPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GeNSIS.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="485" Height="485" d:DesignWidth="623" Width="623">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image Grid.Row="1" Grid.Column="1" Source="../Resources/Images/Installer/Custom/FormPage.png" Stretch="Fill" Width="623" Height="485"/>
+        <Canvas Grid.Row="1" Grid.Column="1">
+            <Label x:Name="lbl_DialogTitle" Content="Doubleclick to insert page title!" MouseDoubleClick="OnPageTitleDoubleClicked" FontFamily="Arial" FontSize="16" FontWeight="Black" Canvas.Top="41" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="14" ToolTip="Click here to insert the title!"/>
+            <Label x:Name="lbl_DialogDesc"  Content="Doubleclick to insert page description!" MouseDoubleClick="OnPageDescDoubleClicked" FontFamily="Arial" FontSize="14" FontWeight="Normal" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="30" ToolTip="Click here to insert the description!"/>
+            <GroupBox x:Name="groupBox" BorderBrush="DarkGray" BorderThickness="1.5"   Header="Doublelick to insert header!" MouseDoubleClick="OnGroupBoxDoubleClicked" Width="550" Height="287" Canvas.Left="36" Canvas.Top="123" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Canvas x:Name="canvas_UIs" Margin="5,15,5,5" AllowDrop="True" Drop="OnDropped">
+                    <Label Canvas.Left="150" Canvas.Top="100" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Drag UIs from the toolbox left &#x0a;and drop them here!" Foreground="Gray" FontSize="18"/>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="{Binding ElementName=canvas_UIs, Path=ActualWidth}" Height="{Binding ElementName=canvas_UIs, Path=ActualHeight}" Background="#1f0000ff"></StackPanel>
+                </Canvas>
+            </GroupBox>
+        </Canvas>
+    </Grid>
+
+</UserControl>
