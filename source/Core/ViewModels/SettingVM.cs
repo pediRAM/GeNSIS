@@ -10,10 +10,11 @@
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ESettingType m_SettingType;
+        private ESettingType m_SettingType = ESettingType.String;
         private object m_Default;
         private ISettingGroup m_Group;
         private string m_Name;
+        private string m_Label;
 
         public SettingVM() { }
 
@@ -64,7 +65,16 @@
             }
         }
 
-        public string Label { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public string Label 
+        {
+            get { return m_Label; }
+            set
+            {
+                if (value == m_Label) return;
+                m_Label = value;
+                NotifyPropertyChanged(nameof(Label));
+            }
+        }
 
         public Setting ToModel(ISetting pSetting)
         {

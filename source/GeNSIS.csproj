@@ -333,6 +333,7 @@
     <None Remove="Resources\Icons\nuvola\22x22\zoom-out.png" />
     <None Remove="Resources\Icons\nuvola\22x22\zoom.png" />
     <None Remove="Resources\Icons\nuvola\48x48\info.png" />
+    <None Remove="Resources\Images\Installer\Custom\FormPage.png" />
     <None Remove="Resources\Images\Installer\Custom\license.png" />
     <None Remove="Resources\Images\Installer\finish.png" />
     <None Remove="Resources\Images\Installer\license.png" />
@@ -662,6 +663,7 @@
     <Resource Include="Resources\Icons\nuvola\22x22\zoom-out.png" />
     <Resource Include="Resources\Icons\nuvola\22x22\zoom.png" />
     <Resource Include="Resources\Icons\nuvola\48x48\info.png" />
+    <Resource Include="Resources\Images\Installer\Custom\FormPage.png" />
     <Resource Include="Resources\Images\Installer\Custom\license.png" />
     <Resource Include="Resources\Images\Installer\Original\finish.png" />
     <Resource Include="Resources\Images\Installer\Original\installation.png" />
@@ -671,7 +673,9 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+    <PackageReference Include="Dirkster.NumericUpDownLib" Version="3.4.0" />
     <PackageReference Include="ExtendedXmlSerializer" Version="3.7.11" />
+    <PackageReference Include="IPUserControls.Wpf" Version="1.1.0" />
     <PackageReference Include="MdXaml" Version="1.21.0" />
     <PackageReference Include="NLog" Version="5.2.2" />
   </ItemGroup>
@@ -689,7 +693,6 @@
 
   <ItemGroup>
     <Folder Include="Misc\Images\" />
-    <Folder Include="UI\" />
   </ItemGroup>
 
   <ItemGroup>

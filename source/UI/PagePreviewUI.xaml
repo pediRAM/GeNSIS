@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GeNSIS.UI.UiPage"
+﻿<UserControl x:Class="GeNSIS.UI.PagePreviewUI"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -24,9 +24,13 @@
             <Label x:Name="lbl_DialogTitle" Content="Doubleclick to insert page title!" MouseDoubleClick="OnPageTitleDoubleClicked" FontFamily="Arial" FontSize="16" FontWeight="Black" Canvas.Top="41" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="14" ToolTip="Click here to insert the title!"/>
             <Label x:Name="lbl_DialogDesc"  Content="Doubleclick to insert page description!" MouseDoubleClick="OnPageDescDoubleClicked" FontFamily="Arial" FontSize="14" FontWeight="Normal" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="30" ToolTip="Click here to insert the description!"/>
             <GroupBox x:Name="groupBox" BorderBrush="DarkGray" BorderThickness="1.5"   Header="Doublelick to insert header!" MouseDoubleClick="OnGroupBoxDoubleClicked" Width="550" Height="287" Canvas.Left="36" Canvas.Top="123" HorizontalAlignment="Center" VerticalAlignment="Top">
-                <Canvas x:Name="canvas_UIs" Margin="5,15,5,5" AllowDrop="True" Drop="OnDropped">
+                
+                
+                <Canvas x:Name="canvas_UIs" Margin="5,15,5,5" AllowDrop="True" Drop="OnDropped" Background="Red">
                     <Label Canvas.Left="150" Canvas.Top="100" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Drag UIs from the toolbox left &#x0a;and drop them here!" Foreground="Gray" FontSize="18"/>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="{Binding ElementName=canvas_UIs, Path=ActualWidth}" Height="{Binding ElementName=canvas_UIs, Path=ActualHeight}" Background="#1f0000ff"></StackPanel>
+
+                                                                            <!-- Height="{Binding ElementName=canvas_UIs, Path=ActualHeight}" -->
+                        <!--<StackPanel x:Name="stackpanel" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="{Binding ElementName=canvas_UIs, Path=ActualWidth}"  Background="#1f0000ff"></StackPanel>-->
                 </Canvas>
             </GroupBox>
         </Canvas>

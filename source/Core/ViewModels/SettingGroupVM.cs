@@ -2,17 +2,14 @@
 
 namespace GeNSIS.Core.ViewModels
 {
-    using System.ComponentModel;
-    using System;
+    using GeNSIS.Core.Extensions;
     using GeNSIS.Core.Interfaces;
+    using GeNSIS.Core.Models;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using GeNSIS.Core.Extensions;
-    using System.Windows.Controls;
-    using GeNSIS.Core.Enums;
-    using System.Windows.Data;
+    using System.ComponentModel;
 
-    public class SettingGroup : ISettingGroup, INotifyPropertyChanged
+    public class SettingGroupVM : ISettingGroup, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

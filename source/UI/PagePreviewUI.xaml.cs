@@ -1,5 +1,6 @@
 ﻿using GeNSIS.Core.Enums;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -7,11 +8,11 @@ using System.Windows.Input;
 namespace GeNSIS.UI
 {
     /// <summary>
-    /// Interaction logic for UiPage.xaml
+    /// Interaction logic for PagePreviewUI.xaml
     /// </summary>
-    public partial class UiPage : UserControl
+    public partial class PagePreviewUI : UserControl
     {
-        public UiPage()
+        public PagePreviewUI()
         {
             InitializeComponent();
         }
@@ -33,19 +34,27 @@ namespace GeNSIS.UI
 
         private void OnDropped(object sender, DragEventArgs e)
         {
-            var fwe = sender as FrameworkElement;
-            if (fwe.Tag == null)
-                return;
+            if (e.Data.GetDataPresent(typeof(SettingPreviewUI)))
+            {
+                try
+                {
+                    // Retrieve the dropped data as a string
+                    SettingPreviewUI droppedData = (SettingPreviewUI)e.Data.GetData(typeof(SettingPreviewUI));
 
-            if (fwe.Tag is ESettingType)
-                AddSetting((ESettingType)fwe.Tag);
-            else if (fwe.Tag is string)
-                AddSetting((string)fwe.Tag);
-        }
+                    ESettingType settingType = droppedData.SettingType;
+                    var dlg = new EntityWindow();
+                    dlg.SettingType = settingType;
+                    if (dlg.ShowDialog() != true)
+                        return;
 
-        private void AddSetting(string tag)
-        {
-            throw new NotImplementedException();
+                    var setting = dlg.GetSetting();
+                }
+                catch (Exception ex)
+                {
+                    var x = ex.ToString(); 
+                    System.Diagnostics.Trace.TraceError(x);
+                }
+            }
         }
 
         private void AddSetting(ESettingType pSettingType)

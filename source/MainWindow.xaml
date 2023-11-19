@@ -7,15 +7,17 @@
         xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
         xmlns:enum="clr-namespace:GeNSIS.Core.Enums"
+        xmlns:ui="clr-namespace:GeNSIS.UI"
+        xmlns:ip="clr-namespace:IPUserControls;assembly=IPUserControls"
         xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml"
         mc:Ignorable="d" 
         Height="800" Width="1200" MinHeight="700" MinWidth="900">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/IconsResourceDictionary.xaml"/>
-                <ResourceDictionary Source="Resources/Styles/StringsResourceDictionary.xaml"/>
-                <ResourceDictionary Source="Resources/Styles/StylesResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/IconsResourceDictionary.xaml"   />
+                <ResourceDictionary Source="Resources/Styles/StringsResourceDictionary.xaml" />
+                <ResourceDictionary Source="Resources/Styles/StylesResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
             <ObjectDataProvider x:Key="EnumUserType" MethodName="GetValues" ObjectType="{x:Type enum:EServiceUserType}">
@@ -23,7 +25,7 @@
                     <x:Type TypeName="enum:EServiceUserType"/>
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
-        </ResourceDictionary>        
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -62,7 +64,7 @@
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
-               
+
 
                 <!-- Menu: Project -->
                 <MenuItem Header="Project">
@@ -147,9 +149,9 @@
                             <Image Source="{StaticResource icon_editor}" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    
+
                     <Separator />
-                    
+
                     <!-- History Scripts -->
                     <MenuItem Header="History">
                         <ItemsControl x:Name="cbx_LastScripts" ItemsSource="{Binding Files}" >
@@ -232,7 +234,7 @@
                     <TextBox Grid.Row="1" Grid.Column="1" x:Name="txb_License" Text="{Binding License, Converter={conv:FilePathToNameConverter}}"  IsReadOnly="True"  ToolTip="{StaticResource tt_license}" Style="{StaticResource textbox_input}" BorderThickness="0"/>
                     <Image   Grid.Row="1" Grid.Column="1" Style="{StaticResource image_warn_empty}" ToolTip="No license file (*.txt/*.rtf) selected!" Visibility="{Binding License, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Visible, VisibilityWhenNotNull=Hidden}}"/>
 
-                    
+
                     <!-- Files (List<string>) -->
                     <Label     Grid.Row="2" Grid.Column="0" Content="{StaticResource label_files}"    ToolTip="{StaticResource tt_files}" Style="{StaticResource label_input}" />
                     <ListBox   Grid.Row="2" Grid.Column="1" x:Name="lsb_Files" ItemsSource="{Binding Files}" AllowDrop="True" Drop="OnDirectoryDroped" ToolTip="{StaticResource tt_files}" Style="{StaticResource listbox_files}" KeyDown="OnFilesKeyDown" ItemContainerStyle="{StaticResource listboxitem_alternate}">
@@ -249,14 +251,14 @@
                                         <Image >
                                             <Image.Style>
                                                 <Style TargetType="{x:Type Image}">
-                                                <Setter Property="Source" Value="{Binding Path=Name, Converter={conv:FileExtensionToImageSourceConverter}}"/>
+                                                    <Setter Property="Source" Value="{Binding Path=Name, Converter={conv:FileExtensionToImageSourceConverter}}"/>
                                                     <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Path=FSType}" Value="{x:Static enum:EFileSystemType.Directory}">
-                                                        <DataTrigger.Setters>
-                                                            <Setter Property="Source" Value="Resources/Icons/nuvola/22x22/folder.png"/>
-                                                        </DataTrigger.Setters>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=FSType}" Value="{x:Static enum:EFileSystemType.Directory}">
+                                                            <DataTrigger.Setters>
+                                                                <Setter Property="Source" Value="Resources/Icons/nuvola/22x22/folder.png"/>
+                                                            </DataTrigger.Setters>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
                                                 </Style>
                                             </Image.Style>
                                         </Image>
@@ -308,7 +310,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        
+
                         <StackPanel Grid.Row="0" Orientation="Vertical">
                             <Button Content="Add folder..."   Style="{StaticResource button_command}" Click="OnAddFilesFromFolderClicked" />
                             <Button Content="Add files..."    Style="{StaticResource button_command}" Click="OnAddFilesClicked" />
@@ -317,7 +319,7 @@
                         </StackPanel>
 
                         <Rectangle  Grid.Row="1" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
-                        
+
                         <StackPanel Grid.Row="2" Orientation="Vertical" Visibility="{Binding ElementName=lsb_Files, Path=SelectedItem, Converter={conv:NullToVisibilityConverter VisibilityWhenNull=Collapsed, VisibilityWhenNotNull=Visible}}">
                             <TextBlock Text="Selected file is the..." Style="{StaticResource textblock_label}" MinWidth="100" />
                             <Button Content="Executable" Style="{StaticResource button_command}" Command="{Binding Path=SetExecutableFileCommand}" CommandParameter="{Binding ElementName=lsb_Files, Path=SelectedItem}" />
@@ -329,7 +331,7 @@
 
                 </Grid>
             </TabItem>
-            
+
             <!-- Tab: Components -->
             <TabItem Header=" Components" Style="{StaticResource label_tabitem}">
                 <Grid Style="{StaticResource grid_main}">
@@ -443,8 +445,8 @@
 
                 </Grid>
             </TabItem>
-            
-            
+
+
             <!-- Tab: Firewall -->
             <TabItem Header="❸ Firewall" Style="{StaticResource label_tabitem}">
                 <Grid Style="{StaticResource grid_main}">
@@ -481,20 +483,20 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                    
 
-                    <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_ports}"                 ToolTip="{StaticResource tt_ports}" Style="{StaticResource label_input}" />
+
+                        <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_ports}"                 ToolTip="{StaticResource tt_ports}" Style="{StaticResource label_input}" />
                         <TextBox    Grid.Row="1" Grid.Column="1" x:Name="txb_Ports" Text="Example: 1000 2000 3000-3099" ToolTip="{StaticResource tt_ports}" Style="{StaticResource textbox_input}" />
-                    
-                    <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Button Content="Add TCP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddTcpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
-                        <Button Content="Add UDP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddUdpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
-                        <Button Content="Add Both" Style="{StaticResource button_sort}" Command="{Binding Path=AddBothFWRulesCommand}" CommandParameter="{Binding ElementName=txb_Ports, Path=Text}" />
-                    </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Button Content="Add TCP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddTcpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
+                            <Button Content="Add UDP"  Style="{StaticResource button_sort}" Command="{Binding Path=AddUdpFWRulesCommand}"  CommandParameter="{Binding ElementName=txb_Ports, Path=Text}"/>
+                            <Button Content="Add Both" Style="{StaticResource button_sort}" Command="{Binding Path=AddBothFWRulesCommand}" CommandParameter="{Binding ElementName=txb_Ports, Path=Text}" />
+                        </StackPanel>
 
                         <Rectangle   Visibility="Visible"   Grid.Row="3" Grid.ColumnSpan="10" Height="25"/>
 
-                    <Label     Grid.Row="4" Grid.Column="0" Content="{StaticResource label_firewall_rules}"    ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource label_input}" />
+                        <Label     Grid.Row="4" Grid.Column="0" Content="{StaticResource label_firewall_rules}"    ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource label_input}" />
                         <ListBox   Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Stretch" x:Name="lsb_FirewallRules" ItemsSource="{Binding FirewallRules, UpdateSourceTrigger=PropertyChanged}" KeyDown="OnFirewallRulesKeyDown" ToolTip="{StaticResource tt_firewall_rules}" Style="{StaticResource listbox_firewall_rules}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -503,7 +505,7 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="18"/>
                                         </Grid.ColumnDefinitions>
-                                        
+
                                         <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding}" Margin="5,2,2,2"/>
                                         <Button Grid.Column="1" Style="{StaticResource button_remove_listitem}" ToolTip="Remove" Command="{Binding Path=RemoveSelectedFileCommand}" CommandParameter="{Binding}" Tag="{Binding}" Click="OnRemoveThisFWRule" >
                                             <Image Source="{StaticResource icon_remove}"/>
@@ -514,13 +516,13 @@
                         </ListBox>
 
 
-                    <!-- Firewall Remove/Clear Buttons (right of FW ListBox) -->
-                    <Grid Grid.Row="4" Grid.Column="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                        <!-- Firewall Remove/Clear Buttons (right of FW ListBox) -->
+                        <Grid Grid.Row="4" Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
                             <StackPanel Grid.Row="0" Orientation="Vertical">
                                 <Button Content="Remove" Style="{StaticResource button_command}" Command="{Binding Path=RemoveFirewallRulesCommand}" CommandParameter="{Binding ElementName=lsb_FirewallRules, Path=SelectedItems}"/>
@@ -528,7 +530,7 @@
                             </StackPanel>
                         </Grid>
                     </Grid>
-                    
+
 
                     <!-- Directories (List<Directory>) -->
                     <Label   Visibility="Collapsed"   Grid.Row="2" Grid.Column="0" Content="{StaticResource label_directories}" ToolTip="{StaticResource tt_directories}" Style="{StaticResource label_input}" />
@@ -568,9 +570,9 @@
                 </Grid>
             </TabItem>
             <!-- END: Firewall -->
-            
 
-            
+
+
             <!-- END: Service -->
             <!-- Tab: App and Publisher -->
             <TabItem Header="❹ About App &amp; Publisher" Style="{StaticResource label_tabitem}">
@@ -670,7 +672,7 @@
                         <Button Content="Custom" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_sort}"/>
                         <Button Content="Clear" Command="{Binding ClearInstallerNameCommand}"       Style="{StaticResource button_sort}"/>
                     </StackPanel>
-                    
+
                     <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource label_input}" />
                     <TextBox    Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding InstallerFileName}"      ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource textbox_input}" HorizontalAlignment="Left" Width="600" />
 
@@ -694,7 +696,7 @@
 
                     <Rectangle Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
 
-                    
+
                     <!-- DoCreateCompanyDir (bool) -->
                     <Label    Grid.Row="5" Grid.Column="0" Content="Nest in company directory:" Style="{StaticResource label_input}" />
                     <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding DoCreateCompanyDir}" Style="{StaticResource checkbox_input}" />
@@ -819,7 +821,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                
+
                                 <!-- Welcome Page -->
                                 <Border Grid.Row="0" ToolTip="Welcome Page" Style="{StaticResource border_design_page}" >
                                     <Grid >
@@ -835,7 +837,7 @@
                                         <!--<Rectangle Width="24"  Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="6,7,0,0" Fill="Yellow" />-->
                                     </Grid>
                                 </Border>
-                                
+
                                 <!-- License Page -->
                                 <Border Grid.Row="1" ToolTip="License Page" Style="{StaticResource border_design_page}">
                                     <Grid >
@@ -855,7 +857,7 @@
                                         <!--<Rectangle Width="48"  Height="48"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="676,58,0,0" Fill="Yellow" />-->
                                     </Grid>
                                 </Border>
-                                
+
                                 <!-- Installing Page -->
                                 <Border Grid.Row="2" ToolTip="Installing Progress Page" Style="{StaticResource border_design_page}">
                                     <Grid>
@@ -875,7 +877,7 @@
                                         <!--<Rectangle Width="48"  Height="48"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="676,58,0,0" Fill="Yellow" />-->
                                     </Grid>
                                 </Border>
-                                
+
                                 <!-- Finish Page -->
                                 <Border Grid.Row="3" ToolTip="Installation Completion Page" Style="{StaticResource border_design_page}">
                                     <Grid >
@@ -950,7 +952,7 @@
                         <Button Content="{StaticResource btn_open_extern_editor}" Click="OnOpenScriptInExternEditor" Style="{StaticResource button_command}" />
                         <Button Content="{StaticResource btn_save_script}"        Click="OnSaveScriptClicked"        Style="{StaticResource button_command}" IsEnabled="{Binding Files.Count, Converter={conv:ZeroToBooleanConverter}}"/>
                         <Button Content="{StaticResource btn_compile}"            Click="OnCompileScript"            Style="{StaticResource button_command}" />
-                        <!--<Button Content="Test!"            Click="OnDevTestClicked"            Style="{StaticResource button_command}" Background="Red" Foreground="White" FontWeight="Black" />-->
+                        <Button Content="Test!"            Click="OnDevTestClicked"            Style="{StaticResource button_command}" Background="Red" Foreground="White" FontWeight="Black" />
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -958,18 +960,18 @@
             <TabItem Header="Form" Style="{StaticResource label_tabitem}">
                 <Grid Style="{StaticResource grid_main}">
                     <Grid.RowDefinitions>
-                        
+
                         <!-- Forms-Menu -->
                         <RowDefinition Height="Auto"/>
-                        
+
                         <!-- Forms Main -->
                         <RowDefinition Height="*"/>
-                        
+
                         <!-- Forms-ButtonStack -->
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="400"/>
                         <ColumnDefinition Width="12"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -1008,10 +1010,19 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5" Background="Green">
-
-                        </StackPanel>
+                        <ui:SettingsToolList Grid.Row="1"/>
                     </Grid>
+                    <Viewbox Grid.Row="1" Grid.Column="2" Stretch="Uniform">
+                        <ui:PagePreviewUI  />
+                    </Viewbox>
+
+                    <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                        <Button Content="{StaticResource btn_generate_script}"    Click="OnGenerate"                 Style="{StaticResource button_dangerous_command}" IsEnabled="{Binding ExeName, Converter={conv:NullEmptyOrWhitespaceToBoolConverter}}"/>
+                        <Button Content="{StaticResource btn_open_extern_editor}" Click="OnOpenScriptInExternEditor" Style="{StaticResource button_command}" />
+                        <Button Content="{StaticResource btn_save_script}"        Click="OnSaveScriptClicked"        Style="{StaticResource button_command}" IsEnabled="{Binding Files.Count, Converter={conv:ZeroToBooleanConverter}}"/>
+                        <Button Content="{StaticResource btn_compile}"            Click="OnCompileScript"            Style="{StaticResource button_command}" />
+                        <Button Content="Test!"            Click="OnDevTestClicked"            Style="{StaticResource button_command}" Background="Red" Foreground="White" FontWeight="Black" />
+                    </StackPanel>
                 </Grid>
             </TabItem>
 
@@ -1038,7 +1049,7 @@ An ordered list:
 
 ![attrnm](C:\Users\pedra\Pictures\2023-09-17 10_46_56-VirtualBoxVM.png)
                     </mdxaml:MarkdownScrollViewer>
-                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Click="OnTestMarkdownClicked" >Test Markdown!</Button>
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Click="OnTestMarkdownClicked" >Test Markdown!</Button>
                 </Grid>
             </TabItem>
 

@@ -2,8 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:avl="http://icsharpcode.net/sharpdevelop/avalonedit"
-                    xmlns:uis="clr-namespace:GeNSIS.Core.UserInterfaces"
+                    xmlns:ui="clr-namespace:GeNSIS.UI"
+                    xmlns:ip="clr-namespace:IPUserControls;assembly=IPUserControls"
+                    xmlns:num="clr-namespace:NumericUpDownLib;assembly=NumericUpDownLib"
                     xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml">
+    
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="IconsResourceDictionary.xaml"/>
@@ -58,6 +61,27 @@
         <Setter Property="Margin" Value="15,10,10,15"/>
     </Style>
 
+    <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
+    <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
+    
+    <ControlTemplate x:Key="PasswordBoxTemplate1" TargetType="{x:Type PasswordBox}">
+        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" CornerRadius="{StaticResource RoundCorner}">
+            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="true">
+                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    
     <Style x:Key="textblock_label" TargetType="TextBlock">
         <Setter Property="Margin" Value="5" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -121,7 +145,69 @@
         </Style.Resources>
     </Style>
 
+    <Style x:Key="textbox_input_tiny" TargetType="TextBox" BasedOn="{StaticResource textbox_input}">
+        <Setter Property="Width" Value="100"/>
+    </Style>
+    
+    <Style x:Key="textbox_input_short" TargetType="TextBox" BasedOn="{StaticResource textbox_input}">
+        <Setter Property="Width" Value="150"/>
+    </Style>
 
+    <Style x:Key="textbox_input_midi" TargetType="TextBox" BasedOn="{StaticResource textbox_input}">
+        <Setter Property="Width" Value="350"/>
+    </Style>
+
+    <Style x:Key="password_input" TargetType="PasswordBox">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="Width" Value="{StaticResource input_ui_width}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="password_input_tiny" TargetType="PasswordBox" BasedOn="{StaticResource password_input}">
+        <Setter Property="Width" Value="100"/>
+    </Style>
+
+    <Style x:Key="password_input_short" TargetType="PasswordBox" BasedOn="{StaticResource password_input}">
+        <Setter Property="Width" Value="150"/>
+    </Style>
+
+    <Style x:Key="password_input_midi" TargetType="PasswordBox" BasedOn="{StaticResource password_input}">
+        <Setter Property="Width" Value="350"/>
+    </Style>
+
+    <Style x:Key="ipfield_input" TargetType="ip:IpField">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="Width" Value="{StaticResource input_ui_width}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="ipfield_input_tiny" TargetType="ip:IpField" BasedOn="{StaticResource ipfield_input}">
+        <Setter Property="Width" Value="100"/>
+    </Style>
+
+    <Style x:Key="ipfield_input_short" TargetType="ip:IpField" BasedOn="{StaticResource ipfield_input}">
+        <Setter Property="Width" Value="150"/>
+    </Style>
+
+    <Style x:Key="ipfield_input_midi" TargetType="ip:IpField" BasedOn="{StaticResource ipfield_input}">
+        <Setter Property="Width" Value="350"/>
+    </Style>
 
     <Style x:Key="textbox_input_max_len" TargetType="TextBox">
         <Setter Property="Margin" Value="5" />
@@ -145,6 +231,20 @@
         <Setter Property="Width" Value="400" />
     </Style>
 
+    <Style x:Key="updown_input" TargetType="num:NumericUpDown">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="{StaticResource ResourceKey=RoundCorner}"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+    
     <Style x:Key="checkbox_input" TargetType="CheckBox">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Margin" Value="5" />
@@ -482,6 +582,39 @@
         <Setter Property="Margin" Value="0,7,35,0" />
         <Setter Property="Source" Value="{StaticResource icon_magnifier}"/>
         
+    </Style>
+
+    <Style TargetType="{x:Type ui:SettingPreviewUI}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ui:SettingPreviewUI">
+                    <Grid  AllowDrop="True" Background="{TemplateBinding Background}" >
+                        <Grid.RenderTransform>
+                            <TranslateTransform/>
+                        </Grid.RenderTransform>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="70*"/>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="*"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Content="{TemplateBinding Label}" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center">
+                            <!--<Label.Style>
+                                <Style TargetType="Label">
+                                    <EventSetter Event="MouseDoubleClick" Handler="OnDoubleClicked"/>
+                                </Style>
+                            </Label.Style>-->
+                        </Label>
+                        <ContentPresenter Grid.Column="1" x:Name="PART_ContentPresenter"  HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <Button Grid.Column="2" Content="..." VerticalContentAlignment="Center" MinWidth="32" Height="20"  />
+                        <Border x:Name="border" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" />
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

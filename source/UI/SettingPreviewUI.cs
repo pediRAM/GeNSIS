@@ -1,39 +1,81 @@
-﻿using System.Windows;
+﻿
+using GeNSIS.Core.Enums;
+using IPUserControls;
+using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
+
+
 
 namespace GeNSIS.UI
 {
-
-    namespace GeNSIS.UI
+    [ContentProperty("Content")]
+    public class SettingPreviewUI : Control, ICloneable
     {
-        public class SettingPreviewUI : Control
+        static SettingPreviewUI()
         {
-            static SettingPreviewUI()
-            {
-                DefaultStyleKeyProperty.OverrideMetadata(typeof(SettingPreviewUI), new FrameworkPropertyMetadata(typeof(SettingPreviewUI)));
-            }
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(SettingPreviewUI), new FrameworkPropertyMetadata(typeof(SettingPreviewUI)));
+        }
 
-            public static readonly DependencyProperty PageTitleProperty = DependencyProperty.Register(nameof(PageTitle), typeof(string), typeof(MainWindow));
-            public static readonly DependencyProperty PageDescProperty = DependencyProperty.Register(nameof(PageDesc), typeof(string), typeof(MainWindow));
-            public static readonly DependencyProperty PageNameProperty = DependencyProperty.Register(nameof(PageName), typeof(string), typeof(MainWindow));
+        public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(SettingPreviewUI));
 
-            public string PageTitle
-            {
-                get => (string)GetValue(PageTitleProperty);
-                set => SetValue(PageTitleProperty, value);
-            }
+        public static readonly DependencyProperty EntityNameProperty = DependencyProperty.Register(nameof(EntityName), typeof(string), typeof(SettingPreviewUI));
+        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(nameof(Label), typeof(string), typeof(SettingPreviewUI));
+        public static readonly DependencyProperty SettingTypeProperty = DependencyProperty.Register(nameof(SettingType), typeof(ESettingType), typeof(SettingPreviewUI));
+        //public static readonly DependencyProperty PageNameProperty = DependencyProperty.Register(nameof(PageName), typeof(string), typeof(SettingPreviewUI));
 
-            public string PageDesc
-            {
-                get => (string)GetValue(PageDescProperty);
-                set => SetValue(PageDescProperty, value);
-            }
 
-            public string PageName
+        public object Content
+        {
+            get { return GetValue(ContentProperty); }
+            set { SetValue(ContentProperty, value); }
+        }
+        public string EntityName
+        {
+            get => (string)GetValue(EntityNameProperty);
+            set => SetValue(EntityNameProperty, value);
+        }
+
+        public string Label
+        {
+            get => (string)GetValue(LabelProperty);
+            set => SetValue(LabelProperty, value);
+        }
+
+        public ESettingType SettingType
+        {
+            get => (ESettingType)GetValue(SettingTypeProperty);
+            set => SetValue(SettingTypeProperty, value);
+        }
+
+        public object Clone()
+        {
+            SettingPreviewUI clone = new SettingPreviewUI();
+            clone.EntityName = EntityName;
+            clone.Label = Label;
+            clone.SettingType = SettingType;
+
+            clone.Content = GetContent(SettingType);
+            return clone;
+        }
+
+        private object GetContent(ESettingType settingType)
+        {
+            switch (settingType)
             {
-                get => (string)GetValue(PageNameProperty);
-                set => SetValue(PageNameProperty, value);
+                case ESettingType.Boolean: return new CheckBox { };
+                case ESettingType.String: return new TextBox { };
+                case ESettingType.Integer: return new NumberBox { };
+
+                case ESettingType.File: 
+                case ESettingType.Directory: return new TextBox { };
+
+                case ESettingType.IPAddress: return new IpField { };
+                case ESettingType.Password: return new PasswordBox { };
             }
+            return new Button { Content = "Häh?" };
         }
     }
 }
+

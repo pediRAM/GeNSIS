@@ -31,7 +31,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -59,6 +58,7 @@ using System.Windows.Media;
 using System.Windows.Xps.Packaging;
 using System.Windows.Xps;
 using System.Xml;
+using GeNSIS.UI;
 
 namespace GeNSIS
 {
@@ -1511,7 +1511,8 @@ An ordered list:
 
         private void OnDevTestClicked(object sender, RoutedEventArgs e)
         {
-            
+            var d = new EntityDialog();
+            d.ShowDialog();
         }
 
         private void OnPreviewMouseWheelMoved(object sender, MouseWheelEventArgs e)

@@ -3,9 +3,9 @@ using System.Windows.Input;
 
 namespace GeNSIS.UI
 {
-    public class NumberBox : AlphaNumericTextBox
+    public class NumberBox : AlphaNumericBox
     {
-        protected override void OnKeyDown(object sender, KeyEventArgs e)
+        public override void OnKeyDown(object sender, KeyEventArgs e)
         {
             e.Handled = !char.IsNumber(e.ToAlphaNumericChar());
         }

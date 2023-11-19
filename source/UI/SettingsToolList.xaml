@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="GeNSIS.UI.SettingsToolList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="clr-namespace:GeNSIS.UI"
+             xmlns:enum="clr-namespace:GeNSIS.Core.Enums"
+             xmlns:ip="clr-namespace:IPUserControls;assembly=IPUserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles/StylesResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="5" Background="Green">
+
+            <ui:SettingPreviewUI x:Name="boolean" Label="Boolean:" SettingType="{x:Static enum:ESettingType.Boolean}" MouseMove="OnBooleanMouseMoved" >
+                <CheckBox />
+            </ui:SettingPreviewUI>
+
+            <ui:SettingPreviewUI x:Name="text" Label="Text:" SettingType="{x:Static enum:ESettingType.String}" MouseMove="OnStringMouseMoved"  >
+                <TextBox  Text="Some text" HorizontalAlignment="Left" Width="150"/>
+            </ui:SettingPreviewUI>
+
+            <ui:SettingPreviewUI x:Name="password" Label="Password:" SettingType="{x:Static enum:ESettingType.Password}" MouseMove="OnPasswordMouseMoved"  >
+                <PasswordBox Password="Default Password (if any!)" HorizontalAlignment="Left" Width="150"/>
+            </ui:SettingPreviewUI>
+
+            <ui:SettingPreviewUI x:Name="file" Label="File path:" SettingType="{x:Static enum:ESettingType.File}" MouseMove="OnFileMouseMoved"  >
+                <TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="C:\Path\To\Some\File.txt" IsReadOnly="True" Width="270" />
+            </ui:SettingPreviewUI>
+
+            <ui:SettingPreviewUI x:Name="directory" Label="Directory:" SettingType="{x:Static enum:ESettingType.Directory}" MouseMove="OnDirectoryMouseMoved"  >
+                <TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="C:\Path\To\Some\Directory" IsReadOnly="True" Width="270" />
+            </ui:SettingPreviewUI>
+
+            <ui:SettingPreviewUI x:Name="number" Label="Number:" SettingType="{x:Static enum:ESettingType.Integer}" MouseMove="OnIntegerMouseMoved"  >
+                <ui:NumberBox  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="1234567890" IsReadOnly="True" Width="100" />
+            </ui:SettingPreviewUI>
+
+            <ui:SettingPreviewUI x:Name="ip"  Label="IP address:" SettingType="{x:Static enum:ESettingType.Integer}" MouseMove="OnNumberMouseMoved"  >
+                <ip:IpField IpAddress="192.168.123.234" Width="120" Height="18"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </ui:SettingPreviewUI>
+
+
+        </StackPanel>
+    </Grid>
+</UserControl>

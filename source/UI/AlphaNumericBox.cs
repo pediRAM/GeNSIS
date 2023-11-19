@@ -4,15 +4,15 @@ using System.Windows.Input;
 
 namespace GeNSIS.UI
 {
-    public class AlphaNumericTextBox : TextBox
+    public class AlphaNumericBox : TextBox
     {
-        public AlphaNumericTextBox() : base() 
+        public AlphaNumericBox() : base() 
         {
             KeyDown += OnKeyDown;
             DataContext = this;
         }
 
-        protected virtual void OnKeyDown(object sender, KeyEventArgs e)
+        public virtual void OnKeyDown(object sender, KeyEventArgs e)
         {
             char c = e.ToAlphaNumericChar();
 
