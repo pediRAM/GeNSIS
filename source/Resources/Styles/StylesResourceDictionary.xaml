@@ -13,6 +13,10 @@
     </ResourceDictionary.MergedDictionaries>
 
     <sys:Double x:Key="input_ui_width">300</sys:Double>
+    <sys:Double x:Key="nsis_ui_prev_tiny">100</sys:Double>
+    <sys:Double x:Key="nsis_ui_prev_mini">160</sys:Double>
+    <sys:Double x:Key="nsis_ui_prev_midi">200</sys:Double>
+    <sys:Double x:Key="nsis_ui_prev_maxi">350</sys:Double>
     
     <sys:Double x:Key="Radius">5</sys:Double>
     <sys:Double x:Key="RadiusCheckBox">2</sys:Double>
@@ -596,13 +600,13 @@
                             <ColumnDefinition Width="20*"/>
                             <ColumnDefinition Width="70*"/>
                             <ColumnDefinition Width="10*"/>
-                            <ColumnDefinition Width="*"/>
+
 
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0" Content="{TemplateBinding Label}" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                         <ContentPresenter Grid.Column="1" x:Name="PART_ContentPresenter"  HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <Button Grid.Column="2" Content="..." VerticalContentAlignment="Center" MinWidth="32" Height="24" Visibility="{TemplateBinding ButtonVisibility}" />
+                        <Button Grid.Column="2" Content="..." VerticalContentAlignment="Center" MinWidth="32" Height="22" Visibility="{TemplateBinding ButtonVisibility}" />
                         <Border x:Name="border" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" />
                     </Grid>
 

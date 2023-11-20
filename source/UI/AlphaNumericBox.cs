@@ -9,7 +9,6 @@ namespace GeNSIS.UI
         public AlphaNumericBox() : base() 
         {
             KeyDown += OnKeyDown;
-            DataContext = this;
         }
 
         public virtual void OnKeyDown(object sender, KeyEventArgs e)

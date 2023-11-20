@@ -983,7 +983,7 @@
                         <MenuItem Header="Menu3"></MenuItem>
                     </Menu>
 
-                    <Grid Grid.Row="1" Grid.Column="0" Background="Yellow" MinWidth="25">
+                    <Grid Grid.Row="1" Grid.Column="0" MinWidth="25">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>

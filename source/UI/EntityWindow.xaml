@@ -36,7 +36,7 @@
         </Grid.ColumnDefinitions>
 
 
-        <Label Grid.Row="1" Grid.Column="0" x:Name="lbl_Name"  Content="Name:"           Style="{StaticResource label_input}" />
+        <Label Grid.Row="1" Grid.Column="0" x:Name="lbl_Name"  Content="Entity Name:"           Style="{StaticResource label_input}" />
         <Label Grid.Row="2" Grid.Column="0" x:Name="lbl_Title" Content="Title:"          Style="{StaticResource label_input}" />
         <Label Grid.Row="3" Grid.Column="0" x:Name="lbl_Desc"  Content="Description:"    Style="{StaticResource label_input}" />
         <Label Grid.Row="4" Grid.Column="0" x:Name="lbl_Label" Content="Label:"          Style="{StaticResource label_input}" />

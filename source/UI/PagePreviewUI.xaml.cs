@@ -54,7 +54,7 @@ namespace GeNSIS.UI
 
                     var setting = dlg.GetSetting();
                     dropObj.Label = setting.Label;
-                    dropObj.EntityName = dlg.EntityName;
+                    dropObj.EntityName = setting.Name;
                     dropObj.SetDefaultValue(setting.Default);
                     stackpanel.Children.Add(dropObj);
                     stackpanel.UpdateLayout();

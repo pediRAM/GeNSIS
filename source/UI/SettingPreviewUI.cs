@@ -166,7 +166,7 @@ namespace GeNSIS.UI
                 case ESettingType.Directory:
                 case ESettingType.String: (Content as TextBox).Text = (string)value; break;
 
-                case ESettingType.IPAddress: (Content as IpField).IpAddress = (string)value; break; <-- Not tested!
+                case ESettingType.IPAddress: (Content as IpField).IpAddress = (string)value; break; //<-- Not tested!
                 case ESettingType.Password: (Content as PasswordBox).Password = (string) value; break;
             }
         }

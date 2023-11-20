@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GeNSIS.UI"
-             mc:Ignorable="d" FontSize="16" FontFamily="Arial"
+             xmlns:conv="clr-namespace:GeNSIS.Core.Converters"
+             mc:Ignorable="d" FontSize="14" FontFamily="Arial"
              d:DesignHeight="485" Height="485" d:DesignWidth="623" Width="623">
 
         <Grid>
@@ -23,14 +24,16 @@
         <Canvas Grid.Row="1" Grid.Column="1">
             <Label x:Name="lbl_DialogTitle" Content="Doubleclick to insert page title!" MouseDoubleClick="OnPageTitleDoubleClicked" FontFamily="Arial" FontSize="16" FontWeight="Black" Canvas.Top="41" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="14" ToolTip="Click here to insert the title!"/>
             <Label x:Name="lbl_DialogDesc"  Content="Doubleclick to insert page description!" MouseDoubleClick="OnPageDescDoubleClicked" FontFamily="Arial" FontSize="14" FontWeight="Normal" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="30" ToolTip="Click here to insert the description!"/>
+            
+            
             <GroupBox x:Name="groupBox" BorderBrush="DarkGray" BorderThickness="1.5"   Header="Doublelick to insert header!" MouseDoubleClick="OnGroupBoxDoubleClicked" Width="550" Height="287" Canvas.Left="36" Canvas.Top="123" HorizontalAlignment="Center" VerticalAlignment="Top">
                 
                 
-                <Canvas x:Name="canvas_UIs" Margin="5,15,5,5" AllowDrop="True" Drop="OnDropped" >
-                    <Label Canvas.Left="150" Canvas.Top="100" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="Drag UIs from the toolbox left &#x0a;and drop them here!" Foreground="Gray" FontSize="18"/>
+                <Canvas x:Name="canvas_UIs" Margin="0,10,0,5" AllowDrop="True" Drop="OnDropped" >
+                    <Label Canvas.Left="150" Canvas.Top="100" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="Drag UIs from the toolbox left &#x0a;and drop them here!" Foreground="Gray" FontSize="18" Visibility="{Binding ElementName=stackpanel, Path=Children, Converter={conv:ItemsCountToVisibilityConverter WhenNullOrZero=Visible, Else=Collapsed}}" />
                     <Rectangle Width="{Binding ElementName=canvas_UIs, Path=ActualWidth}" Height="{Binding ElementName=canvas_UIs, Path=ActualHeight}" Fill="Transparent" />
                     <!--  -->
-                        <StackPanel x:Name="stackpanel" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="{Binding ElementName=canvas_UIs, Path=ActualWidth}"  Background="#1f0000ff"></StackPanel>
+                        <StackPanel x:Name="stackpanel" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="{Binding ElementName=canvas_UIs, Path=ActualWidth}"  Background="Transparent" ></StackPanel>
                 </Canvas>
             </GroupBox>
         </Canvas>
