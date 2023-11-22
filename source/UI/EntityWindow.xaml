@@ -36,7 +36,7 @@
         </Grid.ColumnDefinitions>
 
 
-        <Label Grid.Row="1" Grid.Column="0" x:Name="lbl_Name"  Content="Entity Name:"           Style="{StaticResource label_input}" />
+        <Label Grid.Row="1" Grid.Column="0" x:Name="lbl_Name"  Content="Entity Name:"    Style="{StaticResource label_input}" />
         <Label Grid.Row="2" Grid.Column="0" x:Name="lbl_Title" Content="Title:"          Style="{StaticResource label_input}" />
         <Label Grid.Row="3" Grid.Column="0" x:Name="lbl_Desc"  Content="Description:"    Style="{StaticResource label_input}" />
         <Label Grid.Row="4" Grid.Column="0" x:Name="lbl_Label" Content="Label:"          Style="{StaticResource label_input}" />
@@ -47,12 +47,12 @@
         <TextBox                   Grid.Row="3" Grid.Column="1" x:Name="tbx_Desc"  Text="{Binding Description}" Style="{StaticResource textbox_input_midi}"  />
         <TextBox                   Grid.Row="4" Grid.Column="1" x:Name="tbx_Label" Text="{Binding Label}"       Style="{StaticResource textbox_input_short}" MaxLength="25"/>
 
-        <CheckBox                  Grid.Row="5" Grid.Column="1" x:Name="cbx_Bool"     IsChecked="{Binding BoolValue}"   Style="{StaticResource checkbox_input}" IsThreeState="False"                                    Visibility="Visible" />
-        <TextBox                   Grid.Row="5" Grid.Column="1" x:Name="tbx_String"   Text="{Binding StringValue}"      Style="{StaticResource textbox_input_midi}"                                                     Visibility="Visible" />
-        <PasswordBox               Grid.Row="5" Grid.Column="1" x:Name="pbx_Password"                                   Style="{StaticResource password_input_short}" Template="{DynamicResource PasswordBoxTemplate1}" Visibility="Visible" />
-        <ip:IpField                Grid.Row="5" Grid.Column="1" x:Name="ipf_IP"       IpAddress="{Binding IpValue}" Style="{StaticResource ipfield_input_short}"                                                    Visibility="Visible" />
-        <num:NumericUpDown         Grid.Row="5" Grid.Column="1" x:Name="nud_Integer"  Value="{Binding IntegerValue, FallbackValue=1234}"  Style="{StaticResource updown_input}"                                         Visibility="Visible" />
-        <local:NumberBox           Grid.Row="5" Grid.Column="1" x:Name="nbx_Integer"  Text="{Binding StringValue, FallbackValue=1234}"  Style="{StaticResource textbox_input_tiny}"                                     Visibility="Visible" />
+        <CheckBox                  Grid.Row="5" Grid.Column="1" x:Name="cbx_Bool"     IsChecked="{Binding BoolValue}"   Style="{StaticResource checkbox_input}" IsThreeState="False"                                    Visibility="Hidden" />
+        <TextBox                   Grid.Row="5" Grid.Column="1" x:Name="tbx_String"   Text="{Binding StringValue}"      Style="{StaticResource textbox_input_midi}"                                                     Visibility="Hidden" />
+        <PasswordBox               Grid.Row="5" Grid.Column="1" x:Name="pbx_Password"                                   Style="{StaticResource password_input_short}" Template="{DynamicResource PasswordBoxTemplate1}" Visibility="Hidden" />
+        <ip:IpField                Grid.Row="5" Grid.Column="1" x:Name="ipf_IP"       IpAddress="{Binding IpValue}" Style="{StaticResource ipfield_input_short}"                                                        Visibility="Hidden" />
+        <num:NumericUpDown         Grid.Row="5" Grid.Column="1" x:Name="nud_Integer"  Value="{Binding IntegerValue, FallbackValue=1234}"  Style="{StaticResource updown_input}"                                         Visibility="Hidden" />
+        <local:NumberBox           Grid.Row="5" Grid.Column="1" x:Name="nbx_Integer"  Text="{Binding StringValue, FallbackValue=1234}"  Style="{StaticResource textbox_input_tiny}"                                     Visibility="Hidden" />
 
         <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="20">
             <Button Style="{StaticResource button_command}" Content="OK" Click="OnOkClicked" />

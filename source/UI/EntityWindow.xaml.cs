@@ -1,4 +1,5 @@
 ﻿using GeNSIS.Core.Enums;
+using GeNSIS.Core.Interfaces;
 using GeNSIS.Core.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,7 @@ namespace GeNSIS.UI
             PropertyChanged -= OnPropertyChanged;
             PropertyChanged += OnPropertyChanged;
             UpdateVisibilities();
+            tbx_Name.Focus();
         }
 
 
@@ -69,6 +71,24 @@ namespace GeNSIS.UI
             s.Default = GetDefaultValue(SettingType);
             
             return s;
+        }
+
+        public SettingGroupVM GetSettingGroup()
+        {
+            var s = new SettingGroupVM();
+            s.Name = tbx_Name.Text;
+            s.Title = PageTitle;
+            s.Description = Description;
+
+            return s;
+        }
+
+        public void SetSettingGroup(ISettingGroup s)
+        {
+            SettingType = ESettingType.Page;
+            PageTitle = s.Title;
+            Description = s.Description;
+            EntityName = s.Name;
         }
 
         private object GetDefaultValue(ESettingType pSettingType)
@@ -86,6 +106,8 @@ namespace GeNSIS.UI
                 case ESettingType.Integer: return nbx_Integer.Text;
 
                 case ESettingType.IPAddress: return IpValue;
+
+                
             }
             return null;
         }
@@ -218,7 +240,7 @@ namespace GeNSIS.UI
             {
                 lbl_Title.Visibility = Visibility.Visible;
                 lbl_Desc.Visibility = Visibility.Visible;
-                lbl_Label.Visibility = Visibility.Collapsed;
+                lbl_Label.Visibility = Visibility.Visible;
                 lbl_Value.Visibility = Visibility.Collapsed;
             }
             else

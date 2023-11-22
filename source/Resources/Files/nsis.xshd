@@ -5,7 +5,8 @@
 	<Color name="String"      foreground="#A31515" />
 	<Color name="Sections"    foreground="#1700FF" background="Yellow" fontWeight="bold"/>
 	<Color name="KeyWord"     foreground="#1700FF" />
-	<Color name="MuiConst"    foreground="#FF8040" fontWeight="bold"/>
+  <Color name="MuiConst"    foreground="#FF8040" fontWeight="bold"/>
+  <Color name="nsDialogs"   foreground="#0066FF" fontStyle="italic"/>
   <Color name="Const"       foreground="#CC00CC" fontWeight="bold"/>
   <Color name="GeNsisVars"  foreground="#CC0000" fontWeight="bold"/>
 
@@ -13,7 +14,10 @@
 	<RuleSet>
     <Span color="Comment" begin=";" />
     <Span color="Comment" begin="#" />
-    <Span color="Comment" multiline="true" begin="/\*" end="\*/" />
+    <Span color="Comment"  multiline="true"  begin="/\*"  end="\*/" />
+    <Span color="MuiConst" multiline="false" begin="\$\{" end="\}" />
+    <Span color="Const"    multiline="false" begin="/"    end="\b\w+\b" />
+    <Span color="KeyWord"  multiline="false" begin="nsDialogs::" end="\w+" />
 		<Span color="String">
 			<Begin>"</Begin>
 			<End>"</End>
@@ -560,8 +564,8 @@
     </Keywords>
     
     <Keywords color="Const">
-      <Word>/GLOBAL</Word>
-      <Word>/r</Word>
+      <Word>admin</Word>
+      <Word>user</Word>
       <Word>ARCHIVE</Word>
       <Word>CUR</Word>
       <Word>END</Word>
@@ -676,5 +680,6 @@
 		</Rule>
 
     <Rule foreground="Red" background="Yellow" fontWeight="bold">L(abel|ABEL)_\w+:?</Rule>
+    <Rule foreground="Black" background="Transparent" fontStyle="italic">\$\w+</Rule>
 	</RuleSet>
 </SyntaxDefinition>

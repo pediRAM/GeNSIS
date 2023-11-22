@@ -975,6 +975,7 @@
                         <ColumnDefinition Width="12"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
                     <Menu Grid.Row="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch">
@@ -983,7 +984,7 @@
                         <MenuItem Header="Menu3"></MenuItem>
                     </Menu>
 
-                    <Grid Grid.Row="1" Grid.Column="0" MinWidth="25">
+                    <Grid Grid.Row="1" Grid.Column="0" MinWidth="25" Background="Yellow">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -1010,19 +1011,33 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <ui:SettingsToolList Grid.Row="1"/>
+
+                        <Grid Grid.Row="1" Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ui:SettingsToolList Grid.Row="0"/>
+                            <ListBox Grid.Row="1" Grid.Column="0" Background="Lime"/>
+                        </Grid>
+                        
+
+                        <!---->
                     </Grid>
                     <Viewbox Grid.Row="1" Grid.Column="2" Stretch="Uniform">
                         <ui:PagePreviewUI  />
                     </Viewbox>
 
                     <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                        <Button Content="{StaticResource btn_generate_script}"    Click="OnGenerate"                 Style="{StaticResource button_dangerous_command}" IsEnabled="{Binding ExeName, Converter={conv:NullEmptyOrWhitespaceToBoolConverter}}"/>
+                        <Button Content="Save form..."    Click="OnSavePageClicked"                 Style="{StaticResource button_command}" IsEnabled="{Binding ExeName, Converter={conv:NullEmptyOrWhitespaceToBoolConverter}}"/>
                         <Button Content="{StaticResource btn_open_extern_editor}" Click="OnOpenScriptInExternEditor" Style="{StaticResource button_command}" />
                         <Button Content="{StaticResource btn_save_script}"        Click="OnSaveScriptClicked"        Style="{StaticResource button_command}" IsEnabled="{Binding Files.Count, Converter={conv:ZeroToBooleanConverter}}"/>
                         <Button Content="{StaticResource btn_compile}"            Click="OnCompileScript"            Style="{StaticResource button_command}" />
                         <Button Content="Test!"            Click="OnDevTestClicked"            Style="{StaticResource button_command}" Background="Red" Foreground="White" FontWeight="Black" />
                     </StackPanel>
+                    
+                    
                 </Grid>
             </TabItem>
 
@@ -1055,7 +1070,7 @@ An ordered list:
 
         </TabControl>
 
-        <Border Grid.Row="3" Grid.ColumnSpan="10" BorderBrush="DarkGray" BorderThickness="1" Background="#f0f0f0">
+        <Border Grid.Row="3" Grid.ColumnSpan="10" BorderBrush="DarkGray" BorderThickness="1" Background="#f0f0f0" Visibility="Collapsed">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
 
                 <Label     Content="Application Name:" Style="{StaticResource label_statusbar}" />

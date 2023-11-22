@@ -1,5 +1,8 @@
 ﻿using GeNSIS.Core.Enums;
+using GeNSIS.Core.Interfaces;
+using GeNSIS.Core.ViewModels;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,27 +13,56 @@ namespace GeNSIS.UI
     /// <summary>
     /// Interaction logic for PagePreviewUI.xaml
     /// </summary>
-    public partial class PagePreviewUI : UserControl
+    public partial class PagePreviewUI : UserControl, INotifyPropertyChanged
     {
+        private SettingGroupVM m_SettingGroup = new SettingGroupVM
+        {
+            Name = "Doubleclick to edit!",
+            Title = "Doubleclick to edit Title and Description!",
+            Description = "Doubleclick to edit Title and Description!"
+        };
+
         public PagePreviewUI()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
-        private void OnPageTitleDoubleClicked(object sender, MouseButtonEventArgs e)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public SettingGroupVM SettingGroup
         {
+            get => m_SettingGroup;
+            set
+            {
+                if (m_SettingGroup == value)
+                    return;
 
+                m_SettingGroup = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SettingGroup)));    
+            }
         }
 
-        private void OnPageDescDoubleClicked(object sender, MouseButtonEventArgs e)
+        private void OnPageTitleDoubleClicked(object sender, MouseButtonEventArgs e) => ShowPageDialog();
+        private void ShowPageDialog()
         {
+            var dlg = new EntityWindow();
+            dlg.SetSettingGroup(m_SettingGroup);
 
+            if (dlg.ShowDialog() == true)
+                UpdatePageValues(dlg.GetSettingGroup());
         }
 
-        private void OnGroupBoxDoubleClicked(object sender, MouseButtonEventArgs e)
+        private void UpdatePageValues(ISettingGroup x)
         {
-
+            SettingGroup.Title = x.Title;
+            SettingGroup.Description = x.Description;
+            SettingGroup.Name = x.Name;
         }
+
+        private void OnPageDescDoubleClicked(object sender, MouseButtonEventArgs e) => ShowPageDialog();
+        private void OnGroupBoxDoubleClicked(object sender, MouseButtonEventArgs e) => ShowPageDialog();
+
 
         private void OnDropped(object sender, DragEventArgs e)
         {

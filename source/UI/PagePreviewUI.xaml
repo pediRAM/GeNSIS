@@ -22,11 +22,11 @@
 
         <Image Grid.Row="1" Grid.Column="1" Source="../Resources/Images/Installer/Custom/FormPage.png" Stretch="Fill" Width="623" Height="485"/>
         <Canvas Grid.Row="1" Grid.Column="1">
-            <Label x:Name="lbl_DialogTitle" Content="Doubleclick to insert page title!" MouseDoubleClick="OnPageTitleDoubleClicked" FontFamily="Arial" FontSize="16" FontWeight="Black" Canvas.Top="41" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="14" ToolTip="Click here to insert the title!"/>
-            <Label x:Name="lbl_DialogDesc"  Content="Doubleclick to insert page description!" MouseDoubleClick="OnPageDescDoubleClicked" FontFamily="Arial" FontSize="14" FontWeight="Normal" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="30" ToolTip="Click here to insert the description!"/>
+            <Label x:Name="lbl_DialogTitle" Content="{Binding SettingGroup.Title}" MouseDoubleClick="OnPageTitleDoubleClicked" ToolTip="Doubleclick to edit the Title and Description!" FontFamily="Arial" FontSize="16" FontWeight="Black" Canvas.Top="41" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="14" />
+            <Label x:Name="lbl_DialogDesc"  Content="{Binding SettingGroup.Description}" MouseDoubleClick="OnPageDescDoubleClicked" ToolTip="Doubleclick to edit the Title and Description!" FontFamily="Arial" FontSize="14" FontWeight="Normal" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="30" />
             
             
-            <GroupBox x:Name="groupBox" BorderBrush="DarkGray" BorderThickness="1.5"   Header="Doublelick to insert header!" MouseDoubleClick="OnGroupBoxDoubleClicked" Width="550" Height="287" Canvas.Left="36" Canvas.Top="123" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <GroupBox x:Name="groupBox" BorderBrush="DarkGray" BorderThickness="1.5"   Header="{Binding SettingGroup.Name}" ToolTip="Doubleclick to edit the Title and Description!" MouseDoubleClick="OnGroupBoxDoubleClicked" Width="550" Height="287" Canvas.Left="36" Canvas.Top="123" HorizontalAlignment="Center" VerticalAlignment="Top">
                 
                 
                 <Canvas x:Name="canvas_UIs" Margin="0,10,0,5" AllowDrop="True" Drop="OnDropped" >
