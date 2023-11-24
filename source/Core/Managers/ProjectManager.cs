@@ -16,22 +16,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-
-namespace GeNSIS.Core.Interfaces
+namespace GeNSIS.Core.Managers
 {
-    public interface IConfig
-    {
-        string CompanyName { get; set; }
-        string Publisher { get; set; }
-        string Website { get; set; }
-        string ProjectsDirectory { get; set; }
-        string ScriptsDirectory { get; set; }
-        string InstallersDirectory { get; set; }
-        string DesignDirectory { get; set; }
-        string LangDirectory { get; set; }
-        string NsisInstallationDirectory { get; set; }
-        string ExternalEditor { get; set; }
-        void UpdateValues(IConfig pIAppConfig);
+    using GeNSIS.Core.Models;
 
-    }
+
+    public class ProjectManager : AFileManager<Project> { }
 }

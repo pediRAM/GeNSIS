@@ -17,14 +17,21 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
+using ExtendedXmlSerializer;
 using GeNSIS.Core;
 using GeNSIS.Core.Converters;
+using GeNSIS.Core.Enums;
 using GeNSIS.Core.Extensions;
 using GeNSIS.Core.Helpers;
 using GeNSIS.Core.Interfaces;
+using GeNSIS.Core.Managers;
 using GeNSIS.Core.Models;
 using GeNSIS.Core.TextGenerators;
 using GeNSIS.Core.ViewModels;
+using GeNSIS.UI;
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Editing;
+using ICSharpCode.AvalonEdit.Utils;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -33,32 +40,18 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Printing;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
+using Image = System.Drawing.Image;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
-using ICSharpCode.AvalonEdit.Utils;
-using System.Windows.Documents;
-using ExtendedXmlSerializer;
-using System.Windows.Input;
-using GeNSIS.Core.Enums;
-using System.Threading.Tasks;
-using MdXaml;
-using System.Text.RegularExpressions;
-using System.Windows.Controls;
-using Image = System.Drawing.Image;
-using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.AvalonEdit.Editing;
-using ICSharpCode.AvalonEdit;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
-using System.Printing;
-using ICSharpCode.AvalonEdit.Highlighting;
-using System.Windows.Media;
-using System.Windows.Xps.Packaging;
-using System.Windows.Xps;
-using System.Xml;
-using GeNSIS.UI;
 
 namespace GeNSIS
 {
@@ -89,6 +82,9 @@ namespace GeNSIS
 
         private FolderBrowserDialog m_FolderBrowserDialog = new FolderBrowserDialog();
         private ProjectManager m_ProjectManager = new ProjectManager();
+
+        private DesignManager m_DesignManager = new DesignManager();
+        private LangManager m_LangManager = new LangManager();
 
         private MessageBoxManager m_MsgBoxMgr = new MessageBoxManager();
 
@@ -132,6 +128,7 @@ namespace GeNSIS
 
             m_ProjectHistory = new FileHistoryVM(projects);
             m_ScriptHistory = new FileHistoryVM(scripts);
+            
 
             await Task.Run(() => m_ProjectHistory.Load());
             await Task.Run(() => m_ScriptHistory.Load());
@@ -441,7 +438,7 @@ namespace GeNSIS
                 return;
 
             var project = new Project { AppData = AppData.ToModel() };
-            m_ProjectManager.Save(m_SaveProjectDialog.FileName, project);
+            m_ProjectManager.Save(project, m_SaveProjectDialog.FileName);
             AppData.ResetHasUnsavedChanges();
 
             AddAndSaveLastProject(m_SaveProjectDialog.FileName);
@@ -463,7 +460,7 @@ namespace GeNSIS
         {
             Log.Info("User clicked SaveProject.");
             // Is project already saved (by "Save as...")?
-            string pathOfSavedProject = m_ProjectManager.GetProjectFilePath();
+            string pathOfSavedProject = m_ProjectManager.GetPath();
             if (pathOfSavedProject == null)
             {
                 // No! Project has not been saved yet.
@@ -472,7 +469,7 @@ namespace GeNSIS
             }
 
             var project = new Project() { AppData = AppData.ToModel() };
-            m_ProjectManager.Save(pathOfSavedProject, project);
+            m_ProjectManager.Save(project,pathOfSavedProject);
             AppData.ResetHasUnsavedChanges();
 
             AddAndSaveLastProject(m_SaveProjectDialog.FileName);
@@ -1193,7 +1190,7 @@ namespace GeNSIS
             p.UninstallerWizardImage = GetRelativeImagePathOrNull(destDir, p.UninstallerWizardImage);
 
             var project = new Project { AppData = p };
-            m_ProjectManager.Save(m_SaveProjectDialog.FileName, project);
+            m_ProjectManager.Save(project,m_SaveProjectDialog.FileName);
             m_MsgBoxMgr.ShowInfo("Exporting project succeeded.", "Exporting the project as portable project succeeded.");
         }
 
@@ -1539,6 +1536,17 @@ An ordered list:
         }
 
         private void OnSavePageClicked(object sender, RoutedEventArgs e)
+        {
+            pagePreviewUI.SettingGroup.ToModel();
+
+        }
+
+        private void OnClearPageClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnSaveDesignClicked(object sender, RoutedEventArgs e)
         {
 
         }

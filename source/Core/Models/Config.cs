@@ -29,6 +29,8 @@ namespace GeNSIS.Core.Models
         public string ProjectsDirectory { get; set; }
         public string ScriptsDirectory { get; set; }
         public string InstallersDirectory { get; set; }
+        public string DesignDirectory { get; set; }
+        public string LangDirectory { get; set; }
         public string NsisInstallationDirectory { get; set; }
         public string ExternalEditor { get; set; } = GConst.Default.EXTERNAL_EDITOR;
 

@@ -16,53 +16,51 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-
-using GeNSIS.Core.Models;
-using GeNSIS.Core.Serialization;
-using System.IO;
-
-namespace GeNSIS.Core
+namespace GeNSIS.Core.Managers
 {
-    public class ProjectManager
+    using GeNSIS.Core.Serialization;
+    using System.IO;
+
+
+    public abstract class AFileManager<T>
     {
-        private string m_ProjectFilePath;
+        protected string m_Path;
 
         /// <summary>
-        /// Returns the path of current project file if already saved, else NULL.
+        /// Returns the path of file, where the object is saves.
         /// </summary>
         /// <returns></returns>
-        public string GetProjectFilePath() => m_ProjectFilePath;
+        public virtual string GetPath() => m_Path;
 
         /// <summary>
-        /// Resets the path of current project file to NULL.
-        /// Call this whenever user creates a new project.
+        /// Loads the the object of type T from given path.
         /// </summary>
-        public void ResetProjectFilePath() => m_ProjectFilePath = null;
-
-        /// <summary>
-        /// Loads the GeNSIS project from given path.
-        /// </summary>
-        /// <param name="pPath"></param>
+        /// <param name="pPath">Filepath, where the object is saved.</param>
         /// <returns></returns>
-        public Project Load(string pPath)
+        public virtual T Load(string pPath)
         {
             var provider = new DeSerializationProvider();
             var fileInfo = new FileInfo(pPath);
             var deserializer = provider.GetDeSerializerByExtension(fileInfo.Extension);
-            m_ProjectFilePath = pPath;
-            return deserializer.Deserialize<Project>(File.ReadAllText(pPath, encoding: System.Text.Encoding.UTF8));
+            m_Path = pPath;
+            return deserializer.Deserialize<T>(File.ReadAllText(pPath, encoding: System.Text.Encoding.UTF8));
         }
 
         /// <summary>
-        /// Saves given GeNSIS project to given path.
+        /// Resets the filepath to NULL.
         /// </summary>
-        /// <param name="pPath"></param>
-        /// <param name="pProject"></param>
-        public void Save(string pPath, Project pProject)
+        public virtual void ResetPath() => m_Path = null;
+
+        /// <summary>
+        /// Saves the object at given path.
+        /// </summary>
+        /// <param name="pObject">An instance of type T to save.</param>
+        /// <param name="pPath">Filepath, where the object should be saved.</param>
+        public virtual void Save(T pObject, string pPath)
         {
             var provider = new DeSerializationProvider();
             var deserializer = provider.GetDeSerializerByExtension(Path.GetExtension(pPath));
-            File.WriteAllText(pPath, deserializer.Serialize<Project>(pProject), encoding: System.Text.Encoding.UTF8);
+            File.WriteAllText(pPath, deserializer.Serialize(pObject), encoding: System.Text.Encoding.UTF8);
         }
     }
 }

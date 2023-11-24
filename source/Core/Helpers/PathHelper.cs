@@ -17,12 +17,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
-using GeNSIS.Core.Interfaces;
-using GeNSIS.Core.Models;
-using System;
 
 namespace GeNSIS.Core.Helpers
 {
+    using GeNSIS.Core.Interfaces;
+    using System;
+
+
     internal class PathHelper
     {
         public static string GetProgramFilesX64NsisDir()
@@ -41,10 +42,10 @@ namespace GeNSIS.Core.Helpers
             => GetMyDocuments() + GConst.GeNSIS.SUBDIR;
 
         public static string GetGeNSISProjectsDir() => $"{GetGeNSISDir()}\\Projects";
-
         public static string GetGeNSISScriptsDir() => $"{GetGeNSISDir()}\\Scripts";
-
         public static string GetGeNSISInstallerssDir() => $"{GetGeNSISDir()}\\Installers";
+        public static string GetGeNSISDesignsDir() => $"{GetGeNSISDir()}\\Designs";
+        public static string GetGeNSISLanguagesDir() => $"{GetGeNSISDir()}\\Translations";
 
         internal static string GetNewScriptName(IAppData pAppData)
             => $"{pAppData.AppName}_{pAppData.AppVersion}_{pAppData.AppBuild}_{pAppData.MachineType}_{pAppData.Arch}_{DateTime.Now:yyyy-MM-dd}.nsi";

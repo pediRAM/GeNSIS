@@ -7,6 +7,11 @@
     <sys:String x:Key="btn_installer_icon">Icon&#x2026;</sys:String>
     <sys:String x:Key="btn_installer_wizard">Wizard image&#x2026;</sys:String>
     <sys:String x:Key="btn_installer_header">Header image&#x2026;</sys:String>
+
+    <sys:String x:Key="btn_uninstaller_icon">Uninstaller icon&#x2026;</sys:String>
+    <sys:String x:Key="btn_uninstaller_wizard">Uninst. Wizard image&#x2026;</sys:String>
+    <sys:String x:Key="btn_uninstaller_header">Uninst. Header image&#x2026;</sys:String>
+    
     <sys:String x:Key="btn_generate_script">Generate script&#x2026;</sys:String>
     <sys:String x:Key="btn_open_extern_editor">Open in extern editor</sys:String>
     <sys:String x:Key="btn_save_script">Save changes</sys:String>

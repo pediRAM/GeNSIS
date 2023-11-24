@@ -32,6 +32,8 @@ namespace GeNSIS.Core.Models
         private string m_GeNSISProjectsDirectory;
         private string m_ScriptsDirectory;
         private string m_InstallersDirectory;
+        private string m_DesignDirectory;
+        private string m_LangDirectory;
 
         private string m_NsisInstallationDirectory;
         private string m_ExternalEditor = GConst.Default.EXTERNAL_EDITOR;
@@ -115,7 +117,29 @@ namespace GeNSIS.Core.Models
                 NotifyPropertyChanged(nameof(InstallersDirectory));
             }
         }
-        
+
+        public string DesignDirectory
+        {
+            get { return m_DesignDirectory; }
+            set
+            {
+                if (value == m_DesignDirectory) return;
+                m_DesignDirectory = value;
+                NotifyPropertyChanged(nameof(DesignDirectory));
+            }
+        }
+
+        public string LangDirectory
+        {
+            get { return m_LangDirectory; }
+            set
+            {
+                if (value == m_LangDirectory) return;
+                m_LangDirectory = value;
+                NotifyPropertyChanged(nameof(LangDirectory));
+            }
+        }
+
         public string NsisInstallationDirectory
         {
             get { return m_NsisInstallationDirectory; }

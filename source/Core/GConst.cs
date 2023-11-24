@@ -47,6 +47,8 @@ namespace GeNSIS.Core
             public const string SUBDIR_PROJECTS   = $"{SUBDIR}\\Projects";
             public const string SUBDIR_SCRIPTS    = $"{SUBDIR}\\Scripts";
             public const string SUBDIR_INSTALLERS = $"{SUBDIR}\\Installers";
+            public const string SUBDIR_DESIGNS    = $"{SUBDIR}\\Designs";
+            public const string SUBDIR_LANG       = $"{SUBDIR}\\Translations";
 
             public const string FILENAME_CONFIG = "config.json";
         }
@@ -56,7 +58,7 @@ namespace GeNSIS.Core
             public const string EXTERNAL_EDITOR = "notepad.exe";
             public const string COMPANY_NAME = "ACME";
             public const string WEBSITE_URL = "https://example.com/";
-            public const string INSTALLER_FILENAME = @"Setup_${APP_NAME}_${APP_VERSION}_${APP_BUILD}_${APP_MACHINE_TYPE}_${APP_ARCH}.exe";
+            public const string INSTALLER_FILENAME = @"Setup ${APP_NAME} ${APP_VERSION} ${APP_BUILD}.exe";// ${APP_MACHINE_TYPE}_${APP_ARCH}.exe";
 
             public const int EDITOR_FONT_SIZE = 12;
         }

@@ -55,13 +55,13 @@ namespace GeNSIS.Core.ViewModels
 
         public IEnumerable<ISetting> GetSettings() => Settings;
 
-        public SettingGroup ToModel(ISettingGroup pSettingGroup)
+        public SettingGroup ToModel()
         {
             return new SettingGroup
             {
-                Name = pSettingGroup.Name,
-                Title = pSettingGroup.Title,
-                Description = pSettingGroup.Description,
+                Name = Name,
+                Title = Title,
+                Description = Description,
             };
         }
 
@@ -76,6 +76,9 @@ namespace GeNSIS.Core.ViewModels
             Name = pSettingGroup.Name;
             Title = pSettingGroup.Title;
             Description = pSettingGroup.Description;
+            Settings.Clear();
+            foreach(var s in pSettingGroup.GetSettings())
+                Settings.Add(new SettingVM(s));
         }
 
         private void NotifyPropertyChanged(string pPropertyName)

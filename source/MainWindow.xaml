@@ -669,8 +669,8 @@
                     <!-- Installer Filename (string) -->
                     <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" >
                         <Button Content="Automatic"  Command="{Binding ResetInstallerNameCommand}"      Style="{StaticResource button_sort}"/>
-                        <Button Content="Custom" Command="{Binding AutoCreateInstallerNameCommand}" Style="{StaticResource button_sort}"/>
-                        <Button Content="Clear" Command="{Binding ClearInstallerNameCommand}"       Style="{StaticResource button_sort}"/>
+                        <Button Content="Custom" Command="{Binding AutoCreateInstallerNameCommand}"     Style="{StaticResource button_sort}"/>
+                        <Button Content="Clear" Command="{Binding ClearInstallerNameCommand}"           Style="{StaticResource button_sort}"/>
                     </StackPanel>
 
                     <Label      Grid.Row="1" Grid.Column="0" Content="{StaticResource label_installer_filename}" ToolTip="{StaticResource tt_installerfilename}" Style="{StaticResource label_input}" />
@@ -696,13 +696,9 @@
 
                     <Rectangle Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource horizontal_separation_line}" />
 
-
                     <!-- DoCreateCompanyDir (bool) -->
                     <Label    Grid.Row="5" Grid.Column="0" Content="Nest in company directory:" Style="{StaticResource label_input}" />
                     <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding DoCreateCompanyDir}" Style="{StaticResource checkbox_input}" />
-
-
-
 
                 </Grid>
             </TabItem>
@@ -810,9 +806,10 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <ScrollViewer Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Padding="10" >
+                    <ScrollViewer Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Padding="10" >
                         <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -906,11 +903,17 @@
 
                     <StackPanel Grid.Row="6" Grid.Column="3" Orientation="Vertical" Margin="10,15,5,5">
                         <Label Content="{StaticResource label_design_uninstaller}" Style="{StaticResource label_input}"/>
-                        <Button Content="{StaticResource btn_installer_icon}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerIconClicked" />
-                        <Button Grid.Column="2" Content="{StaticResource btn_installer_wizard}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerWizardClicked" />
-                        <Button Grid.Column="2" Content="{StaticResource btn_installer_header}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerHeaderClicked" />
+                        <Button Content="{StaticResource btn_uninstaller_icon}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerIconClicked" />
+                        <Button Grid.Column="2" Content="{StaticResource btn_uninstaller_wizard}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerWizardClicked" />
+                        <Button Grid.Column="2" Content="{StaticResource btn_uninstaller_header}" Style="{StaticResource button_command}" HorizontalAlignment="Left" Click="OnLoadUninstallerHeaderClicked" />
                     </StackPanel>
 
+                    <ListBox x:Name="lsb_Designs" />
+
+                    <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="10" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,5,5,5">
+                        <!--<Button Content="Load..." Style="{StaticResource button_command}" Click="OnLoadDesignClicked"/>-->
+                        <Button Content="Save..." Style="{StaticResource button_command}" Click="OnSaveDesignClicked" />
+                    </StackPanel>
                 </Grid>
             </TabItem>
 
@@ -1026,15 +1029,12 @@
                         <!---->
                     </Grid>
                     <Viewbox Grid.Row="1" Grid.Column="2" Stretch="Uniform">
-                        <ui:PagePreviewUI  />
+                        <ui:PagePreviewUI x:Name="pagePreviewUI" />
                     </Viewbox>
 
                     <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                        <Button Content="Save form..."    Click="OnSavePageClicked"                 Style="{StaticResource button_command}" IsEnabled="{Binding ExeName, Converter={conv:NullEmptyOrWhitespaceToBoolConverter}}"/>
-                        <Button Content="{StaticResource btn_open_extern_editor}" Click="OnOpenScriptInExternEditor" Style="{StaticResource button_command}" />
-                        <Button Content="{StaticResource btn_save_script}"        Click="OnSaveScriptClicked"        Style="{StaticResource button_command}" IsEnabled="{Binding Files.Count, Converter={conv:ZeroToBooleanConverter}}"/>
-                        <Button Content="{StaticResource btn_compile}"            Click="OnCompileScript"            Style="{StaticResource button_command}" />
-                        <Button Content="Test!"            Click="OnDevTestClicked"            Style="{StaticResource button_command}" Background="Red" Foreground="White" FontWeight="Black" />
+                        <Button Content="Save..." Click="OnSavePageClicked"   Style="{StaticResource button_command}" />                        
+                        <Button Content="Clear!"  Click="OnClearPageClicked"  Style="{StaticResource button_command}" Background="Red" Foreground="White" FontWeight="Black" />
                     </StackPanel>
                     
                     
