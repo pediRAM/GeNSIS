@@ -41,7 +41,7 @@ namespace GeNSIS.Core
 
         }
 
-        public static class GeNSIS
+        public static class Gensis
         {
             public const string SUBDIR = "\\GeNSIS";
             public const string SUBDIR_PROJECTS   = $"{SUBDIR}\\Projects";
@@ -51,6 +51,18 @@ namespace GeNSIS.Core
             public const string SUBDIR_LANG       = $"{SUBDIR}\\Translations";
 
             public const string FILENAME_CONFIG = "config.json";
+        }
+
+        public static class FileExtensions
+        {
+            public const string SCRIPT    = ".nsi";
+            public const string PROJECT   = ".gensis";
+            public const string DESIGNS   = ".gensisdsn";
+            public const string LANGUAGES = ".gensislang";
+
+            public const string TRANSLATIONS  = ".gensistrnsl";
+            public const string FORM_DESIGN   = ".gensisfrm";
+            public const string FORM_ENTITIES = ".gensisfnt";
         }
 
         public static class Default

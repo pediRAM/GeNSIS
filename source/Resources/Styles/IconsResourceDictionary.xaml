@@ -39,6 +39,8 @@
     <BitmapImage x:Key="icon_nsis" UriSource="../Icons/Installer/modern-install.ico" />
     <BitmapImage x:Key="icon_project" UriSource="../Icons/nuvola/22x22/project-open.png" />
 
+    <BitmapImage x:Key="icon_dlg_save" UriSource="../Icons/nuvola/48x48/filesave.png" />
+
     <!-- Images -->
     <BitmapImage x:Key="image_installer_welcome_page" UriSource="../Images/Installer/welcome_page.png" />
 

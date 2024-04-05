@@ -790,13 +790,6 @@
 
             <TabItem Header="❻ Design" x:Name="tabItem_Design" Style="{StaticResource label_tabitem}">
                 <Grid Style="{StaticResource grid_main}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -808,8 +801,16 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <ScrollViewer Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Padding="10" >
+                    <Rectangle Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10" Height="50" Fill="SkyBlue"/>
+                    <ScrollViewer Grid.Row="5" Grid.Column="1" Grid.RowSpan="3" Padding="10" >
                         <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill">
                             <Grid>
                                 <Grid.RowDefinitions>

@@ -27,7 +27,11 @@ namespace GeNSIS.Core
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string m_Note = string.Empty;
+
         private AppDataVM m_AppData = new AppDataVM(true);
+
+
+        public string Name { get; set; }
 
         public string Version { get; set; } = AsmConst.MODEL_VERSION;
 
@@ -57,8 +61,8 @@ namespace GeNSIS.Core
         {
             return new Project
             {
+                Name = Name,
                 Version = Version,
-                //Note = Note,
                 AppData = AppData.ToModel(),
             };
         }

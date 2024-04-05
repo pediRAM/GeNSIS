@@ -27,7 +27,7 @@ namespace GeNSIS.Core.Managers
         protected string m_Path;
 
         /// <summary>
-        /// Returns the path of file, where the object is saves.
+        /// Returns the path of file, where the object (by last call of <see cref="Load(string)"/> is/was saved.
         /// </summary>
         /// <returns></returns>
         public virtual string GetPath() => m_Path;

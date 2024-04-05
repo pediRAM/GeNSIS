@@ -19,17 +19,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using GeNSIS.Core.Enums;
 using GeNSIS.Core.Interfaces;
-using GeNSIS.Core.Models;
-using GeNSIS.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace GeNSIS.Core.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
+
     internal static class FileSystemItemHelper
     {
         public static List<IFileSystemItem> GetMissingItems(IAppData p)

@@ -1,8 +1,12 @@
 ﻿using GeNSIS.Core.Models.Design;
+using LiteDB;
 
 namespace GeNSIS.Core.Managers
 {
-    internal class DesignManager : AFileManager<PageDesign>
+    public class DesignManager : BaseManagerByName<PageDesign>
     {
+        public DesignManager(LiteDatabase pLiteDatabase, string pCollectionName) : base(pLiteDatabase, pCollectionName)
+        {
+        }
     }
 }

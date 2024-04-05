@@ -54,9 +54,9 @@ namespace GeNSIS.Core.Helpers
                 var appInstallDir = GetInstallationFolder();
                 var currentDir = Directory.GetCurrentDirectory();
                 if (appInstallDir.Equals(currentDir, StringComparison.InvariantCultureIgnoreCase))
-                    _configPath = GConst.GeNSIS.FILENAME_CONFIG;
+                    _configPath = GConst.Gensis.FILENAME_CONFIG;
                 else
-                    _configPath = $"{appInstallDir}\\{GConst.GeNSIS.FILENAME_CONFIG}";
+                    _configPath = $"{appInstallDir}\\{GConst.Gensis.FILENAME_CONFIG}";
             }
             return _configPath;
         }
@@ -85,9 +85,9 @@ namespace GeNSIS.Core.Helpers
 
             CreateGeNSISDirectoriesIfNotExist();
 
-            config.ProjectsDirectory = PathHelper.GetGeNSISProjectsDir();
-            config.ScriptsDirectory        = PathHelper.GetGeNSISScriptsDir();
-            config.InstallersDirectory     = PathHelper.GetGeNSISInstallerssDir();
+            config.ProjectsDirectory = PathHelper.GetProjectsDir();
+            config.ScriptsDirectory        = PathHelper.GetScriptsDir();
+            config.InstallersDirectory     = PathHelper.GetInstallerssDir();
 
             config.CompanyName = GConst.Default.COMPANY_NAME;
             config.Publisher   = Environment.UserName;
@@ -130,9 +130,11 @@ namespace GeNSIS.Core.Helpers
         /// </summary>
         public static void CreateGeNSISDirectoriesIfNotExist()
         {
-            CreateGeNsisDirectory(PathHelper.GetGeNSISInstallerssDir());
-            CreateGeNsisDirectory(PathHelper.GetGeNSISProjectsDir());
-            CreateGeNsisDirectory(PathHelper.GetGeNSISScriptsDir());
+            CreateGeNsisDirectory(PathHelper.GetInstallerssDir());
+            CreateGeNsisDirectory(PathHelper.GetProjectsDir());
+            CreateGeNsisDirectory(PathHelper.GetScriptsDir());
+            CreateGeNsisDirectory(PathHelper.GetDesignsDir());
+            CreateGeNsisDirectory(PathHelper.GetLanguagesDir());
         }
 
         private static void CreateGeNsisDirectory(string pPath)

@@ -26,12 +26,15 @@ using GeNSIS.Core.Helpers;
 using GeNSIS.Core.Interfaces;
 using GeNSIS.Core.Managers;
 using GeNSIS.Core.Models;
+using GeNSIS.Core.Models.Design;
 using GeNSIS.Core.TextGenerators;
 using GeNSIS.Core.ViewModels;
 using GeNSIS.UI;
+using GeNSIS.UI.CustomDialogs;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
 using ICSharpCode.AvalonEdit.Utils;
+using LiteDB;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -78,13 +81,14 @@ namespace GeNSIS
         // the property "InitialDirectory" -> so we try to create two
         // instances of SaveFileDialogs and using workaround in FileDialogHelper.
         private SaveFileDialog m_SaveScriptDialog = new SaveFileDialog();
-        private SaveFileDialog m_SaveProjectDialog = new SaveFileDialog();
+        //private SaveFileDialog m_SaveProjectDialog = new SaveFileDialog();
 
         private FolderBrowserDialog m_FolderBrowserDialog = new FolderBrowserDialog();
-        private ProjectManager m_ProjectManager = new ProjectManager();
 
-        private DesignManager m_DesignManager = new DesignManager();
-        private LangManager m_LangManager = new LangManager();
+        private LiteDatabase m_liteDatabase;
+        private ProjectManager m_ProjectManager;
+        private DesignManager m_DesignManager;
+        private LanguageGroupManager m_LanguageGroupManager;
 
         private MessageBoxManager m_MsgBoxMgr = new MessageBoxManager();
 
@@ -104,6 +108,16 @@ namespace GeNSIS
             InitializeComponent();
             Loaded += OnMainWindowLoaded;
 
+            m_liteDatabase   = new LiteDatabase($"{PathHelper.GetInstallerssDir()}\\GeNSIS.db");
+            /*
+            var collections = m_liteDatabase.GetCollectionNames();
+            foreach (var collection in collections)
+                m_liteDatabase.DropCollection(collection);
+            */
+            m_ProjectManager = new ProjectManager(m_liteDatabase, "Projects");
+            m_DesignManager  = new DesignManager(m_liteDatabase, "Designs");
+            m_LanguageGroupManager = new LanguageGroupManager(m_liteDatabase, "LanguageGroups");
+
             Title = $"GeNSIS {AsmConst.FULL_VERSION}";
             editor.SyntaxHighlighting = XshdLoader.LoadHighlightingDefinitionOrNull("nsis.xshd");
             editor.TextArea.TextView.Margin = new Thickness(5, 0, 0, 0);
@@ -111,7 +125,7 @@ namespace GeNSIS
             FileDialogHelper.InitDir(m_OpenFilesDialog, PathHelper.GetMyDocuments());
             m_OpenImageDialog.Filter = FileDialogHelper.Filter.ICON;
             m_SaveScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
-            m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
+            //m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
 
             InitLanguages();
             IocContainer.Instance.Put<ObservableCollection<Language>>(LangDst);
@@ -136,10 +150,12 @@ namespace GeNSIS
             cbx_LastProjects.DataContext = m_ProjectHistory;
             cbx_LastScripts.DataContext = m_ScriptHistory;
         }
+
         private void CheckAndLoadProjectPathFromArguments()
         {
             try
             {
+                // todo: refactor for drag'n draw of exported projects/scripts!
                 var args = Environment.GetCommandLineArgs();
                 if (args != null && args.Length >= 2 && File.Exists(args[1]))
                 {
@@ -218,7 +234,7 @@ namespace GeNSIS
         private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
             Log.Info("Main window has loaded.");
-            CheckAndLoadProjectPathFromArguments();
+            // todo: refactor for file exports! CheckAndLoadProjectPathFromArguments();
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -286,7 +302,7 @@ namespace GeNSIS
                 var fg = new CustomPageGenerator();
 #endif
                 var nsisCode = m_NsisCodeGenerator.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true, Languages = LangDst.ToList(), SettingGroups = fg.GetSettingGroups() });
-                FileDialogHelper.InitDir(m_SaveScriptDialog, PathHelper.GetGeNSISScriptsDir());
+                FileDialogHelper.InitDir(m_SaveScriptDialog, PathHelper.GetScriptsDir());
                 SaveScript(m_SaveScriptDialog.FileName, nsisCode);
                 editor.Text = nsisCode;
                 tabItem_Editor.IsSelected = true;
@@ -431,18 +447,33 @@ namespace GeNSIS
         private void OnSaveProjectAsClicked(object sender, RoutedEventArgs e)
         {
             Log.Info("User clicked SaveProjectAs.");
-            m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
-            FileDialogHelper.InitDir(m_SaveProjectDialog, m_Config.ProjectsDirectory);
-            m_SaveProjectDialog.FileName = PathHelper.GetNewProjectName(AppData);
-            if (m_SaveProjectDialog.ShowDialog() != true)
+            AddNewProject();
+        }
+
+        private void AddNewProject()
+        {
+            var dlg = CustomDialogHelper.CreateFilenameInputDialog("Name of Project", "Project Name", "Please type a unique project name:");
+            if (dlg.ShowDialog() != true)
                 return;
 
-            var project = new Project { AppData = AppData.ToModel() };
-            m_ProjectManager.Save(project, m_SaveProjectDialog.FileName);
-            AppData.ResetHasUnsavedChanges();
+            if (string.IsNullOrWhiteSpace(dlg.Text))
+            {
+                m_MsgBoxMgr.ShowError("Empty/Illegal project name!", "Given project name is empty or contains illegal characters!");
+                return;
+            }
 
-            AddAndSaveLastProject(m_SaveProjectDialog.FileName);
+            if (m_ProjectManager.Items.Any(x => x.Name == dlg.Name))
+            {
+                m_MsgBoxMgr.ShowError("Project name already in use!", "Given project name is already in use!\nPlease repeat saving project and try another name!");
+                return;
+            }
+
+            var project = new Project { Name = dlg.Name, AppData = AppData.ToModel() };
+            m_ProjectManager.Add(project);
+            AppData.ResetHasUnsavedChanges();
+            AddAndSaveLastProject(dlg.Name);
         }
+
 
         private void AddAndSaveLastProject(string pFileName)
         {
@@ -460,19 +491,17 @@ namespace GeNSIS
         {
             Log.Info("User clicked SaveProject.");
             // Is project already saved (by "Save as...")?
-            string pathOfSavedProject = m_ProjectManager.GetPath();
-            if (pathOfSavedProject == null)
+            if (m_ProjectManager.Current == null || m_ProjectManager.Current.Name == null)
             {
                 // No! Project has not been saved yet.
-                OnSaveProjectAsClicked(sender, e);
+                AddNewProject();
                 return;
             }
 
-            var project = new Project() { AppData = AppData.ToModel() };
-            m_ProjectManager.Save(project,pathOfSavedProject);
+            m_ProjectManager.Current.AppData = AppData.ToModel();
+            m_ProjectManager.Update(m_ProjectManager.Current);
             AppData.ResetHasUnsavedChanges();
-
-            AddAndSaveLastProject(m_SaveProjectDialog.FileName);
+            AddAndSaveLastProject(m_ProjectManager.Current.Name);
         }
 
         private void OnOpenProjectClicked(object sender, RoutedEventArgs e)
@@ -490,16 +519,17 @@ namespace GeNSIS
                 return;
 
             LoadProject(m_OpenFilesDialog.FileName);
-            CheckAllFilesAndDirsExist();
+            DoesAllFilesAndDirectoriesExist();
 
             AddAndSaveLastProject(m_OpenFilesDialog.FileName);
         }
+
 
         /// <summary>
         /// Returns TRUE when all files and folders in project exist, else FALSE.
         /// </summary>
         /// <returns></returns>
-        private bool CheckAllFilesAndDirsExist()
+        private bool DoesAllFilesAndDirectoriesExist()
         {
             var missingItems = FileSystemItemHelper.GetMissingItems(AppData);
             if (missingItems.Any())
@@ -521,12 +551,18 @@ namespace GeNSIS
                 AppData.Files.Remove(f as FileSystemItemVM);
         }
 
-        private void LoadProject(string pPathToProjectFile)
+        private void LoadProject(string pName)
         {
-            Log.Debug($"Loading project file from:'{pPathToProjectFile}'");
+            Log.Debug($"Loading project Name:'{pName}'");
 
-            var appData = m_ProjectManager.Load(pPathToProjectFile).AppData;
-            AppData.UpdateValues(appData);
+            Project project = m_ProjectManager.Open(pName);
+            if (project == null)
+            {
+                m_MsgBoxMgr.ShowError("Internal error!", "Project does not found!");
+                return;
+            }
+
+            AppData.UpdateValues(project.AppData);
             ResetScriptAndPath();
         }
 
@@ -597,7 +633,7 @@ namespace GeNSIS
         {
             Log.Info("User clicked OpenScript.");
             m_OpenScriptDialog.Filter = FileDialogHelper.Filter.SCRIPT;
-            FileDialogHelper.InitDir(m_OpenScriptDialog, PathHelper.GetGeNSISScriptsDir());
+            FileDialogHelper.InitDir(m_OpenScriptDialog, PathHelper.GetScriptsDir());
             if (m_OpenScriptDialog.ShowDialog() != true)
                 return;
 
@@ -1109,7 +1145,7 @@ namespace GeNSIS
         private void OnCheckProjectFilesClicked(object sender, RoutedEventArgs e)
         {
             Log.Info("User clicked CheckProjectFiles.");
-            CheckAllFilesAndDirsExist();
+            DoesAllFilesAndDirectoriesExist();
         }
 
         private void OnExportAsPortableProjectClicked(object sender, RoutedEventArgs e)
@@ -1117,45 +1153,30 @@ namespace GeNSIS
             Log.Info("User clicked ExportAsPortableProject.");
 
             // Do not continue if a single file/directory is missing!
-            if (CheckAllFilesAndDirsExist())
+            if (DoesAllFilesAndDirectoriesExist())
             {
                 m_MsgBoxMgr.ShowInfo("Cannot export invalid project!", "Some files and/or folders are missing!\nCannot export project as portable project!");
                 return;
             }
 
             // Where should the portable project file be saved?
-            m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
-            FileDialogHelper.InitDir(m_SaveProjectDialog, m_Config.ProjectsDirectory);
-            if (m_SaveProjectDialog.ShowDialog() != true)
+            var dlg = CustomDialogHelper.CreateFilenameInputDialog("Project name", "Project name", "Please type a name for the exported project (only alphanumeric characers!):");
+            if (dlg.ShowDialog() != true)
                 return;
 
-            // The folder where the new portable *.gensys file should be saved.
-            string baseDir = Path.GetDirectoryName(m_SaveProjectDialog.FileName);
-
-            // The folder where all the content files/dirs of project should be saved (is in baseDir).
-            string destDir = $"{baseDir}\\{Path.GetFileNameWithoutExtension(m_SaveProjectDialog.FileName)}";
-
-            // Destination content folder exists? => delete?
-            if (Directory.Exists(destDir))
+            // Name exists? => delete?
+            if (m_ProjectManager.Contains(dlg.Text))
             {
-                var res = m_MsgBoxMgr.ShowQuestion("Delete existing directory?",
-                    $"A directory named '{Path.GetFileNameWithoutExtension(m_SaveProjectDialog.FileName)}' already exists.\n" +
-                    "Do you wish to delete or overwrite it?\n" +
-                    "Click Yes to delete/overwrite the directory and continue,\n" +
-                    "or click No to cancel.\n" +
-                    "Delete directory and continue?", MessageBoxButton.YesNo);
-
-                if (res != MessageBoxResult.Yes)
-                    return;
-
-                Directory.Delete(destDir, true);
+                _ = m_MsgBoxMgr.ShowError("Project name already in use!", "Project name is already in use!\nPlease repeat the action and try another project name!");
+                return;
             }
-
-            Directory.CreateDirectory(destDir);
 
             AppData p = AppData.ToModel();
             p.Files.Clear();
             p.Sections.Clear();
+
+            // todo: implement algo for choosing relative paths!
+            var destDir = "dir";
             p.RelativePath = destDir;
 
             foreach (var f in AppData.Files)
@@ -1189,8 +1210,8 @@ namespace GeNSIS
             p.InstallerWizardImage = GetRelativeImagePathOrNull(destDir, p.InstallerWizardImage);
             p.UninstallerWizardImage = GetRelativeImagePathOrNull(destDir, p.UninstallerWizardImage);
 
-            var project = new Project { AppData = p };
-            m_ProjectManager.Save(project,m_SaveProjectDialog.FileName);
+            var project = new Project { Name = dlg.Text, AppData = p };
+            m_ProjectManager.Add(project);
             m_MsgBoxMgr.ShowInfo("Exporting project succeeded.", "Exporting the project as portable project succeeded.");
         }
 
@@ -1508,7 +1529,7 @@ An ordered list:
 
         private void OnDevTestClicked(object sender, RoutedEventArgs e)
         {
-            var d = new EntityDialog();
+            var d = new CustomDialog();
             d.ShowDialog();
         }
 
@@ -1537,8 +1558,8 @@ An ordered list:
 
         private void OnSavePageClicked(object sender, RoutedEventArgs e)
         {
-            pagePreviewUI.SettingGroup.ToModel();
-
+            SettingGroup sg = pagePreviewUI.SettingGroup.ToModel();
+            
         }
 
         private void OnClearPageClicked(object sender, RoutedEventArgs e)
@@ -1548,7 +1569,41 @@ An ordered list:
 
         private void OnSaveDesignClicked(object sender, RoutedEventArgs e)
         {
+            var design = new PageDesign
+            {
+                Installer = new PageImages
+                {
+                    Icon = AppData.InstallerIcon,
+                    HeaderImage = AppData.InstallerHeaderImage,
+                    WizardImage = AppData.InstallerWizardImage,
+                },
 
+                Uninstaller = new PageImages
+                {
+                    Icon = AppData.UninstallerIcon,
+                    HeaderImage = AppData.UninstallerHeaderImage,
+                    WizardImage = AppData.UninstallerWizardImage,
+                }
+            };
+
+            design.Compensate();
+            FilenameInputDialog dlg = CustomDialogHelper.CreateFilenameInputDialog("User input expected", "Save design", "Please type a name for your design (no special characters allowed!):");
+            if (dlg.ShowDialog() != true)
+                return;
+            
+            if (string.IsNullOrWhiteSpace(dlg.Text))
+            {
+                _ = m_MsgBoxMgr.ShowError("Illegal/Empty name!", "Name of design empty or whitespace!");
+                return;
+            }
+
+            if (m_DesignManager.Contains(dlg.Text))
+            {
+                _ = m_MsgBoxMgr.ShowError("Design name already in use!", "Design name is already in use!\nPlease repeat the action and choose another name!");
+                return;
+            }
+            design.Name = dlg.Text;
+            m_DesignManager.Add(design);
         }
     }
 }

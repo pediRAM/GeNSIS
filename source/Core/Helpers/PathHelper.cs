@@ -22,7 +22,7 @@ namespace GeNSIS.Core.Helpers
 {
     using GeNSIS.Core.Interfaces;
     using System;
-
+    using System.Windows;
 
     internal class PathHelper
     {
@@ -38,19 +38,21 @@ namespace GeNSIS.Core.Helpers
         public static string GetMyDocuments()
             => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        public static string GetGeNSISDir()
-            => GetMyDocuments() + GConst.GeNSIS.SUBDIR;
+        public static string GetGensisDocumentsDir()
+            => GetMyDocuments() + GConst.Gensis.SUBDIR;
 
-        public static string GetGeNSISProjectsDir() => $"{GetGeNSISDir()}\\Projects";
-        public static string GetGeNSISScriptsDir() => $"{GetGeNSISDir()}\\Scripts";
-        public static string GetGeNSISInstallerssDir() => $"{GetGeNSISDir()}\\Installers";
-        public static string GetGeNSISDesignsDir() => $"{GetGeNSISDir()}\\Designs";
-        public static string GetGeNSISLanguagesDir() => $"{GetGeNSISDir()}\\Translations";
+        public static string GetInstallationDir() => AppContext.BaseDirectory;
+        public static string GetDBFilePath() => $"{GetInstallerssDir()}\\GeNSIS.db";
+        public static string GetProjectsDir() => $"{GetGensisDocumentsDir()}\\Projects";
+        public static string GetScriptsDir() => $"{GetGensisDocumentsDir()}\\Scripts";
+        public static string GetInstallerssDir() => $"{GetGensisDocumentsDir()}\\Installers";
+        public static string GetDesignsDir() => $"{GetGensisDocumentsDir()}\\Designs";
+        public static string GetLanguagesDir() => $"{GetGensisDocumentsDir()}\\Translations";
 
         internal static string GetNewScriptName(IAppData pAppData)
             => $"{pAppData.AppName}_{pAppData.AppVersion}_{pAppData.AppBuild}_{pAppData.MachineType}_{pAppData.Arch}_{DateTime.Now:yyyy-MM-dd}.nsi";
 
         internal static string GetNewProjectName(IAppData pAppData)
-            => $"{pAppData.AppName}_{pAppData.AppVersion}_{pAppData.AppBuild}.gensis";
+            => $"{pAppData.AppName}_{pAppData.AppVersion}_{pAppData.AppBuild}{GConst.FileExtensions.PROJECT}";
     }
 }

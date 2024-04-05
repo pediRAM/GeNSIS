@@ -30,15 +30,24 @@ namespace GeNSIS.Core.Helpers
     /// </summary>
     internal static class FileDialogHelper
     {
+
+
         public static class Filter
         {
             public const string ALL_FILES  = "All files|*.*";
             public const string BITMAP     = "Bitmap files|*.bmp";
             public const string ICON       = "Icon files|*.ico";
             public const string SCRIPT     = "NSIS files|*.nsi";
-            public const string PROJECT    = "GeNSIS files|*.gensis";
+            public const string PROJECT    = "GeNSIS files|*" + GConst.FileExtensions.PROJECT;
             public const string EXECUTABLE = "Executable files|*.exe";
+            public const string DESIGNS    = "GeNSIS design files|*"   + GConst.FileExtensions.DESIGNS;
+            public const string LANGUAGES  = "GeNSIS language files|*" + GConst.FileExtensions.LANGUAGES;
+            public const string TRANSLATIONS  = "GeNSIS translation files|*"   + GConst.FileExtensions.TRANSLATIONS;
+            public const string FORM_DESIGN   = "GeNSIS form design files|*"   + GConst.FileExtensions.FORM_DESIGN;
+            public const string FORM_ENTITIES = "GeNSIS form entities files|*" + GConst.FileExtensions.FORM_ENTITIES;
         }
+
+
 
         public static void InitDir(SaveFileDialog pSfd, string pPath)
         {

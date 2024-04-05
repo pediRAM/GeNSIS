@@ -19,21 +19,32 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace GeNSIS.Core.Models
 {
+    using GeNSIS.Core.Interfaces;
+    using LiteDB;
     using System.Xml.Serialization;
 
+
     [XmlRoot]
-    public class Project
+    public class Project : IProvideNameProperty
     {
+        [BsonId]
+        [XmlElement]
+        public string Name { get; set; }
+
+
         [XmlElement]
         public string Version { get; set; } = AsmConst.MODEL_VERSION;
 
+
         [XmlElement]
         public AppData AppData { get; set; } = new AppData();
+
 
         public ProjectVM ToViewModel()
         {
             return new ProjectVM
             {
+                Name = Name,
                 Version = Version,
                 AppData = AppData.ToViewModel()
             };

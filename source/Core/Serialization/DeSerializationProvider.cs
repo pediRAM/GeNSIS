@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
+using GeNSIS.Core.Helpers;
 using System;
 
 namespace GeNSIS.Core.Serialization
@@ -28,7 +29,12 @@ namespace GeNSIS.Core.Serialization
             switch(pExtension.ToLower())
             {
                 case ".json": return new JsonDeSerializer();
-                case ".gensis": return new XmlDeSerializer();
+                case GConst.FileExtensions.PROJECT:       return new XmlDeSerializer();
+                case GConst.FileExtensions.DESIGNS:       return new JsonDeSerializer();
+                case GConst.FileExtensions.LANGUAGES:     return new JsonDeSerializer();
+                case GConst.FileExtensions.TRANSLATIONS:  return new JsonDeSerializer();
+                case GConst.FileExtensions.FORM_ENTITIES: return new JsonDeSerializer();
+                case GConst.FileExtensions.FORM_DESIGN:   return new JsonDeSerializer();
             }
 
             throw new ArgumentException($"Extension '{pExtension}' is unknown, illegal or no {nameof(IDeSerializer)} has been implemented for it yet!", nameof(pExtension));
@@ -40,6 +46,7 @@ namespace GeNSIS.Core.Serialization
             {
                 case EDeSerializers.JSON: return new JsonDeSerializer();
                 case EDeSerializers.GeNSIS: return new XmlDeSerializer();
+
             }
 
             throw new NotImplementedException($"{nameof(IDeSerializer)} for {nameof(EDeSerializers)}.{pDeSerializerEnum} is not implemented!");
