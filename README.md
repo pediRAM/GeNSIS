@@ -369,7 +369,17 @@ SectionEnd
 ```
 
 # Thirdparty Software and Content
-GeNSIS and this documentation could not be created without following icons, tools, and libraries:
+
+## Acknowledgments
+
+This project stands as a testament to the collaborative spirit of the open-source community. I want to extend my deepest gratitude to the many talented individuals and teams whose hard work and dedication have paved the way for this endeavor. Without their pioneering efforts and the generous availability of their tools and libraries, this project would not have been possible.
+
+Their commitment to sharing their work with the world has not only facilitated my contributions but has also enriched the broader development community. Thank you to all who have contributed to the open-source ecosystem, enabling projects like this to flourish.
+
+## Thank you!
+
+**GeNSIS and this documentation could not exist without following icons, tools, and libraries:**
+
 - [NSIS](http://nsis.sourceforge.io/) zlib license, copyright by [contributors](https://nsis.sourceforge.io/License)
 - [Gnu Image Manipulation Program](https://www.gimp.org/) GPL-3.0 license, copyright by Spencer KIMBALL & Peter MATTIS
 - [Nuvola](https://en.wikipedia.org/wiki/Nuvola) icons LGPL 2.1 license and copyright by [David VIGNONI](https://web.archive.org/web/20081026105155/http://www.icon-king.com/projects/nuvola/) the artist and creator of Nuvola icons
