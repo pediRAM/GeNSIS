@@ -34,6 +34,14 @@
     <BitmapImage x:Key="icon_editor" UriSource="../Icons/nuvola/22x22/editor.png" />
     <BitmapImage x:Key="icon_warning" UriSource="../Icons/nuvola/22x22/messagebox_warning.png" />
     <BitmapImage x:Key="icon_license" UriSource="../Icons/nuvola/22x22/paragraph.png" />
+    <BitmapImage x:Key="icon_components" UriSource="../Icons/nuvola/22x22/text-x-moc.png" />
+    <BitmapImage x:Key="icon_service" UriSource="../Icons/nuvola/22x22/misc.png" />
+    <BitmapImage x:Key="icon_firewall" UriSource="../Icons/nuvola/22x22/fire.png" />
+    <BitmapImage x:Key="icon_translation" UriSource="../Icons/nuvola/22x22/translation.png" />
+    <BitmapImage x:Key="icon_design" UriSource="../Icons/nuvola/22x22/kcoloredit.png" />
+    <BitmapImage x:Key="icon_form_editor" UriSource="../Icons/nuvola/22x22/package_utilities.png" />
+    <BitmapImage x:Key="icon_forms" UriSource="../Icons/nuvola/22x22/view_choose.png" />
+    
     <BitmapImage x:Key="icon_magnifier" UriSource="../Icons/Misc/magnifier.png" />
 
     <BitmapImage x:Key="icon_nsis" UriSource="../Icons/Installer/modern-install.ico" />

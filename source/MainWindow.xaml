@@ -11,7 +11,7 @@
         xmlns:ip="clr-namespace:IPUserControls;assembly=IPUserControls"
         xmlns:mdxaml="clr-namespace:MdXaml;assembly=MdXaml"
         mc:Ignorable="d" 
-        Height="800" Width="1200" MinHeight="700" MinWidth="900">
+        Height="800" Width="1400" MinHeight="700" MinWidth="900">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -206,9 +206,14 @@
 
 
         <TabControl Grid.Row="1">
-
             <!-- Tab: Files and Folders -->
-            <TabItem Header="❶ Files" Style="{StaticResource label_tabitem}">
+            <TabItem Style="{StaticResource label_tabitem}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_files}" Width="22" Height="22" />
+                        <TextBlock Text="Files" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -333,7 +338,13 @@
             </TabItem>
 
             <!-- Tab: Components -->
-            <TabItem Header=" Components" Style="{StaticResource label_tabitem}">
+            <TabItem Style="{StaticResource label_tabitem}" >
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_components}" Width="22" Height="22" />
+                        <TextBlock Text="Components" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -384,7 +395,13 @@
             </TabItem>
 
             <!-- Tab: Service -->
-            <TabItem Header="❷ Service" Style="{StaticResource label_tabitem}">
+            <TabItem Style="{StaticResource label_tabitem}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_service}" Width="22" Height="22" />
+                        <TextBlock Text="Service" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Style="{StaticResource grid_main}" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -448,7 +465,13 @@
 
 
             <!-- Tab: Firewall -->
-            <TabItem Header="❸ Firewall" Style="{StaticResource label_tabitem}">
+            <TabItem Style="{StaticResource label_tabitem}" >
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_firewall}" Width="22" Height="22" />
+                        <TextBlock Text="Firewall" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -575,7 +598,13 @@
 
             <!-- END: Service -->
             <!-- Tab: App and Publisher -->
-            <TabItem Header="❹ About App &amp; Publisher" Style="{StaticResource label_tabitem}">
+            <TabItem Style="{StaticResource label_tabitem}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_about}" Width="22" Height="22" />
+                        <TextBlock Text="App &amp; Publisher" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -643,7 +672,13 @@
 
 
 
-            <TabItem Header="❺ Installer" Style="{StaticResource label_tabitem}">
+            <TabItem  Style="{StaticResource label_tabitem}" >
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_exe}" Width="22" Height="22" />
+                        <TextBlock Text="Installer" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Style="{StaticResource grid_main}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -703,7 +738,13 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header=" Languages" Style="{StaticResource label_tabitem}">
+            <TabItem  Style="{StaticResource label_tabitem}" >
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_translation}" Width="22" Height="22" />
+                        <TextBlock Text="Languages" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -788,7 +829,13 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="❻ Design" x:Name="tabItem_Design" Style="{StaticResource label_tabitem}">
+            <TabItem x:Name="tabItem_Design" Style="{StaticResource label_tabitem}" >
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_design}" Width="22" Height="22" />
+                        <TextBlock Text="Design" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Style="{StaticResource grid_main}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -919,7 +966,13 @@
             </TabItem>
 
 
-            <TabItem Header="❼ Script" x:Name="tabItem_Editor" Style="{StaticResource label_tabitem}">
+            <TabItem x:Name="tabItem_Editor" Style="{StaticResource label_tabitem}" >
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_script}" Width="22" Height="22" />
+                        <TextBlock Text="Script" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -960,8 +1013,62 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+            
+            <!-- Tab: Forms -->
+            <TabItem Style="{StaticResource label_tabitem}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_forms}" Width="22" Height="22" />
+                        <TextBlock Text="Forms" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid Style="{StaticResource grid_main}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="400"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-            <TabItem Header="Form" Style="{StaticResource label_tabitem}">
+                    <ListBox Grid.Row="0" Grid.RowSpan="4" Grid.Column="0"  x:Name="lsb_Forms" Background="LightGray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <!-- add datatemplate -->
+                        <ListBoxItem>
+                            <ListBoxItem.ContentTemplate>
+                                <DataTemplate DataType="local:GeNSIS.Core.Models.Form">
+                                    <Grid Margin="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="18"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="{Binding Path=Name}"/>
+                                        <Label Grid.Column="1" Content="{Binding Path=Type}"/>
+                                        <Button Grid.Column="3" Style="{StaticResource button_remove_listitem}" ToolTip="Add"  Tag="{Binding}" Click="OnAddThisForm" >
+                                            <Image Source="{StaticResource icon_add}"/>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBoxItem.ContentTemplate>
+                        </ListBoxItem>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab: Form Editor -->
+            <TabItem Style="{StaticResource label_tabitem}" >
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource icon_form_editor}" Width="22" Height="22" />
+                        <TextBlock Text="Form Editor" Style="{StaticResource tab_header_text}" />
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid Style="{StaticResource grid_main}">
                     <Grid.RowDefinitions>
 
@@ -1042,7 +1149,8 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="TEST!" Visibility="Collapsed">
+            <!-- Tab: Debug / Test -->
+            <TabItem Header="MD TEST!" Visibility="Collapsed" Style="{StaticResource label_tabitem}" HeaderTemplate="{StaticResource TabHeaderTemplate}">
                 <Grid>
                     <mdxaml:MarkdownScrollViewer x:Name="mdxaml_ScrollViewer" xml:space="preserve" Style="{StaticResource mdxaml_scrollviewer}" MarkdownStyleName="GithubLike" >
 # Title

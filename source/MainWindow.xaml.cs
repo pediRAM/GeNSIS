@@ -128,6 +128,8 @@ namespace GeNSIS
             //m_SaveProjectDialog.Filter = FileDialogHelper.Filter.PROJECT;
 
             InitLanguages();
+            // todo: InitForms();
+            lsb_Forms.DataContext = Forms;
             IocContainer.Instance.Put<ObservableCollection<Language>>(LangDst);
             DataContext = AppData;
 
@@ -184,12 +186,21 @@ namespace GeNSIS
             lsb_LangSrc.ItemsSource = LangSrc;
             lsb_LangDst.ItemsSource = LangDst;
         }
+
+        // todo: implement!
+        private void InitForms()
+        {
+            throw new NotImplementedException();
+        }
         #endregion Ctor
 
 
         #region Properties
         public ObservableCollection<Language> LangSrc { get; set; } = new ObservableCollection<Language>();
         public ObservableCollection<Language> LangDst { get; set; } = new ObservableCollection<Language>();
+
+        public ObservableCollection<SettingGroup> Forms { get; set; } = new ObservableCollection<SettingGroup>();
+
         public AppDataVM AppData
         {
             get { return m_AppDataViewModel; }
@@ -297,11 +308,16 @@ namespace GeNSIS
 
                 if (m_SaveScriptDialog.ShowDialog() != true)
                     return;
+
+                
 #if DEBUG
                 // todo: REMOVE!
                 var fg = new CustomPageGenerator();
+                var settingGroups = fg.GetSettingGroups();
+#else
+                List<SettingGroup> settingGroups = new();
 #endif
-                var nsisCode = m_NsisCodeGenerator.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true, Languages = LangDst.ToList(), SettingGroups = fg.GetSettingGroups() });
+                var nsisCode = m_NsisCodeGenerator.Generate(AppData, new TextGeneratorOptions() { EnableComments = true, EnableLogs = true, Languages = LangDst.ToList(), SettingGroups = settingGroups });
                 FileDialogHelper.InitDir(m_SaveScriptDialog, PathHelper.GetScriptsDir());
                 SaveScript(m_SaveScriptDialog.FileName, nsisCode);
                 editor.Text = nsisCode;
@@ -447,7 +463,8 @@ namespace GeNSIS
         private void OnSaveProjectAsClicked(object sender, RoutedEventArgs e)
         {
             Log.Info("User clicked SaveProjectAs.");
-            AddNewProject();
+            // fix: invalid cast exception!
+            AddNewProject(); // todo: fix Invalid Cast Exception!
         }
 
         private void AddNewProject()
@@ -662,7 +679,7 @@ namespace GeNSIS
                 m_MsgBoxMgr.ShowException(ex);
             }
         }
-        #endregion Open/Save Script
+#endregion Open/Save Script
 
         #region Desing (Icons & Images)
         private void OnLoadIconClicked(object sender, RoutedEventArgs e)

@@ -1,6 +1,0 @@
-﻿- ADDED Remove Icons to ItemLists
-- USING const style width for input_ui
-
-- ADDED ChangeLog.txt
-- ADDED IService
-- ADDED ServiceData and ServiceDataVM to xml serializer (as known-types)
