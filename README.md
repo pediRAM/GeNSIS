@@ -1,3 +1,122 @@
+![](2-no-48-no-more-islamic-republic.png)
+## **IRAN IS BLEEDING --- AND THE WORLD IS SILENT**
+BEGIN OF UPDATE: 2026-01-18
+
+**The Slaughterer and Tyranny Regime of Mullahs is Slaughtering their protesting Nation and the Media was silent for a very long time!**
+
+This Regime has killed at least 12000+ protestors in 48 hours (8th - 9th Jan. 2026),
+after turning off the internet, Mobile-net, telephone-net and even electricity and the started to 
+disturb the satellite frequencies by military jammers from china, to also turn off the internet connection through Starlink!
+
+But some brave people which traveled to abroud smuggled a lot of images and videos, but also figures/statistics collected
+by brave doctors in Iran. The figures/numbers currently after three weeks of protesting are:
+- Death toll: 60000+
+- Blined: 8000+
+
+When the family of killed protestors try to get the dead body, they have to pay the "bullet-price" of 5000 to 7000 USD!
+An average worker earns about 100 to 200 USD per month!
+
+**The bodies of those whose relatives cannot afford the bullet-price are buried in mass graves without names or any other identifying information or markings at unknown locations.**
+
+Car and ferniture are also confiscated.
+
+**Now, after 120+ hours of internet-shuttdown, they turn it for some time on to transfere their BitCoins to wallets out of iran!**
+[Netblocks.org Iran](https://mastodon.social/@netblocks/115916598029882510)
+
+END OF UPDATE.
+
+In the last **three weeks**, the **Islamic terror regime in Iran and its
+henchmen** have **systematically murdered at least 30,000 peaceful
+demonstrators**.\
+The real number is **far higher**.
+
+Through a nationwide **internet and telephone blackout**, the regime is
+trying to **hide the scale of its crimes** from the world.
+
+The people of Iran are being slaughtered with **military assault rifles,
+knives, machetes, and poison gas**. They are **still being tortured and
+killed inside prisons and on the streets at this very moment**.
+
+More than **8,000 people have lost their eyesight** due to **deliberate
+gunshots to the eyes**.\
+An estimated **200,000--300,000 demonstrators** have been **injured or
+severely wounded**.
+
+## **NO ONE WAS SPARED**
+
+The regime's executioners murdered **children, teenagers, women,
+pregnant women, elderly people, young men, and innocent bystanders**.\
+Among the victims are **well-known athletes and public figures** from
+many different sports.
+
+The regime's butchers showed **no mercy --- to anyone**.
+
+## **EUROPE FAILED --- AGAIN**
+
+While Iran burned, **European politicians once again chose words instead
+of action** --- just as they have done for **47 years**.
+
+Even worse, many so-called **"journalists" in Europe repeated the
+regime's propaganda**:
+
+-   "Everything is quiet now in Iran"
+
+-   "The protesters were orchestrated by Israel or the USA"
+
+These lies help the killers --- and silence the victims.
+
+## **YOU CAN HELP --- RIGHT NOW**
+
+Do you feel powerless?\
+You are not!
+
+As we say in Persian:\
+**"Drop by drop, a sea is formed."**\
+Each of us is a drop --- and **every drop matters!**
+
+### **TAKE ACTION NOW**
+
+-   **Call and email your government representatives**\
+    Tell them: **WE NEED ACTION --- NOW**
+
+-   **Expel the ambassadors of this regime**\
+    They are **propaganda tools for mass murderers**
+
+-   **Designate the IRGC as a terrorist organization --- NOW**
+
+The **Islamic Revolutionary Guard Corps (IRGC)** is responsible for:
+
+-   Systematic repression
+
+-   Mass killings
+
+-   Torture
+
+-   The deliberate blinding of protesters
+
+This is **terrorism**. Treat it as such!
+
+**The IRGC keeps exporting terror across the Middle East**. Through its
+**proxy militias** such as **Hezbollah, Hamas, Palestinian Islamic
+Jihad, and armed groups in Iraq, Syria, Yemen, Pakistan, Afghanistan and
+Lebanon**, the IRGC fuels wars, destabilizes entire regions, and targets
+civilians beyond Iran's borders.
+
+## **USE YOUR VOICE**
+
+Go on **X (Twitter)** and **Truth Social**.\
+Share real news and videos from Iran (available widely on Instagram).\
+Write max. 2x lines text, use max. **3 mentions of famous people** (e.g.
+\@Name) and max. **1x hashtag** (e.g. **#IranRevolution**).
+
+## **THE DARKEST HOURS NEED THE LOUDEST VOICES**
+
+Everyone can do something.\
+Silence helps the killers.\
+**Action saves lives!**
+
+**PLEASE HELP THE IRANIAN PEOPLE! NOW!**
+---
 
 - [About](#about)
 - [Dependencies](#dependencies)
